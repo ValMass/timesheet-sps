@@ -248,6 +248,10 @@ export class TimesheetComponentComponent implements OnInit {
 
 
   }
+  eventTimesChanged($event) {
+
+  }
+
   anzia() {
     console.log(this.events);
   }
