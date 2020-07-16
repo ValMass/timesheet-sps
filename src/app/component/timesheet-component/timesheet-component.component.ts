@@ -229,7 +229,8 @@ export class TimesheetComponentComponent implements OnInit {
     this.events = [];
     this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, 1).subscribe(
       (res) => {
-        const myparse = JSON.parse(res.data.dayjson);
+        /*
+        const myparse = JSON.parse(res);
 
         myparse.forEach((element) => {
           const newEvent: MyCalendarEvent = new MyCalendarEvent();
@@ -240,14 +241,14 @@ export class TimesheetComponentComponent implements OnInit {
           this.events = [...this.events, newEvent];
         });
         this.refresh.next();
-
+*/
       }
 
     );
 
 
   }
-  anzia(){
+  anzia() {
     console.log(this.events);
   }
 }
