@@ -8,12 +8,9 @@ import { NgbActiveModal , NgbDatepicker, NgbDate, NgbModule  } from '@ng-bootstr
   styleUrls: ['./add-event-modal.component.css']
 })
 export class AddEventModalComponent implements OnInit {
-  constructor(public activeModal: NgbActiveModal) { }
-
-  ngOnInit() {
-  }
-  /*@Input() minDate = {year: 2020, month: 7, day: 1};
-  @Input() maxDate = {year: 2020, month: 7, day: 30};
+  
+  minDate = {year: 2020, month: 7, day: 1};
+  maxDate = {year: 2020, month: 7, day: 30};
 
   name: string;
   value: number;
@@ -44,5 +41,5 @@ export class AddEventModalComponent implements OnInit {
   }
   valueChanged(e) {
     this.value = e.target.value;
-  }*/
+  }
 }
