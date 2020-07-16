@@ -1,0 +1,20 @@
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">Nome utente</th>
+      <th scope="col">Email</th>
+      <th scope="col">Data di creazione</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of userlist">
+      <td>{{ user.id }} </td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.userscreationdate }}</td>
+      <td> <input type="button" value="Edit" (click)="RowSelected(user)"/></td>
+    </tr>
+  </tbody>
+</table>
