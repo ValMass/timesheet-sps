@@ -37,11 +37,11 @@
   </div>
   <label for="customRange4">Data</label>
   <div class="input-group">
-    <input class="form-control bord-rad-inp" placeholder="yyyy-mm-dd" required [minDate]="minDate" [maxDate]="maxDate"
-           name="dp" ngbDatepicker #d="ngbDatepicker" formControlName="eventDate"
-           >
+    <input class="form-control bord-rad-inp" placeholder="yyyy-mm-dd" required
+           name="dp" ngbDatepicker  formControlName="eventDate"
+           > <!--[minDate]="minDate"[maxDate]="maxDate"#d="ngbDatepicker" (click)="d.toggle()" -->
     <div class="input-group-append">
-      <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">v</button>
+      <button class="btn btn-outline-secondary calendar"  type="button">v</button>
     </div>
     <div *ngIf="f.eventDate.errors && submitted">Data richiesta</div>
   </div>

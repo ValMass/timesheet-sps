@@ -74,7 +74,7 @@ export class TimesheetComponentComponent implements OnInit {
   refresh: Subject<any> = new Subject();
 
   events: CalendarEvent[] = [
-   /* {
+    {
       start: subDays(startOfDay(new Date()), 1),
       end: addDays(new Date(), 1),
       title: 'lavoro',
@@ -108,7 +108,7 @@ export class TimesheetComponentComponent implements OnInit {
         afterEnd: true,
       },
       draggable: true,
-    },*/
+    },
   ];
 
   modalData: {
@@ -205,8 +205,6 @@ export class TimesheetComponentComponent implements OnInit {
       (reason) => {
         console.log(reason);
       });
-
-
   }
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;

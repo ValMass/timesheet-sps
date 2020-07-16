@@ -9,7 +9,7 @@ export class LoginServiceService {
 
   constructor(private http: HttpClient) { }
 
-  login(email: string, password: string): Observable<any>{
+  login(email: string, password: string): Observable<any> {
     return this.http.post<any>('https://reqres.in/api/login', {
      // email: email,
      // password: password
