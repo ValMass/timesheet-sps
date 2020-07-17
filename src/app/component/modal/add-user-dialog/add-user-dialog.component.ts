@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef , } from '@angular/material/dialog';
+import { MatFormField } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-add-user-dialog',
@@ -7,14 +9,27 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./add-user-dialog.component.css']
 })
 export class AddUserDialogComponent implements OnInit {
+
   profileForm = new FormGroup({
-    numeroOre: new FormControl('', [ Validators.required, ]),
-    eventDate: new FormControl('', [ Validators.required, ] ),
-    contractCode: new FormControl('', [ Validators.required, ])
+    userId: new FormControl('', [ Validators.required, ]),
+    email: new FormControl('', [ Validators.required, ] ),
+    password: new FormControl('', [ Validators.required, ]),
+    datadicreazione: new FormControl('', [ Validators.required, ] ),
+    role: new FormControl('', [ Validators.required, ] ),
+    regnuminps: new FormControl('', [ Validators.required, ] ),
+    regnumsps: new FormControl('', [ Validators.required, ] ),
+    nome: new FormControl('', [ Validators.required, ] ),
+    cognome: new FormControl('', [ Validators.required, ] ),
+    indirizzo: new FormControl('', [ Validators.required, ] ),
+
   });
-  constructor() { }
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: string,
+              private dialogRef: MatDialogRef<AddUserDialogComponent>) { }
 
   ngOnInit(): void {
+
   }
+  get f() { return this.profileForm.controls; }
 
 }

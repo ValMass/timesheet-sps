@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AddUserDialogComponent } from '../modal/add-user-dialog/add-user-dialog.component';
+import { MatDialogModule, MatDialog  } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-userlist-list',
@@ -10,7 +12,8 @@ export class UserlistListComponent implements OnInit {
 
   userlist: any;
   selectedUser: any;
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute,
+    public dialog: MatDialog, ) { }
 
   ngOnInit() {
     const observer = {
@@ -28,6 +31,16 @@ export class UserlistListComponent implements OnInit {
   RowSelected(u: any){
     this.selectedUser = u;
     console.log(u);   // declare variable in component.
-    }
+  }
 
+   openDialog() {
+    const dialogRef = this.dialog.open(AddUserDialogComponent, {
+        width: '300px',
+        data: {}
+      });
+    dialogRef.afterClosed().subscribe(
+      res => {
+
+      });
+    }
 }

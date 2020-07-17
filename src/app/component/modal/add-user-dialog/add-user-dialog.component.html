@@ -1,6 +1,12 @@
-<h1 mat-dialog-title>Aggiungi evento</h1>
+<h1 mat-dialog-title>Aggiungi utente</h1>
 <div mat-dialog-content>
-
+  <form>
+    <div>
+      <label for="customRange3">Numero ore</label> {{ value }}
+      <input type="number" class="custom-range inp-text" value="8" min="0" max="12" step="1" id="customRange3" required formControlName="numeroOre" (input)="valueChanged($event)" >
+      <div *ngIf="f.numeroOre.errors && submitted">First Name is required</div>
+    </div>
+  </form>
 </div>
 <div mat-dialog-actions>
   <button mat-button mat-dialog-close class="btn btn-custom w-50" >Close</button>

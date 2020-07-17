@@ -61,7 +61,7 @@ import { AddUserDialogComponent } from './component/modal/add-user-dialog/add-us
 
 
   ],
-  entryComponents: [AddEventModalComponent],
+  entryComponents: [AddEventModalComponent, AddUserDialogComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

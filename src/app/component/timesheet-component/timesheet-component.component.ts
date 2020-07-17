@@ -138,6 +138,29 @@ export class TimesheetComponentComponent implements OnInit {
   public ciccio: GenericResponse;
 
   ngOnInit() {
+    const month = this.viewDate.getMonth();
+    const year = this.viewDate.getFullYear();
+    this.events = [];
+    this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, 1).subscribe(
+      (res) => {
+        console.log(res['data'].dayjson);
+
+        const myparse = JSON.parse(res['data'].dayjson);
+
+        myparse.forEach((element) => {
+          const newEvent: MyCalendarEvent = new MyCalendarEvent();
+          console.log(element);
+          newEvent.title = element.title;
+          newEvent.start = new Date(element.start);
+          newEvent.nOre = element.nOre;
+          this.events = [...this.events, newEvent];
+        });
+        this.refresh.next();
+
+      }
+
+    );
+
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
