@@ -22,6 +22,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { AddUserDialogComponent } from './component/modal/add-user-dialog/add-user-dialog.component';
 
 
 
@@ -38,6 +39,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     AddEventModalComponent,
     LoginPageComponent,
     ConfirmationDialogComponent,
+    AddUserDialogComponent,
 
 
 
