@@ -31,23 +31,29 @@
     </select>
       <div *ngIf="f.contractCode.errors && submitted">Codice contratto mancante</div>
     </div>
-    <label for="customRange4">Data</label>
     <div class="input-group">
-      <input class="form-control bord-rad-inp" placeholder="yyyy-mm-dd" required
-             name="dp" ngbDatepicker  formControlName="eventDate"
-             >
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary calendar"  type="button">v</button>
-      </div>
+      <input matInput [matDatepicker]="picker" required formControlName="eventDate">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
       <div *ngIf="f.eventDate.errors && submitted">Data richiesta</div>
     </div>
+    <!-- <label for="customRange4">Data</label>
+    <div class="input-group">
+      <input class="form-control bord-rad-inp" placeholder="yyyy-mm-dd" required
+             name="dp" #d="ngbDatepicker" ngbDatepicker  formControlName="eventDate"
+             >
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">v</button>
+      </div>
+      <div *ngIf="f.eventDate.errors && submitted">Data richiesta</div>
+
+    </div> -->
   </form>
 
 </div>
 <div mat-dialog-actions>
-  <button mat-button mat-dialog-close>Close</button>
+  <button mat-button mat-dialog-close class="btn btn-custom w-50" >Close</button>
   <button form='myform' type="submit" class="btn btn-custom w-50" >Salva</button>
-  <button type="button" class="btn btn-outline-dark bord-cust" (click)="activeModal.close('Close click')">Annulla</button>
 </div>
 
 <!--
