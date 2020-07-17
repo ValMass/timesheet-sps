@@ -1,4 +1,4 @@
-<div class="row text-center container-fluid">
+<!--<div class="row text-center container-fluid">
   <div class="col-md-4">
     <div class="btn-group">
       <div
@@ -60,7 +60,7 @@
   </div>
 </div>
 <br />
-
+<!--
 <div class= "container-fluid" [ngSwitch]="view">
   <mwl-calendar-month-view
     *ngSwitchCase="CalendarView.Month"
@@ -84,12 +84,12 @@
   >
   </mwl-calendar-week-view>
 </div>
-
+-->
 <button class="btn btn-primary w-100 mt-5" (click)="openModal()">Aggiungi evento</button>
 <button class="btn btn-primary w-100 mt-5" (click)="saveCurrentTimesheet()">Salva</button>
 <button class="btn btn-primary w-100 mt-5" (click)="freezeCurrentTimesheet()">Conferma</button>
 <button class="btn btn-primary w-100 mt-5" (click)="anzia()">Dincibacco</button>
-
+<button mat-button (click)="openDialog()">Launch dialog</button>
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
   Launch demo modal

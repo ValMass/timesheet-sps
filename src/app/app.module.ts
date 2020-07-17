@@ -16,9 +16,9 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { UserlistPageComponent } from './component/userlist-page/userlist-page.component';
 import { UserlistListComponent } from './component/userlist-list/userlist-list.component';
 import { AddEventModalComponent } from './component/modal/add-event-modal/add-event-modal.component';
-import { NgbModalModule, NgbModule, NgbDateAdapter, NgbDateNativeUTCAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { LoginPageComponent } from './component/login-page/login-page.component';
 import { ConfirmationDialogComponent } from './component/modal/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -36,6 +36,7 @@ import { ConfirmationDialogComponent } from './component/modal/confirmation-dial
     ConfirmationDialogComponent,
 
 
+
   ],
   imports: [
     BrowserModule,
@@ -45,14 +46,14 @@ import { ConfirmationDialogComponent } from './component/modal/confirmation-dial
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgbModalModule,
-    NgbModule,
+    MatDialog,
 
 
 
   ],
   entryComponents: [AddEventModalComponent],
-  providers: [{provide: NgbDateAdapter, useClass: NgbDateNativeUTCAdapter}],
+  providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

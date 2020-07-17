@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { NgbActiveModal , NgbDatepicker, NgbDate, NgbModule  } from '@ng-bootstrap/ng-bootstrap';
+// import { NgbActiveModal , NgbDatepicker, NgbDate, NgbModule  } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-event-modal',
@@ -8,7 +8,7 @@ import { NgbActiveModal , NgbDatepicker, NgbDate, NgbModule  } from '@ng-bootstr
   styleUrls: ['./add-event-modal.component.css']
 })
 export class AddEventModalComponent implements OnInit {
-  
+
   minDate = {year: 2020, month: 7, day: 1};
   maxDate = {year: 2020, month: 7, day: 30};
 
@@ -22,7 +22,7 @@ export class AddEventModalComponent implements OnInit {
     contractCode: new FormControl('', [ Validators.required, ])
   });
 
-  constructor(public activeModal: NgbActiveModal) { }
+  constructor() { }
 
   ngOnInit() {
   }
@@ -30,14 +30,14 @@ export class AddEventModalComponent implements OnInit {
   get f() { return this.profileForm.controls; }
 
   submit() {
-    this.submitted = true;
+    /*this.submitted = true;
     console.log(this.profileForm.value.eventDate);
     if (this.profileForm.invalid) {
 
       return;
     }
-    //console.warn(this.profileForm.value);
-    this.activeModal.close(this.profileForm.value);
+    // console.warn(this.profileForm.value);
+    this.activeModal.close(this.profileForm.value);*/
   }
   valueChanged(e) {
     this.value = e.target.value;

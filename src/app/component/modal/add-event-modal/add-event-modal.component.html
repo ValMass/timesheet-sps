@@ -1,3 +1,10 @@
+<h1 mat-dialog-title>Dialog with elements</h1>
+<div mat-dialog-content>This dialog showcases the title, close, content and actions elements.</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</div>
+
+<!--
 <div class="modal-header text-center">
   <h4 class="modal-title">Aggiungi evento</h4>
   <button type="button" class="close border-none" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
@@ -39,14 +46,17 @@
   <div class="input-group">
     <input class="form-control bord-rad-inp" placeholder="yyyy-mm-dd" required
            name="dp" ngbDatepicker  formControlName="eventDate"
-           > <!--[minDate]="minDate"[maxDate]="maxDate"#d="ngbDatepicker" (click)="d.toggle()" -->
+           >
     <div class="input-group-append">
       <button class="btn btn-outline-secondary calendar"  type="button">v</button>
     </div>
     <div *ngIf="f.eventDate.errors && submitted">Data richiesta</div>
   </div>
 </form>
+
+
 <div class="modal-footer modal-custom">
   <button form='myform' type="submit" class="btn btn-custom w-50" >Salva</button>
   <button type="button" class="btn btn-outline-dark bord-cust" (click)="activeModal.close('Close click')">Annulla</button>
-</div>
+</div>-->
+<!--[minDate]="minDate"[maxDate]="maxDate"#d="ngbDatepicker" (click)="d.toggle()" -->

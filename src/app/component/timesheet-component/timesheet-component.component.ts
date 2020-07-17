@@ -15,7 +15,7 @@ import {
   isSameMonth,
   addHours,
 } from 'date-fns';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { AddEventModalComponent, } from '@app/component/modal/add-event-modal/add-event-modal.component';
 
 import { SaveCurrentTimesheetService } from '@app/services/save-current-timesheet.service';
@@ -23,6 +23,8 @@ import { CalendarEventActionsComponent } from 'angular-calendar/modules/common/c
 import { GenericResponse } from '@app/models/genericresponse';
 import { Subject } from 'rxjs';
 // colors definition for event
+import {MatDialog} from '@angular/material/dialog';
+
 
 
 
@@ -57,7 +59,7 @@ export class TimesheetComponentComponent implements OnInit {
 
   constructor(
     private saveCurrentTimesheetInstance: SaveCurrentTimesheetService,
-    private modalService: NgbModal,
+    public dialog: MatDialog,
     // private confirmationDialogService: ConfirmationDialogService
   ) { }
 
@@ -190,9 +192,17 @@ export class TimesheetComponentComponent implements OnInit {
       console.log('status :', data);
     });
   }
+  openDialog() {
 
-  openModal() {
-    const modalRef = this.modalService.open(AddEventModalComponent).result.then(
+  }
+  //openModal(content) {
+
+    /*this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });*/
+    /*const modalRef = this.modalService.open(NewEventModalComponent).result.then(
       (result) => {
         console.log('result');
         const newEvent: MyCalendarEvent = new MyCalendarEvent();
@@ -204,8 +214,9 @@ export class TimesheetComponentComponent implements OnInit {
       },
       (reason) => {
         console.log(reason);
-      });
-  }
+      });*/
+  //}
+
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
