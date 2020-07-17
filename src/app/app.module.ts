@@ -18,7 +18,7 @@ import { UserlistListComponent } from './component/userlist-list/userlist-list.c
 import { AddEventModalComponent } from './component/modal/add-event-modal/add-event-modal.component';
 import { LoginPageComponent } from './component/login-page/login-page.component';
 import { ConfirmationDialogComponent } from './component/modal/confirmation-dialog/confirmation-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -46,7 +46,8 @@ import { MatDialog } from '@angular/material/dialog';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MatDialog,
+    MatDialogModule
+
 
 
 

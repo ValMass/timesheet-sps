@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 // import { NgbActiveModal , NgbDatepicker, NgbDate, NgbModule  } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -22,7 +23,8 @@ export class AddEventModalComponent implements OnInit {
     contractCode: new FormControl('', [ Validators.required, ])
   });
 
-  constructor() { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: string,
+  private dialogRef: MatDialogRef<AddEventModalComponent>) { }
 
   ngOnInit() {
   }
@@ -30,6 +32,7 @@ export class AddEventModalComponent implements OnInit {
   get f() { return this.profileForm.controls; }
 
   submit() {
+    this.dialogRef.close({ data: this.profileForm.value });
     /*this.submitted = true;
     console.log(this.profileForm.value.eventDate);
     if (this.profileForm.invalid) {

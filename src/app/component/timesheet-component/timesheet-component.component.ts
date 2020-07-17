@@ -23,7 +23,7 @@ import { CalendarEventActionsComponent } from 'angular-calendar/modules/common/c
 import { GenericResponse } from '@app/models/genericresponse';
 import { Subject } from 'rxjs';
 // colors definition for event
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialogModule, MatDialog  } from '@angular/material/dialog';
 
 
 
@@ -192,7 +192,23 @@ export class TimesheetComponentComponent implements OnInit {
       console.log('status :', data);
     });
   }
+
+
   openDialog() {
+    const dialogRef = this.dialog.open(AddEventModalComponent, {
+      width: '300px',
+      data: {}
+    });
+    dialogRef.afterClosed().subscribe(
+      res => {
+        console.log(res.data);
+        const newEvent: MyCalendarEvent = new MyCalendarEvent();
+        newEvent.title = res.data.contractCode;
+        newEvent.start = new Date(res.data.eventDate);
+        newEvent.nOre = res.data.numeroOre;
+        console.log(newEvent);
+        this.events = [...this.events, newEvent];
+      });
 
   }
   //openModal(content) {
