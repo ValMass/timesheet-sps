@@ -241,21 +241,12 @@ export class TimesheetComponentComponent implements OnInit {
     console.log('se e\' vero so forte');
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
-    this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, 1)
-      .subscribe((data: GenericResponse ) => {
-          console.log(data);
-      });
-
-  }
-
-  myNextClick() {
-    const month = this.viewDate.getMonth();
-    const year = this.viewDate.getFullYear();
     this.events = [];
     this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, 1).subscribe(
       (res) => {
-        /*
-        const myparse = JSON.parse(res);
+        console.log(res['data'].dayjson);
+
+        const myparse = JSON.parse(res['data'].dayjson);
 
         myparse.forEach((element) => {
           const newEvent: MyCalendarEvent = new MyCalendarEvent();
@@ -266,7 +257,34 @@ export class TimesheetComponentComponent implements OnInit {
           this.events = [...this.events, newEvent];
         });
         this.refresh.next();
-*/
+
+      }
+
+    );
+
+
+  }
+
+  myNextClick() {
+    const month = this.viewDate.getMonth();
+    const year = this.viewDate.getFullYear();
+    this.events = [];
+    this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, 1).subscribe(
+      (res) => {
+        console.log(res['data'].dayjson);
+
+        const myparse = JSON.parse(res['data'].dayjson);
+
+        myparse.forEach((element) => {
+          const newEvent: MyCalendarEvent = new MyCalendarEvent();
+          console.log(element);
+          newEvent.title = element.title;
+          newEvent.start = new Date(element.start);
+          newEvent.nOre = element.nOre;
+          this.events = [...this.events, newEvent];
+        });
+        this.refresh.next();
+
       }
 
     );
