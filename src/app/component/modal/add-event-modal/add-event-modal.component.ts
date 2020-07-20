@@ -11,7 +11,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
   templateUrl: './add-event-modal.component.html',
   styleUrls: ['./add-event-modal.component.css']
 })
-export class AddEventModalComponent implements OnInit {
+export class AddEventModalComponent implements OnInit   {
 
   minDate = {year: 2020, month: 7, day: 1};
   maxDate = {year: 2020, month: 7, day: 30};
