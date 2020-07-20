@@ -10,11 +10,13 @@ import { MatFormField } from '@angular/material/form-field';
 })
 export class AddUserDialogComponent implements OnInit {
 
+  public submitted: boolean = false;
+  
   profileForm = new FormGroup({
+
     userId: new FormControl('', [ Validators.required, ]),
     email: new FormControl('', [ Validators.required, ] ),
     password: new FormControl('', [ Validators.required, ]),
-    datadicreazione: new FormControl('', [ Validators.required, ] ),
     role: new FormControl('', [ Validators.required, ] ),
     regnuminps: new FormControl('', [ Validators.required, ] ),
     regnumsps: new FormControl('', [ Validators.required, ] ),

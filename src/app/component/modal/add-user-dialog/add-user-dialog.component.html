@@ -2,8 +2,43 @@
 <div mat-dialog-content>
   <form>
     <div>
+      <label for="nameEdit">Nome</label>
+      <input type="text" class="inp-text" " id="nameEdit" required formControlName="nome" (input)="valueChanged($event)" >
+      <div *ngIf="f.numeroOre.errors && submitted">First Name is required</div>
+    </div>
+    <div>
+      <label for="cognomeEdit">Cognome</label>
+      <input type="text" class="inp-text"  id="cognomeEdit" required formControlName="cognome" (input)="valueChanged($event)" >
+      <div *ngIf="f.numeroOre.errors && submitted">First Name is required</div>
+    </div>
+    <div>
+      <label for="customRange3">Indirizzo</label>
+      <input type="text" class="custom-range inp-text" value="8" min="0" max="12" step="1" id="indirizzoEdit" required formControlName="indirizzo" (input)="valueChanged($event)" >
+      <div *ngIf="f.numeroOre.errors && submitted">First Name is required</div>
+    </div>
+    <div>
       <label for="customRange3">Numero ore</label> {{ value }}
-      <input type="number" class="custom-range inp-text" value="8" min="0" max="12" step="1" id="customRange3" required formControlName="numeroOre" (input)="valueChanged($event)" >
+      <input type="number" class="custom-range inp-text" value="8" min="0" max="12" step="1" id="customRange3" required formControlName="email" (input)="valueChanged($event)" >
+      <div *ngIf="f.numeroOre.errors && submitted">First Name is required</div>
+    </div>
+    <div>
+      <label for="customRange3">Numero ore</label> {{ value }}
+      <input type="number" class="custom-range inp-text" value="8" min="0" max="12" step="1" id="customRange3" required formControlName="password" (input)="valueChanged($event)" >
+      <div *ngIf="f.numeroOre.errors && submitted">First Name is required</div>
+    </div>
+    <div>
+      <label for="customRange3">Numero ore</label> {{ value }}
+      <input type="number" class="custom-range inp-text" value="8" min="0" max="12" step="1" id="customRange3" required formControlName="role" (input)="valueChanged($event)" >
+      <div *ngIf="f.numeroOre.errors && submitted">First Name is required</div>
+    </div>
+    <div>
+      <label for="customRange3">Numero ore</label> {{ value }}
+      <input type="number" class="custom-range inp-text" value="8" min="0" max="12" step="1" id="customRange3" required formControlName="regnuminps" (input)="valueChanged($event)" >
+      <div *ngIf="f.numeroOre.errors && submitted">First Name is required</div>
+    </div>
+    <div>
+      <label for="customRange3">Numero ore</label> {{ value }}
+      <input type="number" class="custom-range inp-text" value="8" min="0" max="12" step="1" id="customRange3" required formControlName="regnumsps" (input)="valueChanged($event)" >
       <div *ngIf="f.numeroOre.errors && submitted">First Name is required</div>
     </div>
   </form>
