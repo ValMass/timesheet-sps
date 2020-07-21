@@ -13,8 +13,11 @@
       <td>{{ user.id }} </td>
       <td>{{ user.username }}</td>
       <td>{{ user.email }}</td>
-      <td>{{ user.userscreationdate }}</td>
+      <td>{{ user.userscreationdate | date : 'dd-MM-yyyy' }}</td>
       <td> <input type="button" value="Edit" (click)="RowSelected(user)"/></td>
+      <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon" (click)="delete(user)">
+        <mat-icon>delete</mat-icon>
+      </button>
     </tr>
   </tbody>
 </table>

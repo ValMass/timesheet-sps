@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AddUserDialogComponent } from '../modal/add-user-dialog/add-user-dialog.component';
-import { MatDialogModule, MatDialog  } from '@angular/material/dialog';
+import { MatDialogModule, MatDialog,  } from '@angular/material/dialog';
+import { MatIconModule  } from '@angular/material/icon';
+import { UserService } from '@app/services/user.service';
 
 @Component({
   selector: 'app-userlist-list',
@@ -9,17 +11,16 @@ import { MatDialogModule, MatDialog  } from '@angular/material/dialog';
   styleUrls: ['./userlist-list.component.css']
 })
 export class UserlistListComponent implements OnInit {
-
-  userlist: any;
+  toDelete;
+  userlist: any[];
   selectedUser: any;
   constructor(private route: ActivatedRoute,
-    public dialog: MatDialog, ) { }
+              public dialog: MatDialog,
+              private saveCurrentUserInstance: UserService ) { }
 
   ngOnInit() {
     const observer = {
       next: x => {
-        console.log('Observer got a next value: ' + JSON.stringify(x));
-        localStorage.setItem('userResponse', JSON.stringify(x));
         this.userlist = x.userlist.data;
       },
         error: erriks => console.log('Observer got an error: ' + JSON.stringify(erriks)),
@@ -35,12 +36,50 @@ export class UserlistListComponent implements OnInit {
 
    openDialog() {
     const dialogRef = this.dialog.open(AddUserDialogComponent, {
-        width: '300px',
+        width: '600px',
+        height: '700px',
         data: {}
       });
     dialogRef.afterClosed().subscribe(
       res => {
+        this.saveCurrentUserInstance.save(res).subscribe(
+          res => {
 
+            const ciao = res['data'];
+            this.userlist = [...this.userlist, ciao];
+          },
+          error => {
+            console.log('errore');
+            console.log(error);
+
+          }
+        );
+        console.log(res);
+      },
+      error => {
+        console.log(error);
       });
+    }
+
+    delete(user) {
+      let output;
+      for (let element of this.userlist){
+        if (element.id === user.id) {
+          console.log(element);
+          this.saveCurrentUserInstance.delete(element).subscribe(
+            res => {
+              this.userlist.splice(this.userlist.indexOf(element), 1);
+            },
+            error => {
+              console.log(error);
+
+            }
+          );
+        } else {
+
+        }
+      }
+      console.log(this.toDelete);
+
     }
 }

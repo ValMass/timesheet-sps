@@ -23,6 +23,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AddUserDialogComponent } from './component/modal/add-user-dialog/add-user-dialog.component';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -56,6 +57,7 @@ import { AddUserDialogComponent } from './component/modal/add-user-dialog/add-us
     MatFormFieldModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatIconModule
 
 
 

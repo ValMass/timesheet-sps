@@ -11,27 +11,32 @@ import { MatFormField } from '@angular/material/form-field';
 export class AddUserDialogComponent implements OnInit {
 
   public submitted: boolean = false;
-  
+
   profileForm = new FormGroup({
 
-    userId: new FormControl('', [ Validators.required, ]),
+    username: new FormControl('', [ Validators.required, ] ),
+    password: new FormControl('', [ Validators.required, ] ),
+    firstName: new FormControl('', [ Validators.required, ] ),
+    lastName: new FormControl('', [ Validators.required, ] ),
+    indirizzo: new FormControl('', [ Validators.required, ] ),
     email: new FormControl('', [ Validators.required, ] ),
-    password: new FormControl('', [ Validators.required, ]),
     role: new FormControl('', [ Validators.required, ] ),
     regnuminps: new FormControl('', [ Validators.required, ] ),
     regnumsps: new FormControl('', [ Validators.required, ] ),
-    nome: new FormControl('', [ Validators.required, ] ),
-    cognome: new FormControl('', [ Validators.required, ] ),
-    indirizzo: new FormControl('', [ Validators.required, ] ),
-
+    isadmin: new FormControl(''),
   });
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: string,
-              private dialogRef: MatDialogRef<AddUserDialogComponent>) { }
+              private dialogRef: MatDialogRef<AddUserDialogComponent>,
+              ) { }
 
   ngOnInit(): void {
 
   }
   get f() { return this.profileForm.controls; }
 
+  submit() {
+    this.dialogRef.close({ data: this.profileForm.value });
+
+  }
 }
