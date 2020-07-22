@@ -1,0 +1,34 @@
+.btn-custom {
+  background-color: #962D37;
+  color: white;
+  border: none;
+  width: 100%;
+}
+
+.card-title {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.form-group label {
+  font-weight: 300;
+}
+
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  border: none;
+}
+
+.logo{
+  width: 6em;
+  height: 6em;
+  margin: auto;
+  margin-bottom: 2em;
+  background-image: url("../../../assets/logo_sps.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
