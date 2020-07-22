@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SideBarComponent implements OnInit {
 
-  isadmin: boolean = false ;
+  isadmin: boolean = true ;
 
   constructor() { }
 
