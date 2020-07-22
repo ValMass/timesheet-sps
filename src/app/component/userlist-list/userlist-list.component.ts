@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AddUserDialogComponent } from '../modal/add-user-dialog/add-user-dialog.component';
 import { MatDialogModule, MatDialog,  } from '@angular/material/dialog';
 import { MatIconModule  } from '@angular/material/icon';
@@ -15,6 +15,7 @@ export class UserlistListComponent implements OnInit {
   userlist: any[];
   selectedUser: any;
   constructor(private route: ActivatedRoute,
+              private router: Router,
               public dialog: MatDialog,
               private saveCurrentUserInstance: UserService ) { }
 
@@ -32,6 +33,7 @@ export class UserlistListComponent implements OnInit {
   RowSelected(u: any){
     this.selectedUser = u;
     console.log(u);   // declare variable in component.
+    this.router.navigate( ['/detail/' + u.id ]);
   }
 
    openDialog() {

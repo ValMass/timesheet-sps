@@ -24,6 +24,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AddUserDialogComponent } from './component/modal/add-user-dialog/add-user-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
+import { JwtInterceptor } from '@app/_helper/jwt.interceptor';
 
 
 
@@ -58,13 +59,11 @@ import { MatIconModule } from '@angular/material/icon';
     MatDatepickerModule,
     MatNativeDateModule,
     MatIconModule
-
-
-
-
   ],
   entryComponents: [AddEventModalComponent, AddUserDialogComponent],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 

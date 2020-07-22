@@ -10,14 +10,22 @@ import { from } from 'rxjs';
 import { UserAnagraphicResolverService } from '@app/services/user-anagraphic-resolver.service';
 import { UserListResolverService } from '@app/services/user-list-resolver.service';
 import { LoginPageComponent } from './component/login-page/login-page.component';
+import { TimesheetResolverService } from './services/timesheet-resolver.service';
 
 
 const routes: Routes = [
-  { path: '', component: TimesheetPageComponent},
+  { path: '', component: LoginPageComponent},
   { path: 'login-page', component: LoginPageComponent  },
   { path: 'timesheet-page', component: TimesheetPageComponent  },
   { path: 'userprofile', component: UserprofilePageComponent , resolve: { user: UserAnagraphicResolverService }},
-  { path: 'userlist', component: UserlistPageComponent , resolve: { userlist: UserListResolverService }}
+  { path: 'userlist', component: UserlistPageComponent , resolve: { userlist: UserListResolverService }},
+  {
+    path: 'detail/:id',
+    component: TimesheetPageComponent,
+    resolve: {
+      hero: TimesheetResolverService
+    }
+  }
 ];
 
 @NgModule({
