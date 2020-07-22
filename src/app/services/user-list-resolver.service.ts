@@ -8,7 +8,7 @@ import { environment } from '@environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class UserListResolverService implements Resolve<any>{
+export class UserListResolverService implements Resolve<any> {
 
   constructor(private http: HttpClient) { }
 

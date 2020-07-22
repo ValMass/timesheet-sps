@@ -12,7 +12,7 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   save(user) {
-    let realuser = user.data;
+    const realuser = user.data;
     const username = realuser.username;
     const password = realuser.password;
     const email = realuser.email;
@@ -21,7 +21,7 @@ export class UserService {
     return this.http.post(url, { username, password, email, userscreationdate  });
   }
 
-  delete(user){
+  delete(user) {
     const id = user.id;
     const url = environment.apiUrl + '/user/deleteUserById.php';
     console.log(url);

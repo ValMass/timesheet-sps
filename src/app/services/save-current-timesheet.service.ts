@@ -24,10 +24,8 @@ export class SaveCurrentTimesheetService {
       return EMPTY;
     }), mergeMap(something => {
          if (something) {
-            console.log("ciccio");
             return of(something);
          } else {
-          console.log("bello");
             return EMPTY;
          }
        })

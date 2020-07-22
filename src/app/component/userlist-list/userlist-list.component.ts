@@ -43,10 +43,10 @@ export class UserlistListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       res => {
         this.saveCurrentUserInstance.save(res).subscribe(
-          res => {
+          result => {
 
-            const ciao = res['data'];
-            this.userlist = [...this.userlist, ciao];
+            const newUser = result['data'];
+            this.userlist = [...this.userlist, newUser];
           },
           error => {
             console.log('errore');

@@ -38,7 +38,7 @@ export class AddEventModalComponent implements OnInit   {
 
   submit() {
     console.log(this.profileForm.invalid);
-    //if (this.profileForm.invalid) {
+    // if (this.profileForm.invalid) {
 
     //  return;
    // }

@@ -165,10 +165,12 @@ export class TimesheetComponentComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
-    }
+  }
+
   setView(view: CalendarView) {
     this.view = view;
   }
+
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
@@ -234,7 +236,7 @@ export class TimesheetComponentComponent implements OnInit {
       });
 
   }
-  //openModal(content) {
+  // openModal(content) {
 
     /*this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -254,7 +256,7 @@ export class TimesheetComponentComponent implements OnInit {
       (reason) => {
         console.log(reason);
       });*/
-  //}
+  // }
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
