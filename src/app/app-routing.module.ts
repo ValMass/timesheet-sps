@@ -15,11 +15,11 @@ import { AuthGuard } from './_helper/auth.guard';
 
 
 const routes: Routes = [
-  { path: '', component: LoginPageComponent},
+  { path: '', component: TimesheetPageComponent, canActivate: [AuthGuard]},
   { path: 'login-page', component: LoginPageComponent  },
   { path: 'timesheet-page', component: TimesheetPageComponent,  canActivate: [AuthGuard]  },
-  { path: 'userprofile', component: UserprofilePageComponent , resolve: { user: UserAnagraphicResolverService }},
-  { path: 'userlist', component: UserlistPageComponent , resolve: { userlist: UserListResolverService }},
+  { path: 'userprofile', component: UserprofilePageComponent , resolve: { user: UserAnagraphicResolverService }, canActivate: [AuthGuard] },
+  { path: 'userlist', component: UserlistPageComponent , resolve: { userlist: UserListResolverService }, canActivate: [AuthGuard]},
   {
     path: 'detail/:id',
     component: TimesheetPageComponent,
