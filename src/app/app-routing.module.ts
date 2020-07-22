@@ -11,12 +11,13 @@ import { UserAnagraphicResolverService } from '@app/services/user-anagraphic-res
 import { UserListResolverService } from '@app/services/user-list-resolver.service';
 import { LoginPageComponent } from './component/login-page/login-page.component';
 import { TimesheetResolverService } from './services/timesheet-resolver.service';
+import { AuthGuard } from './_helper/auth.guard';
 
 
 const routes: Routes = [
   { path: '', component: LoginPageComponent},
   { path: 'login-page', component: LoginPageComponent  },
-  { path: 'timesheet-page', component: TimesheetPageComponent  },
+  { path: 'timesheet-page', component: TimesheetPageComponent,  canActivate: [AuthGuard]  },
   { path: 'userprofile', component: UserprofilePageComponent , resolve: { user: UserAnagraphicResolverService }},
   { path: 'userlist', component: UserlistPageComponent , resolve: { userlist: UserListResolverService }},
   {
