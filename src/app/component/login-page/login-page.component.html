@@ -1,6 +1,9 @@
 <div class="card mt-5" style="margin:auto;width: 600px;">
   <div class="card-body">
-    <h5 class="card-title">Login</h5>
+    <div class="logo">
+      
+    </div>
+    <h3 class="card-title">Login</h3>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="email">Nome utente</label>
@@ -10,7 +13,7 @@
         <label for="email">Password</label>
         <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password" >
       </div>
-      <button type="submit" class="btn btn-primary" (click)="tryLogin()">Login</button>
+      <button type="submit" class="btn btn-primary btn-custom" (click)="tryLogin()">Login</button>
     </form>
   </div>
 </div>
