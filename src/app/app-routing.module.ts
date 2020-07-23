@@ -12,6 +12,7 @@ import { UserListResolverService } from '@app/services/user-list-resolver.servic
 import { LoginPageComponent } from './component/login-page/login-page.component';
 import { TimesheetResolverService } from './services/timesheet-resolver.service';
 import { AuthGuard } from './_helper/auth.guard';
+import { UserDetailPageComponent } from './component/user-detail-page/user-detail-page.component';
 
 
 const routes: Routes = [
@@ -22,7 +23,7 @@ const routes: Routes = [
   { path: 'userlist', component: UserlistPageComponent , resolve: { userlist: UserListResolverService }, canActivate: [AuthGuard]},
   {
     path: 'detail/:id',
-    component: TimesheetPageComponent,
+    component: UserDetailPageComponent,
     resolve: {
       hero: TimesheetResolverService
     }

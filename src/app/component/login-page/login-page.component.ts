@@ -53,7 +53,7 @@ export class LoginPageComponent implements OnInit {
         .pipe(first())
         .subscribe(
             data => {
-                if ( data.token == null){
+                if ( data.token == null) {
                   console.log('not logged');
                 } else {
                   this.router.navigate([this.returnUrl]);

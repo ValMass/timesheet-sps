@@ -1,7 +1,6 @@
-<h3>ciaoBello</h3>
 <div class="userprofile">
   <div class="userprofile-container">
-    <form class="p-5" [formGroup]="profileForm" (ngSubmit)="submit()">
+    <form class="p-5" [formGroup]="profileForm" (ngSubmit)="submitAnag()">
       <div class="form-group row">
         <label for="nome" class="col-sm-2 col-form-label">Nome</label>
         <div class="col-sm-10">
@@ -38,45 +37,6 @@
           <input type="text" class="form-control" id="tipoContratto" placeholder="Contratto" formControlName="tipologiacontratto">
         </div>
       </div>
-    <!--
-      <fieldset class="form-group">
-        <div class="row">
-          <legend class="col-form-label col-sm-2 pt-0">Distaccato da</legend>
-          <div class="col-sm-10">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-              <label class="form-check-label" for="gridRadios1">
-                Azienda 1
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2" disabled>
-              <label class="form-check-label" for="gridRadios2">
-                Azienda 2
-              </label>
-            </div>
-            <div class="form-check disabled">
-              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" disabled>
-              <label class="form-check-label" for="gridRadios3">
-                Azienda 3
-              </label>
-            </div>
-            <div class="form-check disabled">
-              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option4" disabled>
-              <label class="form-check-label" for="gridRadios4">
-                Azienda 4
-              </label>
-            </div>
-            <div class="form-check disabled">
-              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option5" disabled>
-              <label class="form-check-label" for="gridRadios5">
-                Azienda 5
-              </label>
-            </div>
-          </div>
-        </div>
-      </fieldset>
-    -->
       <div class="form-group row">
         <label for="distaccamento" class="col-sm-2 col-form-label">Distaccamento</label>
         <div class="col-sm-10">
@@ -103,12 +63,48 @@
       </div>
       <div class="form-group row">
         <div class="col-sm p-0">
-          <button type="submit" class="btn btn-success">Inserisci</button>
+          <button type="submit" class="btn btn-success">Inserisci tuzia</button>
         </div>
       </div>
     </form>
+    <form class="p-5" [formGroup]="contractForm" (ngSubmit)="submitContract()">
+        <div class="form-group row">
+          <label for="contracttype" class="col-sm-2 col-form-label">Nome Utente</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="contracttype" placeholder="contracttype" formControlName="contracttype" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="startingfrom" class="col-sm-2 col-form-label">password</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="startingfrom" placeholder="startingfrom" formControlName="startingfrom" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="companyid" class="col-sm-2 col-form-label">Cognome</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="companyid" placeholder="companyid" formControlName="companyid" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="anagraphicid" class="col-sm-2 col-form-label">Cognome</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="anagraphicid" placeholder="anagraphicid" formControlName="anagraphicid" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="anastablevalue" class="col-sm-2 col-form-label">Cognome</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="anastablevalue" placeholder="anastablevalue" formControlName="anastablevalue" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="cartype" class="col-sm-2 col-form-label">indirizzo</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="cartype" placeholder="cartype" formControlName="cartype" />
+          </div>
+        </div>
+
+    </form>
   </div>
 </div>
-
-
-

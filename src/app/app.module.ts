@@ -25,6 +25,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { AddUserDialogComponent } from './component/modal/add-user-dialog/add-user-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
 import { JwtInterceptor } from '@app/_helper/jwt.interceptor';
+import { ContractPageComponent } from './component/contract-page/contract-page.component';
+import { ContractListComponent } from './component/contract-list/contract-list.component';
+import { AddContractDialogComponent } from './component/modal/add-contract-dialog/add-contract-dialog.component';
+import { UserDetailPageComponent } from './component/user-detail-page/user-detail-page.component';
+import { UserDetailComponent } from './component/user-detail/user-detail.component';
 
 
 
@@ -42,6 +47,11 @@ import { JwtInterceptor } from '@app/_helper/jwt.interceptor';
     LoginPageComponent,
     ConfirmationDialogComponent,
     AddUserDialogComponent,
+    ContractPageComponent,
+    ContractListComponent,
+    AddContractDialogComponent,
+    UserDetailPageComponent,
+    UserDetailComponent,
 
 
 
@@ -60,7 +70,7 @@ import { JwtInterceptor } from '@app/_helper/jwt.interceptor';
     MatNativeDateModule,
     MatIconModule
   ],
-  entryComponents: [AddEventModalComponent, AddUserDialogComponent],
+  entryComponents: [AddEventModalComponent, AddUserDialogComponent, AddContractDialogComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
