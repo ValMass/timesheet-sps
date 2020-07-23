@@ -17,6 +17,16 @@ export class SideBarComponent implements OnInit {
   }
 
   ngOnInit() {
+    let currentU = JSON.parse(localStorage.getItem('currentUser'));
+    console.log(currentU);
+    // tslint:disable-next-line: triple-equals
+    if ( currentU.isadmin == '1') {
+      console.log('uno');
+      this.isadmin = false;
+    } else {
+      console.log('due');
+      this.isadmin = true;
+    }
   }
 
   logout() {
