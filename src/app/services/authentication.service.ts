@@ -32,7 +32,6 @@ export class AuthenticationService {
     const grant_type = 'password';
     return this.http.post<any>(url, { username, password, client_id, client_secret, grant_type })
       .pipe(map(user => {
-        
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
