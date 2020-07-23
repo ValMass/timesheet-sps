@@ -24,6 +24,7 @@ import { GenericResponse } from '@app/models/genericresponse';
 import { Subject } from 'rxjs';
 // colors definition for event
 import { MatDialogModule, MatDialog  } from '@angular/material/dialog';
+import { AuthenticationService } from '@app/services/authentication.service';
 
 
 
@@ -60,6 +61,7 @@ export class TimesheetComponentComponent implements OnInit {
   constructor(
     private saveCurrentTimesheetInstance: SaveCurrentTimesheetService,
     public dialog: MatDialog,
+    public logoutService: AuthenticationService
     // private confirmationDialogService: ConfirmationDialogService
   ) { }
 
@@ -140,8 +142,9 @@ export class TimesheetComponentComponent implements OnInit {
   ngOnInit() {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
+    const usrId = this.logoutService.currentUserValue.id;
     this.events = [];
-    this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, 1).subscribe(
+    this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, usrId).subscribe(
       (res) => {
         console.log(res['data'].dayjson);
 
@@ -199,7 +202,8 @@ export class TimesheetComponentComponent implements OnInit {
   saveCurrentTimesheet() {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
-    this.saveCurrentTimesheetInstance.save(this.events, month, year)
+    const userid = this.logoutService.currentUserValue.id;
+    this.saveCurrentTimesheetInstance.save(this.events, month, year, userid)
     .subscribe( data => {
       console.log('Data umpa :', data);
       console.log('status :', data);
@@ -266,8 +270,9 @@ export class TimesheetComponentComponent implements OnInit {
     console.log('se e\' vero so forte');
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
+    const userid = this.logoutService.currentUserValue.id;
     this.events = [];
-    this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, 1).subscribe(
+    this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, userid).subscribe(
       (res) => {
         console.log(res['data'].dayjson);
 
@@ -293,8 +298,9 @@ export class TimesheetComponentComponent implements OnInit {
   myNextClick() {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
+    const userid = this.logoutService.currentUserValue.id;
     this.events = [];
-    this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, 1).subscribe(
+    this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, userid).subscribe(
       (res) => {
         console.log(res['data'].dayjson);
 

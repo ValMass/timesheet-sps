@@ -16,10 +16,10 @@ export class SaveCurrentTimesheetService {
 
   }
 
-  save(events , month , year) {
+  save(events , month, year, userid) {
 
     const url = environment.apiUrl + '/timesheets/createTimesheet.php';
-    return this.http.post(url , { events , month , year }).pipe(catchError(error   => {
+    return this.http.post(url , { events , month , year, userid}).pipe(catchError(error   => {
       console.log(error);
       return EMPTY;
     }), mergeMap(something => {
@@ -33,14 +33,14 @@ export class SaveCurrentTimesheetService {
 
   }
 
-  loadCurrentViewedEvent(month , year, userId){
+  loadCurrentViewedEvent(month , year, userid) {
     const url = environment.apiUrl + '/timesheets/getTimesheetByUserIdMonthYear.php';
-    return this.http.post(url , { month , year, userId });
+    return this.http.post(url , { month , year, userid });
   }
 
-  freeze(month , year, userId) {
+  freeze(month , year, userid) {
     const url = environment.apiUrl + '/timesheets/freezeTimesheet.php';
     console.log(url);
-    return this.http.post(url , { month , year, userId });
+    return this.http.post(url , { month , year, userid });
   }
 }
