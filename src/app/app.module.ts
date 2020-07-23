@@ -16,7 +16,7 @@ import { UserlistPageComponent } from './component/userlist-page/userlist-page.c
 import { UserlistListComponent } from './component/userlist-list/userlist-list.component';
 import { AddEventModalComponent } from './component/modal/add-event-modal/add-event-modal.component';
 import { LoginPageComponent } from './component/login-page/login-page.component';
-import { ConfirmationDialogComponent } from './component/modal/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogTwoComponent } from './component/modal/confirmation-dialog/confirmation-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -33,9 +33,11 @@ import { OfficelistPageComponent } from './component/officelist-page/officelist-
 import { OfficelistListComponent } from './component/officelist-list/officelist-list.component';
 import { CustomerOfficelistListComponent } from './component/customer-office/customerofficelist-list/customerofficelist-list.component';
 import { CustomerOfficelistPageComponent } from './component/customer-office/customerofficelist-page/customerofficelist-page.component';
-
-
-
+import { AddCustomerOfficeDialogComponent } from './component/modal-customer-office/add-dialog/add-dialog.component';
+// tslint:disable-next-line: max-line-length
+import { CustomerofficeprofileFormComponent } from './component/customer-office/customerofficeprofile-form/customerofficeprofile-form.component';
+import { CustomerofficeprofilePageComponent } from './component/customer-office/customerofficeprofile-page/customerofficeprofile-page.component';
+import { ConfirmationDialogComponent } from '@app/component/modal-customer-office/confirmation-dialog/confirmation-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,9 +50,9 @@ import { CustomerOfficelistPageComponent } from './component/customer-office/cus
     UserlistListComponent,
     AddEventModalComponent,
     LoginPageComponent,
-    ConfirmationDialogComponent,
+    ConfirmationDialogTwoComponent,
     AddUserDialogComponent,
-
+    ConfirmationDialogComponent,
     ContractPageComponent,
     ContractListComponent,
     AddContractDialogComponent,
@@ -60,7 +62,10 @@ import { CustomerOfficelistPageComponent } from './component/customer-office/cus
     OfficelistPageComponent,
     CustomerOfficelistListComponent,
     CustomerOfficelistPageComponent,
-
+    AddCustomerOfficeDialogComponent,
+    CustomerofficeprofileFormComponent,
+    CustomerofficeprofilePageComponent,
+    ConfirmationDialogComponent,
 
   ],
   imports: [

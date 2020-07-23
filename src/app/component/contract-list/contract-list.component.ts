@@ -8,10 +8,11 @@ import { Component, OnInit } from '@angular/core';
 export class ContractListComponent implements OnInit {
 
   contractList: any[];
-  
+
   constructor() { }
 
   ngOnInit(): void {
   }
-
+  RowSelected(user){}
+  delete(user){}
 }

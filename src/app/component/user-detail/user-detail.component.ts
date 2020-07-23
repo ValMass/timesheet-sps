@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-user-detail',
@@ -8,9 +9,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class UserDetailComponent implements OnInit {
 
-
-  //contractForm
-  constructor(private route: ActivatedRoute) { }
+  profileForm: FormGroup;
+  contractForm: FormGroup;
+  constructor(private route: ActivatedRoute, public fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.route.data.subscribe(
@@ -37,6 +38,7 @@ export class UserDetailComponent implements OnInit {
       });
     } );
   }
-  
 
+  submitContract(){}
+  submitAnag(){}
 }
