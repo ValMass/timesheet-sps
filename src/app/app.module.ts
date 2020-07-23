@@ -25,7 +25,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { AddUserDialogComponent } from './component/modal/add-user-dialog/add-user-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
 import { JwtInterceptor } from '@app/_helper/jwt.interceptor';
-
+import { OfficelistPageComponent } from './component/officelist-page/officelist-page.component';
+import { OfficelistListComponent } from './component/officelist-list/officelist-list.component';
+import { CustomerOfficelistListComponent } from './component/customer-office/customerofficelist-list/customerofficelist-list.component';
+import { CustomerOfficelistPageComponent } from './component/customer-office/customerofficelist-page/customerofficelist-page.component';
 
 
 @NgModule({
@@ -42,8 +45,10 @@ import { JwtInterceptor } from '@app/_helper/jwt.interceptor';
     LoginPageComponent,
     ConfirmationDialogComponent,
     AddUserDialogComponent,
-
-
+    OfficelistListComponent,
+    OfficelistPageComponent,
+    CustomerOfficelistListComponent,
+    CustomerOfficelistPageComponent,
 
   ],
   imports: [

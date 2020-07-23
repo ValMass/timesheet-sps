@@ -3,6 +3,8 @@ import { Routes, RouterModule , Resolve } from '@angular/router';
 import { TimesheetPageComponent } from './component/timesheet-page/timesheet-page.component';
 import { UserprofilePageComponent } from './component/userprofile-page/userprofile-page.component';
 import { UserlistPageComponent } from './component/userlist-page/userlist-page.component';
+import { OfficelistPageComponent } from './component/officelist-page/officelist-page.component';
+import { CustomerOfficelistPageComponent } from './component/customer-office/customerofficelist-page/customerofficelist-page.component';
 import { from } from 'rxjs';
 
 //resolver Block
@@ -12,6 +14,8 @@ import { UserListResolverService } from '@app/services/user-list-resolver.servic
 import { LoginPageComponent } from './component/login-page/login-page.component';
 import { TimesheetResolverService } from './services/timesheet-resolver.service';
 import { AuthGuard } from './_helper/auth.guard';
+import { OfficeListResolverService } from '@app/services/office-list-resolver.service';
+import { CustomerOfficeListResolverService } from '@app/services/customer-office-list-resolver.service';
 
 
 const routes: Routes = [
@@ -20,6 +24,8 @@ const routes: Routes = [
   { path: 'timesheet-page', component: TimesheetPageComponent,  canActivate: [AuthGuard]  },
   { path: 'userprofile', component: UserprofilePageComponent , resolve: { user: UserAnagraphicResolverService }, canActivate: [AuthGuard] },
   { path: 'userlist', component: UserlistPageComponent , resolve: { userlist: UserListResolverService }, canActivate: [AuthGuard]},
+  { path: 'officelist', component: OfficelistPageComponent , resolve: { officelist: OfficeListResolverService }, canActivate: [AuthGuard]},
+  { path: 'customerofficelist', component: CustomerOfficelistPageComponent , resolve: { customerofficelist: CustomerOfficeListResolverService }, canActivate: [AuthGuard]},
   {
     path: 'detail/:id',
     component: TimesheetPageComponent,
