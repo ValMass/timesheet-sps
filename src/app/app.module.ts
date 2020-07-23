@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
@@ -30,6 +29,10 @@ import { ContractListComponent } from './component/contract-list/contract-list.c
 import { AddContractDialogComponent } from './component/modal/add-contract-dialog/add-contract-dialog.component';
 import { UserDetailPageComponent } from './component/user-detail-page/user-detail-page.component';
 import { UserDetailComponent } from './component/user-detail/user-detail.component';
+import { OfficelistPageComponent } from './component/officelist-page/officelist-page.component';
+import { OfficelistListComponent } from './component/officelist-list/officelist-list.component';
+import { CustomerOfficelistListComponent } from './component/customer-office/customerofficelist-list/customerofficelist-list.component';
+import { CustomerOfficelistPageComponent } from './component/customer-office/customerofficelist-page/customerofficelist-page.component';
 
 
 
@@ -47,12 +50,16 @@ import { UserDetailComponent } from './component/user-detail/user-detail.compone
     LoginPageComponent,
     ConfirmationDialogComponent,
     AddUserDialogComponent,
+
     ContractPageComponent,
     ContractListComponent,
     AddContractDialogComponent,
     UserDetailPageComponent,
     UserDetailComponent,
-
+    OfficelistListComponent,
+    OfficelistPageComponent,
+    CustomerOfficelistListComponent,
+    CustomerOfficelistPageComponent,
 
 
   ],
