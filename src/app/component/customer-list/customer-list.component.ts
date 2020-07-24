@@ -25,5 +25,6 @@ export class CustomerListComponent implements OnInit {
 
     this.route.data.subscribe(observer);
   }
-  ShowOfficesByClient(){}
+  ShowOfficesByClient(customer){}
+  delete(customer){}
 }
