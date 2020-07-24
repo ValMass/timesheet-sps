@@ -18,6 +18,8 @@ import { UserDetailPageComponent } from './component/user-detail-page/user-detai
 import { OfficeListResolverService } from '@app/services/office-list-resolver.service';
 import { CustomerOfficeListResolverService } from '@app/services/customer-office-list-resolver.service';
 import { UserDetailResolverService } from './services/user-detail-resolver.service';
+import { CustomerPageComponent } from './component/customer-page/customer-page.component';
+import { CustomerListResolverService } from './services/customer-list-resolver.service';
 
 
 
@@ -28,8 +30,19 @@ const routes: Routes = [
   { path: 'userprofile', component: UserprofilePageComponent , resolve: { user: UserAnagraphicResolverService }, canActivate: [AuthGuard] },
   { path: 'userlist', component: UserlistPageComponent , resolve: { userlist: UserListResolverService }, canActivate: [AuthGuard]},
   { path: 'officelist', component: OfficelistPageComponent , resolve: { officelist: OfficeListResolverService }, canActivate: [AuthGuard]},
-  { path: 'customerofficelist', component: CustomerOfficelistPageComponent ,
-    resolve: { customerofficelist: CustomerOfficeListResolverService }, canActivate: [AuthGuard]},
+  {
+    path: 'customerlist',
+    component: CustomerPageComponent ,
+    resolve: { customerlist: CustomerListResolverService },
+    canActivate: [AuthGuard]
+  },
+
+  {
+    path: 'customerofficelist',
+    component: CustomerOfficelistPageComponent ,
+    resolve: { customerofficelist: CustomerOfficeListResolverService },
+    canActivate: [AuthGuard]
+  },
   {
     path: 'detail/:id',
     component: UserDetailPageComponent,

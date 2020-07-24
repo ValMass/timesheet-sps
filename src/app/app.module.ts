@@ -39,6 +39,8 @@ import { CustomerofficeprofileFormComponent } from './component/customer-office/
 import { CustomerofficeprofilePageComponent } from './component/customer-office/customerofficeprofile-page/customerofficeprofile-page.component';
 import { ConfirmationDialogComponent } from '@app/component/modal-customer-office/confirmation-dialog/confirmation-dialog.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { CustomerPageComponent } from './component/customer-page/customer-page.component';
+import { CustomerListComponent } from './component/customer-list/customer-list.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +70,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     CustomerofficeprofileFormComponent,
     CustomerofficeprofilePageComponent,
     ConfirmationDialogComponent,
+    CustomerPageComponent,
+    CustomerListComponent,
 
   ],
   imports: [

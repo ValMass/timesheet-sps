@@ -86,6 +86,14 @@ body {
   font-size: 1.3em;
 }
 
+.contract::before{
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f19c";
+  color: white;
+  font-size: 1.3em;
+}
+
 .fix-nav {
   position: sticky;
   position: -webkit-sticky;

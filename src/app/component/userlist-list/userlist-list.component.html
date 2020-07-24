@@ -15,11 +15,11 @@
         <td>{{ user.username }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.userscreationdate | date : 'dd-MM-yyyy' }}</td>
-        <td> <input type="button" value="Modifica anagrafica" (click)="RowSelected(user)"/></td>
+        <td><input type="button" value="Modifica anagrafica" (click)="RowSelected(user)"/></td>
+        <td><button mat-button color="accent" (click)="addContract(user)">Modifica Contratto</button></td>
         <td><button mat-icon-button color="accent" aria-label="Example icon button with a menu icon" (click)="delete(user)">
           <mat-icon>delete</mat-icon>
         </button></td>
-        <td><button mat-button color="accent" (click)="addContract(user)">Modifica Contratto</button></td>
       </tr>
     </tbody>
   </table>
