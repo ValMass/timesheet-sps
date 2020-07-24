@@ -1,110 +1,92 @@
-<div class="userprofile">
-  <div class="userprofile-container">
-    <form class="p-5" [formGroup]="profileForm" (ngSubmit)="submitAnag()">
+<mat-accordion>
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Modifica dati account
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <form class="p-5" name="user" id="user" [formGroup]="userForm" (ngSubmit)="submitUser()">
       <div class="form-group row">
-        <label for="nome" class="col-sm-2 col-form-label">Nome</label>
+        <label for="username" class="col-sm-2 col-form-label">Nome utente</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="nome"  formControlName="firstName" required />
+          <input type="text" class="form-control" id="username" placeholder="Nome utente" formControlName="username"
+            required />
         </div>
       </div>
       <div class="form-group row">
-        <label for="cognome" class="col-sm-2 col-form-label">Cognome</label>
+        <label for="password" class="col-sm-2 col-form-label">Password</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="cognome" placeholder="Cognome" formControlName="lastName"/>
+          <input type="text" class="form-control" id="password" placeholder="Password" formControlName="password"
+            required />
         </div>
       </div>
       <div class="form-group row">
-        <label for="inputEmail" class="col-sm-2 col-form-label">Indirizzo</label>
+        <label for="numeroinps" class="col-sm-2 col-form-label">Numero inps</label>
         <div class="col-sm-10">
-          <input type="email" class="form-control" id="inputEmail" placeholder="Indirizzo" formControlName="address">
+          <input type="text" class="form-control" id="numeroinps" placeholder="Numero inps" formControlName="numeroinps"
+            required />
         </div>
       </div>
       <div class="form-group row">
-        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+        <label for="numerosps" class="col-sm-2 col-form-label">Numero S.P.S.</label>
         <div class="col-sm-10">
-          <input type="email" class="form-control" id="inputEmail" placeholder="Email" formControlName="email">
+          <input type="text" class="form-control" id="numerosps" placeholder="Numero S.P.S." formControlName="numerosps"
+            required />
         </div>
       </div>
       <div class="form-group row">
-        <label for="dataNascita" class="col-sm-2 col-form-label">Data di Nascita</label>
+        <label for="email" class="col-sm-2 col-form-label">E-mail</label>
         <div class="col-sm-10">
-          <input type="date" class="form-control" id="dataNascita" placeholder="Data" formControlName="datadinascita">
+          <input type="text" class="form-control" id="email" placeholder="E-mail" formControlName="email" required />
         </div>
       </div>
-      <div class="form-group row">
-        <label for="tipoContratto" class="col-sm-2 col-form-label">Tipologia Contratto</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="tipoContratto" placeholder="Contratto" formControlName="tipologiacontratto">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="distaccamento" class="col-sm-2 col-form-label">Distaccamento</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="distaccamento" placeholder="Distaccato a" formControlName="distaccatoa">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="sedeLavoro" class="col-sm-2 col-form-label">Sede di lavoro</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="sedeLavoro" placeholder="Sede di lavoro" formControlName="sededilavoro">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="rimborso" class="col-sm-2 col-form-label">Valore rimborso stimato</label>
-        <div class="col-sm-10">
-          <input type="number" class="form-control" id="rimborso" placeholder="Rimborso" formControlName="rimborsostimato">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="buoniPasto" class="col-sm-2 col-form-label">Buoni Pasto</label>
-        <div class="col-sm-10">
-          <input type="number" class="form-control" id="buoniPasto" placeholder="Buoni Pasto" formControlName="buonipasto">
-        </div>
-      </div>
-      <div class="form-group row">
-        <div class="col-sm p-0">
-          <button type="submit" class="btn btn-success">Inserisci tuzia</button>
-        </div>
-      </div>
+      <button form='myform' type="submit" class="btn btn-custom w-50" >Salva</button>
     </form>
-    <form class="p-5" [formGroup]="contractForm" (ngSubmit)="submitContract()">
-        <div class="form-group row">
-          <label for="contracttype" class="col-sm-2 col-form-label">Nome Utente</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="contracttype" placeholder="contracttype" formControlName="contracttype" />
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="startingfrom" class="col-sm-2 col-form-label">password</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="startingfrom" placeholder="startingfrom" formControlName="startingfrom" />
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="companyid" class="col-sm-2 col-form-label">Cognome</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="companyid" placeholder="companyid" formControlName="companyid" />
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="anagraphicid" class="col-sm-2 col-form-label">Cognome</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="anagraphicid" placeholder="anagraphicid" formControlName="anagraphicid" />
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="anastablevalue" class="col-sm-2 col-form-label">Cognome</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="anastablevalue" placeholder="anastablevalue" formControlName="anastablevalue" />
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="cartype" class="col-sm-2 col-form-label">indirizzo</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="cartype" placeholder="cartype" formControlName="cartype" />
-          </div>
-        </div>
+  </mat-expansion-panel>
+</mat-accordion>
 
-    </form>
+
+<mat-accordion>
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Modifica anagrafica
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+<form class="p-5" name="anag" id="anag" [formGroup]="anagForm" (ngSubmit)="submitAnag()">
+  <div class="form-group row">
+    <label for="name" class="col-sm-2 col-form-label">Nome</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="name" placeholder="Nome" formControlName="name" required />
+    </div>
   </div>
-</div>
+  <div class="form-group row">
+    <label for="surname" class="col-sm-2 col-form-label">Nome</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="surname" placeholder="Cognome" formControlName="surname" required />
+    </div>
+  </div>
+  <button form='myform' type="submit" class="btn btn-custom w-50" >Salva</button>
+</form>
+</mat-expansion-panel>
+</mat-accordion>
+
+<mat-accordion>
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Modifica contratto
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <form class="p-5" name="contract" id="contract" [formGroup]="contractForm" (ngSubmit)="submitContract()">
+      <div class="form-group row">
+        <label for="contracttype" class="col-sm-2 col-form-label">Tipo di contratto</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="contracttype" placeholder="E-mail" formControlName="contracttype" required />
+        </div>
+      </div>
+      <button form='myform' type="submit" class="btn btn-custom w-50" >Salva</button>
+    </form>
+
+  </mat-expansion-panel>
+</mat-accordion>

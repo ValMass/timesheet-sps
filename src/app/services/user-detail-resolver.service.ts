@@ -13,7 +13,7 @@ export class UserDetailResolverService implements Resolve<any> {
   constructor(private http: HttpClient) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const url = environment.apiUrl + '/anagraphicData/getAnagraphicDataById.php';
+    const url = environment.apiUrl + '/user/getUserById.php';
     const id = route.paramMap.get('id');
     return this.http.post(url , { id }).pipe(catchError(error   => {
       return EMPTY;

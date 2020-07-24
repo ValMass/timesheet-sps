@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatExpansionModule, MatExpansionPanelState, MatExpansionPanelTitle } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-user-detail',
@@ -9,36 +10,39 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class UserDetailComponent implements OnInit {
 
-  profileForm: FormGroup;
-  contractForm: FormGroup;
-  constructor(private route: ActivatedRoute, public fb: FormBuilder) { }
+  userForm = new FormGroup({
+    username: new FormControl('', [ Validators.required, ]),
+    password: new FormControl('', [ Validators.required, ] ),
+    numeroinps: new FormControl('', [ Validators.required, ] ),
+    numerosps: new FormControl('', [ Validators.required, ] ),
+    email: new FormControl('', [ Validators.required, ] ),
+  });
 
-  ngOnInit(): void {
-    this.route.data.subscribe(
-      data => {
-      console.log('Data umpa :', data);
-      console.log('diobestia :', data.user );
-      console.log('status :', data.user.status);
+  anagForm = new FormGroup({
+    name: new FormControl('', [ Validators.required, ]),
+    surname: new FormControl('', [ Validators.required, ]),
+  });
+
+  contractForm = new FormGroup({
+    contracttype: new FormControl('', [ Validators.required, ]),
+    startingfrom: new FormControl('', [ Validators.required, ]),
+  });
 
 
-      const birth = new Date(data.user.data.birthdate);
+/*
+  contractForm = new FormGroup({
+    contractType
+  });
+*/
 
+  constructor(private route: ActivatedRoute, public fb: FormBuilder) {
 
-      this.profileForm = this.fb.group({
-        firstName: [data.user.data.name],
-        lastName: [data.user.data.surname],
-        address: [data.user.data.address],
-
-        email: [data.user.data.birthplace],
-        tipologiacontratto: [data.user.data.contracttype],
-        distaccatoa: [data.user.data.distaccatoa],
-        sededilavoro: [data.user.data.sededilavoro],
-        rimborsostimato: [data.user.data.valorerimborsistimato],
-        buonipasto: [data.user.data.buonipastobool],
-      });
-    } );
   }
 
-  submitContract(){}
-  submitAnag(){}
+  ngOnInit(): void {
+  }
+
+  submitUser() {}
+  submitContract() {}
+  submitAnag() {}
 }

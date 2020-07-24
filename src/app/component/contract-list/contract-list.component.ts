@@ -13,6 +13,6 @@ export class ContractListComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  RowSelected(user){}
-  delete(user){}
+  RowSelected(user) {}
+  delete(user) {}
 }

@@ -38,6 +38,8 @@ import { AddCustomerOfficeDialogComponent } from './component/modal-customer-off
 import { CustomerofficeprofileFormComponent } from './component/customer-office/customerofficeprofile-form/customerofficeprofile-form.component';
 import { CustomerofficeprofilePageComponent } from './component/customer-office/customerofficeprofile-page/customerofficeprofile-page.component';
 import { ConfirmationDialogComponent } from '@app/component/modal-customer-office/confirmation-dialog/confirmation-dialog.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -80,7 +82,8 @@ import { ConfirmationDialogComponent } from '@app/component/modal-customer-offic
     MatFormFieldModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatIconModule
+    MatIconModule,
+    MatExpansionModule
   ],
   entryComponents: [AddEventModalComponent, AddUserDialogComponent, AddContractDialogComponent],
   providers: [

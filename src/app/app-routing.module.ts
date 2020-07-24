@@ -17,6 +17,7 @@ import { AuthGuard } from './_helper/auth.guard';
 import { UserDetailPageComponent } from './component/user-detail-page/user-detail-page.component';
 import { OfficeListResolverService } from '@app/services/office-list-resolver.service';
 import { CustomerOfficeListResolverService } from '@app/services/customer-office-list-resolver.service';
+import { UserDetailResolverService } from './services/user-detail-resolver.service';
 
 
 
@@ -33,7 +34,7 @@ const routes: Routes = [
     path: 'detail/:id',
     component: UserDetailPageComponent,
     resolve: {
-      hero: TimesheetResolverService
+      user: UserDetailResolverService
     }
   }
 ];

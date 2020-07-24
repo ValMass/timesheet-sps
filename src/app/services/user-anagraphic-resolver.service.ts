@@ -18,7 +18,7 @@ export class UserAnagraphicResolverService implements Resolve<MyResponse<Anagrap
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable< any > | Observable<never> {
     const url = environment.apiUrl + '/anagraphicData/getAnagraphicDataById.php';
     const id = this.id = '1';
-    return this.http.post < MyResponse<AnagraphicData>>(url , { id }).pipe(catchError(error   => {
+    return this.http.post(url , { id }).pipe(catchError(error   => {
       return EMPTY;
     }), mergeMap(something => {
          if (something) {

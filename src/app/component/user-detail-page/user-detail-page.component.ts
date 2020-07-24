@@ -9,7 +9,7 @@ import { FormGroup } from '@angular/forms';
 export class UserDetailPageComponent implements OnInit {
   id: number;
   private sub: any;
-  
+
 
   constructor(private route: ActivatedRoute) {}
 
@@ -18,6 +18,7 @@ export class UserDetailPageComponent implements OnInit {
        this.id = +params['id']; // (+) converts string 'id' to a number
        // In a real app: dispatch action to load the details here.
     });
+    console.log('cico' + this.id);
 
 
   }
