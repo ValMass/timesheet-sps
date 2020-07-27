@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule , Resolve } from '@angular/router';
-import { TimesheetPageComponent } from './component/timesheet-page/timesheet-page.component';
 import { UserprofilePageComponent } from './component/userprofile-page/userprofile-page.component';
-import { UserlistPageComponent } from './component/userlist-page/userlist-page.component';
 import { OfficelistPageComponent } from './component/officelist-page/officelist-page.component';
 import { CustomerOfficelistPageComponent } from './component/customer-office/customerofficelist-page/customerofficelist-page.component';
 import { from } from 'rxjs';
@@ -14,7 +12,6 @@ import { UserListResolverService } from '@app/services/user-list-resolver.servic
 import { LoginPageComponent } from './component/login-page/login-page.component';
 import { TimesheetResolverService } from './services/timesheet-resolver.service';
 import { AuthGuard } from './_helper/auth.guard';
-import { UserDetailPageComponent } from './component/user-detail-page/user-detail-page.component';
 import { OfficeListResolverService } from '@app/services/office-list-resolver.service';
 import { CustomerOfficeListResolverService } from '@app/services/customer-office-list-resolver.service';
 import { UserDetailResolverService } from './services/user-detail-resolver.service';
@@ -23,15 +20,17 @@ import { CustomerListResolverService } from './services/customer-list-resolver.s
 import { TimesheetComponentComponent } from './component/timesheet-component/timesheet-component.component';
 import { ContractModule } from './modules/contract/contract.module';
 import { ContractComponent } from './modules/contract/contract.component';
+import { UserlistListComponent } from './component/userlist-list/userlist-list.component';
+import { UserDetailComponent } from './component/user-detail/user-detail.component';
 
 
 
 const routes: Routes = [
-  { path: '', component: TimesheetPageComponent, canActivate: [AuthGuard]},
+  { path: '', component: TimesheetComponentComponent, canActivate: [AuthGuard]},
   { path: 'login-page', component: LoginPageComponent  },
   { path: 'timesheet-page', component: TimesheetComponentComponent,  canActivate: [AuthGuard]  },
   { path: 'userprofile', component: UserprofilePageComponent , resolve: { user: UserAnagraphicResolverService }, canActivate: [AuthGuard] },
-  { path: 'userlist', component: UserlistPageComponent , resolve: { userlist: UserListResolverService }, canActivate: [AuthGuard]},
+  { path: 'userlist', component: UserlistListComponent , resolve: { userlist: UserListResolverService }, canActivate: [AuthGuard]},
   { path: 'officelist', component: OfficelistPageComponent , resolve: { officelist: OfficeListResolverService }, canActivate: [AuthGuard]},
   {
     path: 'customerlist',
@@ -48,7 +47,7 @@ const routes: Routes = [
   },
   {
     path: 'detail/:id',
-    component: UserDetailPageComponent,
+    component: UserDetailComponent,
     resolve: {
       user: UserDetailResolverService
     }
@@ -63,6 +62,7 @@ const routes: Routes = [
     component: ContractComponent ,
     canActivate: [AuthGuard]
   },
+  { path: 'customer', loadChildren: () => import('./modules/customer/customer.module').then(m => m.CustomerModule) },
 ];
 
 @NgModule({

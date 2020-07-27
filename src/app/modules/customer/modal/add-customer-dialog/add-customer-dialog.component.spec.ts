@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TimesheetPageComponent } from './timesheet-page.component';
+import { AddCustomerDialogComponent } from './add-customer-dialog.component';
 
-describe('TimesheetPageComponent', () => {
-  let component: TimesheetPageComponent;
-  let fixture: ComponentFixture<TimesheetPageComponent>;
+describe('AddCustomerDialogComponent', () => {
+  let component: AddCustomerDialogComponent;
+  let fixture: ComponentFixture<AddCustomerDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TimesheetPageComponent ]
+      declarations: [ AddCustomerDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TimesheetPageComponent);
+    fixture = TestBed.createComponent(AddCustomerDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

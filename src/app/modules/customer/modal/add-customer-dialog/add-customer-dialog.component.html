@@ -1,0 +1,80 @@
+<div mat-dialog-content>
+  <form id='myform' class="p-5" [formGroup]="customerForm" (ngSubmit)="onsubmit()">
+
+    <div class="">
+      <div>
+        <label for="nome" class=" col-form-label">Nome</label>
+        <div class="">
+          <input type="text" class="form-control inp-text" id="nome" placeholder="Nome" formControlName="nome"
+            [ngClass]="{ 'is-invalid': submitted && f.nome.errors }" />
+          <div *ngIf="submitted && f.nome.errors" class="invalid-feedback">
+            <div *ngIf="f.nome.errors.required">Nome richiesto</div>
+          </div>
+        </div>
+        <div *ngIf="submitted && f.nome.errors" class="invalid-feedback">
+          <div *ngIf="f.nome.errors.required">First Name is required</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="">
+      <div>
+        <label for="legaladdress" class=" col-form-label">Indirizzo legale</label>
+        <div class="">
+          <input type="text" class="form-control inp-text" id="legaladdress" placeholder="Indirizzo legale"
+            formControlName="legaladdress" [ngClass]="{ 'is-invalid': submitted && f.legaladdress.errors }" />
+          <div *ngIf="submitted && f.legaladdress.errors" class="invalid-feedback">
+            <div *ngIf="f.legaladdress.errors.required">Indirizzo legale richiesto</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="">
+      <div>
+        <label for="piva" class=" col-form-label">Partita Iva</label>
+        <div class="">
+          <input type="text" class="form-control inp-text" id="piva" placeholder="Partita Iva"
+            formControlName="legaladdress" [ngClass]="{ 'is-invalid': submitted && f.piva.errors }" />
+          <div *ngIf="submitted && f.piva.errors" class="invalid-feedback">
+            <div *ngIf="f.piva.errors.required">Partita Iva richiesta</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="">
+      <div>
+        <label for="rea" class=" col-form-label">REA</label>
+        <div class="">
+          <input type="text" class="form-control inp-text" id="rea" placeholder="REA"
+            formControlName="rea"  />
+        </div>
+      </div>
+    </div>
+
+    <div class="">
+      <div>
+        <label for="postacertificata" class=" col-form-label">Posta certificata</label>
+        <div class="">
+          <input type="text" class="form-control inp-text" id="postacertificata" placeholder="Posta certificata"
+            formControlName="postacertificata"  />
+        </div>
+      </div>
+    </div>
+
+    <div class="">
+      <div>
+        <label for="referente" class=" col-form-label">Referente</label>
+        <div class="">
+          <input type="text" class="form-control inp-text" id="referente" placeholder="Referente"
+            formControlName="referente"  />
+        </div>
+      </div>
+    </div>
+  </form>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close class="btn btn-custom w-50">Annulla</button>
+    <button form='myform' type="submit" class="btn btn-custom w-50">Salva</button>
+  </div>
+</div>

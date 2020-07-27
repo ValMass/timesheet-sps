@@ -4,7 +4,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { TimesheetPageComponent } from './component/timesheet-page/timesheet-page.component';
 import { TimesheetComponentComponent } from './component/timesheet-component/timesheet-component.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SideBarComponent } from './component/side-bar/side-bar.component';
@@ -12,7 +11,6 @@ import { UserprofilePageComponent } from './component/userprofile-page/userprofi
 import { UserprofileFormComponent } from './component/userprofile-form/userprofile-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { UserlistPageComponent } from './component/userlist-page/userlist-page.component';
 import { UserlistListComponent } from './component/userlist-list/userlist-list.component';
 import { AddEventModalComponent } from './component/modal/add-event-modal/add-event-modal.component';
 import { LoginPageComponent } from './component/login-page/login-page.component';
@@ -26,7 +24,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { JwtInterceptor } from '@app/_helper/jwt.interceptor';
 import { ContractPageComponent } from './component/contract-page/contract-page.component';
 import { ContractListComponent } from './component/contract-list/contract-list.component';
-import { UserDetailPageComponent } from './component/user-detail-page/user-detail-page.component';
 import { UserDetailComponent } from './component/user-detail/user-detail.component';
 import { OfficelistPageComponent } from './component/officelist-page/officelist-page.component';
 import { OfficelistListComponent } from './component/officelist-list/officelist-list.component';
@@ -43,16 +40,16 @@ import { CustomerListComponent } from './component/customer-list/customer-list.c
 import { ContractComponent } from './modules/contract/contract.component';
 import { AddContractDialogComponent } from './modules/contract/modal/add-contract-dialog/add-contract-dialog.component';
 import { ContractModule } from './modules/contract/contract.module';
+import { CustomerComponent } from './modules/customer/customer.component';
+import { CustomerModule } from './modules/customer/customer.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TimesheetPageComponent,
     TimesheetComponentComponent,
     SideBarComponent,
     UserprofilePageComponent,
     UserprofileFormComponent,
-    UserlistPageComponent,
     UserlistListComponent,
     AddEventModalComponent,
     LoginPageComponent,
@@ -61,7 +58,6 @@ import { ContractModule } from './modules/contract/contract.module';
     ConfirmationDialogComponent,
     ContractPageComponent,
     ContractListComponent,
-    UserDetailPageComponent,
     UserDetailComponent,
     OfficelistListComponent,
     OfficelistPageComponent,
@@ -81,7 +77,6 @@ import { ContractModule } from './modules/contract/contract.module';
     BrowserModule,
     AppRoutingModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
-    ContractModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
@@ -91,7 +86,10 @@ import { ContractModule } from './modules/contract/contract.module';
     MatDatepickerModule,
     MatNativeDateModule,
     MatIconModule,
-    MatExpansionModule
+    MatExpansionModule,
+    // My Module
+    ContractModule,
+    CustomerModule,
   ],
   exports: [
     SideBarComponent,

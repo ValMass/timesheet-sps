@@ -10,6 +10,9 @@ import { MatExpansionModule, MatExpansionPanelState, MatExpansionPanelTitle } fr
 })
 export class UserDetailComponent implements OnInit {
 
+  id: number;
+  private sub: any;
+
   userForm = new FormGroup({
     username: new FormControl('', [ Validators.required, ]),
     password: new FormControl('', [ Validators.required, ] ),
@@ -40,6 +43,11 @@ export class UserDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sub = this.route.params.subscribe(params => {
+      this.id = +params['id']; // (+) converts string 'id' to a number
+      // In a real app: dispatch action to load the details here.
+   });
+   console.log('cico' + this.id);
   }
 
   submitUser() {}

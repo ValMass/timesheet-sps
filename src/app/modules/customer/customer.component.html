@@ -1,0 +1,31 @@
+<div class="tab-user">
+  <button mat-button class="btn btn-primary w-100 mt-5" (click)="openaddCustomerDialog()">Aggiungi Cliente</button>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Indirizzo legale </th>
+        <th scope="col">P. iva</th>
+        <th scope="col">Rea</th>
+        <th scope="col">Posta Certificata</th>
+        <th scope="col">Referente</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customer of customerList">
+        <td>{{ customer.id }} </td>
+        <td>{{ customer.name }} </td>
+        <td>{{ customer.legaladdress }}</td>
+        <td>{{ customer.pivacodicefiscale }}</td>
+        <td>{{ customer.rea }}</td>
+        <td>{{ customer.postacertificata }}</td>
+        <td>{{ customer.referente }}</td>
+        <td> <input type="button" value="Edit" (click)="ShowOfficesByCustomer(customer)" /></td>
+        <button mat-icon-button color="accent" aria-label="delete client" (click)="deleteCustomer(customer)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </tr>
+    </tbody>
+  </table>
+</div>
