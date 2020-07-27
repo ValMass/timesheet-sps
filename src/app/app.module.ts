@@ -26,7 +26,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { JwtInterceptor } from '@app/_helper/jwt.interceptor';
 import { ContractPageComponent } from './component/contract-page/contract-page.component';
 import { ContractListComponent } from './component/contract-list/contract-list.component';
-import { AddContractDialogComponent } from './component/modal/add-contract-dialog/add-contract-dialog.component';
 import { UserDetailPageComponent } from './component/user-detail-page/user-detail-page.component';
 import { UserDetailComponent } from './component/user-detail/user-detail.component';
 import { OfficelistPageComponent } from './component/officelist-page/officelist-page.component';
@@ -41,6 +40,8 @@ import { ConfirmationDialogComponent } from '@app/component/modal-customer-offic
 import { MatExpansionModule } from '@angular/material/expansion';
 import { CustomerPageComponent } from './component/customer-page/customer-page.component';
 import { CustomerListComponent } from './component/customer-list/customer-list.component';
+import { ContractComponent } from './modules/contract/contract.component';
+import { AddContractDialogComponent } from './modules/contract/modal/add-contract-dialog/add-contract-dialog.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,6 @@ import { CustomerListComponent } from './component/customer-list/customer-list.c
     ConfirmationDialogComponent,
     ContractPageComponent,
     ContractListComponent,
-    AddContractDialogComponent,
     UserDetailPageComponent,
     UserDetailComponent,
     OfficelistListComponent,
@@ -72,6 +72,8 @@ import { CustomerListComponent } from './component/customer-list/customer-list.c
     ConfirmationDialogComponent,
     CustomerPageComponent,
     CustomerListComponent,
+    ContractComponent,
+    AddContractDialogComponent
 
   ],
   imports: [
@@ -89,7 +91,15 @@ import { CustomerListComponent } from './component/customer-list/customer-list.c
     MatIconModule,
     MatExpansionModule
   ],
-  entryComponents: [AddEventModalComponent, AddUserDialogComponent, AddContractDialogComponent],
+  exports: [
+    SideBarComponent,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatIconModule,
+  ],
+  entryComponents: [AddEventModalComponent, AddUserDialogComponent, AddContractDialogComponent ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],

@@ -4,7 +4,6 @@ import { AddUserDialogComponent } from '../modal/add-user-dialog/add-user-dialog
 import { MatDialogModule, MatDialog, } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { UserService } from '@app/services/user.service';
-import { AddContractDialogComponent } from '../modal/add-contract-dialog/add-contract-dialog.component';
 
 @Component({
   selector: 'app-userlist-list',
@@ -87,19 +86,6 @@ export class UserlistListComponent implements OnInit {
   }
 
   addContract(user) {
-    const dialogRef = this.dialog.open(AddContractDialogComponent,
-    {
-      width: '600px',
-      height: '700px',
-      data: {}
-    });
-    dialogRef.afterClosed().subscribe(
-      res => {
-        console.log(res);
-      },
-      error => {
-        console.log(error);
-      });
-
+    
   }
 }

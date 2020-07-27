@@ -11,13 +11,13 @@ export class AddContractDialogComponent implements OnInit {
 
   public submitted: boolean = false;
 
-  profileForm = new FormGroup({
+  contractForm = new FormGroup({
     contracttype: new FormControl('', [ Validators.required, ] ),
     startingfrom: new FormControl('', [ Validators.required, ] ),
     companyid: new FormControl('', [ Validators.required, ] ),
     anagraphicid: new FormControl('', [ Validators.required, ] ),
-    anastablevalue: new FormControl('', [ Validators.required, ] ),
-    cartype: new FormControl('', [ Validators.required, ] ),
+    level: new FormControl('', [ Validators.required, ] ),
+    ccnl: new FormControl('', [ Validators.required, ] ),
   });
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: string,
@@ -27,10 +27,10 @@ export class AddContractDialogComponent implements OnInit {
   ngOnInit(): void {
 
   }
-  get f() { return this.profileForm.controls; }
+  get f() { return this.contractForm.controls; }
 
   submit() {
-    this.dialogRef.close({ data: this.profileForm.value });
+    this.dialogRef.close({ data: this.contractForm.value });
 
   }
 }

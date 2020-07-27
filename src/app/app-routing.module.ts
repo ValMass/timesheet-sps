@@ -20,13 +20,16 @@ import { CustomerOfficeListResolverService } from '@app/services/customer-office
 import { UserDetailResolverService } from './services/user-detail-resolver.service';
 import { CustomerPageComponent } from './component/customer-page/customer-page.component';
 import { CustomerListResolverService } from './services/customer-list-resolver.service';
+import { TimesheetComponentComponent } from './component/timesheet-component/timesheet-component.component';
+import { ContractModule } from './modules/contract/contract.module';
+import { ContractComponent } from './modules/contract/contract.component';
 
 
 
 const routes: Routes = [
   { path: '', component: TimesheetPageComponent, canActivate: [AuthGuard]},
   { path: 'login-page', component: LoginPageComponent  },
-  { path: 'timesheet-page', component: TimesheetPageComponent,  canActivate: [AuthGuard]  },
+  { path: 'timesheet-page', component: TimesheetComponentComponent,  canActivate: [AuthGuard]  },
   { path: 'userprofile', component: UserprofilePageComponent , resolve: { user: UserAnagraphicResolverService }, canActivate: [AuthGuard] },
   { path: 'userlist', component: UserlistPageComponent , resolve: { userlist: UserListResolverService }, canActivate: [AuthGuard]},
   { path: 'officelist', component: OfficelistPageComponent , resolve: { officelist: OfficeListResolverService }, canActivate: [AuthGuard]},
@@ -49,7 +52,17 @@ const routes: Routes = [
     resolve: {
       user: UserDetailResolverService
     }
-  }
+  },
+  { path: 'customer-offices',
+    loadChildren: () => import('./modules/customer-offices/customer-offices.module').then(m => m.CustomerOfficesModule) },
+  { path: 'offices',
+    loadChildren: () => import('./modules/offices/offices.module').then(m => m.OfficesModule) },
+  //{ path: 'contract', loadChildren: () => import('./modules/contract/contract.module').then(m => m.ContractModule) }
+  {
+    path: 'contract',
+    component: ContractComponent ,
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

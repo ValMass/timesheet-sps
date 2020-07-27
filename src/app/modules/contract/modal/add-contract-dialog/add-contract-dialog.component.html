@@ -1,0 +1,97 @@
+<div mat-dialog-content>
+  <form id='myform' class="p-5" [formGroup]="contractForm" (ngSubmit)="submit()">
+  <div>
+    <label for="contracttype" class="cod-contratto">Tipo di contratto</label>
+    <select id="contracttype" name="contracttype" class="custom-select sel-text" formControlName="contracttype">
+      <option value="indet" selected="selected">Lavoro dipendente</option>
+      <option value="det">Contratto di lavoro a tempo determinato</option>
+      <option value="parz">Lavoro a tempo parziale</option>
+      <option value="appr">Apprendistato</option>
+      <option value="interm">Contratto di lavoro intermittente</option>
+      <option value="somm">Contratto di somministrazione</option>
+      <option value="prog">Contratto di lavoro a progetto</option>
+      <option value="ccc">Collaborazioni coordinate e continuative</option>
+      <option value="piva">Partita IVA</option>
+      <option value="Prestocc">Prestazioni occasionali</option>
+      <option value="Associnpart">Associazione in partecipazione</option>
+      <option value="arru">Contratto di arruolamento</option>
+      <option value="tirstage">Tirocinio formativo e stage</option>
+    </select>
+    <div *ngIf="f.contracttype .errors && submitted">Codice contratto mancante</div>
+  </div>
+  <div class="input-group">
+    <h3>Data</h3>
+    <!--<label for="dataevento">Data</label>-->
+    <input matInput [matDatepicker]="picker" required formControlName="startingfrom">
+    <mat-datepicker-toggle matSuffix [for]="picker" class="bottone-data"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <div *ngIf="f.startingfrom.errors && submitted">Data richiesta</div>
+  </div>
+  <div class="form-group row">
+    <label for="level" class="col-sm-2 col-form-label">Livello</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control inp-text" id="level" placeholder="Livello" formControlName="level" />
+    </div>
+  </div>
+  <div>
+    <label for="ccnl" class="cod-contratto">C.C.N.L.</label>
+    <select id="ccnl" name="ccnl" class="custom-select sel-text" formControlName="ccnl">
+      <option value="commercio" selected="selected">Commercio</option>
+      <option value="metalmeccanico">Metalmeccanico</option>
+    </select>
+    <div *ngIf="f.ccnl.errors && submitted">C.C.N.L. mancante</div>
+  </div>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close class="btn btn-custom w-50" cdkFocusInitial>Close</button>
+  <button form='myform' type="submit" class="btn btn-custom w-50">Salva</button>
+</div>
+
+<!-- <h1 mat-dialog-title>Ciao</h1>
+<div mat-dialog-content>
+  <form id='myform' class="p-5" [formGroup]="profileForm" (ngSubmit)="submit()">
+    <div class="form-group row">
+      <label for="contracttype" class="col-sm-2 col-form-label">Nome Utente</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="contracttype" placeholder="contracttype" formControlName="contracttype" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="startingfrom" class="col-sm-2 col-form-label">password</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="startingfrom" placeholder="startingfrom" formControlName="startingfrom" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="companyid" class="col-sm-2 col-form-label">Cognome</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="companyid" placeholder="companyid" formControlName="companyid" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="anagraphicid" class="col-sm-2 col-form-label">Cognome</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="anagraphicid" placeholder="anagraphicid" formControlName="anagraphicid" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="anastablevalue" class="col-sm-2 col-form-label">Cognome</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="anastablevalue" placeholder="anastablevalue" formControlName="anastablevalue" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="cartype" class="col-sm-2 col-form-label">indirizzo</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="cartype" placeholder="cartype" formControlName="cartype" />
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close class="btn btn-custom w-50" cdkFocusInitial >Close</button>
+  <button form='myform' type="submit" class="btn btn-custom w-50" >Salva</button>
+</div>
+-->
