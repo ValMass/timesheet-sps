@@ -42,6 +42,7 @@ import { CustomerPageComponent } from './component/customer-page/customer-page.c
 import { CustomerListComponent } from './component/customer-list/customer-list.component';
 import { ContractComponent } from './modules/contract/contract.component';
 import { AddContractDialogComponent } from './modules/contract/modal/add-contract-dialog/add-contract-dialog.component';
+import { ContractModule } from './modules/contract/contract.module';
 
 @NgModule({
   declarations: [
@@ -72,14 +73,15 @@ import { AddContractDialogComponent } from './modules/contract/modal/add-contrac
     ConfirmationDialogComponent,
     CustomerPageComponent,
     CustomerListComponent,
-    ContractComponent,
-    AddContractDialogComponent
+
+
 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+    ContractModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,

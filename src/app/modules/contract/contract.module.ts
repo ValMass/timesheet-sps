@@ -7,9 +7,10 @@ import { SideBarComponent } from '@app/component/side-bar/side-bar.component';
 import { AddContractDialogComponent } from './modal/add-contract-dialog/add-contract-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog/dialog-module';
 import { MatFormFieldModule } from '@angular/material/form-field/form-field-module';
-import { MatDatepickerModule } from '@angular/material/datepicker/datepicker-module';
-import { MatNativeDateModule } from '@angular/material/core/datetime';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon/icon-module';
+
 import { ReactiveFormsModule } from '@angular/forms';
 
 
@@ -21,7 +22,10 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     ContractRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+
   ],
   entryComponents: [
     AddContractDialogComponent
