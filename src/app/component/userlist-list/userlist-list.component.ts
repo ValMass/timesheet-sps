@@ -85,7 +85,9 @@ export class UserlistListComponent implements OnInit {
 
   }
 
-  addContract(user) {
-    
+  modifyTimesheet(user) {
+    const ciccio = { state: { id: user.id , name: user.username } };
+    const url = 'timesheet/' + user.id;
+    this.router.navigateByUrl( url, ciccio);
   }
 }

@@ -35,7 +35,7 @@
         <label for="piva" class=" col-form-label">Partita Iva</label>
         <div class="">
           <input type="text" class="form-control inp-text" id="piva" placeholder="Partita Iva"
-            formControlName="legaladdress" [ngClass]="{ 'is-invalid': submitted && f.piva.errors }" />
+            formControlName="piva" [ngClass]="{ 'is-invalid': submitted && f.piva.errors }" />
           <div *ngIf="submitted && f.piva.errors" class="invalid-feedback">
             <div *ngIf="f.piva.errors.required">Partita Iva richiesta</div>
           </div>

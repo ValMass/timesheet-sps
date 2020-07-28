@@ -1,5 +1,5 @@
+<p>user-list works!</p>
 <div class="tab-user">
-  <button mat-button class="btn btn-primary w-100 mt-5" (click)="openDialog()">Aggiungi utente</button>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -15,11 +15,6 @@
         <td>{{ user.username }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.userscreationdate | date : 'dd-MM-yyyy' }}</td>
-        <td><input type="button" value="Modifica anagrafica" (click)="RowSelected(user)"/></td>
-        <td><button mat-button color="accent" (click)="modifyTimesheet(user)">Modifica Timesheet</button></td>
-        <td><button mat-icon-button color="accent" aria-label="Example icon button with a menu icon" (click)="delete(user)">
-          <mat-icon>delete</mat-icon>
-        </button></td>
       </tr>
     </tbody>
   </table>

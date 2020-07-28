@@ -46,6 +46,13 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'timesheet/:id',
+    component: TimesheetComponentComponent,
+    resolve: {
+      customer: TimesheetResolverService
+    }
+  },
+  {
     path: 'detail/:id',
     component: UserDetailComponent,
     resolve: {
@@ -63,6 +70,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   { path: 'customer', loadChildren: () => import('./modules/customer/customer.module').then(m => m.CustomerModule) },
+  { path: 'home-page', loadChildren: () => import('./modules/home-page/home-page.module').then(m => m.HomePageModule) },
 ];
 
 @NgModule({

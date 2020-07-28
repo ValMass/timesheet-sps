@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomerService } from './services/customer.service';
 import { AddCustomerDialogComponent } from './modal/add-customer-dialog/add-customer-dialog.component';
@@ -15,10 +15,21 @@ export class CustomerComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     public dialog: MatDialog,
     private customerService: CustomerService) { }
 
   ngOnInit(): void {
+    const observer = {
+      next: x => {
+
+        this.customerList = x.customerList.data;
+      },
+        error: erriks => console.log('Observer got an error: ' + JSON.stringify(erriks)),
+        complete: () => console.log('Observer got a complete notification'),
+      };
+
+    this.route.data.subscribe(observer);
 
   }
 
@@ -35,11 +46,20 @@ export class CustomerComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(
       res => {
+        console.log(res.data);
         this.customerService.createNewCustomer(res).subscribe(
           result => {
-
-            //const newUser = result['data'];
-            //this.userlist = [...this.userlist, newUser];
+            const newCustomer = result['data'];
+            console.log(newCustomer);
+            let toadd: any = {};
+            toadd.id = newCustomer.id;
+            toadd.nome = newCustomer.name;
+            toadd.legaladdress = newCustomer.legaladdress;
+            toadd.piva = newCustomer.pivacodicefiscale;
+            toadd.postacertificata = newCustomer.postacertificata;
+            toadd.rea = newCustomer.rea;
+            toadd.nome = newCustomer.referente;
+            this.customerList = [...this.customerList, toadd];
           },
           error => {
             console.log('errore');
@@ -57,10 +77,15 @@ export class CustomerComponent implements OnInit {
   deleteCustomer(customer) {
     this.customerService.deleteCustomer(customer).subscribe(
       result => {
+        if (result.hasOwnProperty("status") && result['status'] === 'done' ){
+          this.customerList.splice(this.customerList.indexOf(customer), 1);
+        } else {
+          console.log('errore nella cancellazione error from server');
 
+        }
       },
       error => {
-
+        console.log('errore nella cancellazione http error');
       }
     );
   }
