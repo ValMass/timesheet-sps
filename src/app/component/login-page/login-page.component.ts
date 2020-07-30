@@ -22,9 +22,31 @@ export class LoginPageComponent implements OnInit {
     private authenticationService: AuthenticationService
   ) {
     if (this.authenticationService.currentUserValue) {
-      this.router.navigate(['/timesheet-page']);
+      let user = this.authenticationService.currentUserValue;
+      console.log(user.isadmin);
+      switch (user.isadmin) {
+        case '1':
+          console.log('primascelta');
+          this.router.navigate(['/home-page']);
+          break;
+        case '2':
+          this.router.navigate(['/timesheet-page']);
+          break;
+
+        default:
+          console.log('error');
+          break;
+      }
+
+
+      /* if( user.isadmin = 1) {
+         this.router.navigate(['/timesheet-page']);
+       } else {
+         this.router.navigate(['/timesheet-page']);
+       }*/
+
+    }
   }
-   }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -50,19 +72,19 @@ export class LoginPageComponent implements OnInit {
 
     this.loading = true;
     this.authenticationService.login(this.f.username.value, this.f.password.value)
-        .pipe(first())
-        .subscribe(
-            data => {
-                if ( data.token == null) {
-                  console.log('not logged');
-                } else {
-                  this.router.navigate([this.returnUrl]);
-                }
+      .pipe(first())
+      .subscribe(
+        data => {
+          if (data.token == null) {
+            console.log('not logged');
+          } else {
+            this.router.navigate([this.returnUrl]);
+          }
 
-            },
-            error => {
-                this.error = error;
-                this.loading = false;
-            });
-}
+        },
+        error => {
+          this.error = error;
+          this.loading = false;
+        });
+  }
 }

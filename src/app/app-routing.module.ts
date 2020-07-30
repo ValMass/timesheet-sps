@@ -5,7 +5,7 @@ import { OfficelistPageComponent } from './component/officelist-page/officelist-
 import { CustomerOfficelistPageComponent } from './component/customer-office/customerofficelist-page/customerofficelist-page.component';
 import { from } from 'rxjs';
 
-//resolver Block
+// resolver Block
 
 import { UserAnagraphicResolverService } from '@app/services/user-anagraphic-resolver.service';
 import { UserListResolverService } from '@app/services/user-list-resolver.service';
@@ -22,6 +22,7 @@ import { ContractModule } from './modules/contract/contract.module';
 import { ContractComponent } from './modules/contract/contract.component';
 import { UserlistListComponent } from './component/userlist-list/userlist-list.component';
 import { UserDetailComponent } from './component/user-detail/user-detail.component';
+import { HomePageComponent } from './modules/home-page/home-page.component';
 
 
 
@@ -60,17 +61,26 @@ const routes: Routes = [
     }
   },
   { path: 'customer-offices',
-    loadChildren: () => import('./modules/customer-offices/customer-offices.module').then(m => m.CustomerOfficesModule) },
+    loadChildren: () => import('./modules/customer-offices/customer-offices.module').then(m => m.CustomerOfficesModule)
+  },
   { path: 'offices',
-    loadChildren: () => import('./modules/offices/offices.module').then(m => m.OfficesModule) },
-  //{ path: 'contract', loadChildren: () => import('./modules/contract/contract.module').then(m => m.ContractModule) }
+    loadChildren: () => import('./modules/offices/offices.module').then(m => m.OfficesModule)
+  },
+  // { path: 'contract', loadChildren: () => import('./modules/contract/contract.module').then(m => m.ContractModule) }
   {
     path: 'contract',
     component: ContractComponent ,
     canActivate: [AuthGuard]
   },
   { path: 'customer', loadChildren: () => import('./modules/customer/customer.module').then(m => m.CustomerModule) },
-  { path: 'home-page', loadChildren: () => import('./modules/home-page/home-page.module').then(m => m.HomePageModule) },
+  // { path: 'home-page', loadChildren: () => import('./modules/home-page/home-page.module').then(m => m.HomePageModule) },
+  {
+    path: 'home-page',
+    component: HomePageComponent,
+    resolve:{
+      userlist: UserListResolverService
+    }
+  },
 ];
 
 @NgModule({

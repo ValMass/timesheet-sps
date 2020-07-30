@@ -1,5 +1,5 @@
-<p>user-list works!</p>
 <div class="tab-user">
+  <button (click)="print()"></button>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -10,11 +10,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of userlist">
-        <td>{{ user.id }} </td>
-        <td>{{ user.username }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.userscreationdate | date : 'dd-MM-yyyy' }}</td>
+      <tr *ngFor="let user of listautenti; trackBy: trackById">
+        <td (click)="redirectToUser(user)">{{ user.id }} </td>
+        <td (click)="redirectToUser(user)">{{ user.password }}</td>
       </tr>
     </tbody>
   </table>
