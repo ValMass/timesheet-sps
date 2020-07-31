@@ -14,29 +14,29 @@ export class UserDetailComponent implements OnInit {
   private sub: any;
 
   userForm = new FormGroup({
-    username: new FormControl('', [ Validators.required, ]),
-    password: new FormControl('', [ Validators.required, ] ),
-    numeroinps: new FormControl('', [ Validators.required, ] ),
-    numerosps: new FormControl('', [ Validators.required, ] ),
-    email: new FormControl('', [ Validators.required, ] ),
+    username: new FormControl('', [Validators.required,]),
+    password: new FormControl('', [Validators.required,]),
+    numeroinps: new FormControl('', [Validators.required,]),
+    numerosps: new FormControl('', [Validators.required,]),
+    email: new FormControl('', [Validators.required,]),
   });
 
   anagForm = new FormGroup({
-    name: new FormControl('', [ Validators.required, ]),
-    surname: new FormControl('', [ Validators.required, ]),
+    name: new FormControl('', [Validators.required,]),
+    surname: new FormControl('', [Validators.required,]),
   });
 
   contractForm = new FormGroup({
-    contracttype: new FormControl('', [ Validators.required, ]),
-    startingfrom: new FormControl('', [ Validators.required, ]),
+    contracttype: new FormControl('', [Validators.required,]),
+    startingfrom: new FormControl('', [Validators.required,]),
   });
 
 
-/*
-  contractForm = new FormGroup({
-    contractType
-  });
-*/
+  /*
+    contractForm = new FormGroup({
+      contractType
+    });
+  */
 
   constructor(private route: ActivatedRoute, public fb: FormBuilder) {
 
@@ -46,11 +46,11 @@ export class UserDetailComponent implements OnInit {
     this.sub = this.route.params.subscribe(params => {
       this.id = +params['id']; // (+) converts string 'id' to a number
       // In a real app: dispatch action to load the details here.
-   });
-   console.log('cico' + this.id);
+    });
+    console.log('cico' + this.id);
   }
 
-  submitUser() {}
-  submitContract() {}
-  submitAnag() {}
+  submitUser() { }
+  submitContract() { }
+  submitAnag() { }
 }

@@ -19,14 +19,22 @@
       </select>
       <div *ngIf="f.contracttype .errors && submitted">Codice contratto mancante</div>
     </div>
-    <div class="input-group">
+    <div class="">
+      <div>
+        <label for="title" class=" col-form-label">Qualifica</label>
+        <div class="">
+          <input type="text" class="form-control inp-text" id="title" placeholder="Qualifica" formControlName="title" />
+        </div>
+      </div>
+    </div>
+   <!-- <div class="input-group">
       <h3>Data</h3>
-      <!--<label for="dataevento">Data</label>-->
+
       <input class="data-custom" matInput [matDatepicker]="picker" required formControlName="startingfrom">
       <mat-datepicker-toggle matSuffix [for]="picker" class="bottone-data"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <div *ngIf="f.startingfrom.errors && submitted">Data richiesta</div>
-    </div>
+    </div>-->
     <div class="">
       <div>
         <label for="level" class=" col-form-label">Livello</label>

@@ -23,6 +23,9 @@ import { ContractComponent } from './modules/contract/contract.component';
 import { UserlistListComponent } from './component/userlist-list/userlist-list.component';
 import { UserDetailComponent } from './component/user-detail/user-detail.component';
 import { HomePageComponent } from './modules/home-page/home-page.component';
+import { ContractResolverService } from './modules/contract/service/contract-resolver.service';
+import { OfficesComponent } from './modules/offices/offices.component';
+import { OfficeDetailComponent } from './modules/offices/office-detail/office-detail.component';
 
 
 
@@ -31,8 +34,35 @@ const routes: Routes = [
   { path: 'login-page', component: LoginPageComponent  },
   { path: 'timesheet-page', component: TimesheetComponentComponent,  canActivate: [AuthGuard]  },
   { path: 'userprofile', component: UserprofilePageComponent , resolve: { user: UserAnagraphicResolverService }, canActivate: [AuthGuard] },
-  { path: 'userlist', component: UserlistListComponent , resolve: { userlist: UserListResolverService }, canActivate: [AuthGuard]},
-  { path: 'officelist', component: OfficelistPageComponent , resolve: { officelist: OfficeListResolverService }, canActivate: [AuthGuard]},
+  {
+    path: 'userlist',
+    component: UserlistListComponent ,
+    resolve: { userlist: UserListResolverService },
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'userlist/detail/:id',
+    component: UserDetailComponent,
+    resolve: {
+      user: UserDetailResolverService
+    }
+  },
+  {
+    path: 'officelist',
+    component: OfficesComponent  ,
+    resolve: {
+      officelist: OfficeListResolverService
+    },
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'officelist/office-detail/:id',
+    component: OfficeDetailComponent  ,
+    resolve: {
+      officelist: OfficeListResolverService
+    },
+    canActivate: [AuthGuard]
+  },
   {
     path: 'customerlist',
     component: CustomerPageComponent ,
@@ -53,13 +83,6 @@ const routes: Routes = [
       customer: TimesheetResolverService
     }
   },
-  {
-    path: 'detail/:id',
-    component: UserDetailComponent,
-    resolve: {
-      user: UserDetailResolverService
-    }
-  },
   { path: 'customer-offices',
     loadChildren: () => import('./modules/customer-offices/customer-offices.module').then(m => m.CustomerOfficesModule)
   },
@@ -70,7 +93,10 @@ const routes: Routes = [
   {
     path: 'contract',
     component: ContractComponent ,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    resolve:{
+      contractList: ContractResolverService
+    }
   },
   { path: 'customer', loadChildren: () => import('./modules/customer/customer.module').then(m => m.CustomerModule) },
   // { path: 'home-page', loadChildren: () => import('./modules/home-page/home-page.module').then(m => m.HomePageModule) },

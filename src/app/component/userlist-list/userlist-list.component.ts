@@ -33,7 +33,7 @@ export class UserlistListComponent implements OnInit {
   RowSelected(u: any) {
     this.selectedUser = u;
     console.log(u);   // declare variable in component.
-    this.router.navigate(['/detail/' + u.id]);
+    this.router.navigate(['/userlist/detail/' + u.id]);
   }
 
   openDialog() {

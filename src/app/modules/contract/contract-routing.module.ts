@@ -4,9 +4,15 @@ import { Routes, RouterModule } from '@angular/router';
 import { ContractComponent } from './contract.component';
 import { ContractResolverService } from './service/contract-resolver.service';
 
-const routes: Routes = [{ path: '',
-  component: ContractComponent,
-  resolve: { customerofficelist: ContractResolverService }, }];
+const routes: Routes = [
+  {
+    path: '',
+    component: ContractComponent,
+    resolve: {
+      contractList: ContractResolverService
+    },
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

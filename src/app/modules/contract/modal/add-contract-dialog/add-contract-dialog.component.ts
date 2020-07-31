@@ -13,9 +13,7 @@ export class AddContractDialogComponent implements OnInit {
 
   contractForm = new FormGroup({
     contracttype: new FormControl('', [ Validators.required, ] ),
-    startingfrom: new FormControl('', [ Validators.required, ] ),
-    companyid: new FormControl('', [ Validators.required, ] ),
-    anagraphicid: new FormControl('', [ Validators.required, ] ),
+    title: new FormControl('', [ Validators.required, ] ),
     level: new FormControl('', [ Validators.required, ] ),
     ccnl: new FormControl('', [ Validators.required, ] ),
   });

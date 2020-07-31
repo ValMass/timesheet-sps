@@ -1,39 +1,23 @@
-<button mat-button class="btn btn-primary w-100 mt-5" (click)="openDialog()">Aggiungi utente</button>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">id</th>
-      <th scope="col">Nome</th>
-      <th scope="col">Indirizzo legale </th>
-      <th scope="col">P. iva</th>
-      <th scope="col">Rea</th>
-      <th scope="col">Posta Certificata</th>
-      <th scope="col">Referente</th>
-    </tr>
-  </thead>
- <tbody>
-   <!--  <tr *ngFor="let customer of customerList">
-      <td>{{ customer.id }} </td>
-      <td>{{ customer.name }} </td>
-      <td>{{ customer.legaladdress }}</td>
-      <td>{{ customer.pivacodicefiscale }}</td>
-      <td>{{ customer.rea }}</td>
-      <td>{{ customer.postacertificata }}</td>
-      <td>{{ customer.referente }}</td>
-      <td> <input type="button" value="Edit" (click)="ShowOfficesByClient(customer)"/></td>
-      <button mat-icon-button color="accent" aria-label="delete client" (click)="delete(customer)">
-        <mat-icon>delete</mat-icon>
-      </button>
-    -->
-     <!-- <td>{{ user.id }} </td>
-      <td>{{ user.username }}</td>
-      <td>{{ user.email }}</td>
-      <td>{{ user.userscreationdate | date : 'dd-MM-yyyy' }}</td>
-      <td> <input type="button" value="Edit" (click)="RowSelected(user)"/></td>
-      <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon" (click)="delete(user)">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </tr>-->
-  </tbody>
-</table>
-
+<div class="tab-user">
+  <button mat-button class="btn btn-primary w-100 mt-5" (click)="openDialog()">Aggiungi contratto</button>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Tipo contratto</th>
+        <th scope="col">Qualifica</th>
+        <th scope="col">Livello</th>
+        <th scope="col">C.C.N.L</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let contract of contractList">
+        <td>{{ contract.id }} </td>
+        <td>{{ contract.contracttype }} </td>
+        <td>{{ contract.title }} </td>
+        <td>{{ contract.level }} </td>
+        <td>{{ contract.ccnl }} </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

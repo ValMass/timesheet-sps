@@ -42,6 +42,7 @@ import { AddContractDialogComponent } from './modules/contract/modal/add-contrac
 import { ContractModule } from './modules/contract/contract.module';
 import { CustomerComponent } from './modules/customer/customer.component';
 import { CustomerModule } from './modules/customer/customer.module';
+import { AddOfficeDialogComponent } from './modules/offices/modals/add-office-dialog/add-office-dialog.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +100,7 @@ import { CustomerModule } from './modules/customer/customer.module';
     MatNativeDateModule,
     MatIconModule,
   ],
-  entryComponents: [AddEventModalComponent, AddUserDialogComponent, AddContractDialogComponent ],
+  entryComponents: [AddEventModalComponent, AddUserDialogComponent, AddContractDialogComponent, AddOfficeDialogComponent ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],

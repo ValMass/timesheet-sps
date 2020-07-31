@@ -5,3 +5,7 @@ mat-grid-tile {
 .custom-col {
   height: 100%;
 }
+
+.tab-user {
+  padding: 1em 2em;
+}

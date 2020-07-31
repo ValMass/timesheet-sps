@@ -13,7 +13,7 @@ export class CustomerOfficesDetailComponent implements OnInit {
     private route: ActivatedRoute, ) { }
 
   ngOnInit(): void {
-    console.log(history);
+    console.log(history.state);
     //this.snap.paramMap.get('id');
 
     this.route.data.subscribe(
