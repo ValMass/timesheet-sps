@@ -86,7 +86,8 @@ const routes: Routes = [
   { path: 'customer-offices',
     loadChildren: () => import('./modules/customer-offices/customer-offices.module').then(m => m.CustomerOfficesModule)
   },
-  { path: 'offices',
+  {
+    path: 'offices',
     loadChildren: () => import('./modules/offices/offices.module').then(m => m.OfficesModule)
   },
   // { path: 'contract', loadChildren: () => import('./modules/contract/contract.module').then(m => m.ContractModule) }
@@ -94,7 +95,7 @@ const routes: Routes = [
     path: 'contract',
     component: ContractComponent ,
     canActivate: [AuthGuard],
-    resolve:{
+    resolve: {
       contractList: ContractResolverService
     }
   },
