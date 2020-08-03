@@ -1,0 +1,16 @@
+.tab-user {
+  padding: 1em 2em;
+}
+
+.btn.btn-primary{
+  background-color: #962d37;
+  border-color: #962d37;
+}
+
+.btn-custom{
+  background-color: #962d37;
+  border-color: #962d37;
+  color:white;
+  border-left: 2px;
+  border-right: 2px;
+}

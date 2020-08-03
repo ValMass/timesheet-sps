@@ -33,7 +33,7 @@ export class OfficesComponent implements OnInit {
   }
 
   officeSelected(office){
-    const ciccio = { state: { id: office.id , } };
+    const ciccio = { state: { id: office.id , address: office.address, city: office.city, cap: office.cap } };
     this.router.navigateByUrl('officelist/office-detail/' + office.id , ciccio);
   }
 

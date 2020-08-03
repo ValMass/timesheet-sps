@@ -1,1 +1,25 @@
-<p>add-office-dialog works!</p>
+<div class="tab-user">
+  <form class="p-5" [formGroup]="officeForm" (ngSubmit)="submit()">
+    <div class="form-group row">
+      <label for="address" class="col-sm-2 col-form-label">Indirizzo</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="address"  formControlName="address" required />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="city" class="col-sm-2 col-form-label">Città</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="city"  formControlName="city" required />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="cap" class="col-sm-2 col-form-label">C.A.P</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="cap"  formControlName="cap" required />
+      </div>
+    </div>
+  </form>
+  <button type="submit" class="btn btn-custom w-50" >Aggiorna</button>
+  <button type="button" class="btn btn-custom w-50" (click)='close()'>Annulla</button>
+
+</div>
