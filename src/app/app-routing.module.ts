@@ -63,19 +63,26 @@ const routes: Routes = [
     },
     canActivate: [AuthGuard]
   },
-  {
-    path: 'customerlist',
-    component: CustomerPageComponent ,
-    resolve: { customerlist: CustomerListResolverService },
-    canActivate: [AuthGuard]
-  },
+  // {
+  //   path: 'customerlist',
+  //   component: CustomerPageComponent ,
+  //   resolve: { customerlist: CustomerListResolverService },
+  //   canActivate: [AuthGuard]
+  // },
+
+  // {
+  //   path: 'customerofficelist',
+  //   component: CustomerOfficelistPageComponent ,
+  //   resolve: { customerofficelist: CustomerOfficeListResolverService },
+  //   canActivate: [AuthGuard]
+  // },
 
   {
-    path: 'customerofficelist',
-    component: CustomerOfficelistPageComponent ,
-    resolve: { customerofficelist: CustomerOfficeListResolverService },
-    canActivate: [AuthGuard]
+    path: 'customers',
+    loadChildren: () =>
+      import('./modules/customers/customers.module').then(m => m.CustomersModule)
   },
+
   {
     path: 'timesheet/:id',
     component: TimesheetComponentComponent,
@@ -83,9 +90,9 @@ const routes: Routes = [
       customer: TimesheetResolverService
     }
   },
-  { path: 'customer-offices',
-    loadChildren: () => import('./modules/customer-offices/customer-offices.module').then(m => m.CustomerOfficesModule)
-  },
+  // { path: 'customer-offices',
+  //   loadChildren: () => import('./modules/customer-offices/customer-offices.module').then(m => m.CustomerOfficesModule)
+  // },
   { path: 'offices',
     loadChildren: () => import('./modules/offices/offices.module').then(m => m.OfficesModule)
   },

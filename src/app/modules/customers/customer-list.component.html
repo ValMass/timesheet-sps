@@ -1,0 +1,36 @@
+<ul class="list no-bullets">
+    <li *ngFor="let customer of customers; trackBy: trackById; let i = index"
+      role="presentation"
+    >
+      <div class="card">
+        <app-card-content
+          [id]="customer.id"
+          [name]="customer.name"
+          [address]="customer.legaladdress"
+          [piva]="customer.pivacodicefiscale"
+          [rea]="customer.rea"
+          [posta]="customer.postacertificata"
+          [referente]="customer.referente"
+        ></app-card-content>
+        <footer class="card-footer">
+          <app-button-footer
+            class="card-footer-item"
+            [className]="'delete-item'"
+            [iconClasses]="'fas fa-trash'"
+            (clicked)="deleteCustomer($event)"
+            label="Delete"
+            [item]="customer"
+          ></app-button-footer>
+          <app-button-footer
+            class="card-footer-item"
+            [className]="'edit-item'"
+            [iconClasses]="'fas fa-edit'"
+            (clicked)="selectCustomer($event)"
+            label="Edit"
+            [item]="customer"
+          ></app-button-footer>
+        </footer>
+      </div>
+    </li>
+  </ul>
+  
