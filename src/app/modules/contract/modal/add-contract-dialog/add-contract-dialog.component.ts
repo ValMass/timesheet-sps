@@ -28,6 +28,10 @@ export class AddContractDialogComponent implements OnInit {
   get f() { return this.contractForm.controls; }
 
   submit() {
+    if ( this.contractForm.invalid ) {
+      console.log(this.submitted && this.f.nome.errors );
+      return false;
+    }
     this.dialogRef.close({ data: this.contractForm.value });
 
   }

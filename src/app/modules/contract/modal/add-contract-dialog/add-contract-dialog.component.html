@@ -2,7 +2,7 @@
   <form id='myform' class="p-5" [formGroup]="contractForm" (ngSubmit)="submit()">
     <div>
       <label for="contracttype" class="cod-contratto">Tipo di contratto</label>
-      <select id="contracttype" name="contracttype" class="custom-select sel-text" formControlName="contracttype">
+      <select id="contracttype" name="contracttype" class="custom-select sel-text" formControlName="contracttype" [ngClass]="{ 'is-invalid': submitted && f.contracttype.errors }">
         <option value="indet" selected="selected">Lavoro dipendente</option>
         <option value="det">Contratto di lavoro a tempo determinato</option>
         <option value="parz">Lavoro a tempo parziale</option>
@@ -17,7 +17,9 @@
         <option value="arru">Contratto di arruolamento</option>
         <option value="tirstage">Tirocinio formativo e stage</option>
       </select>
-      <div *ngIf="f.contracttype .errors && submitted">Codice contratto mancante</div>
+      <div *ngIf="submitted && f.contracttype.errors" class="invalid-feedback">
+        <div *ngIf="f.contracttype.errors.required">Tipo di contratto richiesto</div>
+      </div>
     </div>
     <div class="">
       <div>
