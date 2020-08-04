@@ -20,7 +20,6 @@ export class OfficeService {
     const cap = office.cap;
     const url = environment.apiUrl + '/offices/updateOfficesById.php';
     return this.http.post(url, { id, address, city, cap  });
-
   }
 
   save() {

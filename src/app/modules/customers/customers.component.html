@@ -1,0 +1,32 @@
+<div class="container">
+    <!-- maybe add refresh here -->
+    <list-header
+    title="Clienti"
+    (add)="enableAddMode()">
+    </list-header>
+    <!-- <div *ngIf="customers$ | async as customers"> -->
+        <div *ngIf="customers">
+        <customer-list 
+            *ngIf="!selected "
+            [customers]="customers"
+            (selected)="select($event)"
+            (deleted)="askToDelete($event)">
+        </customer-list>
+
+        <customer-detail
+            *ngIf="selected"
+            [customer]="selected"
+            (unselect)="clear()"
+            (save)="save($event)"
+      ></customer-detail>
+    </div>
+
+  <app-modal
+    class="modal-customer"
+    [message]="message"
+    [isOpen]="showModal"
+    (handleNo)="closeModal()"
+    (handleYes)="deleteCustomer()">
+</app-modal>
+
+</div>

@@ -6,16 +6,16 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column m-auto">
               <li class="nav-item text-center mt-4 mb-4 icon calendar-home" id="btn-custom">
-                <a class="nav-link d-inline" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" aria-selected="true"
+                <a class="nav-link d-inline" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" 
                 routerLink='/timesheet-page'>Timesheet</a>
               </li>
               <li class="nav-item text-center mb-4 icon profile" id="btn-custom">
-                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-controls="v-pills-home" aria-selected="true"
+                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-controls="v-pills-home" 
                 routerLink="/userprofile">Profilo</a>
               </li>
 
               <li class="nav-item text-center mb-4 icon logout" id="btn-custom">
-                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-controls="v-pills-home" aria-selected="true"
+                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-controls="v-pills-home" 
                 (click)='logout()'>Esci</a>
               </li>
             </ul>
@@ -28,34 +28,34 @@
         <div class="col-2 col-nav">
           <div class="sidebar-sticky">
             <ul class="nav flex-column m-auto">
-              <li class="nav-item text-center mt-4 mb-4 icon home" id="btn-custom">
-                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" aria-selected="true"
-                routerLink='/home-page'>Home</a>
+              <li class="nav-item text-center mt-4 mb-4 icon home" id="btn-custom" [ngClass]="{'active':rla.isActive}">
+                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" 
+                routerLink='/home-page' routerLinkActive #rla="routerLinkActive">Home</a>
               </li>
 
-              <li class="nav-item text-center mb-4 icon profile" id="btn-custom">
-                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" aria-selected="true"
-                routerLink="/userlist">Utenti</a>
+              <li class="nav-item text-center mb-4 icon profile" id="btn-custom" [ngClass]="{'active':rla1.isActive}">
+                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" 
+                routerLink="/userlist" routerLinkActive #rla1="routerLinkActive">Utenti</a>
               </li>
 
-              <li class="nav-item text-center mb-4 icon profile" id="btn-custom">
-                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"
-                routerLink="/officelist">Sedi</a>
+              <li class="nav-item text-center mb-4 icon profile" id="btn-custom" [ngClass]="{'active':rla2.isActive}">
+                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" 
+                routerLink="/officelist" routerLinkActive #rla2="routerLinkActive">Sedi</a>
               </li>
 
-              <li class="nav-item text-center mb-4 icon client" id="btn-custom">
-                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" aria-selected="true"
-                routerLink="/customer">
+              <li class="nav-item text-center mb-4 icon client" id="btn-custom" [ngClass]="{'active':rla3.isActive}">
+                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" 
+                routerLink="/customers" routerLinkActive #rla3="routerLinkActive">
                   Clienti</a>
               </li>
 
-              <li class="nav-item text-center mb-4 icon contract" id="btn-custom">
-                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" aria-selected="true"
-                routerLink="/contract">Contratti</a>
+              <li class="nav-item text-center mb-4 icon contract" id="btn-custom" [ngClass]="{'active':rla4.isActive}">
+                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" 
+                routerLink="/contract" routerLinkActive #rla4="routerLinkActive">Contratti</a>
               </li>
 
               <li class="nav-item text-center mb-4 icon logout" id="btn-custom">
-                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" aria-selected="true"
+                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" 
                 (click)='logout()'>Esci</a>
               </li>
             </ul>

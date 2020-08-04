@@ -63,19 +63,26 @@ const routes: Routes = [
     },
     canActivate: [AuthGuard]
   },
-  {
-    path: 'customerlist',
-    component: CustomerPageComponent ,
-    resolve: { customerlist: CustomerListResolverService },
-    canActivate: [AuthGuard]
-  },
+  // {
+  //   path: 'customerlist',
+  //   component: CustomerPageComponent ,
+  //   resolve: { customerlist: CustomerListResolverService },
+  //   canActivate: [AuthGuard]
+  // },
+
+  // {
+  //   path: 'customerofficelist',
+  //   component: CustomerOfficelistPageComponent ,
+  //   resolve: { customerofficelist: CustomerOfficeListResolverService },
+  //   canActivate: [AuthGuard]
+  // },
 
   {
-    path: 'customerofficelist',
-    component: CustomerOfficelistPageComponent ,
-    resolve: { customerofficelist: CustomerOfficeListResolverService },
-    canActivate: [AuthGuard]
+    path: 'customers',
+    loadChildren: () =>
+      import('./modules/customers/customers.module').then(m => m.CustomersModule)
   },
+
   {
     path: 'timesheet/:id',
     component: TimesheetComponentComponent,

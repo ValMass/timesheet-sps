@@ -9,7 +9,7 @@
       </div>
       <div>
       <label for="cars" class="cod-contratto">Codice contratto</label>
-      <select id="cars" name="cars" class="custom-select sel-text" formControlName="contractCode">
+      <select id="cars" name="cars" class="custom-select sel-text" formControlName="contractCode" required>
         <option value="LAVORO" selected="selected">Lavoro ordinario</option>
         <option value="SEDE">Attività interna</option>
         <option value="PERMNON">Permesso non retribuito</option>
@@ -38,8 +38,11 @@
         <input matInput [matDatepicker]="picker" required formControlName="eventDate">
         <mat-datepicker-toggle matSuffix [for]="picker" class="bottone-data"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-        <div *ngIf="f.eventDate.errors && submitted">Data richiesta</div>
+        <div *ngIf="f.eventDate.errors && submitted" class="invalid-feedback">
+          <div *ngIf="f.eventDate.errors.required">Data richiesta</div>
+          </div>
       </div>
+      
       <!-- <label for="customRange4">Data</label>
       <div class="input-group">
         <input class="form-control bord-rad-inp" placeholder="yyyy-mm-dd" required
