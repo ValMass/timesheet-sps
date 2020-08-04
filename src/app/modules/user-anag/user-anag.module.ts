@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { UserAnagRoutingModule } from './user-anag-routing.module';
 import { UserAnagComponent } from './user-anag.component';
-import { FormGroup } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,7 +11,7 @@ import { FormGroup } from '@angular/forms';
   imports: [
     CommonModule,
     UserAnagRoutingModule,
-    FormGroup
+    ReactiveFormsModule
   ]
 })
 export class UserAnagModule { }
