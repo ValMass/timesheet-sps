@@ -5,7 +5,8 @@ import { OfficesComponent } from './offices.component';
 import { OfficeDetailComponent } from './office-detail/office-detail.component';
 
 const routes: Routes = [
-  { path: '',
+  {
+    path: '',
     component: OfficeDetailComponent
   },
   {
