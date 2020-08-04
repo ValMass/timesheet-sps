@@ -39,7 +39,6 @@ export class UserListComponent implements OnInit {
           newElement.tokencreationdate = element.tokencreationdate;
           newElement.username = element.username;
           newElement.userscreationdate = element.userscreationdate;
-
           this.listautenti = [...this.listautenti, newElement];
         });
       },
@@ -76,11 +75,11 @@ export class UserListComponent implements OnInit {
         });
         this.listautenti = [...this.listautenti];
       }
-
     );
 
 */
   }
+
   trackById(index: number, item: NewUser) {
     return item.id;
   }
