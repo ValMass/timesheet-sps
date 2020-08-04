@@ -2,50 +2,13 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'list-header',
-    template: `
-    <div class="content-title-group">
-      <a router-link="/">
-        <h1 class="header-title">{{title}}</h1>
-      </a>
-      <button
-        class="btn"
-        (click)="handleAdd()"
-        aria-label="add"
-      >
-        <i class="fa fa-plus" aria-hidden="true"></i>
-      </button>
-
-      <!-- dont need refresh now,maybe uncomment later -->
-      <!-- <button
-        class="button refresh-button"
-        (click)="handleRefresh()"
-        aria-label="refresh"
-     
-        <i class="fas fa-sync" aria-hidden="true"></i>
-      </button> > -->
-    </div>
-  `,
+    template: `<button mat-button class="btn btn-primary w-100 mt-5" (click)="handleAdd()">{{title}}</button>`,
     styles: [
         ` 
-        div{
-            display:flex;
+        .btn.btn-primary{
+          background-color: #962d37;
+          border-color: #962d37;
         }
-        button{
-       padding:0;
-    }
-    button{
-        margin-left:1.5rem;
-    }
-    i{
-        transition: all 0.3s;
-       
-    }
-    i:hover{
-    transform: scale(1.1);
-    color: #962D37;
-  }
-    h1{
-        margin:0;    }
     `
     ]
 

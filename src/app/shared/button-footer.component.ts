@@ -4,7 +4,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
   selector: 'app-button-footer',
   template: `
     <button
-      class="btn btn-primary"
+      class="btn btn-custom w-50"
       [ngClass]="className"
       [attr.aria-label]="label"
       tabindex="0"
