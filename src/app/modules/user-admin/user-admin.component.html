@@ -1,1 +1,12 @@
-<p>user-admin works!</p>
+<div class="tab-user">
+  <list-header title="Aggiungi Utenti" (add)="enableAddMode()">
+  </list-header>
+</div>
+<div *ngIf="users">
+  <app-user-admin-list class="table table-striped" *ngIf="!selected " [useradmins]="users" (selected)="select($event)"
+    (deleted)="askToDelete($event)">
+  </app-user-admin-list>
+
+  <app-user-admin-detail *ngIf="selected" [userAdmin]="selected" (unselect)="clear()" (save)="save($event)"></app-user-admin-detail>
+</div>
+
