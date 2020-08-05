@@ -37,7 +37,7 @@ export class CustomersComponent implements OnInit {
   }
 
   toast() {
-    this.toastrService.success('wow thats great')
+    this.toastrService.success('wow thats great');
   }
 
   //used in save()
