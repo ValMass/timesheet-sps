@@ -3,7 +3,7 @@ import { Customer } from '@app/models/customer';
 
 @Component({
     selector: 'customer-list',
-    templateUrl: 'customer-list.component.html'
+    templateUrl: 'customer-list.component.html',
 })
 
 export class CustomerListComponent  {
