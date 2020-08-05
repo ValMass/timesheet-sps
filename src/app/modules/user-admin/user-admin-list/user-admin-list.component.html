@@ -1,0 +1,42 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">username</th>
+      <th scope="col">password</th>
+      <th scope="col">email</th>
+      <th scope="col">role</th>
+      <th scope="col">regnuminps</th>
+      <th scope="col">regnumsps</th>
+      <th scope="col">&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let useradmin of useradmins; trackBy: trackById; let i = index"
+    role="presentation">
+      <td>{{ useradmin.id }} </td>
+      <td>{{ useradmin.username }} </td>
+      <td>{{ useradmin.password }}</td>
+      <td>{{ useradmin.email }}</td>
+      <td>{{ useradmin.role }}</td>
+      <td>{{ useradmin.regnuminps }}</td>
+      <td>{{ useradmin.regnumsps }}</td>
+      <td> <app-button-footer
+        class="card-footer-item"
+        [className]="'delete-item'"
+        [iconClasses]="'fas fa-trash'"
+        (clicked)="deleteCustomer($event)"
+        label="Delete"
+        [item]="useradmin"
+      ></app-button-footer>
+      <app-button-footer
+        class="card-footer-item"
+        [className]="'edit-item'"
+        [iconClasses]="'fas fa-edit'"
+        (clicked)="selectCustomer($event)"
+        label="Edit"
+        [item]="useradmin"
+      ></app-button-footer>
+    </tr>
+  </tbody>
+</table>

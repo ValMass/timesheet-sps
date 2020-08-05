@@ -25,12 +25,7 @@ import { AddCustomerOfficeDialogComponent } from './component/modal-customer-off
 // tslint:disable-next-line: max-line-length
 import { ConfirmationDialogComponent } from '@app/component/modal-customer-office/confirmation-dialog/confirmation-dialog.component';
 import { MatExpansionModule } from '@angular/material/expansion';
-<<<<<<< HEAD
-import { CustomerPageComponent } from './component/customer-page/customer-page.component';
-import { CustomerListComponent } from './component/customer-list/customer-list.component';
-=======
 import { ContractComponent } from './modules/contract/contract.component';
->>>>>>> 114f931770f0a15c3ab559fdeca6e3b890b8aa8a
 import { AddContractDialogComponent } from './modules/contract/modal/add-contract-dialog/add-contract-dialog.component';
 import { ContractModule } from './modules/contract/contract.module';
 import { CustomerModule } from './modules/customer/customer.module';
@@ -73,12 +68,9 @@ import { ToastrModule } from 'ngx-toastr';
     // My Module
     ContractModule,
     CustomerModule,
-<<<<<<< HEAD
+    TimesheetModule,
     ToastrModule.forRoot() // ToastrModule added
 
-=======
-    TimesheetModule,
->>>>>>> 114f931770f0a15c3ab559fdeca6e3b890b8aa8a
   ],
   exports: [
     SideBarComponent,

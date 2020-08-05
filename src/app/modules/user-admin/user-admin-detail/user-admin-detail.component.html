@@ -1,0 +1,92 @@
+<mat-accordion>
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Modifica dati account
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <form class="p-5" name="user" id="user" [formGroup]="userForm" (ngSubmit)="submitUser()">
+      <div class="form-group row">
+        <label for="username" class="col-sm-2 col-form-label">Nome utente</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="username" placeholder="Nome utente" formControlName="username"
+            required />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="password" class="col-sm-2 col-form-label">Password</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="password" placeholder="Password" formControlName="password"
+            required />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="numeroinps" class="col-sm-2 col-form-label">Numero inps</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="numeroinps" placeholder="Numero inps" formControlName="numeroinps"
+            required />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="numerosps" class="col-sm-2 col-form-label">Numero S.P.S.</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="numerosps" placeholder="Numero S.P.S." formControlName="numerosps"
+            required />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 col-form-label">E-mail</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="email" placeholder="E-mail" formControlName="email" required />
+        </div>
+      </div>
+      <button form='myform' type="submit" class="btn btn-custom w-50" >Salva</button>
+    </form>
+  </mat-expansion-panel>
+</mat-accordion>
+
+
+<mat-accordion>
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Modifica anagrafica
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+<form class="p-5" name="anag" id="anag" [formGroup]="anagForm" (ngSubmit)="submitAnag()">
+  <div class="form-group row">
+    <label for="name" class="col-sm-2 col-form-label">Nome</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="name" placeholder="Nome" formControlName="name" required />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="surname" class="col-sm-2 col-form-label">Nome</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="surname" placeholder="Cognome" formControlName="surname" required />
+    </div>
+  </div>
+  <button form='myform' type="submit" class="btn btn-custom w-50" >Salva</button>
+</form>
+</mat-expansion-panel>
+</mat-accordion>
+
+<mat-accordion>
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Modifica contratto
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <form class="p-5" name="contract" id="contract" [formGroup]="contractForm" (ngSubmit)="submitContract()">
+      <div class="form-group row">
+        <label for="contracttype" class="col-sm-2 col-form-label">Tipo di contratto</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="contracttype" placeholder="E-mail" formControlName="contracttype" required />
+        </div>
+      </div>
+      <button form='myform' type="submit" class="btn btn-custom w-50" >Salva</button>
+    </form>
+
+  </mat-expansion-panel>
+</mat-accordion>
