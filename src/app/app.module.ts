@@ -8,6 +8,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SideBarComponent } from './component/side-bar/side-bar.component';
 import { UserprofilePageComponent } from './component/userprofile-page/userprofile-page.component';
 import { UserprofileFormComponent } from './component/userprofile-form/userprofile-form.component';
+
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { UserlistListComponent } from './component/userlist-list/userlist-list.component';

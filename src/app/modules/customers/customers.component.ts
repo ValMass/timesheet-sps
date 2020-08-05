@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 
 export class CustomersComponent implements OnInit {
 
+
   selected: Customer = undefined;
   customers$: Observable<Customer[]>;
   customers: Customer[];
@@ -107,10 +108,53 @@ export class CustomersComponent implements OnInit {
   select(customer: Customer) {
     this.selected = customer;
   }
+    clear() {
+        this.selected = null;
+    }
 
-  update(customer: Customer) {
-    this.customerService.updateCustomer(customer);
-  }
+    closeModal() {
+        this.showModal = false;
+    }
 
+    deleteCustomer() {
+        this.closeModal();
+        if (this.customerToDelete) {
+            this.customerService
+                .deleteCustomer(this.customerToDelete.id)
+                .subscribe(() => (this.customerToDelete = null));
+        }
+        this.clear();
+    }
+
+    getCustomers() {
+        
+       
+        this.clear();        
+        this.customerService.getAllCustomers().subscribe(data => {
+
+            this.customers = data['data'];
+        },
+            err => {
+                console.log(err);
+
+            });
+
+    }
+
+    save(customer: Customer) {
+        if (this.selected && this.selected.id) {
+            this.update(customer);
+        } else {
+            this.addCustomer(customer);
+        }
+    }
+
+    select(customer: Customer) {
+        this.selected = customer;
+    }
+
+    update(customer: Customer) {
+        this.customerService.updateCustomer(customer);
+    }
 
 }
