@@ -2,7 +2,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'list-header',
+
     template: `<button mat-button class="btn btn-primary w-100 mt-5" (click)="handleAdd()">{{title}}</button>`,
+
     styles: [
         ` 
         .btn.btn-primary{
@@ -24,7 +26,7 @@ export class ListHeaderComponent implements OnInit {
     handleAdd() {
         this.add.emit();
     }
-    
+
     // handleRefresh() {
     //     this.refresh.emit();
     // }

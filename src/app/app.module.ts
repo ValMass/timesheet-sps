@@ -25,14 +25,20 @@ import { AddCustomerOfficeDialogComponent } from './component/modal-customer-off
 // tslint:disable-next-line: max-line-length
 import { ConfirmationDialogComponent } from '@app/component/modal-customer-office/confirmation-dialog/confirmation-dialog.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+<<<<<<< HEAD
+import { CustomerPageComponent } from './component/customer-page/customer-page.component';
+import { CustomerListComponent } from './component/customer-list/customer-list.component';
+=======
 import { ContractComponent } from './modules/contract/contract.component';
+>>>>>>> 114f931770f0a15c3ab559fdeca6e3b890b8aa8a
 import { AddContractDialogComponent } from './modules/contract/modal/add-contract-dialog/add-contract-dialog.component';
 import { ContractModule } from './modules/contract/contract.module';
-import { CustomerComponent } from './modules/customer/customer.component';
 import { CustomerModule } from './modules/customer/customer.module';
 import { AddOfficeDialogComponent } from './modules/offices/modals/add-office-dialog/add-office-dialog.component';
 import { TimesheetModule } from './modules/timesheet/timesheet.module';
 import { AddEventModalComponent } from './modules/timesheet/add-event-modal/add-event-modal.component';
+
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -67,7 +73,12 @@ import { AddEventModalComponent } from './modules/timesheet/add-event-modal/add-
     // My Module
     ContractModule,
     CustomerModule,
+<<<<<<< HEAD
+    ToastrModule.forRoot() // ToastrModule added
+
+=======
     TimesheetModule,
+>>>>>>> 114f931770f0a15c3ab559fdeca6e3b890b8aa8a
   ],
   exports: [
     SideBarComponent,
