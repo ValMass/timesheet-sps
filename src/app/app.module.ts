@@ -37,12 +37,12 @@ import { ConfirmationDialogComponent } from '@app/component/modal-customer-offic
 import { MatExpansionModule } from '@angular/material/expansion';
 import { CustomerPageComponent } from './component/customer-page/customer-page.component';
 import { CustomerListComponent } from './component/customer-list/customer-list.component';
-import { ContractComponent } from './modules/contract/contract.component';
 import { AddContractDialogComponent } from './modules/contract/modal/add-contract-dialog/add-contract-dialog.component';
 import { ContractModule } from './modules/contract/contract.module';
-import { CustomerComponent } from './modules/customer/customer.component';
 import { CustomerModule } from './modules/customer/customer.module';
 import { AddOfficeDialogComponent } from './modules/offices/modals/add-office-dialog/add-office-dialog.component';
+
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -91,6 +91,8 @@ import { AddOfficeDialogComponent } from './modules/offices/modals/add-office-di
     // My Module
     ContractModule,
     CustomerModule,
+    ToastrModule.forRoot() // ToastrModule added
+
   ],
   exports: [
     SideBarComponent,

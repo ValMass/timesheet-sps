@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CustomerService } from '../customer/services/customer.service';
 import { Customer } from '@app/models/customer';
 import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
     selector: 'customers',
@@ -10,14 +12,16 @@ import { Observable } from 'rxjs';
 
 export class CustomersComponent implements OnInit {
 
-    selected: Customer=undefined;
+    selected: Customer = undefined;
     customers$: Observable<Customer[]>;
     customers: Customer[];
     customerToDelete: Customer;
     showModal = false;
     message: string = '';
 
-    constructor(private customerService: CustomerService) {
+    constructor(private customerService: CustomerService,
+        private toastrService: ToastrService
+    ) {
         // this.customers$ = customerService.getAllCustomers();
 
     }
@@ -29,6 +33,10 @@ export class CustomersComponent implements OnInit {
         // console.log(this.customers);
         this.getCustomers();
 
+    }
+
+    toast() {
+        this.toastrService.success('wow thats great')
     }
 
     //used in save()

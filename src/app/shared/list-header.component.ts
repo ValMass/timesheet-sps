@@ -3,7 +3,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 @Component({
     selector: 'list-header',
     template: `
-    <div class="content-title-group">
+    <div class="content-title-group" style="padding-left:0.5rem">
       <a router-link="/">
         <h1 class="header-title">{{title}}</h1>
       </a>
@@ -61,7 +61,7 @@ export class ListHeaderComponent implements OnInit {
     handleAdd() {
         this.add.emit();
     }
-    
+
     // handleRefresh() {
     //     this.refresh.emit();
     // }
