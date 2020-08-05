@@ -1,12 +1,12 @@
-<div class="container">
+<div class="tab-user">
     <!-- maybe add refresh here -->
-    <list-header
-    title="Clienti"
+    <list-header 
+    title="Aggiungi Clienti"
     (add)="enableAddMode()">
     </list-header>
     <!-- <div *ngIf="customers$ | async as customers"> -->
-        <div *ngIf="customers">
-        <customer-list 
+    <div *ngIf="customers" >
+        <customer-list class="table table-striped"
             *ngIf="!selected "
             [customers]="customers"
             (selected)="select($event)"
@@ -14,7 +14,7 @@
         </customer-list>
 
         <customer-detail
-            *ngIf="selected"
+            *ngIf="selected" 
             [customer]="selected"
             (unselect)="clear()"
             (save)="save($event)"

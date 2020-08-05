@@ -1,65 +1,79 @@
-<div class="card edit-detail">
-    <header class="card-header">
+        <header class="card-header">
         <p class="card-header-title">
             {{editingCustomer.name}}
             &nbsp;
         </p>
     </header>
-    <div class="card-content">
-        <div class="content">
-            <div class="field">
-                <label class="label" for="id">
-                    id
-                </label>
-                <input name="id" class="input" type="text" [(ngModel)]="editingCustomer.id" placeholder="e.g.01" />
+   
+
+      <div mat-dialog-content>
+          <div class="">
+            <div>
+              <label for="nome" class=" col-form-label">Nome</label>
+              <div class="">
+                <input name="name" class="form-control inp-text" type="text" [(ngModel)]="editingCustomer.name"
+                    placeholder="Nome Cliente" />
+              </div>
             </div>
-            <div class="field">
-                <label class="label" for="name">
-                    Nome
-                </label>
-                <input name="name" class="input" type="text" [(ngModel)]="editingCustomer.name"
-                    placeholder="e.g. Mario Rossi" />
+          </div>
+      
+          <div class="">
+            <div>
+              <label for="legaladdress" class=" col-form-label">Indirizzo legale</label>
+              <div class="">
+                <input name="legaladdress" class="form-control inp-text" type="text" [(ngModel)]="editingCustomer.legaladdress"
+                    placeholder="Sede Legale" />
+              </div>
             </div>
-            <div class="field">
-                <label class="label" for="legaladdress">
-                    Indirizzo
-                </label>
-                <input name="legaladdress" class="input" type="text" [(ngModel)]="editingCustomer.legaladdress"
-                    placeholder="e.g Milan" />
+          </div>
+      
+          <div class="">
+            <div>
+              <label for="piva" class=" col-form-label">Partita Iva</label>
+              <div class="">
+                <input name="pivacodicefiscale" class="form-control inp-text" type="text"
+                    [(ngModel)]="editingCustomer.pivacodicefiscale" placeholder="P.IVA o C.F."/>
+              </div>
             </div>
-            <div class="field">
-                <label class="label" for="pivacodicefiscale">
-                    P Iva / Codice Fiscale
-                </label>
-                <input name="pivacodicefiscale" class="input" type="text"
-                    [(ngModel)]="editingCustomer.pivacodicefiscale" />
+          </div>
+      
+          <div class="">
+            <div>
+              <label for="rea" class=" col-form-label">REA</label>
+              <div class="">
+                <input name="rea" class="form-control inp-text" type="text"
+                [(ngModel)]="editingCustomer.rea" placeholder="REA"/>
+              </div>
             </div>
-            <div class="field">
-                <label class="label" for="rea">
-                   Rea
-                </label>
-                <input name="rea" class="input" type="text"
-                    [(ngModel)]="editingCustomer.rea" />
+          </div>
+      
+          <div class="">
+            <div>
+              <label for="postacertificata" class=" col-form-label">Posta certificata</label>
+              <div class="">
+                <input name="postacertificata" class="form-control inp-text" type="text"
+                    [(ngModel)]="editingCustomer.postacertificata" placeholder="Posta Certificata"/>
+              </div>
             </div>
-            <div class="field">
-                <label class="label" for="postacertificata">
-                   Posta Certificata
-                </label>
-                <input name="postacertificata" class="input" type="text"
-                    [(ngModel)]="editingCustomer.postacertificata" />
+          </div>
+      
+          <div class="">
+            <div>
+              <label for="referente" class=" col-form-label">Referente</label>
+              <div class="">
+                <input type="text" class="form-control inp-text" id="referente" placeholder="Referente"
+                  formControlName="referente"  />
+              </div>
             </div>
-            <div class="field">
-                <label class="label" for="referente">
-                   Referente
-                </label>
-                <input name="referente" class="input" type="text"
-                    [(ngModel)]="editingCustomer.referente" />
-            </div>
+          </div>
+          <div>
+            <footer class="card-footer ">
+                <app-button-footer class="card-footer-item" [className]="'cancel-button'" [iconClasses]="'fas fa-undo'"
+                    (clicked)="clear()" label="Cancel" [item]="editingCustomer"></app-button-footer>
+                <app-button-footer class="card-footer-item" [className]="'save-button'" [iconClasses]="'fas fa-save'"
+                    (clicked)="saveCustomer()" label="Save" [item]="editingCustomer"></app-button-footer>
+            </footer>
         </div>
-        <footer class="card-footer ">
-            <app-button-footer class="card-footer-item" [className]="'cancel-button'" [iconClasses]="'fas fa-undo'"
-                (clicked)="clear()" label="Cancel" [item]="editingCustomer"></app-button-footer>
-            <app-button-footer class="card-footer-item" [className]="'save-button'" [iconClasses]="'fas fa-save'"
-                (clicked)="saveCustomer()" label="Save" [item]="editingCustomer"></app-button-footer>
-        </footer>
-    </div>
+       
+      </div>
+      
