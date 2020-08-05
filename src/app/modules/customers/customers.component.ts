@@ -23,7 +23,6 @@ export class CustomersComponent implements OnInit {
         private toastrService: ToastrService
     ) {
         // this.customers$ = customerService.getAllCustomers();
-
     }
 
     ngOnInit() {
@@ -32,7 +31,7 @@ export class CustomersComponent implements OnInit {
         // this.getCustomers();
         // console.log(this.customers);
         this.getCustomers();
-
+        
     }
 
     toast() {
@@ -76,17 +75,12 @@ export class CustomersComponent implements OnInit {
     }
 
     getCustomers() {
-        this.clear();
+        
+       
+        this.clear();        
         this.customerService.getAllCustomers().subscribe(data => {
-            //  console.log(data);
-            // const parsed=data['data'];
-            //  console.log(parsed);
-            this.customers = data['data'];
-            console.log(this.customers);
 
-            // if (data) {
-            //     this.customers= data['data'];
-            // }
+            this.customers = data['data'];
         },
             err => {
                 console.log(err);
@@ -110,6 +104,5 @@ export class CustomersComponent implements OnInit {
     update(customer: Customer) {
         this.customerService.updateCustomer(customer);
     }
-
 
 }
