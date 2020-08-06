@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from '../customer/services/customer.service';
-import { Customer } from '@app/models/customer';
+import { Customer } from '@app/modules/customers/customer';
 import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
@@ -31,7 +31,7 @@ export class CustomersComponent implements OnInit {
         // this.getCustomers();
         // console.log(this.customers);
         this.getCustomers();
-        
+
     }
 
     toast() {
@@ -69,15 +69,19 @@ export class CustomersComponent implements OnInit {
         if (this.customerToDelete) {
             this.customerService
                 .deleteCustomer(this.customerToDelete.id)
-                .subscribe(() => (this.customerToDelete = null));
+                .subscribe((data) => {(this.customerToDelete = null)
+                    this.toastrService.info('utente cancellato');
+                },err=>{
+                    console.log(err);
+                    this.toastrService.warning('operazione non riuscita');
+                });
         }
         this.clear();
     }
 
     getCustomers() {
-        
-       
-        this.clear();        
+
+        this.clear();
         this.customerService.getAllCustomers().subscribe(data => {
 
             this.customers = data['data'];
@@ -102,7 +106,19 @@ export class CustomersComponent implements OnInit {
     }
 
     update(customer: Customer) {
-        this.customerService.updateCustomer(customer);
+        this.customerService.updateCustomer(customer).subscribe((data) => {
+            this.toastrService.success('modifica effettuata');
+        }, err => {
+            console.log(err);
+            this.toastrService.warning('operazione non riuscita');
+        }
+        );
+    }
+
+    associateOffice(e){
+        //in this event should be the office emitted from child
+        console.log(e);
+        
     }
 
 }

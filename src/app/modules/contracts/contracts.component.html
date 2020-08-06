@@ -1,33 +1,32 @@
 <div class="tab-user">
     <!-- maybe add refresh here -->
     <list-header 
-    title="Aggiungi Clienti"
-    (add)="enableAddMode()">
+    title="Aggiungi Contratti"
+    (add)="openDialog()">
     </list-header>
     <!-- <div *ngIf="customers$ | async as customers"> -->
-    <div *ngIf="customers" >
-        <customer-list class="table table-striped"
+    <div *ngIf="contracts" >
+        <contract-list class="table table-striped"
             *ngIf="!selected "
-            [customers]="customers"
+            [contracts]="contracts"
             (selected)="select($event)"
-            (deleted)="askToDelete($event)"
-            (associate)="associateOffice($event)">
-        </customer-list>
+            (deleted)="askToDelete($event)">
+        </contract-list>
 
-        <customer-detail
+        <!-- <contract-detail
             *ngIf="selected" 
-            [customer]="selected"
+            [contract]="selected"
             (unselect)="clear()"
             (save)="save($event)"
-      ></customer-detail>
+      ></contract-detail> -->
     </div>
 
-  <app-modal
+  <!-- <app-modal
     class="modal-customer"
     [message]="message"
     [isOpen]="showModal"
     (handleNo)="closeModal()"
     (handleYes)="deleteCustomer()">
-</app-modal>
+</app-modal> -->
 
 </div>

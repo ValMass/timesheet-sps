@@ -9,6 +9,7 @@
           <th scope="col">Posta Certificata</th>
           <th scope="col">Referente</th>
           <th scope="col">&nbsp;</th>
+
         </tr>
       </thead>
       <tbody>
@@ -37,6 +38,14 @@
             label="Edit"
             [item]="customer"
           ></app-button-footer>
+          <app-button-footer
+          class="card-footer-item"
+          [className]="'edit-item'"
+          [iconClasses]="'fas fa-edit'"
+          (clicked)="chooseOffice($event)"
+          label="Associate Office"
+          [item]="customer"
+        ></app-button-footer></td>
         </tr>
       </tbody>
     </table>

@@ -4,7 +4,8 @@ import { environment } from '@environments/environment';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, ActivatedRoute } from '@angular/router';
 import { catchError, mergeMap, map } from 'rxjs/operators';
 import { EMPTY, of, Observable } from 'rxjs';
-import { Customer } from '@app/models/customer';
+import { Customer } from '@app/modules/customers/customer';
+import { Contract } from '@app/modules/contracts/contract';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class CustomerService implements Resolve<any>  {
 
   //see if type here generate errors
   getAllCustomers() :Observable<Customer[]>{
-    console.log('getall chiamato');
+    console.log('allcustomers');
     
     const url = environment.apiUrl + '/customer/listAllCustomer.php';
     return this.http.get<Customer[]>(url);
