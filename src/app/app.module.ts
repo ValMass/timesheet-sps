@@ -72,6 +72,7 @@ import { ToastrModule } from 'ngx-toastr';
     CustomerModule,
     TimesheetModule,
     ToastrModule.forRoot() // ToastrModule added
+
   ],
   exports: [
     SideBarComponent,

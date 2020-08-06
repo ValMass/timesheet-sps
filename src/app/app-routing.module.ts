@@ -22,6 +22,7 @@ import { ContractResolverService } from './modules/contract/service/contract-res
 import { OfficesComponent } from './modules/offices/offices.component';
 import { OfficeDetailComponent } from './modules/offices/office-detail/office-detail.component';
 import { NewTimesheetComponentComponent } from './modules/timesheet/timesheet-component/timesheet-component.component';
+import { UserAdminService } from './modules/user-admin/services/user-admin.service';
 
 
 
@@ -104,12 +105,20 @@ const routes: Routes = [
   {
     path: 'tmp-timesheet',
     component: NewTimesheetComponentComponent,
-    resolve:{
+    resolve: {
       customer: TimesheetResolverService
     }
   },
-  { path: 'user-admin', loadChildren: () => import('./modules/user-admin/user-admin.module').then(m => m.UserAdminModule) },
-  { path: 'user-anag', loadChildren: () => import('./modules/user-anag/user-anag.module').then(m => m.UserAnagModule) },
+  {
+    path: 'user-admin', loadChildren: () => import('./modules/user-admin/user-admin.module').then(m => m.UserAdminModule),
+    resolve: {
+      userlist: UserAdminService
+    },
+  },
+  {
+    path: 'user-anag', loadChildren: () => import('./modules/user-anag/user-anag.module').then(m => m.UserAnagModule),
+
+  },
 
 ];
 
