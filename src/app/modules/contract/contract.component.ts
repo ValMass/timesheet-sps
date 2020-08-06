@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddContractDialogComponent } from './modal/add-contract-dialog/add-contract-dialog.component';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ContractService } from './service/contract.service';
+import { ContractService } from '../contracts/contract.service';
 
 @Component({
   selector: 'app-contract',
@@ -33,35 +33,35 @@ export class ContractComponent implements OnInit {
     this.route.data.subscribe(observer);
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(AddContractDialogComponent, {
-      width: '600px',
-      height: '700px',
-      data: {}
-    });
-    dialogRef.afterClosed().subscribe(
-      res => {
-        const toAdd = res.data;
-        this.contractService.addContract(toAdd).subscribe(
-          result => {
+  // openDialog() {
+  //   const dialogRef = this.dialog.open(AddContractDialogComponent, {
+  //     width: '600px',
+  //     height: '700px',
+  //     data: {}
+  //   });
+  //   dialogRef.afterClosed().subscribe(
+  //     res => {
+  //       const toAdd = res.data;
+  //       this.contractService.addContract(toAdd).subscribe(
+  //         result => {
 
-            const newUser = result['data'];
-            this.contractList = [...this.contractList, newUser];
-          },
+  //           const newUser = result['data'];
+  //           this.contractList = [...this.contractList, newUser];
+  //         },
 
-        );
-        //this.saveCurrentUserInstance.save(res).subscribe(
-        //  result => {
+  //       );
+  //       //this.saveCurrentUserInstance.save(res).subscribe(
+  //       //  result => {
 
-        //const newUser = result['data'];
-        //this.userlist = [...this.userlist, newUser];
-        //},
-        //error => {
-        console.log(res);
-        //  console.log(error);
+  //       //const newUser = result['data'];
+  //       //this.userlist = [...this.userlist, newUser];
+  //       //},
+  //       //error => {
+  //       console.log(res);
+  //       //  console.log(error);
 
-      }
-    );
+  //     }
+  //   );
 
-  }
+  // }
 }

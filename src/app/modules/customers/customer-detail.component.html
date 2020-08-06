@@ -1,3 +1,4 @@
+       <div class="card margin-card">
        <header class="card-header">
         <p class="card-header-title">
             {{editingCustomer.name}}
@@ -6,7 +7,8 @@
     </header>
 
       <div mat-dialog-content>
-          <div class="">
+        <div class="card-body">
+          <div >
             <div>
               <label for="nome" class=" col-form-label">Nome</label>
               <div class="">
@@ -16,7 +18,7 @@
             </div>
           </div>
       
-          <div class="">
+          <div >
             <div>
               <label for="legaladdress" class=" col-form-label">Indirizzo legale</label>
               <div class="">
@@ -26,7 +28,7 @@
             </div>
           </div>
       
-          <div class="">
+          <div >
             <div>
               <label for="piva" class=" col-form-label">Partita Iva</label>
               <div class="">
@@ -36,7 +38,7 @@
             </div>
           </div>
       
-          <div class="">
+          <div >
             <div>
               <label for="rea" class=" col-form-label">REA</label>
               <div class="">
@@ -46,7 +48,7 @@
             </div>
           </div>
       
-          <div class="">
+          <div >
             <div>
               <label for="postacertificata" class=" col-form-label">Posta certificata</label>
               <div class="">
@@ -56,15 +58,16 @@
             </div>
           </div>
       
-          <div class="">
+          <div >
             <div>
               <label for="referente" class=" col-form-label">Referente</label>
               <div class="">
                 <input type="text" class="form-control inp-text" id="referente" placeholder="Referente"
-                  formControlName="referente"  />
+                [(ngModel)]="editingCustomer.referente"/>
               </div>
             </div>
           </div>
+        </div>
           <div>
             <footer class="card-footer ">
                 <app-button-footer class="card-footer-item" [className]="'cancel-button'" [iconClasses]="'fas fa-undo'"
@@ -75,4 +78,4 @@
         </div>
        
       </div>
-      
+      </div>

@@ -1,24 +1,35 @@
 <div class="tab-user">
-  <button mat-button class="btn btn-primary w-100 mt-5" (click)="openDialog()">Aggiungi ufficio</button>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">id</th>
-        <th scope="col">Via</th>
-        <th scope="col">Città</th>
-        <th scope="col">CAP</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let office of officeList">
-        <td>{{ office.id }} </td>
-        <td>{{ office.address }}</td>
-        <td>{{ office.city }}</td>
-        <td>{{ office.cap }}</td>
-        <td> <input type="button" value="Edit" (click)="officeSelected(office)"/></td>
-        <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon" (click)="deleteOffice(office)">
-        </button>
-      </tr>
-    </tbody>
-  </table>
+  <!-- maybe add refresh here -->
+  <list-header 
+  title="Aggiungi Ufficio"
+  (add)="enableAddMode()"
+  [selected]="selected"
+  >
+  </list-header>
+
+  <div *ngIf="offices" >
+      <office-list class="table table-striped"
+          *ngIf="!selected "
+          [offices]="offices"
+          (selected)="select($event)"
+          (deleted)="askToDelete($event)"
+         >
+      </office-list>
+
+      <office-detail
+          *ngIf="selected" 
+          [office]="selected"
+          (unselect)="clear()"
+          (save)="save($event)"
+    ></office-detail>
+  </div>
+
+<app-modal
+  class="modal-customer"
+  [message]="message"
+  [isOpen]="showModal"
+  (handleNo)="closeModal()"
+  (handleYes)="deleteOffice()">
+</app-modal>
+
 </div>

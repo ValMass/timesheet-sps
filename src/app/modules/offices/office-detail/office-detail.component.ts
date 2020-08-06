@@ -1,63 +1,40 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges } from '@angular/core';
 import { Office } from '../models/office';
-import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, FormControl, } from '@angular/forms';
-import { OfficeService } from '../service/office.service';
-
 
 @Component({
-  templateUrl: './office-detail.component.html',
-  styleUrls: ['./office-detail.component.css']
+    selector: 'office-detail',
+    templateUrl: 'office-detail.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
+
 })
-export class OfficeDetailComponent implements OnInit {
 
-  officeForm: FormGroup;
+export class OfficeDetailComponent implements OnChanges {
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    public fb: FormBuilder,
-    public service: OfficeService,
-  ) { }
+    @Input() office:Office;
+    @Output() unselect = new EventEmitter<string>();
+    @Output() save = new EventEmitter<Office>();
 
-  ngOnInit(): void {
+    addMode = false;
+    editingOffice: Office;
 
-    console.log(history.state);
-    const office = new Office();
-    office.id = history.state.id;
-    office.address = history.state.address;
-    office.city = history.state.city;
-    office.cap = history.state.cap;
-    this.officeForm = this.fb.group({
-      id: [office.id],
-      address: [office.address],
-      city: [office.city],
-      cap: [office.cap],
+    constructor() { }
 
-    });
+    ngOnChanges() {
+        if (this.office && this.office.id) {
+            this.editingOffice = { ...this.office };
+            this.addMode = false;
+          } else {
+            this.editingOffice = { id: undefined, address:'',city:'',cap:'' };
+            this.addMode = true;
+          }
+     }
 
-
-  }
-
-  submit() {
-    const office = new Office();
-    office.id = this.officeForm.controls.id.value;
-    office.address = this.officeForm.controls.address.value;
-    office.cap = this.officeForm.controls.cap.value;
-    office.city = this.officeForm.controls.city.value;
-    console.log(office);
-    this.service.update(office).subscribe(
-      data => {
-        this.router.navigateByUrl('/officelist');
-      },
-
-      error => {
-        console.log(error);
+    clear() {
+        this.unselect.emit();
       }
-    );
-  }
-
-  close() {
-    this.router.navigateByUrl('/officelist');
-  }
+    
+      saveOffice() {
+        this.save.emit(this.editingOffice);
+        this.clear();
+      }
 }

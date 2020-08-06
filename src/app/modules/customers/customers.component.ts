@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from '../customer/services/customer.service';
-import { Customer } from '@app/models/customer';
-import { Observable } from 'rxjs';
+import { Customer } from '@app/modules/customers/customer';
 import { ToastrService } from 'ngx-toastr';
+import { Office } from '@app/models/office';
 
 
 @Component({
@@ -12,10 +12,10 @@ import { ToastrService } from 'ngx-toastr';
 
 export class CustomersComponent implements OnInit {
 
-
   selected: Customer = undefined;
-  customers$: Observable<Customer[]>;
+  //customers$: Observable<Customer[]>;
   customers: Customer[];
+  offices:Office[];
   customerToDelete: Customer;
   showModal = false;
   message: string = '';
@@ -29,16 +29,9 @@ export class CustomersComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.customers=this.getCustomers();
-    // console.log(this.customers);
-    // this.getCustomers();
     // console.log(this.customers);
     this.getCustomers();
-
-  }
-
-  toast() {
-    this.toastrService.success('wow thats great');
+    //this.getOffices();
   }
 
   //used in save()
@@ -58,7 +51,6 @@ export class CustomersComponent implements OnInit {
       this.message = `Would you like to delete customer with id:${this.customerToDelete.id}?`;
     }
   }
-
   
     clear() {
         this.selected = null;
@@ -73,25 +65,42 @@ export class CustomersComponent implements OnInit {
         if (this.customerToDelete) {
             this.customerService
                 .deleteCustomer(this.customerToDelete.id)
-                .subscribe(() => (this.customerToDelete = null));
+                .subscribe((data) => {(this.customerToDelete = null)
+                    this.toastrService.info('utente cancellato');
+                },err=>{
+                    console.log(err);
+                    this.toastrService.warning('operazione non riuscita');
+                });
         }
         this.clear();
     }
 
+    
     getCustomers() {
-
-
         this.clear();
         this.customerService.getAllCustomers().subscribe(data => {
-
             this.customers = data['data'];
+            console.log(this.customers);
+            
         },
             err => {
                 console.log(err);
-
             });
-
     }
+
+    // getOffices() {
+
+    //     this.clear();
+    //     this.customerService.getAllCustomers().subscribe(data => {
+
+    //         this.customers = data['data'];
+    //     },
+    //         err => {
+    //             console.log(err);
+
+    //         });
+
+    // }
 
     save(customer: Customer) {
         if (this.selected && this.selected.id) {
@@ -106,7 +115,23 @@ export class CustomersComponent implements OnInit {
     }
 
     update(customer: Customer) {
-        this.customerService.updateCustomer(customer);
+        console.log(customer);
+        
+        this.customerService.updateCustomer(customer).subscribe((data) => {
+            console.log(data);
+            
+            this.toastrService.success('modifica effettuata');
+        }, err => {
+            console.log(err);
+            this.toastrService.error('operazione non riuscita');
+        }
+        );
+    }
+
+    associateOffice(e){
+        //in this event should be the office emitted from child
+        console.log(e);
+        
     }
 
 }

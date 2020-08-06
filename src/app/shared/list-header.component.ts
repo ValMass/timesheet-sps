@@ -1,9 +1,15 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 
 @Component({
     selector: 'list-header',
 
-    template: `<button mat-button class="btn btn-primary w-100 mt-5" (click)="handleAdd()">{{title}}</button>`,
+    template: `
+    <button mat-button class="btn btn-primary w-100 mt-5" (click)="handleAdd()">{{title}}</button
+    >
+    <h1 *ngIf="selected && selected.id">Edit</h1>
+    <h1 *ngIf="selected && !selected.id">Creation</h1>
+
+    `,
 
     styles: [
         ` 
@@ -15,13 +21,19 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
     ]
 
 })
-export class ListHeaderComponent implements OnInit {
+export class ListHeaderComponent implements OnChanges {
     @Input() title: string;
+    @Input() selected: any;
     @Output() add = new EventEmitter();
-    
+    select: boolean;
+
     //@Output() refresh = new EventEmitter();
 
-    ngOnInit() { }
+    ngOnChanges() {
+        if (this.selected && this.selected.id) {
+            this.select = true;
+        }
+    }
 
     handleAdd() {
         this.add.emit();

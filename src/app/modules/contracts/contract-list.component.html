@@ -1,0 +1,44 @@
+<div class="card margin-card">
+
+<table class="table table-striped no-margin">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Tipo Contratto</th>
+        <th scope="col">Livello </th>
+        <th scope="col">C.C.N.L</th>
+        <th scope="col">Title</th>
+        <th scope="col">&nbsp;</th>
+          <th scope="col">&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let contract of contracts; trackBy: trackById; let i = index"
+      role="presentation" >
+        <td>{{ contract.id }} </td>
+        <td>{{ contract.contracttype }} </td>
+        <td>{{ contract.level }}</td>
+        <td>{{ contract.ccnl }}</td>
+        <td>{{ contract.title }}</td>
+
+        <td> <app-button-footer
+          class="card-footer-item"
+          [className]="'delete-item'"
+          [iconClasses]="'fas fa-trash'"
+          (clicked)="deleteContract($event)"
+          label="Delete"
+          [item]="contract"
+        ></app-button-footer></td>
+        <td>
+        <app-button-footer
+          class="card-footer-item"
+          [className]="'edit-item'"
+          [iconClasses]="'fas fa-edit'"
+          (clicked)="selectContract($event)"
+          label="Edit"
+          [item]="contract"
+        ></app-button-footer></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

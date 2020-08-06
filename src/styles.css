@@ -3,6 +3,7 @@
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
 html, body {
     height: 100%;
+    width: 100%;
 }
 
 body {
@@ -29,8 +30,22 @@ body {
     /* Remove margins */
 }
 
+.no-margin{
+    margin: 0;
+}
+
 /* bootstrap form-group styling */
 
 .form-group {
     padding: 0 3rem;
 }
+
+.margin-card{
+    margin-top: 0.8rem;
+}
+
+/* used in table */
+.overflow-scroll{
+    overflow-inline: scroll;
+}
+

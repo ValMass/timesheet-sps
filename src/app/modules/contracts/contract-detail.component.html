@@ -1,0 +1,74 @@
+<div class="card margin-card">
+  <header class="card-header">
+    <p class="card-header-title">
+      <!-- {{editingContract.name}} -->
+      &nbsp;
+    </p>
+  </header>
+
+  <div mat-dialog-content>
+    <div class="card-body">
+      <div>
+        
+          <label for="contracttype" class="col-form-label">Tipo di contratto</label>
+          <div>
+            <select id="contracttype" name="contracttype" class="form-control" [(ngModel)]="editingContract.contractType">
+            <option value="indet" selected="selected">Lavoro dipendente</option>
+            <option value="det">Contratto di lavoro a tempo determinato</option>
+            <option value="parz">Lavoro a tempo parziale</option>
+            <option value="appr">Apprendistato</option>
+            <option value="interm">Contratto di lavoro intermittente</option>
+            <option value="somm">Contratto di somministrazione</option>
+            <option value="prog">Contratto di lavoro a progetto</option>
+            <option value="ccc">Collaborazioni coordinate e continuative</option>
+            <option value="piva">Partita IVA</option>
+            <option value="Prestocc">Prestazioni occasionali</option>
+            <option value="Associnpart">Associazione in partecipazione</option>
+            <option value="arru">Contratto di arruolamento</option>
+            <option value="tirstage">Tirocinio formativo e stage</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <div>
+          <label for="title" class=" col-form-label">Qualifica</label>
+          <div class="">
+            <input name="title" class="form-control inp-text" type="text" [(ngModel)]="editingContract.level"
+              placeholder="" />
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div>
+          <label for="title" class=" col-form-label">Livello</label>
+          <div class="">
+            <input name="level" class="form-control inp-text" type="text" [(ngModel)]="editingContract.title"
+              placeholder="" />
+          </div>
+        </div>
+      </div>
+      <div>
+        
+          <label for="ccnl" class="col-form-label">C.C.N.L</label>
+          <div>
+          <select id="ccnl" name="ccnl" class="form-control" [(ngModel)]="editingContract.ccnl">
+            <option value="indet" selected="selected">Commercio</option>
+            <option value="det">Metalmeccanico</option>
+
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <footer class="card-footer ">
+      <app-button-footer class="card-footer-item" [className]="'cancel-button'" [iconClasses]="'fas fa-undo'"
+        (clicked)="clear()" label="Cancel" [item]="editingContract"></app-button-footer>
+      <app-button-footer class="card-footer-item" [className]="'save-button'" [iconClasses]="'fas fa-save'"
+        (clicked)="saveContract()" label="Save" [item]="editingContract"></app-button-footer>
+    </footer>
+  </div>
+
+</div>
