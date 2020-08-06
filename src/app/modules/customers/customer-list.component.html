@@ -1,4 +1,5 @@
-      <table class="table table-striped">
+      <div class="card margin-card ">
+      <table class="table table-striped no-margin">
       <thead>
         <tr>
           <th scope="col">id</th>
@@ -8,6 +9,8 @@
           <th scope="col">Rea</th>
           <th scope="col">Posta Certificata</th>
           <th scope="col">Referente</th>
+          <th scope="col">&nbsp;</th>
+          <th scope="col">&nbsp;</th>
           <th scope="col">&nbsp;</th>
         </tr>
       </thead>
@@ -29,6 +32,8 @@
             label="Delete"
             [item]="customer"
           ></app-button-footer>
+          </td>
+          <td>
           <app-button-footer
             class="card-footer-item"
             [className]="'edit-item'"
@@ -36,7 +41,17 @@
             (clicked)="selectCustomer($event)"
             label="Edit"
             [item]="customer"
-          ></app-button-footer>
+          ></app-button-footer></td>
+          <td>
+          <app-button-footer
+          class="card-footer-item"
+          [className]="'edit-item'"
+          [iconClasses]="'fas fa-edit'"
+          (clicked)="chooseOffice($event)"
+          label="Associate Office"
+          [item]="customer"
+        ></app-button-footer></td>
         </tr>
       </tbody>
     </table>
+</div>

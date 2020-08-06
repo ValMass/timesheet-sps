@@ -4,7 +4,8 @@ import { environment } from '@environments/environment';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, ActivatedRoute } from '@angular/router';
 import { catchError, mergeMap, map } from 'rxjs/operators';
 import { EMPTY, of, Observable } from 'rxjs';
-import { Customer } from '@app/models/customer';
+import { Customer } from '@app/modules/customers/customer';
+import { Contract } from '@app/modules/contracts/contract';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class CustomerService implements Resolve<any>  {
 
   //see if type here generate errors
   getAllCustomers() :Observable<Customer[]>{
-    console.log('getall chiamato');
+    console.log('allcustomers');
     
     const url = environment.apiUrl + '/customer/listAllCustomer.php';
     return this.http.get<Customer[]>(url);
@@ -46,18 +47,23 @@ export class CustomerService implements Resolve<any>  {
     const referente = customer.referente;
     const url = environment.apiUrl + '/customer/createCustomer.php';
     return this.http.post(url, { name, legaladdress, pivacodicefiscale, rea, postacertificata, referente });
+  }
 
+  //TODO
+  updateCustomerOffice(customerOffice){
+    const url = environment.apiUrl + 'customer/updateCustomerOfficesById.php';
+    return this.http.post(url, customerOffice );
   }
 
   updateCustomer(customer){
-    const url = environment.apiUrl + '/customer/updateCustomerOfficesById.php';
-    return this.http.post(url, { customer });
+    const url = environment.apiUrl + 'customer/updateCustomerById.php';
+    return this.http.post(url, customer);
   }
 
   //pass id directly instead of entire object
   deleteCustomer(customerId) {
-    const url = environment.apiUrl + '/customer/deleteCustomerById.php';
-    return this.http.post(url, { customerId });
+    const url = environment.apiUrl + 'customer/deleteCustomerById.php';
+    return this.http.post(url, { id:customerId });
   }
 
   //generic error handler,to use in .pipe(catchError) here in the service

@@ -4,11 +4,8 @@
     <div class="col-2" *ngIf="userIsLogged()">
       <app-side-bar></app-side-bar>
     </div>
-    <div class="col-10 p-3" [ngClass]="{'col-12':!userIsLogged()}">
+    <div class="col-10 main-section" [ngClass]="{'col-12':!userIsLogged()}">
       <router-outlet></router-outlet>
     </div>
   </div>
 </div>
-
-
-

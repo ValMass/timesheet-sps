@@ -1,0 +1,42 @@
+<div class="card margin-card ">
+    <table class="table table-striped no-margin">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Via</th>
+        <th scope="col">Città </th>
+        <th scope="col">CAP</th>
+        <th scope="col">&nbsp;</th>
+        <th scope="col">&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let office of offices; trackBy: trackById; let i = index"
+      role="presentation">
+        <td>{{ office.id }} </td>
+        <td>{{ office.address }} </td>
+        <td>{{ office.city }}</td>
+        <td>{{ office.cap }}</td>
+        <td> <app-button-footer
+          class="card-footer-item"
+          [className]="'delete-item'"
+          [iconClasses]="'fas fa-trash'"
+          (clicked)="deleteOffice($event)"
+          label="Delete"
+          [item]="office"
+        ></app-button-footer>
+        </td>
+        <td>
+        <app-button-footer
+          class="card-footer-item"
+          [className]="'edit-item'"
+          [iconClasses]="'fas fa-edit'"
+          (clicked)="selectOffice($event)"
+          label="Edit"
+          [item]="office"
+        ></app-button-footer></td>
+     
+      </tr>
+    </tbody>
+  </table>
+</div>

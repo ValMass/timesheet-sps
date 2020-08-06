@@ -14,7 +14,6 @@ import { OfficeListResolverService } from '@app/services/office-list-resolver.se
 import { CustomerOfficeListResolverService } from '@app/services/customer-office-list-resolver.service';
 import { UserDetailResolverService } from './services/user-detail-resolver.service';
 import { CustomerListResolverService } from './services/customer-list-resolver.service';
-import { ContractModule } from './modules/contract/contract.module';
 import { ContractComponent } from './modules/contract/contract.component';
 import { UserlistListComponent } from './component/userlist-list/userlist-list.component';
 import { UserDetailComponent } from './component/user-detail/user-detail.component';
@@ -65,6 +64,11 @@ const routes: Routes = [
     path: 'customers',
     loadChildren: () =>
       import('./modules/customers/customers.module').then(m => m.CustomersModule)
+  },
+  {
+    path: 'contracts',
+    loadChildren: () =>
+      import('./modules/contracts/contracts.module').then(m => m.ContractsModule)
   },
   {
     path: 'timesheet/:id',

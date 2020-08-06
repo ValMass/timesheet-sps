@@ -32,7 +32,12 @@ export class AddContractDialogComponent implements OnInit {
       console.log(this.submitted && this.f.nome.errors );
       return false;
     }
-    this.dialogRef.close({ data: this.contractForm.value });
+
+
+    //here should be the call
+    this.dialogRef.close(
+      
+      { data: this.contractForm.value });
 
   }
 }

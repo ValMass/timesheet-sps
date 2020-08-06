@@ -3,7 +3,7 @@ export class Office {
   address: string;
   city: string;
   cap: string;
-  companyid: number;
-  contractid: number;
+  companyid?: number;
+  contractid?: number;
 
 }

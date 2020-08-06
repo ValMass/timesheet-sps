@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges } from '@angular/core';
-import { Customer } from '@app/models/customer';
+import { Customer } from '@app/modules/customers/customer';
 
 @Component({
     selector: 'customer-detail',
