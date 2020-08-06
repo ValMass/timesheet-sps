@@ -38,7 +38,7 @@ export class CustomersComponent implements OnInit {
   }
 
   toast() {
-    this.toastrService.success('wow thats great')
+    this.toastrService.success('wow thats great');
   }
 
   //used in save()
@@ -59,55 +59,7 @@ export class CustomersComponent implements OnInit {
     }
   }
 
-  clear() {
-    this.selected = null;
-  }
-
-  closeModal() {
-    this.showModal = false;
-  }
-
-  deleteCustomer() {
-    this.closeModal();
-    if (this.customerToDelete) {
-      this.customerService
-        .deleteCustomer(this.customerToDelete.id)
-        .subscribe(() => (this.customerToDelete = null));
-    }
-    this.clear();
-  }
-
-  getCustomers() {
-    this.clear();
-    this.customerService.getAllCustomers().subscribe(data => {
-      //  console.log(data);
-      // const parsed=data['data'];
-      //  console.log(parsed);
-      this.customers = data['data'];
-      console.log(this.customers);
-
-      // if (data) {
-      //     this.customers= data['data'];
-      // }
-    },
-      err => {
-        console.log(err);
-
-      });
-
-  }
-
-  save(customer: Customer) {
-    if (this.selected && this.selected.id) {
-      this.update(customer);
-    } else {
-      this.addCustomer(customer);
-    }
-  }
-
-  select(customer: Customer) {
-    this.selected = customer;
-  }
+  
     clear() {
         this.selected = null;
     }
@@ -127,9 +79,9 @@ export class CustomersComponent implements OnInit {
     }
 
     getCustomers() {
-        
-       
-        this.clear();        
+
+
+        this.clear();
         this.customerService.getAllCustomers().subscribe(data => {
 
             this.customers = data['data'];
