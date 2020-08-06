@@ -2,8 +2,10 @@
     <!-- maybe add refresh here -->
     <list-header 
     title="Aggiungi Clienti"
-    (add)="enableAddMode()">
+    (add)="enableAddMode()"
+    [selected]="selected">
     </list-header>
+
     <!-- <div *ngIf="customers$ | async as customers"> -->
     <div *ngIf="customers" >
         <customer-list class="table table-striped"
@@ -28,6 +30,6 @@
     [isOpen]="showModal"
     (handleNo)="closeModal()"
     (handleYes)="deleteCustomer()">
-</app-modal>
+  </app-modal>
 
 </div>

@@ -1,25 +1,51 @@
-<div class="tab-user">
-  <form class="p-5" [formGroup]="officeForm" (ngSubmit)="submit()">
-    <div class="form-group row">
-      <label for="address" class="col-sm-2 col-form-label">Indirizzo</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="address"  formControlName="address" required />
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="city" class="col-sm-2 col-form-label">Città</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="city"  formControlName="city" required />
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="cap" class="col-sm-2 col-form-label">C.A.P</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="cap"  formControlName="cap" required />
-      </div>
-    </div>
-  </form>
-  <button type="submit" class="btn btn-custom w-50" >Aggiorna</button>
-  <button type="button" class="btn btn-custom w-50" (click)='close()'>Annulla</button>
+<div class="card margin-card">
+  <header class="card-header">
+   <p class="card-header-title">
+       {{editingOffice.id}}
+       &nbsp;
+   </p>
+</header>
 
-</div>
+ <div mat-dialog-content>
+   <div class="card-body">
+     <div >
+       <div>
+         <label for="address" class=" col-form-label">Indirizzo</label>
+         <div class="">
+           <input name="address" class="form-control inp-text" type="text" [(ngModel)]="editingOffice.address"
+               placeholder="Indirizzo Sede" />
+         </div>
+       </div>
+     </div>
+ 
+     <div >
+       <div>
+         <label for="città" class=" col-form-label">Città</label>
+         <div class="">
+           <input name="città" class="form-control inp-text" type="text" [(ngModel)]="editingOffice.city"
+               placeholder="Città" />
+         </div>
+       </div>
+     </div>
+ 
+     <div >
+       <div>
+         <label for="cap" class=" col-form-label">C.A.P</label>
+         <div class="">
+           <input name="cap" class="form-control inp-text" type="text"
+               [(ngModel)]="editingOffice.cap" placeholder="CAP"/>
+         </div>
+       </div>
+     </div>
+ </div>
+       <div>
+       <footer class="card-footer ">
+           <app-button-footer class="card-footer-item" [className]="'cancel-button'" [iconClasses]="'fas fa-undo'"
+               (clicked)="clear()" label="Cancel" [item]="editingOffice"></app-button-footer>
+           <app-button-footer class="card-footer-item" [className]="'save-button'" [iconClasses]="'fas fa-save'"
+               (clicked)="saveOffice()" label="Save" [item]="editingOffice"></app-button-footer>
+       </footer>
+   </div>
+  
+ 
+ </div>

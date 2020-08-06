@@ -33,9 +33,11 @@ export class AddContractDialogComponent implements OnInit {
       return false;
     }
 
-    
+
     //here should be the call
-    this.dialogRef.close({ data: this.contractForm.value });
+    this.dialogRef.close(
+      
+      { data: this.contractForm.value });
 
   }
 }

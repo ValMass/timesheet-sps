@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ContractsComponent } from './contracts.component';
 import { ContractListComponent } from './contract-list.component';
 // import { CardContentComponent } from './card-content.component';
-// import { CustomerDetailComponent } from './customer-detail.component';
+ import { ContractDetailComponent } from './contract-detail.component';
 import { SharedModule } from '../../shared/shared.module';
 
 const routes: Routes = [
@@ -17,6 +17,6 @@ const routes: Routes = [
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule],
   exports: [RouterModule, ContractsComponent],
-  declarations: [ContractsComponent, ContractListComponent]
+  declarations: [ContractsComponent, ContractListComponent,ContractDetailComponent]
 })
 export class ContractsModule {}

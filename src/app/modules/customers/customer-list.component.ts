@@ -4,9 +4,16 @@ import { Customer } from '@app/modules/customers/customer';
 @Component({
     selector: 'customer-list',
     templateUrl: 'customer-list.component.html',
+    styles: [`
+    @media(max-width:1000px){
+        .card{
+            overflow-inline:scroll;
+        }
+    }
+    `]
 })
 
-export class CustomerListComponent  {
+export class CustomerListComponent {
     @Input() customers: Customer[];
     @Output() deleted = new EventEmitter<Customer>();
     @Output() selected = new EventEmitter<Customer>();
@@ -19,7 +26,7 @@ export class CustomerListComponent  {
 
     deleteCustomer(customer: Customer) {
         console.log('emit');
-        
+
         this.deleted.emit(customer);
     }
 

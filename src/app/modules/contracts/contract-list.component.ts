@@ -4,25 +4,32 @@ import { Contract } from '@app/modules/contracts/contract';
 @Component({
     selector: 'contract-list',
     templateUrl: 'contract-list.component.html',
+    styles:[
+        ` @media(max-width:1000px){
+            .card{
+                overflow-inline:scroll;
+            }
+        }
+        `
+    ]
 })
 
 export class ContractListComponent  {
     @Input() contracts: Contract[];
-    // @Output() deleted = new EventEmitter<Customer>();
-    // @Output() selected = new EventEmitter<Customer>();
+    @Output() deleted = new EventEmitter<Contract>();
+    @Output() selected = new EventEmitter<Contract>();
       
 
-    // selectCustomer(customer: Customer) {
-    //     this.selected.emit(customer);
-    // }
+    selectContract(contract: Contract) {
+        this.selected.emit(contract);
+    }
 
-    // deleteCustomer(customer: Customer) {
-    //     console.log('emit');
-        
-    //     this.deleted.emit(customer);
-    // }
+    deleteContract(contract: Contract) {
+        console.log('emit');
+        this.deleted.emit(contract);
+    }
 
-    trackById(index: number, customer: Contract): number {
-        return customer.id;
+    trackById(index: number, contract: Contract): number {
+        return contract.id;
     }
 }

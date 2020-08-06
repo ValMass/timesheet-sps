@@ -47,18 +47,23 @@ export class CustomerService implements Resolve<any>  {
     const referente = customer.referente;
     const url = environment.apiUrl + '/customer/createCustomer.php';
     return this.http.post(url, { name, legaladdress, pivacodicefiscale, rea, postacertificata, referente });
+  }
 
+  //TODO
+  updateCustomerOffice(customerOffice){
+    const url = environment.apiUrl + 'customer/updateCustomerOfficesById.php';
+    return this.http.post(url, customerOffice );
   }
 
   updateCustomer(customer){
-    const url = environment.apiUrl + '/customer/updateCustomerOfficesById.php';
-    return this.http.post(url, { customer });
+    const url = environment.apiUrl + 'customer/updateCustomerById.php';
+    return this.http.post(url, customer);
   }
 
   //pass id directly instead of entire object
   deleteCustomer(customerId) {
-    const url = environment.apiUrl + '/customer/deleteCustomerById.php';
-    return this.http.post(url, { customerId });
+    const url = environment.apiUrl + 'customer/deleteCustomerById.php';
+    return this.http.post(url, { id:customerId });
   }
 
   //generic error handler,to use in .pipe(catchError) here in the service

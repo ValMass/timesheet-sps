@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@environments/environment';
-import { Observable, EMPTY, of } from 'rxjs';
-import { mergeMap, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +19,29 @@ export class OfficeService {
     return this.http.post(url, { address, city, cap, userscreationdate  });
   }
 
-  delete(office) {
+  getAllOffices(){
+    const url = environment.apiUrl + '/offices/listAllOffices.php';
+    return this.http.get(url);
+
+  }
+
+  deleteOffice(office) {
     const id = office.id;
     const url = environment.apiUrl + '/offices/deleteOfficesById.php';
     console.log(url);
-    return this.http.post(url, { id });
+    return this.http.post(url,  {id:id} );
   }
+
+  createNewOffice(office){
+    const url = environment.apiUrl + '/offices/createCustomerOffices.php';
+    console.log(url);
+    return this.http.post(url,  office );
+  }
+
+  updateOffice(office){
+    const url = environment.apiUrl + '/offices/updateCustomerOfficesById.php';
+    console.log(url);
+    return this.http.post(url,  office );
+  }
+
 }

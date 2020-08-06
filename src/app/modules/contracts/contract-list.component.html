@@ -1,4 +1,6 @@
-<table class="table table-striped">
+<div class="card margin-card">
+
+<table class="table table-striped no-margin">
     <thead>
       <tr>
         <th scope="col">id</th>
@@ -7,6 +9,7 @@
         <th scope="col">C.C.N.L</th>
         <th scope="col">Title</th>
         <th scope="col">&nbsp;</th>
+          <th scope="col">&nbsp;</th>
       </tr>
     </thead>
     <tbody>
@@ -18,22 +21,24 @@
         <td>{{ contract.ccnl }}</td>
         <td>{{ contract.title }}</td>
 
-        <!-- <td> <app-button-footer
+        <td> <app-button-footer
           class="card-footer-item"
           [className]="'delete-item'"
           [iconClasses]="'fas fa-trash'"
-          (clicked)="deleteCustomer($event)"
+          (clicked)="deleteContract($event)"
           label="Delete"
-          [item]="customer"
-        ></app-button-footer>
+          [item]="contract"
+        ></app-button-footer></td>
+        <td>
         <app-button-footer
           class="card-footer-item"
           [className]="'edit-item'"
           [iconClasses]="'fas fa-edit'"
-          (clicked)="selectCustomer($event)"
+          (clicked)="selectContract($event)"
           label="Edit"
-          [item]="customer"
-        ></app-button-footer> -->
+          [item]="contract"
+        ></app-button-footer></td>
       </tr>
     </tbody>
   </table>
+</div>

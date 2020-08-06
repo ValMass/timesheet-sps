@@ -2,7 +2,7 @@
     <!-- maybe add refresh here -->
     <list-header 
     title="Aggiungi Contratti"
-    (add)="openDialog()">
+    (add)="enableAddMode()">
     </list-header>
     <!-- <div *ngIf="customers$ | async as customers"> -->
     <div *ngIf="contracts" >
@@ -13,20 +13,20 @@
             (deleted)="askToDelete($event)">
         </contract-list>
 
-        <!-- <contract-detail
+        <contract-detail
             *ngIf="selected" 
             [contract]="selected"
             (unselect)="clear()"
             (save)="save($event)"
-      ></contract-detail> -->
+      ></contract-detail>
     </div>
 
-  <!-- <app-modal
-    class="modal-customer"
+  <app-modal
+    class="modal-contract"
     [message]="message"
     [isOpen]="showModal"
     (handleNo)="closeModal()"
-    (handleYes)="deleteCustomer()">
-</app-modal> -->
+    (handleYes)="deleteContract()">
+</app-modal>
 
 </div>
