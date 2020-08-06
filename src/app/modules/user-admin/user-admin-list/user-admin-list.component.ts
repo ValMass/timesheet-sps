@@ -20,9 +20,7 @@ export class UserAdminListComponent implements OnInit {
     this.selected.emit(user);
   }
 
-  deleteCustomer(user: UserAdmin) {
-    console.log('emit');
-
+  deleteUserAdmin(user: UserAdmin) {
     this.deleted.emit(user);
   }
 

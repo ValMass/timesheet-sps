@@ -42,7 +42,7 @@ export class UserAdminComponent implements OnInit {
   }
 
   addCustomer(user: UserAdmin) {
-    this.userservice.createNewCustomer(user);
+    this.userservice.createNewUser(user);
   }
 
   save(user: UserAdmin) {
@@ -58,7 +58,7 @@ export class UserAdminComponent implements OnInit {
   }
 
   update(user: UserAdmin) {
-    this.userservice.updateCustomer(user);
+    this.userservice.createNewUser(user);
   }
 
   askToDelete(user: UserAdmin) {
@@ -71,5 +71,26 @@ export class UserAdminComponent implements OnInit {
   print() {
     console.log(this.users);
   }
-  clear(){}
+  clear() {
+    this.selected = null;
+  }
+  closeModal(){
+    this.showModal = false;
+  }
+  deleteUserAdmin(){
+    this.closeModal();
+    if (this.userToDelete) {
+      this.userservice.deleteNewUser(this.userToDelete.id)
+                .subscribe(
+                  res  => {
+                    this.userToDelete = null;
+                    this.users.splice(this.users.indexOf(res["data"], 1))
+                  },
+                  error => {
+
+                  });
+        }
+    this.clear();
+
+  }
 }
