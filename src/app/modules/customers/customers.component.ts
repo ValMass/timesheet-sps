@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomerService } from '../customer/services/customer.service';
+import { CustomerService } from './customer.service';
 import { Customer } from '@app/modules/customers/customer';
 import { ToastrService } from 'ngx-toastr';
 import { Office } from '@app/models/office';
@@ -51,7 +51,7 @@ export class CustomersComponent implements OnInit {
       this.message = `Would you like to delete customer with id:${this.customerToDelete.id}?`;
     }
   }
-  
+
     clear() {
         this.selected = null;
     }
@@ -75,13 +75,13 @@ export class CustomersComponent implements OnInit {
         this.clear();
     }
 
-    
+
     getCustomers() {
         this.clear();
         this.customerService.getAllCustomers().subscribe(data => {
             this.customers = data['data'];
             console.log(this.customers);
-            
+
         },
             err => {
                 console.log(err);
@@ -116,10 +116,10 @@ export class CustomersComponent implements OnInit {
 
     update(customer: Customer) {
         console.log(customer);
-        
+
         this.customerService.updateCustomer(customer).subscribe((data) => {
             console.log(data);
-            
+
             this.toastrService.success('modifica effettuata');
         }, err => {
             console.log(err);
@@ -131,7 +131,7 @@ export class CustomersComponent implements OnInit {
     associateOffice(e){
         //in this event should be the office emitted from child
         console.log(e);
-        
+
     }
 
 }

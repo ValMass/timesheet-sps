@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { CommonModule } from '@angular/common';
 
 import { UserAdminRoutingModule } from './user-admin-routing.module';
@@ -16,6 +17,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     UserAdminRoutingModule,
     SharedModule,
     MatExpansionModule,
+    NgSelectModule,
   ]
 })
 export class UserAdminModule { }

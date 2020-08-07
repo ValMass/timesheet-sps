@@ -1,6 +1,12 @@
+import { DateAdapter } from 'angular-calendar';
 import { Component, OnInit, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
-import { UserAdmin } from '../models/User-admin';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { AnagraphicService } from '../services/anagraphic.service';
+import { ContractService } from '../services/contract.service';
+import { UserAdmin } from '../models/User-admin';
+import { Contract } from '../models/Contract';
+import { Anagraphic } from '../models/Anagraphic';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user-admin-detail',
@@ -15,6 +21,11 @@ export class UserAdminDetailComponent implements OnInit {
 
   addMode = false;
   editingUser: UserAdmin;
+  editingAnag: Anagraphic;
+  selectedContract: any;
+
+  contractList: any[]; // Contract[]
+
 
   userForm = new FormGroup({
     username: new FormControl('', [Validators.required,]),
@@ -27,26 +38,95 @@ export class UserAdminDetailComponent implements OnInit {
   anagForm = new FormGroup({
     name: new FormControl('', [Validators.required,]),
     surname: new FormControl('', [Validators.required,]),
+    birthdate: new FormControl('', [Validators.required,]),
+    birthplace: new FormControl('', [Validators.required,]),
+
   });
+  //id, address, regnuminps,  contracttype, distaccatoda, distaccatoa, sededilavoro, valorerimborsistimato, buonipastobool, sex, contractid
 
   contractForm = new FormGroup({
     contracttype: new FormControl('', [Validators.required,]),
     startingfrom: new FormControl('', [Validators.required,]),
+    birthplace: new FormControl('', [Validators.required,]),
   });
-constructor() { }
 
-ngOnInit(): void {
-}
+  constructor(
+    private anagService: AnagraphicService,
+    private contractService: ContractService,
+  ) { }
 
-clear() {
-  this.unselect.emit();
-}
+  ngOnInit(): void {
+    let contact = {
+      username: this.userAdmin.username,
+      password: this.userAdmin.password,
+      numeroinps: this.userAdmin.regnuminps,
+      numerosps: this.userAdmin.regnumsps,
+      email: this.userAdmin.email,
+      };
+    this.selectedContract = {};
+    this.contractService.listAllContract(contact).subscribe(
+      data => {
+        let tmp = this.createListForcontract(data['data'])
+        this.contractList = tmp;
+        console.log(this.contractList);
+      }
+    );
+    this.userForm.setValue(contact);
+    this.anagService.getAnagraphic(this.userAdmin.id).subscribe(
+      data => {
+      console.log(data['data']);
+      const actData = data['data'];
+      this.anagForm.patchValue(actData);
+      this.editingAnag = actData;
+      if ( actData.contractid != null ) {
+        this.contractService.getContract(actData.contractid).subscribe(
+          res => {
+            console.log(res['data']);
+            this.selectedContract = res['data'];
+            this.selectedContract.tolist = this.selectedContract.title + ' '
+             + this.selectedContract.contracttype + ' ' + this.selectedContract.level + ' livello ' + this.selectedContract.ccnl;
+            console.log(this.selectedContract);
+          },
+          error => {}
+        );
+      }
 
-saveCustomer() {
-  this.save.emit(this.editingUser);
-  this.clear();
-}
-submitUser(){}
-submitAnag(){}
-submitContract(){}
+
+      },
+      err => {
+        console.log(err);
+
+      });
+
+  }
+  createListForcontract( contracts ) {
+    for (const contr of contracts) {
+      contr.tolist = contr.title + ' ' + contr.contracttype + ' ' + contr.level + ' livello ' + contr.ccnl;
+    }
+    return contracts;
+  }
+
+  clear() {
+    this.unselect.emit();
+  }
+
+  saveCustomer() {
+    this.save.emit(this.editingUser);
+    this.clear();
+  }
+  submitUser() { }
+  submitAnag() { }
+  submitContract() {
+    console.log(this.selectedContract);
+    this.editingAnag.contractid = this.selectedContract.id;
+    this.anagService.updateAnagraphicForUser(this.editingAnag).subscribe(
+      data => {
+        console.log(data);
+      },
+      error => {
+
+      }
+    );
+
+   }
 }

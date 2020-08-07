@@ -21,11 +21,12 @@
       <td>{{ useradmin.role }}</td>
       <td>{{ useradmin.regnuminps }}</td>
       <td>{{ useradmin.regnumsps }}</td>
+      <td><button mat-button color="accent" (click)="modifyTimesheet(useradmin)">Modifica Timesheet</button></td>
       <td> <app-button-footer
         class="card-footer-item"
         [className]="'delete-item'"
         [iconClasses]="'fas fa-trash'"
-        (clicked)="deleteCustomer($event)"
+        (clicked)="deleteUserAdmin($event)"
         label="Delete"
         [item]="useradmin"
       ></app-button-footer>

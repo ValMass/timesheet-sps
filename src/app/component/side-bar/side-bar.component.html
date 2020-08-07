@@ -18,7 +18,7 @@
                 <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-controls="v-pills-home"
                 (click)='logout()'>Esci</a>
               </li>
-            </ul> 
+            </ul>
           </div>
         </div>
       </div>
@@ -35,7 +35,7 @@
 
               <li class="nav-item text-center mb-4 icon profile" id="btn-custom" [ngClass]="{'active':rla1.isActive}">
                 <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home"
-                routerLink="/userlist" routerLinkActive #rla1="routerLinkActive">Utenti</a>
+                routerLink="/user-admin" routerLinkActive #rla1="routerLinkActive">Utenti</a>
               </li>
 
               <li class="nav-item text-center mb-4 icon profile" id="btn-custom" [ngClass]="{'active':rla2.isActive}">
@@ -50,17 +50,13 @@
               </li>
 
               <li class="nav-item text-center mb-4 icon contract" id="btn-custom" [ngClass]="{'active':rla4.isActive}">
-                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" 
+                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home"
                 routerLink="/contracts" routerLinkActive #rla4="routerLinkActive">Contratti</a>
               </li>
 
               <li class="nav-item text-center mb-4 icon logout" id="btn-custom">
                 <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home"
                 (click)='logout()'>Esci</a>
-              </li>
-              <li class="nav-item text-center mb-4 icon contract" id="btn-custom">
-                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" aria-selected="true"
-                routerLink="/user-admin">tmp-time</a>
               </li>
             </ul>
           </div>

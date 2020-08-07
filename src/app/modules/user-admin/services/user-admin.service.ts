@@ -28,12 +28,18 @@ export class UserAdminService implements Resolve<UserAdmin[]> {
     );
   }
 
-  updateCustomer(user){
+  updateUser(user) {
 
   }
 
-  createNewCustomer(user){
-    
+  createNewUser(user) {
+
+  }
+  deleteNewUser(userId) {
+    const url = environment.apiUrl + 'user/deleteUserById.php';
+    return this.http.post(url, { id: UserAdmin });
+
+
   }
 
 }

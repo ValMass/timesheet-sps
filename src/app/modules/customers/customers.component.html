@@ -1,6 +1,6 @@
 <div class="tab-user">
     <!-- maybe add refresh here -->
-    <list-header 
+    <list-header
     title="Aggiungi Clienti"
     (add)="enableAddMode()"
     [selected]="selected">
@@ -17,12 +17,12 @@
         </customer-list>
 
         <customer-detail
-            *ngIf="selected" 
+            *ngIf="selected"
             [customer]="selected"
             (unselect)="clear()"
             (save)="save($event)"
-      ></customer-detail>
-    </div>
+          ></customer-detail>
+        </div>
 
   <app-modal
     class="modal-customer"
