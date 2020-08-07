@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, EventEmitter, Output, Input } from '@angular/core';
 import { UserAdmin } from '../models/User-admin';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-admin-list',
@@ -12,7 +13,9 @@ export class UserAdminListComponent implements OnInit {
   @Output() deleted = new EventEmitter<UserAdmin>();
   @Output() selected = new EventEmitter<UserAdmin>();
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    ) { }
 
   ngOnInit(): void {
   }
@@ -26,5 +29,11 @@ export class UserAdminListComponent implements OnInit {
 
   trackById(index: number, user: UserAdmin): number {
     return user.id;
+  }
+
+  modifyTimesheet(user){
+    const ciccio = { state: { id: user.id , name: user.username } };
+    const url = 'timesheet/' + user.id;
+    this.router.navigateByUrl( url, ciccio);
   }
 }

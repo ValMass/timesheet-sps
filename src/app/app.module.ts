@@ -27,15 +27,12 @@ import { AddCustomerOfficeDialogComponent } from './component/modal-customer-off
 // tslint:disable-next-line: max-line-length
 import { ConfirmationDialogComponent } from '@app/component/modal-customer-office/confirmation-dialog/confirmation-dialog.component';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { ContractComponent } from './modules/contract/contract.component';
-import { AddContractDialogComponent } from './modules/contract/modal/add-contract-dialog/add-contract-dialog.component';
-import { ContractModule } from './modules/contract/contract.module';
-import { CustomerModule } from './modules/customer/customer.module';
 import { AddOfficeDialogComponent } from './modules/offices/modals/add-office-dialog/add-office-dialog.component';
 import { TimesheetModule } from './modules/timesheet/timesheet.module';
 import { AddEventModalComponent } from './modules/timesheet/add-event-modal/add-event-modal.component';
 
 import { ToastrModule } from 'ngx-toastr';
+import { NotFoundComponent } from './component/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +48,7 @@ import { ToastrModule } from 'ngx-toastr';
     UserDetailComponent,
     AddCustomerOfficeDialogComponent,
     ConfirmationDialogComponent,
+    NotFoundComponent,
 
   ],
   imports: [
@@ -68,8 +66,6 @@ import { ToastrModule } from 'ngx-toastr';
     MatIconModule,
     MatExpansionModule,
     // My Module
-    ContractModule,
-    CustomerModule,
     TimesheetModule,
     ToastrModule.forRoot() // ToastrModule added
 
@@ -82,7 +78,7 @@ import { ToastrModule } from 'ngx-toastr';
     MatNativeDateModule,
     MatIconModule,
   ],
-  entryComponents: [AddEventModalComponent, AddUserDialogComponent, AddContractDialogComponent, AddOfficeDialogComponent ],
+  entryComponents: [AddEventModalComponent, AddUserDialogComponent, AddOfficeDialogComponent ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],

@@ -37,7 +37,7 @@ export class UserAdminService implements Resolve<UserAdmin[]> {
   }
   deleteNewUser(userId) {
     const url = environment.apiUrl + 'user/deleteUserById.php';
-    return this.http.post(url, { id: user });
+    return this.http.post(url, { id: UserAdmin });
 
 
   }

@@ -14,15 +14,14 @@ import { OfficeListResolverService } from '@app/services/office-list-resolver.se
 import { CustomerOfficeListResolverService } from '@app/services/customer-office-list-resolver.service';
 import { UserDetailResolverService } from './services/user-detail-resolver.service';
 import { CustomerListResolverService } from './services/customer-list-resolver.service';
-import { ContractComponent } from './modules/contract/contract.component';
 import { UserlistListComponent } from './component/userlist-list/userlist-list.component';
 import { UserDetailComponent } from './component/user-detail/user-detail.component';
 import { HomePageComponent } from './modules/home-page/home-page.component';
-import { ContractResolverService } from './modules/contract/service/contract-resolver.service';
 import { OfficesComponent } from './modules/offices/offices.component';
 import { OfficeDetailComponent } from './modules/offices/office-detail/office-detail.component';
 import { NewTimesheetComponentComponent } from './modules/timesheet/timesheet-component/timesheet-component.component';
 import { UserAdminService } from './modules/user-admin/services/user-admin.service';
+import { NotFoundComponent } from './component/not-found/not-found.component';
 
 
 
@@ -84,29 +83,11 @@ const routes: Routes = [
     path: 'offices',
     loadChildren: () => import('./modules/offices/offices.module').then(m => m.OfficesModule)
   },
-  // { path: 'contract', loadChildren: () => import('./modules/contract/contract.module').then(m => m.ContractModule) }
-  {
-    path: 'contract',
-    component: ContractComponent ,
-    canActivate: [AuthGuard],
-    resolve: {
-      contractList: ContractResolverService
-    }
-  },
-  { path: 'customer', loadChildren: () => import('./modules/customer/customer.module').then(m => m.CustomerModule) },
-  // { path: 'home-page', loadChildren: () => import('./modules/home-page/home-page.module').then(m => m.HomePageModule) },
   {
     path: 'home-page',
     component: HomePageComponent,
     resolve:{
       userlist: UserListResolverService
-    }
-  },
-  {
-    path: 'tmp-timesheet',
-    component: NewTimesheetComponentComponent,
-    resolve: {
-      customer: TimesheetResolverService
     }
   },
   {
@@ -119,6 +100,12 @@ const routes: Routes = [
     path: 'user-anag', loadChildren: () => import('./modules/user-anag/user-anag.module').then(m => m.UserAnagModule),
 
   },
+  {
+    path: '**',
+    component: NotFoundComponent,
+
+  },
+
 
 ];
 

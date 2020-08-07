@@ -6,8 +6,6 @@ import { ContractService } from '../services/contract.service';
 import { UserAdmin } from '../models/User-admin';
 import { Contract } from '../models/Contract';
 import { Anagraphic } from '../models/Anagraphic';
-
-import { ContractComponent } from '@app/modules/contract/contract.component';
 import { Observable } from 'rxjs';
 
 @Component({
