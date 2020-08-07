@@ -4,6 +4,9 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { UserAdminListComponent } from './user-admin-list/user-admin-list.component';
 import { UserAdminService } from './services/user-admin.service';
+import { MatDialog } from '@angular/material/dialog';
+import { UserAdminCreationComponent } from './user-admin-creation/user-admin-creation.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -17,11 +20,14 @@ export class UserAdminComponent implements OnInit {
   users: UserAdmin[];
   userToDelete: UserAdmin;
   showModal = false;
-  message: string = '';
+  message = '';
 
   constructor(
     private route: ActivatedRoute,
-    private userservice: UserAdminService) { }
+    public dialog: MatDialog,
+    private userAdminService: UserAdminService,
+    private toastrService: ToastrService
+  ) { }
 
   ngOnInit(): void {
     const observer = {
@@ -37,12 +43,63 @@ export class UserAdminComponent implements OnInit {
 
   }
 
-  enableAddMode() {
+  openDialog() {
+    const dialogRef = this.dialog.open(UserAdminCreationComponent, {
+      width: '600px',
+      height: '700px',
+      data: {}
+    });
+    dialogRef.afterClosed().subscribe(
+      res => {
+        this.userAdminService.createNewUser(res).subscribe(
+          result => {
+            console.log(result);
+            if (result['status'] === 'error') {
+              this.toastrService.error(result['message']);
+              return;
+            } else {
 
+              let user = result['data'];
+              const newUser = new UserAdmin();
+              newUser.username = user["username"];
+              newUser.password = user["password"];
+              newUser.email = user["email"];
+              newUser.role = user["role"];
+              newUser.regnuminps = user["regnuminps"];
+              newUser.regnumsps = user["regnumsps"];
+              newUser.userscreationdate = new Date().toString();
+              console.log(newUser);
+              this.users = [...this.users, newUser];
+
+            }
+
+            //newUser.id = result[];
+            //newUser.email
+            //newUser.password
+            //newUser.role
+            //newUser.userscreationdate
+            //newUser.anagraphicid
+            //newUser.regnuminps
+            //newUser.regnumsps
+            //this.users = [...this.users, newUser];
+            //console.log(this.users);
+          },
+          error => {
+            console.log('errore');
+            console.log(error);
+
+          }
+        );
+        console.log(res);
+      },
+      error => {
+        console.log(error);
+      });
   }
 
+
   addCustomer(user: UserAdmin) {
-    this.userservice.createNewUser(user);
+    // this.userservice.createNewUser(user);
   }
 
   save(user: UserAdmin) {
@@ -58,7 +115,7 @@ export class UserAdminComponent implements OnInit {
   }
 
   update(user: UserAdmin) {
-    this.userservice.createNewUser(user);
+    // this.userservice.createNewUser(user);
   }
 
   askToDelete(user: UserAdmin) {
@@ -74,22 +131,27 @@ export class UserAdminComponent implements OnInit {
   clear() {
     this.selected = null;
   }
-  closeModal(){
+  closeModal() {
     this.showModal = false;
   }
-  deleteUserAdmin(){
+
+
+  deleteUserAdmin() {
     this.closeModal();
     if (this.userToDelete) {
-      this.userservice.deleteNewUser(this.userToDelete.id)
-                .subscribe(
-                  res  => {
-                    this.userToDelete = null;
-                    this.users.splice(this.users.indexOf(res["data"], 1))
-                  },
-                  error => {
+      this.userAdminService.deleteNewUser(this.userToDelete.id)
+        .subscribe(
+          res => {
+            this.users = this.users.filter(obj => obj !== this.userToDelete);
+            this.userToDelete = null;
+            this.toastrService.success(' Utente cancellato ');
 
-                  });
-        }
+          },
+          error => {
+            console.log(error);
+            this.toastrService.success('Errore nella cancellazione');
+          });
+    }
     this.clear();
 
   }

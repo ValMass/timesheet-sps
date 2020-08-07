@@ -29,15 +29,44 @@ export class UserAdminService implements Resolve<UserAdmin[]> {
   }
 
   updateUser(user) {
-
+    const url = environment.apiUrl + '/user/updateUserById.php';
+    return this.http.post(url, user ).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+        return of(something);
+      } else {
+        return EMPTY;
+      }
+    })
+    );
   }
 
-  createNewUser(user) {
+  createNewUser(userData) {
+    let user = userData["data"];
+    console.log(user);
+    if (user.role === true) {
+      user.role = 1;
+    } else {
+      user.role = 2;
+    }
+    delete user.isadmin;
+    const url = environment.apiUrl + '/user/createUser.php';
+    return this.http.post(url, user ); /*.pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something["data"]) {
+        return of(something["data"]);
+      } else {
+        return EMPTY;
+      }
+    })
+    );*/
 
   }
   deleteNewUser(userId) {
     const url = environment.apiUrl + 'user/deleteUserById.php';
-    return this.http.post(url, { id: UserAdmin });
+    return this.http.post(url, { id: userId });
 
 
   }

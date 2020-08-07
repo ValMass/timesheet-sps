@@ -33,6 +33,7 @@ import { AddEventModalComponent } from './modules/timesheet/add-event-modal/add-
 
 import { ToastrModule } from 'ngx-toastr';
 import { NotFoundComponent } from './component/not-found/not-found.component';
+import { UserAdminCreationComponent } from './modules/user-admin/user-admin-creation/user-admin-creation.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,7 @@ import { NotFoundComponent } from './component/not-found/not-found.component';
     MatNativeDateModule,
     MatIconModule,
   ],
-  entryComponents: [AddEventModalComponent, AddUserDialogComponent, AddOfficeDialogComponent ],
+  entryComponents: [AddEventModalComponent, AddUserDialogComponent, AddOfficeDialogComponent, UserAdminCreationComponent ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],

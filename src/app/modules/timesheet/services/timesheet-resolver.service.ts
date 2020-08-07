@@ -27,4 +27,18 @@ export class TimesheetResolverService implements Resolve<any> {
      );*/
   }
 
+  getTimesheet( month, year, userid ){
+    const url = environment.apiUrl + '/timesheets/getTimesheetByUserIdMonthYear.php';
+    return this.http.post(url , { month, year, userid }).pipe(catchError(error   => {
+      return EMPTY;
+    }), mergeMap(something => {
+         if (something) {
+            return of(something);
+         } else {
+            return EMPTY;
+         }
+       })
+     );
+  }
+
 }

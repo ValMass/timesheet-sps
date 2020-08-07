@@ -25,6 +25,8 @@ import { Subject } from 'rxjs';
 // colors definition for event
 import { MatDialogModule, MatDialog  } from '@angular/material/dialog';
 import { AuthenticationService } from '@app/services/authentication.service';
+import { TimesheetResolverService } from '../services/timesheet-resolver.service';
+import {  ActivatedRoute } from '@angular/router';
 
 
 
@@ -61,9 +63,13 @@ export class NewTimesheetComponentComponent implements OnInit {
   constructor(
     private saveCurrentTimesheetInstance: SaveCurrentTimesheetService,
     public dialog: MatDialog,
-    public logoutService: AuthenticationService
+    public timesheetRes: TimesheetResolverService,
+    public logoutService: AuthenticationService,
+    private route: ActivatedRoute,
     // private confirmationDialogService: ConfirmationDialogService
   ) { }
+
+  id: any;
 
   newEvent: MyCalendarEvent  = new MyCalendarEvent();
 
@@ -140,24 +146,35 @@ export class NewTimesheetComponentComponent implements OnInit {
   public ciccio: GenericResponse;
 
   ngOnInit() {
+
+    this.route.params.subscribe(params => {
+      this.id = +params['id'];
+    });
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
-    const usrId = this.logoutService.currentUserValue.id;
+    const usrId = this.id;
     this.events = [];
-    this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, usrId).subscribe(
+    console.log(month + " " + year + " " + usrId);
+    this.timesheetRes.getTimesheet(month, year, usrId).subscribe(
       (res) => {
         console.log(res['data'].dayjson);
 
-        const myparse = JSON.parse(res['data'].dayjson);
+        if( res['data'].dayjson ){
+          const myparse = JSON.parse(res['data'].dayjson);
+          myparse.forEach((element) => {
+            const newEvent: MyCalendarEvent = new MyCalendarEvent();
+            console.log(element);
+            newEvent.title = element.title;
+            newEvent.start = new Date(element.start);
+            newEvent.nOre = element.nOre;
+            this.events = [...this.events, newEvent];
+          });
+        } else {
+          const myparse = {};
+        }
 
-        myparse.forEach((element) => {
-          const newEvent: MyCalendarEvent = new MyCalendarEvent();
-          console.log(element);
-          newEvent.title = element.title;
-          newEvent.start = new Date(element.start);
-          newEvent.nOre = element.nOre;
-          this.events = [...this.events, newEvent];
-        });
+
+
         this.refresh.next();
 
       }

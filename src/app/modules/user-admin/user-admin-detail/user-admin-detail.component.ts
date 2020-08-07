@@ -7,6 +7,7 @@ import { UserAdmin } from '../models/User-admin';
 import { Contract } from '../models/Contract';
 import { Anagraphic } from '../models/Anagraphic';
 import { Observable } from 'rxjs';
+import { UserAdminService } from '../services/user-admin.service';
 
 @Component({
   selector: 'app-user-admin-detail',
@@ -20,7 +21,7 @@ export class UserAdminDetailComponent implements OnInit {
   @Output() save = new EventEmitter<UserAdmin>();
 
   addMode = false;
-  editingUser: UserAdmin;
+  editingUser: UserAdmin = new UserAdmin();
   editingAnag: Anagraphic;
   selectedContract: any;
 
@@ -28,35 +29,36 @@ export class UserAdminDetailComponent implements OnInit {
 
 
   userForm = new FormGroup({
-    username: new FormControl('', [Validators.required,]),
-    password: new FormControl('', [Validators.required,]),
-    numeroinps: new FormControl('', [Validators.required,]),
-    numerosps: new FormControl('', [Validators.required,]),
-    email: new FormControl('', [Validators.required,]),
+    username: new FormControl('', [Validators.required, ]),
+    password: new FormControl('', [Validators.required, ]),
+    numeroinps: new FormControl('', [Validators.required, ]),
+    numerosps: new FormControl('', [Validators.required, ]),
+    email: new FormControl('', [Validators.required, ]),
   });
 
   anagForm = new FormGroup({
-    name: new FormControl('', [Validators.required,]),
-    surname: new FormControl('', [Validators.required,]),
-    birthdate: new FormControl('', [Validators.required,]),
-    birthplace: new FormControl('', [Validators.required,]),
+    name: new FormControl('', [Validators.required, ]),
+    surname: new FormControl('', [Validators.required, ]),
+    birthdate: new FormControl('', [Validators.required, ]),
+    birthplace: new FormControl('', [Validators.required, ]),
 
   });
-  //id, address, regnuminps,  contracttype, distaccatoda, distaccatoa, sededilavoro, valorerimborsistimato, buonipastobool, sex, contractid
+  // id, address, regnuminps,  contracttype, distaccatoda, distaccatoa, sededilavoro, valorerimborsistimato, buonipastobool, sex, contractid
 
   contractForm = new FormGroup({
-    contracttype: new FormControl('', [Validators.required,]),
-    startingfrom: new FormControl('', [Validators.required,]),
-    birthplace: new FormControl('', [Validators.required,]),
+    contracttype: new FormControl('', [Validators.required, ]),
+    startingfrom: new FormControl('', [Validators.required, ]),
+    birthplace: new FormControl('', [Validators.required, ]),
   });
 
   constructor(
     private anagService: AnagraphicService,
     private contractService: ContractService,
+    private userAdminService: UserAdminService,
   ) { }
 
   ngOnInit(): void {
-    let contact = {
+    const contact = {
       username: this.userAdmin.username,
       password: this.userAdmin.password,
       numeroinps: this.userAdmin.regnuminps,
@@ -66,7 +68,7 @@ export class UserAdminDetailComponent implements OnInit {
     this.selectedContract = {};
     this.contractService.listAllContract(contact).subscribe(
       data => {
-        let tmp = this.createListForcontract(data['data'])
+        const tmp = this.createListForcontract(data.data);
         this.contractList = tmp;
         console.log(this.contractList);
       }
@@ -74,15 +76,15 @@ export class UserAdminDetailComponent implements OnInit {
     this.userForm.setValue(contact);
     this.anagService.getAnagraphic(this.userAdmin.id).subscribe(
       data => {
-      console.log(data['data']);
-      const actData = data['data'];
+      console.log(data["data"]);
+      const actData = data["data"];
       this.anagForm.patchValue(actData);
       this.editingAnag = actData;
       if ( actData.contractid != null ) {
         this.contractService.getContract(actData.contractid).subscribe(
           res => {
-            console.log(res['data']);
-            this.selectedContract = res['data'];
+            console.log(res["data"]);
+            this.selectedContract = res["data"];
             this.selectedContract.tolist = this.selectedContract.title + ' '
              + this.selectedContract.contracttype + ' ' + this.selectedContract.level + ' livello ' + this.selectedContract.ccnl;
             console.log(this.selectedContract);
@@ -114,7 +116,26 @@ export class UserAdminDetailComponent implements OnInit {
     this.save.emit(this.editingUser);
     this.clear();
   }
-  submitUser() { }
+  submitUser() {
+    let newUser = new UserAdmin();
+    newUser.username = this.userForm.get('username').value;
+    newUser.password = this.userForm.get('password').value;
+    newUser.regnuminps = this.userForm.get('numeroinps').value;
+    newUser.regnumsps = this.userForm.get('numerosps').value;
+    newUser.email = this.userForm.get('email').value;
+
+    this.userAdminService.updateUser( newUser ).subscribe(
+      data => {
+        console.log(data);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
+
+  }
+
   submitAnag() { }
   submitContract() {
     console.log(this.selectedContract);
@@ -127,6 +148,9 @@ export class UserAdminDetailComponent implements OnInit {
 
       }
     );
+
+   }
+   saveAll() {
 
    }
 }
