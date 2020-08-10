@@ -27,17 +27,13 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
   }`]
 })
 
-export class ModalComponent implements OnInit {
+export class ModalComponent {
   @Input() message;
   @Input() isOpen = false;
   @Output() handleYes = new EventEmitter();
   @Output() handleNo = new EventEmitter();
   constructor() { }
 
-  ngOnInit() {
-    console.log('modalinit');
-
-  }
 
   onNo = () => {
     this.handleNo.emit();

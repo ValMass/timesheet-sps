@@ -1,0 +1,18 @@
+<div class="modal" [ngClass]="{ 'show' : this.isOpen }">
+    <div class="modal-dialog modal-dialog-centered" >    
+        <div class="modal-content">
+
+    <form  action="" (ngSubmit)="onSubmit()">
+    <label for="office"></label>
+
+    <select >
+        <option *ngFor="let office of offices" [value]="office">{{office}}</option>
+    </select>
+    </form>
+    <footer class="modal-footer">
+        <button class="btn" (click)="close()">Close</button>
+        <button class="btn" (click)="associateOffice()">Submit</button>
+      </footer>
+      </div>
+</div>
+</div>

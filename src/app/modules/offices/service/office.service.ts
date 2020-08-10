@@ -27,21 +27,20 @@ export class OfficeService {
 
   }
 
-  deleteOffice(office) {
-    const id = office.id;
+  deleteOffice(officeId) {
     const url = environment.apiUrl + '/offices/deleteOfficesById.php';
     console.log(url);
-    return this.http.post(url,  {id:id} );
+    return this.http.post(url,  {id:officeId });
   }
 
-  createNewOffice(office){
-    const url = environment.apiUrl + '/offices/createCustomerOffices.php';
+  createNewOffice(office):Observable<Office>{
+    const url = environment.apiUrl + '/offices/createOffices.php';
     console.log(url);
-    return this.http.post(url,  office );
+    return this.http.post<Office>(url,  office );
   }
 
   updateOffice(office){
-    const url = environment.apiUrl + '/offices/updateCustomerOfficesById.php';
+    const url = environment.apiUrl + '/offices/updateOfficesById.php';
     console.log(url);
     return this.http.post(url,  office );
   }

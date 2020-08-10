@@ -5,11 +5,15 @@ import { Contract } from '@app/modules/contracts/contract';
     selector: 'contract-list',
     templateUrl: 'contract-list.component.html',
     styles:[
-        ` @media(max-width:1000px){
-            .card{
-                overflow-inline:scroll;
+        ` @media(max-width:1000px) {
+            .card {
+              overflow-inline: scroll;
             }
-        }
+          }
+          
+          .table>tbody>tr>td {
+            vertical-align: middle;
+          }
         `
     ]
 })

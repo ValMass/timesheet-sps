@@ -1,51 +1,51 @@
 <div class="card margin-card">
   <header class="card-header">
-   <p class="card-header-title">
-       {{editingOffice.id}}
-       &nbsp;
-   </p>
-</header>
+    <p class="card-header-title">
+      {{editingOffice.id}}
+      &nbsp;
+    </p>
+  </header>
 
- <div mat-dialog-content>
-   <div class="card-body">
-     <div >
-       <div>
-         <label for="address" class=" col-form-label">Indirizzo</label>
-         <div class="">
-           <input name="address" class="form-control inp-text" type="text" [(ngModel)]="editingOffice.address"
-               placeholder="Indirizzo Sede" />
-         </div>
-       </div>
-     </div>
- 
-     <div >
-       <div>
-         <label for="città" class=" col-form-label">Città</label>
-         <div class="">
-           <input name="città" class="form-control inp-text" type="text" [(ngModel)]="editingOffice.city"
-               placeholder="Città" />
-         </div>
-       </div>
-     </div>
- 
-     <div >
-       <div>
-         <label for="cap" class=" col-form-label">C.A.P</label>
-         <div class="">
-           <input name="cap" class="form-control inp-text" type="text"
-               [(ngModel)]="editingOffice.cap" placeholder="CAP"/>
-         </div>
-       </div>
-     </div>
- </div>
-       <div>
-       <footer class="card-footer ">
-           <app-button-footer class="card-footer-item" [className]="'cancel-button'" [iconClasses]="'fas fa-undo'"
-               (clicked)="clear()" label="Cancel" [item]="editingOffice"></app-button-footer>
-           <app-button-footer class="card-footer-item" [className]="'save-button'" [iconClasses]="'fas fa-save'"
-               (clicked)="saveOffice()" label="Save" [item]="editingOffice"></app-button-footer>
-       </footer>
-   </div>
+  <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && onSubmit()" novalidate>
   
- 
- </div>
+  <div class="card-body">
+    <div class="form-group">
+        <label for="address">Indirizzo</label>
+        <input name="address" class="form-control " type="text" [(ngModel)]="editingOffice.address"
+          #address="ngModel" placeholder="Indirizzo Sede" [ngClass]="{'is-invalid':f.submitted && address.invalid}" required/>
+
+        <div *ngIf="f.submitted && address.invalid" class="invalid-feedback">
+          <div *ngIf="address.errors.required">Campo obbligatorio</div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+      <label for="città" >Città</label>
+      <input name="città" class="form-control" type="text" [(ngModel)]="editingOffice.city" #city="ngModel"
+        placeholder="Città" [ngClass]="{'is-invalid':f.submitted && city.invalid}" required/>
+      <div *ngIf="f.submitted && city.invalid" class="invalid-feedback">
+        <div *ngIf="city.errors.required">Campo obbligatorio</div>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label for="cap" >C.A.P</label>
+      <input name="cap" class="form-control" type="number" [(ngModel)]="editingOffice.cap" #cap="ngModel"
+        placeholder="CAP" [ngClass]="{'is-invalid':f.submitted && cap.invalid}" required/>
+      <div *ngIf="f.submitted && cap.invalid" class="invalid-feedback">
+        <div *ngIf="cap.errors.required">Campo obbligatorio</div>
+      </div>
+    </div>
+</div>
+    <div>
+      <footer class="card-footer ">
+        <app-button-footer class="card-footer-item" [className]="'cancel-button'" [iconClasses]="'fas fa-undo'"
+          (clicked)="clear()" label="Annulla" [item]="editingOffice"></app-button-footer>
+        <app-button-footer class="card-footer-item" [className]="'save-button'" [iconClasses]="'fas fa-save'"
+          label="Salva" [item]="editingOffice"></app-button-footer>
+      </footer>
+    </div>
+  </form>
+  </div>
