@@ -15,21 +15,18 @@ export class ContractService {
   getAllContracts(){
     console.log('allcontracts');
     
-    const url = environment.apiUrl + '/contract/listAllContract.php';
+    const url = environment.apiUrl + 'contract/listAllContract.php';
     return this.http.get<Contract[]>(url);
   }
 
   createNewContract(contract){
-    const contracttype = contract.contracttype;
-    const level = contract.level;
-    const ccnl = contract.ccnl;
-    const title = contract.title;
+   
     const url = environment.apiUrl + 'contract/createContract.php';
-    return this.http.post(url, { contracttype, level, ccnl, title  });
+    return this.http.post(url, contract);
   }
 
   updateContract(contract){
-    const url = environment.apiUrl + 'contract/updateContract.php';
+    const url = environment.apiUrl + 'contract/updateContractById.php';
     return this.http.post(url, contract );
   }
 
@@ -38,6 +35,5 @@ export class ContractService {
     const url = environment.apiUrl + 'contract/deleteContractById.php';
     return this.http.post(url, {id:contractId });
   }
-
 
 }

@@ -5,7 +5,7 @@ import { Customer } from '@app/modules/customers/customer';
     selector: 'customer-list',
     templateUrl: 'customer-list.component.html',
     styles: [`
-    @media(max-width:1000px){
+    @media(max-width:1200px){
         .card{
             overflow-inline:scroll;
         }
