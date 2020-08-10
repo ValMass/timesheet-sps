@@ -85,12 +85,30 @@
     >
     </mwl-calendar-week-view>
   </div>
+  <h5 class="mt-4 btn btn-primary text-light">{{ timeshetStatus }}</h5>
 
   <!-- <button class="btn btn-primary w-100 mt-5" (click)="openModal()">Aggiungi evento</button> -->
-  <button mat-button class="btn btn-primary w-100 mt-5" (click)="openDialog()">Aggiungi evento</button>
-  <button class="btn btn-primary w-100 mt-5" (click)="saveCurrentTimesheet()">Salva</button>
-  <button class="btn btn-primary w-100 mt-5" (click)="freezeCurrentTimesheet()">Conferma</button>
-  <button class="btn btn-primary w-100 mt-5" (click)="checkIfTimesheetIsModifiable()">Dincibacco</button>
+  <div>
+    <button class="btn btn-primary mt-5 col-3" (click)="openDialog()">Aggiungi evento</button>
+    <button class="btn btn-primary mt-5 col-3" (click)="askTosaveCurrentTimesheet()">Salva</button>
+    <button class="btn btn-primary mt-5 col-3" (click)="askToFreeze()">Accetta come amministratore</button>
+    <button class="btn btn-primary mt-5 col-3" (click)="askToPayTimesheet()">Pagato</button>
+    <button class="btn btn-primary mt-5 col-3" (click)="askToResetState()">Azzera stato</button>
+  </div>
+  <button class="btn btn-primary mt-5" (click)="checkIfTimesheetIsModifiable()">Dincibacco</button>
 </div>
+<app-modal class="modal-customer" [message]="message" [isOpen]="showModalSave" (handleNo)="closeModal()"
+  (handleYes)="saveCurrentTimesheet()">
+</app-modal>
 
+<app-modal class="modal-customer" [message]="message" [isOpen]="showModalFreeze" (handleNo)="closeModal()"
+  (handleYes)="freezeCurrentTimesheet()">
+</app-modal>
 
+<app-modal class="modal-customer" [message]="message" [isOpen]="showModalPay" (handleNo)="closeModal()"
+  (handleYes)="payTimesheet()">
+</app-modal>
+
+<app-modal class="modal-customer" [message]="message" [isOpen]="showModalReset" (handleNo)="closeModal()"
+  (handleYes)="resetTimesheetState()">
+</app-modal>

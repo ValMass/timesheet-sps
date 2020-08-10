@@ -1,3 +1,4 @@
+
 import { Timesheet } from '../models/timesheet';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -18,8 +19,6 @@ import {
 } from 'date-fns';
 
 import { AddEventModalComponent, } from '../add-event-modal/add-event-modal.component';
-
-import { SaveCurrentTimesheetService } from '@app/services/save-current-timesheet.service';
 import { CalendarEventActionsComponent } from 'angular-calendar/modules/common/calendar-event-actions.component';
 import { GenericResponse } from '@app/models/genericresponse';
 import { Subject } from 'rxjs';
@@ -66,7 +65,7 @@ export class MyCalendarEvent implements CalendarEvent {
 export class NewTimesheetComponentComponent implements OnInit {
 
   constructor(
-    private saveCurrentTimesheetInstance: SaveCurrentTimesheetService,
+    private saveCurrentTimesheetInstance: TimesheetResolverService,
     public dialog: MatDialog,
     public timesheetRes: TimesheetResolverService,
     public logoutService: AuthenticationService,
@@ -88,6 +87,16 @@ export class NewTimesheetComponentComponent implements OnInit {
   activeDayIsOpen = false;
 
   refresh: Subject<any> = new Subject();
+
+  //for confirmation modal
+  message = '';
+  isOpen = false;
+  showModalSave = false;
+  showModalFreeze = false;
+  showModalPay = false;
+  showModalReset = false;
+
+
 
   events: CalendarEvent[] = [
     {
@@ -149,7 +158,7 @@ export class NewTimesheetComponentComponent implements OnInit {
       },
     },
   ];
-  public ciccio: GenericResponse;
+  public timeshetStatus = '';
 
   public currentTimesheet = new Timesheet();
 
@@ -230,25 +239,58 @@ export class NewTimesheetComponentComponent implements OnInit {
             this.events = [];
             this.currentTimesheet.fromObject(res['data']);
             this.loadCurrentMonthTimesheet(res['data']);
-            this.toastrService.success('Timesheet salvato')
+            this.toastrService.success('Timesheet salvato');
           }
 
         },
         error => {
           this.toastrService.error('Errore nella richiesta http ');
         });
-
+    this.closeModal();
   }
 
   freezeCurrentTimesheet() {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
-    this.saveCurrentTimesheetInstance.freeze(month, year, 1)
+    this.timesheetRes.freeze(month, year, this.id)
       .subscribe(data => {
-        console.log('Data umpa :', data);
+        if (data['status'] === 'error') {
+          this.toastrService.error('Errore durante il salvattaggio del timesheet: ' + data['message']);
 
-        console.log('status :', data);
+        } else {
+          this.events = [];
+          this.loadCurrentMonthTimesheet(data['data']);
+          this.toastrService.success('Stato aggiornato');
+        }
+
+
+      },
+      error => {
+        this.toastrService.error('Errore nella richiesta http ');
       });
+    this.closeModal();
+  }
+
+  resetTimesheetState() {
+    const month = this.viewDate.getMonth();
+    const year = this.viewDate.getFullYear();
+    this.timesheetRes.resetState(month, year, this.id)
+      .subscribe(data => {
+        if (data['status'] === 'error') {
+          this.toastrService.error('Errore durante il salvattaggio del timesheet: ' + data['message']);
+
+        } else {
+          this.events = [];
+          this.loadCurrentMonthTimesheet(data['data']);
+          this.toastrService.success('Stato aggiornato');
+        }
+
+
+      },
+      error => {
+        this.toastrService.error('Errore nella richiesta http ');
+      });
+    this.closeModal();
   }
 
 
@@ -269,27 +311,7 @@ export class NewTimesheetComponentComponent implements OnInit {
       });
 
   }
-  // openModal(content) {
 
-  /*this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-    this.closeResult = `Closed with: ${result}`;
-  }, (reason) => {
-    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-  });*/
-  /*const modalRef = this.modalService.open(NewEventModalComponent).result.then(
-    (result) => {
-      console.log('result');
-      const newEvent: MyCalendarEvent = new MyCalendarEvent();
-      newEvent.title = result.contractCode;
-      newEvent.start = new Date(result.eventDate);
-      newEvent.nOre = result.numeroOre;
-      console.log(newEvent);
-      this.events = [...this.events, newEvent];
-    },
-    (reason) => {
-      console.log(reason);
-    });*/
-  // }
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
@@ -311,6 +333,9 @@ export class NewTimesheetComponentComponent implements OnInit {
           this.currentTimesheet.fromObject(res['data']);
           this.loadCurrentMonthTimesheet(res['data']);
         }
+      },
+      error => {
+        this.toastrService.error('Errore nella richiesta http ');
       }
     );
   }
@@ -332,7 +357,7 @@ export class NewTimesheetComponentComponent implements OnInit {
         }
       },
       error => {
-
+        this.toastrService.error('Errore nella richiesta http ');
       }
     );
   }
@@ -341,7 +366,7 @@ export class NewTimesheetComponentComponent implements OnInit {
 
   }
 
-  loadCurrentMonthTimesheet(recivedTimesheet){
+  loadCurrentMonthTimesheet(recivedTimesheet) {
     this.currentTimesheet.fromObject(recivedTimesheet);
     this.currentTimesheet.dayJson.forEach(element => {
       const newEvent = {
@@ -352,13 +377,38 @@ export class NewTimesheetComponentComponent implements OnInit {
       }
       this.events = [...this.events, newEvent];
     });
+    this.updateStateLabel();
+
+  }
+
+  eventTitleTranslate(title) {
+    /*
+    <option value="LAVORO" selected="selected">Lavoro ordinario</option>
+        <option value="SEDE">Attività interna</option>
+        <option value="PERMNON">Permesso non retribuito</option>
+        <option value="PERMESS">Permesso generico</option>
+        <option value="MALATT">Malattia</option>
+        <option value="LUTTO">Lutto parente primo grado</option>
+        <option value="AVIS">Donazione sangue</option>
+        <option value="FERIE">Ferie</option>
+        <option value="MATALA">Allattamento</option>
+        <option value="ASPETT">Aspettativa</option>
+        <option value="ELETTO">Permesso elettorale</option>
+        <option value="FESTSOP">Festivita soppresse</option>
+        <option value="MATERN">Materrnita</option>
+        <option value="MATFAC">Maternita facoltativa</option>
+        <option value="MALFIG">Malattia figlio</option>
+        <option value="MATRIMO">Matrimonio</option>
+        <option value="PARTIME">Tempo parziale</option>
+        <option value="PATRONO">Patrono</option>
+        <option value="UNIVERS">Assenza esami universitari</option>
+    */
   }
 
   checkIfTimesheetIsModifiable() {
     console.log(this.logoutService.currentUserValue.isadmin);
     switch (this.logoutService.currentUserValue.isadmin) {
       case '1':
-
         break;
 
       case '2':
@@ -373,6 +423,68 @@ export class NewTimesheetComponentComponent implements OnInit {
 
 
 
+  }
+
+  payTimesheet() {
+
+  }
+
+  updateStateLabel() {
+    console.log(this.currentTimesheet.state);
+    switch (this.currentTimesheet.state) {
+      case '0':
+        this.timeshetStatus = "Modificabile";
+        break;
+
+      case '1':
+        this.timeshetStatus = "Accettato dal dipendente";
+        break;
+
+      case '2':
+        this.timeshetStatus = "Accettato dall'amministrazione";
+        break;
+
+      case '3':
+        this.timeshetStatus = "Pagato";
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  askTosaveCurrentTimesheet() {
+    this.showModalSave = true;
+    if (this.currentTimesheet.id) {
+      this.message = 'Vuoi salvare il timesheet  del ' + this.currentTimesheet.month + ' ' + this.currentTimesheet.year;
+    }
+  }
+  askToFreeze() {
+    this.showModalFreeze = true;
+    if (this.currentTimesheet.id) {
+      this.message = 'Vuoi accettare il timesheet del ' + this.currentTimesheet.month + ' ' + this.currentTimesheet.year;
+    }
+  }
+
+  askToPayTimesheet() {
+    this.showModalPay = true;
+    if (this.currentTimesheet.id) {
+      this.message = 'Vuoi archiviare il timesheet del ' + this.currentTimesheet.month + ' ' + this.currentTimesheet.year;
+    }
+  }
+
+  askToResetState() {
+    this.showModalReset = true;
+    if (this.currentTimesheet.id) {
+      this.message = 'Vuoi resettare lo stato del timesheet del ' + this.currentTimesheet.month + ' ' + this.currentTimesheet.year;
+    }
+  }
+
+  closeModal() {
+    this.showModalSave = false;
+    this.showModalFreeze = false;
+    this.showModalPay = false;
+    this.showModalReset = false;
   }
 
   anzia() {

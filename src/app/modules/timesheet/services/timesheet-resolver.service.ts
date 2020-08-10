@@ -41,4 +41,37 @@ export class TimesheetResolverService implements Resolve<any> {
      );
   }
 
+  save(events , month, year, userid) {
+
+    const url = environment.apiUrl + '/timesheets/createTimesheet.php';
+    return this.http.post(url , { events , month , year, userid}).pipe(catchError(error   => {
+      console.log(error);
+      return EMPTY;
+    }), mergeMap(something => {
+         if (something) {
+            return of(something);
+         } else {
+            return EMPTY;
+         }
+       })
+     );
+
+  }
+
+  loadCurrentViewedEvent(month , year, userid) {
+    const url = environment.apiUrl + '/timesheets/getTimesheetByUserIdMonthYear.php';
+    return this.http.post(url , { month , year, userid });
+  }
+
+  freeze(month , year, userid) {
+    const url = environment.apiUrl + 'timesheets/acceptTimesheetByAdministrator.php';
+    console.log(url);
+    return this.http.post(url , { month , year, userid });
+  }
+
+  resetState(month , year, userid){
+    const url = environment.apiUrl + 'timesheets/resetTimesheetState.php';
+    console.log(url);
+    return this.http.post(url , { month , year, userid });
+  }
 }
