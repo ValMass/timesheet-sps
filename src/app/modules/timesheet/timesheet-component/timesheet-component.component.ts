@@ -1,3 +1,4 @@
+import { Timesheet } from '../models/timesheet';
 import { Component, OnInit } from '@angular/core';
 import {
   CalendarEvent,
@@ -23,10 +24,12 @@ import { CalendarEventActionsComponent } from 'angular-calendar/modules/common/c
 import { GenericResponse } from '@app/models/genericresponse';
 import { Subject } from 'rxjs';
 // colors definition for event
-import { MatDialogModule, MatDialog  } from '@angular/material/dialog';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { TimesheetResolverService } from '../services/timesheet-resolver.service';
-import {  ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+
 
 
 
@@ -50,7 +53,9 @@ export class MyCalendarEvent implements CalendarEvent {
   title: string;
   start: Date;
   nOre: number;
+
 }
+
 
 
 @Component({
@@ -66,12 +71,13 @@ export class NewTimesheetComponentComponent implements OnInit {
     public timesheetRes: TimesheetResolverService,
     public logoutService: AuthenticationService,
     private route: ActivatedRoute,
+    private toastrService: ToastrService,
     // private confirmationDialogService: ConfirmationDialogService
   ) { }
 
   id: any;
 
-  newEvent: MyCalendarEvent  = new MyCalendarEvent();
+  newEvent: MyCalendarEvent = new MyCalendarEvent();
 
   view: CalendarView = CalendarView.Month;
 
@@ -145,38 +151,28 @@ export class NewTimesheetComponentComponent implements OnInit {
   ];
   public ciccio: GenericResponse;
 
+  public currentTimesheet = new Timesheet();
+
   ngOnInit() {
 
     this.route.params.subscribe(params => {
-      this.id = +params['id'];
+      this.id = +params.id;
     });
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
     const usrId = this.id;
     this.events = [];
-    console.log(month + " " + year + " " + usrId);
+    console.log(month + ' ' + year + ' ' + usrId);
     this.timesheetRes.getTimesheet(month, year, usrId).subscribe(
       (res) => {
-        console.log(res['data'].dayjson);
+        console.log(res);
+        if (res['status'] === 'error') {
+          console.log("Error: " + res['message']);
 
-        if( res['data'].dayjson ){
-          const myparse = JSON.parse(res['data'].dayjson);
-          myparse.forEach((element) => {
-            const newEvent: MyCalendarEvent = new MyCalendarEvent();
-            console.log(element);
-            newEvent.title = element.title;
-            newEvent.start = new Date(element.start);
-            newEvent.nOre = element.nOre;
-            this.events = [...this.events, newEvent];
-          });
         } else {
-          const myparse = {};
+          this.currentTimesheet.fromObject(res['data']);
+          this.loadCurrentMonthTimesheet(res['data']);
         }
-
-
-
-        this.refresh.next();
-
       }
 
     );
@@ -185,11 +181,14 @@ export class NewTimesheetComponentComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
+    console.log(event);
   }
 
   setView(view: CalendarView) {
     this.view = view;
   }
+
+
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -206,12 +205,12 @@ export class NewTimesheetComponentComponent implements OnInit {
     console.log(JSON.stringify(events));
   }
 
-  createEvent(datenn: any , event: any): void {
-      console.log(datenn);
-      this.events.forEach(element => {
-        // console.log(JSON.stringify(element));
-      });
-      console.log(JSON.stringify(event));
+  createEvent(datenn: any, event: any): void {
+    console.log(datenn);
+    this.events.forEach(element => {
+      // console.log(JSON.stringify(element));
+    });
+    console.log(JSON.stringify(event));
 
 
   }
@@ -219,24 +218,37 @@ export class NewTimesheetComponentComponent implements OnInit {
   saveCurrentTimesheet() {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
-    const userid = this.logoutService.currentUserValue.id;
+    const userid = this.id;
     this.saveCurrentTimesheetInstance.save(this.events, month, year, userid)
-    .subscribe( data => {
-      console.log('Data umpa :', data);
-      console.log('status :', data);
-    });
+      .subscribe(
+        res => {
+          console.log(res);
+          if (res['status'] === 'error') {
+
+            this.toastrService.error('Errore durante il salvattaggio del timesheet: ' + res['message']);
+          } else {
+            this.events = [];
+            this.currentTimesheet.fromObject(res['data']);
+            this.loadCurrentMonthTimesheet(res['data']);
+            this.toastrService.success('Timesheet salvato')
+          }
+
+        },
+        error => {
+          this.toastrService.error('Errore nella richiesta http ');
+        });
 
   }
 
   freezeCurrentTimesheet() {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
-    this.saveCurrentTimesheetInstance.freeze( month, year , 1)
-    .subscribe( data => {
-      console.log('Data umpa :', data);
+    this.saveCurrentTimesheetInstance.freeze(month, year, 1)
+      .subscribe(data => {
+        console.log('Data umpa :', data);
 
-      console.log('status :', data);
-    });
+        console.log('status :', data);
+      });
   }
 
 
@@ -259,24 +271,24 @@ export class NewTimesheetComponentComponent implements OnInit {
   }
   // openModal(content) {
 
-    /*this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+  /*this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.closeResult = `Closed with: ${result}`;
+  }, (reason) => {
+    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+  });*/
+  /*const modalRef = this.modalService.open(NewEventModalComponent).result.then(
+    (result) => {
+      console.log('result');
+      const newEvent: MyCalendarEvent = new MyCalendarEvent();
+      newEvent.title = result.contractCode;
+      newEvent.start = new Date(result.eventDate);
+      newEvent.nOre = result.numeroOre;
+      console.log(newEvent);
+      this.events = [...this.events, newEvent];
+    },
+    (reason) => {
+      console.log(reason);
     });*/
-    /*const modalRef = this.modalService.open(NewEventModalComponent).result.then(
-      (result) => {
-        console.log('result');
-        const newEvent: MyCalendarEvent = new MyCalendarEvent();
-        newEvent.title = result.contractCode;
-        newEvent.start = new Date(result.eventDate);
-        newEvent.nOre = result.numeroOre;
-        console.log(newEvent);
-        this.events = [...this.events, newEvent];
-      },
-      (reason) => {
-        console.log(reason);
-      });*/
   // }
 
   closeOpenMonthViewDay() {
@@ -287,63 +299,84 @@ export class NewTimesheetComponentComponent implements OnInit {
     console.log('se e\' vero so forte');
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
-    const userid = this.logoutService.currentUserValue.id;
+    const userid = this.id;
     this.events = [];
     this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, userid).subscribe(
       (res) => {
-        console.log(res['data'].dayjson);
+        console.log(res);
+        if (res['status'] === 'error') {
+          console.log("Error: " + res['message']);
 
-        const myparse = JSON.parse(res['data'].dayjson);
-
-        myparse.forEach((element) => {
-          const newEvent: MyCalendarEvent = new MyCalendarEvent();
-          console.log(element);
-          newEvent.title = element.title;
-          newEvent.start = new Date(element.start);
-          newEvent.nOre = element.nOre;
-          this.events = [...this.events, newEvent];
-        });
-        this.refresh.next();
-
+        } else {
+          this.currentTimesheet.fromObject(res['data']);
+          this.loadCurrentMonthTimesheet(res['data']);
+        }
       }
-
     );
-
-
   }
 
   myNextClick() {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
-    const userid = this.logoutService.currentUserValue.id;
+    const userid = this.id;
     this.events = [];
     this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, userid).subscribe(
       (res) => {
-        console.log(res['data'].dayjson);
+        console.log(res);
+        if (res['status'] === 'error') {
+          console.log("Error: " + res['message']);
 
-        const myparse = JSON.parse(res['data'].dayjson);
-
-        myparse.forEach((element) => {
-          const newEvent: MyCalendarEvent = new MyCalendarEvent();
-          console.log(element);
-          newEvent.title = element.title;
-          newEvent.start = new Date(element.start);
-          newEvent.nOre = element.nOre;
-          this.events = [...this.events, newEvent];
-        });
-        this.refresh.next();
+        } else {
+          this.currentTimesheet.fromObject(res['data']);
+          this.loadCurrentMonthTimesheet(res['data']);
+        }
+      },
+      error => {
 
       }
-
     );
+  }
 
+  eventTimesChanged($event) {
 
   }
-  eventTimesChanged($event) {
+
+  loadCurrentMonthTimesheet(recivedTimesheet){
+    this.currentTimesheet.fromObject(recivedTimesheet);
+    this.currentTimesheet.dayJson.forEach(element => {
+      const newEvent = {
+        title: element.title,
+        start: new Date(element.start),
+        nOre: element.nOre,
+        actions: this.actions,
+      }
+      this.events = [...this.events, newEvent];
+    });
+  }
+
+  checkIfTimesheetIsModifiable() {
+    console.log(this.logoutService.currentUserValue.isadmin);
+    switch (this.logoutService.currentUserValue.isadmin) {
+      case '1':
+
+        break;
+
+      case '2':
+
+        break;
+
+      default:
+        this.toastrService.error('Ruolo non esistente');
+        return false;
+        break;
+    }
+
+
 
   }
 
   anzia() {
     console.log(this.events);
+    console.log(this.currentTimesheet);
   }
 }
