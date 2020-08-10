@@ -6,76 +6,73 @@
         </p>
     </header>
 
-      <div mat-dialog-content>
-        <div class="card-body">
-          <div >
-            <div>
-              <label for="nome" class=" col-form-label">Nome</label>
-              <div class="">
-                <input name="name" class="form-control inp-text" type="text" [(ngModel)]="editingCustomer.name"
-                    placeholder="Nome Cliente" />
-              </div>
+      <form name="form"  #f="ngForm" (ngSubmit)="f.form.valid && onSubmit()" novalidate>
+<div class="card-body">
+            <div class="form-group">
+              <label for="name" >Nome</label>
+                <input name="name" class="form-control " type="text" 
+                [(ngModel)]="editingCustomer.name"  #name="ngModel"
+                    placeholder="Nome Cliente" [ngClass]="{'is-invalid':f.submitted && name.invalid}" required/>
+                    <div *ngIf="f.submitted && name.invalid" class="invalid-feedback">
+                      <div *ngIf="name.errors.required">Campo obbligatorio</div>
+                  </div>
             </div>
-          </div>
       
-          <div >
-            <div>
-              <label for="legaladdress" class=" col-form-label">Indirizzo legale</label>
-              <div class="">
-                <input name="legaladdress" class="form-control inp-text" type="text" [(ngModel)]="editingCustomer.legaladdress"
-                    placeholder="Sede Legale" />
-              </div>
+            <div class="form-group">
+              <label for="legaladdress" >Indirizzo legale</label>
+                <input name="legaladdress" class="form-control " type="text" 
+                [(ngModel)]="editingCustomer.legaladdress" #legaladdress="ngModel"
+                    placeholder="Sede Legale" [ngClass]="{'is-invalid':f.submitted && legaladdress.invalid}" required/>
+                    <div *ngIf="f.submitted && legaladdress.invalid" class="invalid-feedback">
+                      <div *ngIf="legaladdress.errors.required">Campo obbligatorio</div>
+                  </div>
             </div>
-          </div>
+          
       
-          <div >
-            <div>
-              <label for="piva" class=" col-form-label">Partita Iva</label>
-              <div class="">
-                <input name="pivacodicefiscale" class="form-control inp-text" type="text"
-                    [(ngModel)]="editingCustomer.pivacodicefiscale" placeholder="P.IVA o C.F."/>
-              </div>
+            <div class="form-group">
+              <label for="piva" >Partita Iva</label>
+                <input name="pivacodicefiscale" class="form-control " type="text" 
+                    [(ngModel)]="editingCustomer.pivacodicefiscale" #piva="ngModel" placeholder="P.IVA o C.F." 
+                    [ngClass]="{'is-invalid':f.submitted && piva.invalid}" required/>
+                    <div *ngIf="f.submitted && piva.invalid" class="invalid-feedback">
+                      <div *ngIf="piva.errors.required">Campo obbligatorio</div>
+                  </div>
             </div>
-          </div>
       
-          <div >
-            <div>
-              <label for="rea" class=" col-form-label">REA</label>
-              <div class="">
-                <input name="rea" class="form-control inp-text" type="text"
-                [(ngModel)]="editingCustomer.rea" placeholder="REA"/>
+         
+            <div class="form-group">
+              <label for="rea" >REA</label>
+                <input name="rea" class="form-control " type="text" 
+                [(ngModel)]="editingCustomer.rea" #rea="ngModel" placeholder="REA" [ngClass]="{'is-invalid':f.submitted && rea.invalid}" required/>
+                <div *ngIf="f.submitted && rea.invalid" class="invalid-feedback">
+                  <div *ngIf="rea.errors.required">Campo obbligatorio</div>
               </div>
             </div>
-          </div>
       
-          <div >
-            <div>
-              <label for="postacertificata" class=" col-form-label">Posta certificata</label>
-              <div class="">
-                <input name="postacertificata" class="form-control inp-text" type="text"
-                    [(ngModel)]="editingCustomer.postacertificata" placeholder="Posta Certificata"/>
-              </div>
+            <div class="form-group">
+              <label for="postacertificata" >Posta certificata</label>
+                <input name="postacertificata"  class="form-control " type="text"
+                    [(ngModel)]="editingCustomer.postacertificata" #postacertificata="ngModel" placeholder="Posta Certificata" />
+                    <!-- <div *ngIf="f.submitted && postacertificata.invalid" class="invalid-feedback">
+                      <div *ngIf="postacertificata.errors.required">Campo obbligatorio</div>
+                  </div> -->
             </div>
-          </div>
       
-          <div >
-            <div>
-              <label for="referente" class=" col-form-label">Referente</label>
+          <div class="form-group">
+              <label for="referente" >Referente</label>
               <div class="">
-                <input type="text" class="form-control inp-text" id="referente" placeholder="Referente"
-                [(ngModel)]="editingCustomer.referente"/>
+                <input name="referente" type="text"  class="form-control " id="referente" placeholder="Referente"
+                [(ngModel)]="editingCustomer.referente" #referente="ngModel"/>
               </div>
-            </div>
-          </div>
         </div>
+</div>
           <div>
             <footer class="card-footer ">
                 <app-button-footer class="card-footer-item" [className]="'cancel-button'" [iconClasses]="'fas fa-undo'"
-                    (clicked)="clear()" label="Cancel" [item]="editingCustomer"></app-button-footer>
+                    (clicked)="clear()" label="Annulla" [item]="editingCustomer"></app-button-footer>
                 <app-button-footer class="card-footer-item" [className]="'save-button'" [iconClasses]="'fas fa-save'"
-                    (clicked)="saveCustomer()" label="Save" [item]="editingCustomer"></app-button-footer>
+                     label="Salva" [item]="editingCustomer"></app-button-footer>
             </footer>
-        </div>
-       
-      </div>
+        </div>  
+      </form>
       </div>

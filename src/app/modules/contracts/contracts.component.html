@@ -2,7 +2,9 @@
     <!-- maybe add refresh here -->
     <list-header 
     title="Aggiungi Contratti"
-    (add)="enableAddMode()">
+    (add)="enableAddMode()"
+    [selected]="selected"
+    >
     </list-header>
     <!-- <div *ngIf="customers$ | async as customers"> -->
     <div *ngIf="contracts" >

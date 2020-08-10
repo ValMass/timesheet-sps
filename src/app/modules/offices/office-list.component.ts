@@ -6,11 +6,14 @@ import { Office } from './models/office';
     selector: 'office-list',
     templateUrl: 'office-list.component.html',
     styles: [`
-    @media(max-width:1000px){
-        .card{
-            overflow-inline:scroll;
+    @media(max-width:700px) {
+        .card {
+            overflow-inline: scroll;
+            }
         }
-    }
+    .table>tbody>tr>td {
+            vertical-align: middle;
+        }
     `]
 })
 

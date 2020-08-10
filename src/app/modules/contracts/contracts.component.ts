@@ -31,7 +31,15 @@ export class ContractsComponent implements OnInit {
 
     //used in save()
     addContract(contract: Contract) {
-        this.contractService.createNewContract(contract);
+        this.contractService.createNewContract(contract).subscribe(data => {
+            console.log(data);
+            this.toastrService.success('contratto aggiunto');
+            const newContract = data['data'];
+            this.contracts.push(newContract)
+        }, err => {
+            console.log(err);
+            this.toastrService.error('operazione non riuscita');
+        });
     }
 
     enableAddMode() {
@@ -60,11 +68,14 @@ export class ContractsComponent implements OnInit {
         if (this.contractToDelete) {
             this.contractService
                 .deleteContract(this.contractToDelete.id)
-                .subscribe((data) => {(this.contractToDelete = null)
-                    this.toastrService.info('utente cancellato');
-                },err=>{
+                .subscribe((data) => {
+                    this.contracts = this.contracts.filter(contract => contract !== this.contractToDelete);
+                    console.log(this.contracts);
+                    (this.contractToDelete = null);
+                    this.toastrService.warning('contratto cancellato');
+                }, err => {
                     console.log(err);
-                    this.toastrService.warning('operazione non riuscita');
+                    this.toastrService.error('operazione non riuscita');
                 });
         }
         this.clear();
@@ -85,9 +96,9 @@ export class ContractsComponent implements OnInit {
             });
     }
 
-    save(contract:Contract) {
+    save(contract: Contract) {
         if (this.selected && this.selected.id) {
-            this.update(contract);
+            this.update(contract,this.selected);
         } else {
             this.addContract(contract);
         }
@@ -97,12 +108,14 @@ export class ContractsComponent implements OnInit {
         this.selected = contract;
     }
 
-    update(contract: Contract) {
+    update(contract: Contract,oldValue:Contract) {
         console.log(contract);
-        
+
         this.contractService.updateContract(contract).subscribe((data) => {
             console.log(data);
-            
+            const contractUpdated = data['data'];
+            const index = this.contracts.indexOf(oldValue);
+            this.contracts.splice(index, 1, contractUpdated);
             this.toastrService.success('modifica effettuata');
         }, err => {
             console.log(err);

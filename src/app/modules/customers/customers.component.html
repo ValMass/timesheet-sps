@@ -13,7 +13,7 @@
             [customers]="customers"
             (selected)="select($event)"
             (deleted)="askToDelete($event)"
-            (associate)="associateOffice($event)">
+            >
         </customer-list>
 
         <customer-detail
@@ -32,4 +32,10 @@
     (handleYes)="deleteCustomer()">
   </app-modal>
 
+  <!-- modal to associate office -->
+<!-- <ac-dialog *ngIf="customerToAssociate"
+  [isOpen]="showAcModal"
+  [customer]="customerToAssociate">
+  
+</ac-dialog> -->
 </div>

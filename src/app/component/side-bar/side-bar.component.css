@@ -136,7 +136,10 @@ li a {
 }
 
 .nav>li>a:hover{
-background-color: #962D37;}
+background-color: #962D37;
+cursor: pointer;
+color: white;
+}
 
 .nav>li>a{
   

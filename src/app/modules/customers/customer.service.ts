@@ -5,7 +5,6 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, ActivatedRoute } 
 import { catchError, mergeMap, map } from 'rxjs/operators';
 import { EMPTY, of, Observable } from 'rxjs';
 import { Customer } from '@app/modules/customers/customer';
-import { Contract } from '@app/modules/contracts/contract';
 
 @Injectable({
   providedIn: 'root'
@@ -37,16 +36,9 @@ export class CustomerService implements Resolve<any>  {
     return this.http.get<Customer[]>(url);
   }
 
-  createNewCustomer(customerData) {
-    const customer = customerData.data;
-    const name = customer.nome;
-    const legaladdress = customer.legaladdress;
-    const pivacodicefiscale = customer.piva;
-    const rea = customer.rea;
-    const postacertificata = customer.postacertificata;
-    const referente = customer.referente;
+  createNewCustomer(customer) {
     const url = environment.apiUrl + '/customer/createCustomer.php';
-    return this.http.post(url, { name, legaladdress, pivacodicefiscale, rea, postacertificata, referente });
+    return this.http.post(url, customer);
   }
 
   //TODO
@@ -64,6 +56,12 @@ export class CustomerService implements Resolve<any>  {
   deleteCustomer(customerId) {
     const url = environment.apiUrl + 'customer/deleteCustomerById.php';
     return this.http.post(url, { id:customerId });
+  }
+
+  listAllCustomerOfficesByCustomerId(customerId){
+    console.log(customerId);
+    const url = environment.apiUrl + 'customerOffices/listAllCustomerOfficesByCustomerId.php';
+    return this.http.post(url,{customerid:customerId});
   }
 
   //generic error handler,to use in .pipe(catchError) here in the service

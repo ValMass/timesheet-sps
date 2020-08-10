@@ -29,7 +29,7 @@
             [className]="'delete-item'"
             [iconClasses]="'fas fa-trash'"
             (clicked)="deleteCustomer($event)"
-            label="Delete"
+            label="Elimina"
             [item]="customer"
           ></app-button-footer>
           </td>
@@ -39,10 +39,10 @@
             [className]="'edit-item'"
             [iconClasses]="'fas fa-edit'"
             (clicked)="selectCustomer($event)"
-            label="Edit"
+            label="Modifica"
             [item]="customer"
           ></app-button-footer></td>
-          <td>
+          <!-- <td>
           <app-button-footer
           class="card-footer-item"
           [className]="'edit-item'"
@@ -50,7 +50,7 @@
           (clicked)="chooseOffice($event)"
           label="Associate Office"
           [item]="customer"
-        ></app-button-footer></td>
+        ></app-button-footer></td> -->
         </tr>
       </tbody>
     </table>
