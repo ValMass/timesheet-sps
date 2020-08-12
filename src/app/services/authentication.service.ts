@@ -40,10 +40,9 @@ export class AuthenticationService {
   }
 
   logout() {
-    // remove user from local storage to log user out
-    localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
-    this.router.navigate(['/login-page']);
+    //this.currentUserSubject.next(null);
+    const url = environment.apiUrl + '/logout.php';
+    return this.http.post( url, {});
   }
 
 }

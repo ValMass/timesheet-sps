@@ -45,7 +45,7 @@ export class UserAdminListComponent implements OnInit, OnChanges {
     const url = 'timesheet/' + user.id;
     this.router.navigateByUrl(url, ciccio);
   }
-  openDialog() {
+ /* openDialog() {
     const dialogRef = this.dialog.open(UserAdminCreationComponent, {
       width: '600px',
       height: '700px',
@@ -53,6 +53,9 @@ export class UserAdminListComponent implements OnInit, OnChanges {
     });
     dialogRef.afterClosed().subscribe(
       res => {
+        console.log(res);
+
+
         this.userAdminService.createNewUser(res).subscribe(
           result => {
 
@@ -70,5 +73,5 @@ export class UserAdminListComponent implements OnInit, OnChanges {
       error => {
         console.log(error);
       });
-  }
+  }*/
 }

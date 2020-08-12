@@ -1,11 +1,41 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AddUserDialogComponent } from '@app/component/modal/add-user-dialog/add-user-dialog.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
+import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'LL',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+
+
+
 
 @Component({
   templateUrl: './user-admin-creation.component.html',
-  styleUrls: ['./user-admin-creation.component.css']
+  styleUrls: ['./user-admin-creation.component.css'],
+  providers: [
+    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
+    // application's root module. We provide it at the component level here, due to limitations of
+    // our example generation script.
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ],
 })
 export class UserAdminCreationComponent implements OnInit {
   public submitted: boolean = false;
@@ -20,15 +50,23 @@ export class UserAdminCreationComponent implements OnInit {
     regnuminps: new FormControl('', [ Validators.required, ] ),
     regnumsps: new FormControl('', [ Validators.required, ] ),
     isadmin: new FormControl(''),
+    name: new FormControl(''),
+    surname: new FormControl(''),
+    birthdate : new FormControl(''),
   });
 
 
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: string,
-              private dialogRef: MatDialogRef<AddUserDialogComponent>,
+              private dialogRef: MatDialogRef<UserAdminCreationComponent>,
               ) { }
 
   ngOnInit(): void {
+    let tmp = new Date();
+    let newyear = tmp.getFullYear() - 18;
+    let date = new Date(newyear, tmp.getMonth(), 1 );
+
+    this.profileForm.patchValue({birthdate : date});
 
   }
   get f() { return this.profileForm.controls; }

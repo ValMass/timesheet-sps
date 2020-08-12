@@ -40,13 +40,27 @@
           <input type="text" class="form-control" id="email" placeholder="E-mail" formControlName="email" required />
         </div>
       </div>
-      <button form='myform' type="submit" class="btn btn-custom w-50">Salva</button>
+      <div class="form-group row">
+        <label for="isadmin" class="col-sm-2 col-form-label">Ruolo</label>
+        <div class="col-sm-10">
+          <select id="isadmin" name="isadmin" class="custom-select sel-text" formControlName="isadmin" required>
+            <option value="2" selected="selected">Utente Ordinario</option>
+            <option value="1">Amministratore</option>
+          </select>
+        </div>
+      </div>
     </form>
+    <footer class="card-footer ">
+      <app-button-footer class="card-footer-item" [className]="'cancel-button'" [iconClasses]="'fas fa-undo'"
+        (clicked)="clearUser()" label="Cancel" [item]="editingUser"></app-button-footer>
+      <app-button-footer class="card-footer-item" [className]="'save-button'" [iconClasses]="'fas fa-save'"
+        (clicked)="submitUser()" label="Save" [item]="editingUser"></app-button-footer>
+    </footer>
   </mat-expansion-panel>
-</mat-accordion>
 
 
-<mat-accordion>
+
+
   <mat-expansion-panel hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -84,9 +98,7 @@
       <button form='myform' type="submit" class="btn btn-custom w-50">Salva</button>
     </form>
   </mat-expansion-panel>
-</mat-accordion>
 
-<mat-accordion>
   <mat-expansion-panel hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -112,7 +124,5 @@
   <footer class="card-footer ">
     <app-button-footer class="card-footer-item" [className]="'cancel-button'" [iconClasses]="'fas fa-undo'"
       (clicked)="clear()" label="Cancel" [item]="editingUser"></app-button-footer>
-    <app-button-footer class="card-footer-item" [className]="'save-button'" [iconClasses]="'fas fa-save'"
-      (clicked)="saveAll()" label="Save" [item]="editingUser"></app-button-footer>
   </footer>
 </div>

@@ -1,48 +1,37 @@
-      <div class="card margin-card ">
-      <table class="table table-striped no-margin">
-      <thead>
-        <tr>
-          <th scope="col">id</th>
-          <th scope="col">Nome</th>
-          <th scope="col">Indirizzo legale </th>
-          <th scope="col">P. iva</th>
-          <th scope="col">Rea</th>
-          <th scope="col">Posta Certificata</th>
-          <th scope="col">Referente</th>
-          <th scope="col">&nbsp;</th>
-          <th scope="col">&nbsp;</th>
-          <th scope="col">&nbsp;</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let customer of customers; trackBy: trackById; let i = index"
-        role="presentation">
-          <td>{{ customer.id }} </td>
-          <td>{{ customer.name }} </td>
-          <td>{{ customer.legaladdress }}</td>
-          <td>{{ customer.pivacodicefiscale }}</td>
-          <td>{{ customer.rea }}</td>
-          <td>{{ customer.postacertificata }}</td>
-          <td>{{ customer.referente }}</td>
-          <td> <app-button-footer
-            class="card-footer-item"
-            [className]="'delete-item'"
-            [iconClasses]="'fas fa-trash'"
-            (clicked)="deleteCustomer($event)"
-            label="Elimina"
-            [item]="customer"
-          ></app-button-footer>
-          </td>
-          <td>
-          <app-button-footer
-            class="card-footer-item"
-            [className]="'edit-item'"
-            [iconClasses]="'fas fa-edit'"
-            (clicked)="selectCustomer($event)"
-            label="Modifica"
-            [item]="customer"
-          ></app-button-footer></td>
-          <!-- <td>
+<div class="card margin-card ">
+  <table class="table table-striped no-margin">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Indirizzo legale </th>
+        <th scope="col">P. iva</th>
+        <th scope="col">Rea</th>
+        <th scope="col">Posta Certificata</th>
+        <th scope="col">Referente</th>
+        <th scope="col">&nbsp;</th>
+        <th scope="col">&nbsp;</th>
+        <th scope="col">&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customer of customers; trackBy: trackById; let i = index" role="presentation">
+        <td>{{ customer.id }} </td>
+        <td>{{ customer.name }} </td>
+        <td>{{ customer.legaladdress }}</td>
+        <td>{{ customer.pivacodicefiscale }}</td>
+        <td>{{ customer.rea }}</td>
+        <td>{{ customer.postacertificata }}</td>
+        <td>{{ customer.referente }}</td>
+        <td>
+          <app-button-footer class="card-footer-item" [className]="'delete-item'" [iconClasses]="'fas fa-trash'"
+            (clicked)="deleteCustomer($event)" label="Elimina" [item]="customer"></app-button-footer>
+        </td>
+        <td>
+          <app-button-footer class="card-footer-item" [className]="'edit-item'" [iconClasses]="'fas fa-edit'"
+            (clicked)="selectCustomer($event)" label="Modifica" [item]="customer"></app-button-footer>
+        </td>
+        <!-- <td>
           <app-button-footer
           class="card-footer-item"
           [className]="'edit-item'"
@@ -51,7 +40,7 @@
           label="Associate Office"
           [item]="customer"
         ></app-button-footer></td> -->
-        </tr>
-      </tbody>
-    </table>
+      </tr>
+    </tbody>
+  </table>
 </div>

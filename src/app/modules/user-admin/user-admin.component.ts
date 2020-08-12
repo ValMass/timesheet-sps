@@ -1,3 +1,4 @@
+import { Anagraphic } from './models/Anagraphic';
 import { Component, OnInit } from '@angular/core';
 import { UserAdmin } from './models/User-admin';
 import { Observable } from 'rxjs';
@@ -7,6 +8,7 @@ import { UserAdminService } from './services/user-admin.service';
 import { MatDialog } from '@angular/material/dialog';
 import { UserAdminCreationComponent } from './user-admin-creation/user-admin-creation.component';
 import { ToastrService } from 'ngx-toastr';
+import { AnagraphicService } from './services/anagraphic.service';
 
 
 @Component({
@@ -26,6 +28,7 @@ export class UserAdminComponent implements OnInit {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private userAdminService: UserAdminService,
+    private anagraphicService: AnagraphicService,
     private toastrService: ToastrService
   ) { }
 
@@ -42,6 +45,22 @@ export class UserAdminComponent implements OnInit {
     this.route.data.subscribe(observer);
 
   }
+  parseDialogFormRes(dialogRes) {
+
+    let tmpuser = new UserAdmin();
+    tmpuser.username = dialogRes['username'];
+    tmpuser.password = dialogRes['password'];
+    tmpuser.email = dialogRes['email'];
+    tmpuser.role = dialogRes['role'];
+    tmpuser.regnuminps = dialogRes['regnuminps'];
+    tmpuser.regnumsps = dialogRes['regnumsps'];
+    tmpuser.userscreationdate = new Date().toString();
+    let tmpanag = new Anagraphic();
+    tmpanag.name = dialogRes['name'];
+    tmpanag.surname = dialogRes['surname'];
+    tmpanag.birthdate = dialogRes['birthdate'];
+    return { usertoadd: tmpuser, anagtoadd: tmpanag };
+  }
 
   openDialog() {
     const dialogRef = this.dialog.open(UserAdminCreationComponent, {
@@ -51,50 +70,121 @@ export class UserAdminComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(
       res => {
-        this.userAdminService.createNewUser(res).subscribe(
+        let myObj = this.parseDialogFormRes(res['data']);
+        console.log(myObj);
+        this.anagraphicService.addAnagraphicForUser(myObj.anagtoadd).subscribe(
           result => {
             console.log(result);
             if (result['status'] === 'error') {
-              this.toastrService.error(result['message']);
-              return;
+              this.toastrService.success(result.toString());
             } else {
-
-              let user = result['data'];
-              const newUser = new UserAdmin();
-              newUser.username = user["username"];
-              newUser.password = user["password"];
-              newUser.email = user["email"];
-              newUser.role = user["role"];
-              newUser.regnuminps = user["regnuminps"];
-              newUser.regnumsps = user["regnumsps"];
-              newUser.userscreationdate = new Date().toString();
-              console.log(newUser);
-              this.users = [...this.users, newUser];
-
+              myObj.usertoadd.anagraphicid = result['data'].id;
+              this.userAdminService.createNewUser(myObj.usertoadd).subscribe(
+                result => {
+                  if (result['status'] === 'error') {
+                    this.toastrService.error(result['message']);
+                    return;
+                  } else {
+                    let user = result['data'];
+                    const newUser = new UserAdmin();
+                    newUser.id = user['id'];
+                    newUser.username = user['username'];
+                    newUser.password = user['password'];
+                    newUser.email = user['email'];
+                    newUser.role = user['role'];
+                    newUser.regnuminps = user['regnuminps'];
+                    newUser.regnumsps = user['regnumsps'];
+                    newUser.userscreationdate = new Date().toString();
+                    newUser.anagraphicid = result['data'].id;
+                    console.log(newUser);
+                    this.users = [...this.users, newUser];
+                  }
+                });
             }
-
-            //newUser.id = result[];
-            //newUser.email
-            //newUser.password
-            //newUser.role
-            //newUser.userscreationdate
-            //newUser.anagraphicid
-            //newUser.regnuminps
-            //newUser.regnumsps
-            //this.users = [...this.users, newUser];
-            //console.log(this.users);
           },
           error => {
-            console.log('errore');
-            console.log(error);
-
+            this.toastrService.error('Errore http');
           }
         );
-        console.log(res);
-      },
-      error => {
-        console.log(error);
-      });
+      }
+    );
+    /*res => {
+      let myObj = this.parseDialogFormRes(res['data']);
+      console.log(myObj);
+      this.userAdminService.createNewUser(myObj.usertoadd ).subscribe(
+        result => {
+          if (result['status'] === 'error') {
+            this.toastrService.error(result['message']);
+            return;
+          } else {
+            let user = result['data'];
+            const newUser = new UserAdmin();
+            newUser.id = user["id"];
+            newUser.username = user["username"];
+            newUser.password = user["password"];
+            newUser.email = user["email"];
+            newUser.role = user["role"];
+            newUser.regnuminps = user["regnuminps"];
+            newUser.regnumsps = user["regnumsps"];
+            newUser.userscreationdate = new Date().toString();
+            console.log(newUser);
+            this.users = [...this.users, newUser];
+            this.anagraphicService.addAnagraphicForUser(newUser.id, myObj.anagtoadd).subscribe(
+              result => {
+                console.log(result);
+                if (result['status'] === 'error') {
+                this.toastrService.success(result.toString());
+                } else {
+                  this.toastrService.error(result['message']);
+                  return;
+                }
+              },
+              error => {
+                this.toastrService.error("Errore http");
+              }
+            );
+          }
+
+        },
+        error => {
+
+        }
+      );
+    });*/
+    /*
+  this.userAdminService.createNewUser(res).subscribe(
+    result => {
+      console.log(result);
+      if (result['status'] === 'error') {
+        this.toastrService.error(result['message']);
+        return;
+      } else {
+
+        let user = result['data'];
+        const newUser = new UserAdmin();
+        newUser.username = user["username"];
+        newUser.password = user["password"];
+        newUser.email = user["email"];
+        newUser.role = user["role"];
+        newUser.regnuminps = user["regnuminps"];
+        newUser.regnumsps = user["regnumsps"];
+        newUser.userscreationdate = new Date().toString();
+        console.log(newUser);
+        this.users = [...this.users, newUser];
+
+      }
+  },
+  error => {
+    console.log('errore');
+    console.log(error);
+
+  }
+);
+console.log(res);
+},
+error => {
+console.log(error);
+});*/
   }
 
 
@@ -111,6 +201,7 @@ export class UserAdminComponent implements OnInit {
   }
 
   select(user: UserAdmin) {
+    console.log(user);
     this.selected = user;
   }
 
@@ -139,18 +230,39 @@ export class UserAdminComponent implements OnInit {
   deleteUserAdmin() {
     this.closeModal();
     if (this.userToDelete) {
-      this.userAdminService.deleteNewUser(this.userToDelete.id)
-        .subscribe(
-          res => {
-            this.users = this.users.filter(obj => obj !== this.userToDelete);
-            this.userToDelete = null;
-            this.toastrService.success(' Utente cancellato ');
+      console.log(this.userToDelete);
+      this.anagraphicService.deleteAnagraphic(this.userToDelete.anagraphicid).subscribe(
+        delres => {
+          this.userAdminService.deleteNewUser(this.userToDelete.id)
+            .subscribe(
+              res => {
+                this.users = this.users.filter(obj => obj !== this.userToDelete);
+                this.userToDelete = null;
+                this.toastrService.success(' Utente cancellato ');
 
-          },
-          error => {
-            console.log(error);
-            this.toastrService.success('Errore nella cancellazione');
-          });
+              },
+              error => {
+                console.log(error);
+                this.toastrService.error('Errore nella cancellazione');
+              });
+        },
+        error => {
+          this.userAdminService.deleteNewUser(this.userToDelete.id)
+            .subscribe(
+              res => {
+                this.users = this.users.filter(obj => obj !== this.userToDelete);
+                this.userToDelete = null;
+                this.toastrService.success(' Utente cancellato ');
+
+              },
+              error => {
+                console.log(error);
+                this.toastrService.error('Errore nella cancellazione');
+              });
+          this.toastrService.error('Errore http');
+        }
+      );
+
     }
     this.clear();
 

@@ -26,12 +26,8 @@ export class AnagraphicService {
   }
 
   addAnagraphicForUser(anagraphic) {
-
-  }
-
-  updateAnagraphicForUser(anagraphic) {
-    const url = environment.apiUrl + 'anagraphicData/updateAnagraphicDataById.php';
-    return this.http.post(url,  anagraphic ).pipe(catchError(error => {
+    const url = environment.apiUrl + 'anagraphicData/createAnagraphicData.php';
+    return this.http.post(url, anagraphic).pipe(catchError(error => {
       return EMPTY;
     }), mergeMap(something => {
       if (something) {
@@ -42,6 +38,35 @@ export class AnagraphicService {
     })
     );
 
+  }
+
+  updateAnagraphicForUser(anagraphic) {
+    const url = environment.apiUrl + 'anagraphicData/updateAnagraphicDataById.php';
+    return this.http.post(url, anagraphic).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+        return of(something);
+      } else {
+        return EMPTY;
+      }
+    })
+    );
+
+  }
+
+  deleteAnagraphic(anagid) {
+    const url = environment.apiUrl + 'anagraphicData/deleteAnagraphicDataById.php';
+    return this.http.post(url, { id: anagid }).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+        return of(something);
+      } else {
+        return EMPTY;
+      }
+    })
+    );
   }
 
 }

@@ -25,6 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     HttpClientModule,
     SharedModule
-  ]
+  ],
+  providers: []
 })
 export class TimesheetModule { }

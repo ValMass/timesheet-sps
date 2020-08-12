@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '@app/services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-side-bar',
@@ -11,7 +12,8 @@ export class SideBarComponent implements OnInit {
   isadmin: boolean = true ;
 
   constructor(
-    public logoutService: AuthenticationService
+    public logoutService: AuthenticationService,
+    private router: Router,
     ) {
 
   }
@@ -30,7 +32,17 @@ export class SideBarComponent implements OnInit {
   }
 
   logout() {
-    this.logoutService.logout();
+    this.logoutService.logout().subscribe(
+      result => {
+        localStorage.removeItem('currentUser');
+        this.router.navigate(['/login-page']);
+      },
+      error => {}
+    );
+     // remove user from local storage to log user out
+     /*localStorage.removeItem('currentUser');
+     this.currentUserSubject.next(null);
+     this.router.navigate(['/login-page']);*/
   }
 
 }

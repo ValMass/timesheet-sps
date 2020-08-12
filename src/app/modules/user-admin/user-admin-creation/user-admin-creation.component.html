@@ -31,14 +31,41 @@
         <input type="text" class="form-control" id="regnumsps" placeholder="regnumsps" formControlName="regnumsps" />
       </div>
     </div>
-    <div>
-      <input type="checkbox" id="isAdmin" name="isAdmin" formControlName="role">
-      <label for="isAdmin">Amministratore</label>
+    <div class="form-group row">
+      <label for="isadmin" class="col-sm-2 col-form-label">Ruolo</label>
+      <div class="col-sm-10">
+        <select id="isadmin" name="isadmin" class="custom-select sel-text" formControlName="isadmin" required>
+          <option value="2" selected="selected">Utente Ordinario</option>
+          <option value="1">Amministratore</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="name" class="col-sm-2 col-form-label">Nome</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="name" placeholder="username" formControlName="name" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="surname" class="col-sm-2 col-form-label">Cognome</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="usesurnamername" placeholder="Cognome" formControlName="surname" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="birthdate" class="col-sm-2 col-form-label">Data di nascita</label>
+      <div class="col-sm-10">
+        <input matInput [matDatepicker]="picker" required formControlName="birthdate" disabled>
+        <mat-datepicker-toggle matSuffix [for]="picker" class="bottone-data"></mat-datepicker-toggle>
+        <mat-datepicker #picker disabled="false"></mat-datepicker>
+        <div *ngIf="f.birthdate.errors && submitted" class="invalid-feedback">
+          <div *ngIf="f.birthdate.errors.required">Data richiesta</div>
+        </div>
+      </div>
     </div>
   </form>
 </div>
 <div mat-dialog-actions>
-  <button mat-button mat-dialog-close class="btn btn-custom w-50" cdkFocusInitial >Close</button>
-  <button form='myform' type="submit" class="btn btn-custom w-50" >Salva</button>
+  <button mat-button mat-dialog-close class="btn btn-custom w-50" cdkFocusInitial>Close</button>
+  <button form='myform' type="submit" class="btn btn-custom w-50">Salva</button>
 </div>
-

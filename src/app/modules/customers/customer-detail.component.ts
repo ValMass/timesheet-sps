@@ -1,6 +1,10 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges, HostListener } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { Office } from './models/office';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges, HostListener, ChangeDetectorRef } from '@angular/core';
 import { Customer } from '@app/modules/customers/customer';
 import { Router, NavigationStart } from '@angular/router';
+import { CustomerOfficeService } from './services/customer-office.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'customer-detail',
@@ -17,8 +21,14 @@ export class CustomerDetailComponent implements OnChanges {
   submitted: boolean;
   addMode = false;
   editingCustomer: Customer;
+  officeslist: any[] = [];
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private customerOfficesService: CustomerOfficeService,
+    private toastrService: ToastrService,
+    private cd : ChangeDetectorRef
+    ) {
     //navigate to list and avoid strange routing behaviour on back click
     // router.events
     //   .subscribe((event: NavigationStart) => {
@@ -42,10 +52,35 @@ export class CustomerDetailComponent implements OnChanges {
     if (this.customer && this.customer.id) {
       this.editingCustomer = { ...this.customer };
       this.addMode = false;
+      this.getoffices(this.customer.id);
+
+
+
     } else {
       this.editingCustomer = { id: undefined, name: '', legaladdress: '', pivacodicefiscale: '' };
       this.addMode = true;
     }
+  }
+  getoffices(id){
+    this.customerOfficesService.getOfficesByCustomer(id).subscribe(
+      result => {
+
+        if (result['status'] === 'error') {
+
+          this.toastrService.error('Errore durante il caricamento degli uffici: ' + result['message']);
+        } else {
+          this.officeslist = result['data'].map( x => x );
+          this.cd.detectChanges();
+        /* for (const office of result['data']) {
+            console.log(office);
+            this.officeslist.push(office);
+          }
+          console.log(this.officeslist);*/
+        }
+      }, error => {
+        this.toastrService.error('Errore durante il caricamento degli uffici: ' + error);
+      }
+    );
   }
 
   onSubmit() {
@@ -60,4 +95,14 @@ export class CustomerDetailComponent implements OnChanges {
     this.unselect.emit();
   }
 
+  deleteOffice(office){
+
+  }
+  selectOffice(office){
+
+  }
+
+  trackById(index: number, office: Office): number {
+    return office.id;
+}
 }

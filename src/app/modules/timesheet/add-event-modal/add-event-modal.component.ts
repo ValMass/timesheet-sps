@@ -24,9 +24,10 @@ export class AddEventModalComponent implements OnInit   {
   profileForm :FormGroup;
 
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: string,
-              private dialogRef: MatDialogRef<AddEventModalComponent>,
-              private formBuilder: FormBuilder) { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<AddEventModalComponent>,
+    private formBuilder: FormBuilder) { }
 
 
 
@@ -34,7 +35,7 @@ export class AddEventModalComponent implements OnInit   {
     this.profileForm = this.formBuilder.group({
       numeroOre: [null, [Validators.required]],
       contractCode: [null, [Validators.required]],
-      eventDate: [null, [Validators.required]]
+      eventDate: [this.data.date, [Validators.required]]
     });
 
 

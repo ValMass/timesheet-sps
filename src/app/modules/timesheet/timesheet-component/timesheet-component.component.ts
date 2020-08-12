@@ -297,7 +297,7 @@ export class NewTimesheetComponentComponent implements OnInit {
   openDialog() {
     const dialogRef = this.dialog.open(AddEventModalComponent, {
       width: '300px',
-      data: {}
+      data: { date : this.viewDate }
     });
     dialogRef.afterClosed().subscribe(
       res => {

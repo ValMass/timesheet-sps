@@ -43,7 +43,7 @@ export class UserAdminService implements Resolve<UserAdmin[]> {
   }
 
   createNewUser(userData) {
-    let user = userData["data"];
+    let user = userData;
     console.log(user);
     if (user.role === true) {
       user.role = 1;
