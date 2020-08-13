@@ -14,6 +14,7 @@ export class SideBarComponent implements OnInit {
   constructor(
     public logoutService: AuthenticationService,
     private router: Router,
+    private authServ: AuthenticationService,
     ) {
 
   }
@@ -35,7 +36,9 @@ export class SideBarComponent implements OnInit {
     this.logoutService.logout().subscribe(
       result => {
         localStorage.removeItem('currentUser');
+        this.authServ.removeCurrentSubject();
         this.router.navigate(['/login-page']);
+
       },
       error => {}
     );

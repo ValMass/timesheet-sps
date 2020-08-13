@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { first } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   templateUrl: './login-page.component.html',
@@ -19,7 +20,8 @@ export class LoginPageComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private toastrService: ToastrService
   ) {
     if (this.authenticationService.currentUserValue) {
       let user = this.authenticationService.currentUserValue;
@@ -76,7 +78,7 @@ export class LoginPageComponent implements OnInit {
       .subscribe(
         data => {
           if (data.token == null) {
-            console.log('not logged');
+            this.toastrService.error('not logged');
           } else {
             this.router.navigate([this.returnUrl]);
           }

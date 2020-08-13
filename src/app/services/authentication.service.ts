@@ -24,6 +24,10 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
+  removeCurrentSubject(){
+    this.currentUserSubject.next(null);
+  }
+
 
   login(username: string, password: string) {
     const url = environment.apiUrl + '/login.php';
@@ -44,5 +48,6 @@ export class AuthenticationService {
     const url = environment.apiUrl + '/logout.php';
     return this.http.post( url, {});
   }
+
 
 }
