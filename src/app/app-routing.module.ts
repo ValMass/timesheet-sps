@@ -95,6 +95,7 @@ const routes: Routes = [
     resolve: {
       userlist: UserAdminService
     },
+    canActivate: [AuthGuard]
   },
   {
     path: 'user-anag', loadChildren: () => import('./modules/user-anag/user-anag.module').then(m => m.UserAnagModule),
