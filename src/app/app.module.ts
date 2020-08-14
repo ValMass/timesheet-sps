@@ -36,6 +36,7 @@ import { NotFoundComponent } from './component/not-found/not-found.component';
 import { UserAdminCreationComponent } from './modules/user-admin/user-admin-creation/user-admin-creation.component';
 import { AuthInterceptor } from './_helper/expired.interceptor';
 import { Router } from '@angular/router';
+import { TimesheetUserModule } from './modules/timesheet-user/timesheet-user.module';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,9 @@ import { Router } from '@angular/router';
     MatExpansionModule,
     // My Module
     TimesheetModule,
-    ToastrModule.forRoot() // ToastrModule added
+    ToastrModule.forRoot(),
+    TimesheetUserModule, // ToastrModule added
+
 
   ],
   exports: [

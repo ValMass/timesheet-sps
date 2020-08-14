@@ -22,6 +22,7 @@ import { OfficeDetailComponent } from './modules/offices/office-detail/office-de
 import { NewTimesheetComponentComponent } from './modules/timesheet/timesheet-component/timesheet-component.component';
 import { UserAdminService } from './modules/user-admin/services/user-admin.service';
 import { NotFoundComponent } from './component/not-found/not-found.component';
+import { TimesheetEditComponent } from './modules/timesheet-user/timesheet-edit/timesheet-edit.component';
 
 
 
@@ -99,7 +100,19 @@ const routes: Routes = [
   },
   {
     path: 'user-anag', loadChildren: () => import('./modules/user-anag/user-anag.module').then(m => m.UserAnagModule),
-
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'timesheet-user',
+    component: TimesheetEditComponent,
+    /*
+    resolve: {
+      customer: TimesheetResolverService
+    }*/
+  },
+  {
+    path: 'home-page-user', loadChildren: () => import('./modules/home-page-user/home-page-user.module').then(m => m.HomePageUserModule),
+    canActivate: [AuthGuard]
   },
   {
     path: '**',

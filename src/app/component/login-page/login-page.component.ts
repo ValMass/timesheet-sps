@@ -22,33 +22,7 @@ export class LoginPageComponent implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
     private toastrService: ToastrService
-  ) {
-    if (this.authenticationService.currentUserValue) {
-      let user = this.authenticationService.currentUserValue;
-      console.log(user.isadmin);
-      switch (user.isadmin) {
-        case '1':
-          console.log('primascelta');
-          this.router.navigate(['/home-page']);
-          break;
-        case '2':
-          this.router.navigate(['/timesheet-page']);
-          break;
-
-        default:
-          console.log('error');
-          break;
-      }
-
-
-      /* if( user.isadmin = 1) {
-         this.router.navigate(['/timesheet-page']);
-       } else {
-         this.router.navigate(['/timesheet-page']);
-       }*/
-
-    }
-  }
+  ) {  }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -80,7 +54,24 @@ export class LoginPageComponent implements OnInit {
           if (data.token == null) {
             this.toastrService.error('not logged');
           } else {
-            this.router.navigate([this.returnUrl]);
+            //this.router.navigate([this.returnUrl]);
+            if (this.authenticationService.currentUserValue) {
+              let user = this.authenticationService.currentUserValue;
+              console.log(user.isadmin);
+              switch (user.isadmin) {
+                case '1':
+                  console.log('primascelta');
+                  this.router.navigate(['/home-page']);
+                  break;
+                case '2':
+                  this.router.navigate(['/home-page-user']);
+                  break;
+
+                default:
+                  console.log('error');
+                  break;
+              }
+            }
           }
 
         },

@@ -1,8 +1,10 @@
+import { CalendarEvent } from 'angular-calendar';
+
 export interface Timesheet {
   id: string;
   month: string;
   year: string;
-  dayJson?: string;
+  dayJson?: Array<CalendarEvent>;
   validatedbyadmin: string;
   validationtimestamp: string;
   freezed: string;
