@@ -65,10 +65,10 @@
   </div>
 
   <!-- <button class="btn btn-primary w-100 mt-5" (click)="openModal()">Aggiungi evento</button> -->
-  <div>
-    <button class="btn btn-primary mt-5 col-3" (click)="openAddEventDialog()">Aggiungi evento</button>
-    <button class="btn btn-primary mt-5 col-3" (click)="askTosaveCurrentTimesheet()">Salva</button>
-    <button class="btn btn-primary mt-5 col-3" (click)="askToAcceptTimesheet()">Accetta</button>
+  <div class="luce" *ngIf="ismodifiable;">
+    <button class="btn btn-primary mt-5 col-4" (click)="openAddEventDialog()">Aggiungi evento</button>
+    <button class="btn btn-primary mt-5 col-4" (click)="askTosaveCurrentTimesheet()">Salva</button>
+    <button class="btn btn-primary mt-5 col-4" (click)="askToAcceptTimesheet()">Accetta</button>
    <!-- <button class="btn btn-primary mt-5 col-3" (click)="askToFreeze()">Accetta come amministratore</button>
     <button class="btn btn-primary mt-5 col-3" (click)="askToPayTimesheet()">Pagato</button>
     <button class="btn btn-primary mt-5 col-3" (click)="askToResetState()">Azzera stato</button>-->

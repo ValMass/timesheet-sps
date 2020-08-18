@@ -48,4 +48,24 @@ export class TimesheetUserService implements Resolve<any> {
     })
     );
   }
+
+  acceptTimesheet(Timesheet: Timesheetu){
+    let forCall = {
+      month: Timesheet.month,
+      year: Timesheet.year,
+      userid: Timesheet.userid
+    }
+    const url = environment.apiUrl + '/timesheets/freezeTimesheet.php';
+    return this.http.post<Timesheetu>( url, forCall ).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something && (something["status"] === 'done')) {
+        return of(something["data"]);
+      } else {
+        console.log("observer vuoto");
+        return EMPTY;
+      }
+    })
+    );
+  }
 }

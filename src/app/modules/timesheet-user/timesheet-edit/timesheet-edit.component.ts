@@ -51,6 +51,7 @@ export class TimesheetEditComponent implements OnInit {
   actualTimesheetState = 0;
   actualTimesheet: Timesheetu;
   events: CalendarEvent[] = [];
+  ismodifiable = false;
 
   activeDayIsOpen = false;
   viewDate: Date = new Date();
@@ -91,20 +92,21 @@ export class TimesheetEditComponent implements OnInit {
     this.actualTimesheetUserId = usrId;
     this.timesheetService.getTimesheet(month, year, usrId).subscribe(
       timesheet => {
-          if (timesheet === "{}"){
-            this.setEmptyCurrentMonthTimesheet();
+        if (timesheet === "{}") {
+          this.setEmptyCurrentMonthTimesheet();
 
-          } else {
-            this.loadCurrentMonthTimesheet(timesheet);
-            console.log(this.actualTimesheet.dayjson);
-            this.events = this.actualTimesheet.dayjson;
-          }
+        } else {
+          this.loadCurrentMonthTimesheet(timesheet);
+          console.log(this.actualTimesheet.dayjson);
+          this.events = this.actualTimesheet.dayjson;
+        }
       },
       error => {
         this.setErrorCurrentMonthTimesheet();
         console.log("errore http");
       }
     );
+    this.checkIfCanModify();
   }
 
   myPreviousClick() {
@@ -114,7 +116,7 @@ export class TimesheetEditComponent implements OnInit {
     this.events = [];
     this.timesheetService.getTimesheet(month, year, usrId).subscribe(
       timesheet => {
-        if (timesheet === "{}"){
+        if (timesheet === "{}") {
           this.setEmptyCurrentMonthTimesheet();
 
         } else {
@@ -128,6 +130,7 @@ export class TimesheetEditComponent implements OnInit {
         this.toastrService.error("Errore Http " + error);
       }
     );
+    this.checkIfCanModify();
   }
 
   myNextClick() {
@@ -154,6 +157,7 @@ export class TimesheetEditComponent implements OnInit {
 
       }
     );
+    this.checkIfCanModify();
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -200,7 +204,7 @@ export class TimesheetEditComponent implements OnInit {
           this.events = [...this.events, event];
           this.toastrService.success('Evento aggiunto');
         } else {
-          this.toastrService.success('Nessuna operazione effettuata');
+          this.toastrService.error('Nessuna operazione effettuata');
         }
 
 
@@ -226,27 +230,29 @@ export class TimesheetEditComponent implements OnInit {
   }
 
   saveCurrentTimesheet() {
+    if (this.checkIfCanModify()) {
+      console.log(this.actualTimesheet);
+      if (this.actualTimesheet) {
 
-    console.log(this.actualTimesheet);
-    if (this.actualTimesheet) {
+        this.timesheetService.saveTimesheet(this.actualTimesheet).subscribe(
+          timesheet => {
+            console.log(timesheet);
+            this.loadCurrentMonthTimesheet(timesheet);
+            this.events = this.actualTimesheet.dayjson;
+            this.closeConfirmationModal();
+          },
+          error => {
 
-      this.timesheetService.saveTimesheet(this.actualTimesheet).subscribe(
-        timesheet => {
-          console.log(timesheet);
-          this.loadCurrentMonthTimesheet(timesheet);
-          this.events = this.actualTimesheet.dayjson;
-          this.closeConfirmationModal();
-        },
-        error => {
+          }
 
-        }
-
-      );
+        );
+      } else {
+        console.log("timesheet vuoto");
+        this.createfromEmptyTimesheet();
+      }
     } else {
-      console.log("timesheet vuoto");
-      this.createfromEmptyTimesheet();
+      this.toastrService.error('Non modificabile');
     }
-
   }
 
   askToAcceptTimesheet() {
@@ -258,6 +264,18 @@ export class TimesheetEditComponent implements OnInit {
   }
 
   freezeCurrentTimesheet() {
+    this.timesheetService.acceptTimesheet(this.actualTimesheet).subscribe(
+      timesheet => {
+
+        console.log(timesheet);
+        this.loadCurrentMonthTimesheet(timesheet);
+        this.events = this.actualTimesheet.dayjson;
+        this.closeConfirmationModal();
+      },
+      error => {
+
+      }
+    );
 
   }
 
@@ -267,7 +285,7 @@ export class TimesheetEditComponent implements OnInit {
     return tmpArray.id;
   }
 
-  createfromEmptyTimesheet(){
+  createfromEmptyTimesheet() {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
     const timesheet = {
@@ -311,6 +329,22 @@ export class TimesheetEditComponent implements OnInit {
     this.actualTimesheet = null;
     this.events = [];
     this.timeshetStatus = "Errato";
+
+  }
+
+  checkIfCanModify() {
+    console.log(this.viewDate);
+    const now = new Date();
+    console.log(now);
+    if (isSameMonth(now, this.viewDate) && ( this.timeshetStatus === '1' )) {
+
+      this.ismodifiable = true;
+      return true;
+    } else {
+
+      this.ismodifiable = false;
+      return false;
+    }
 
   }
 

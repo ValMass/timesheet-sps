@@ -433,18 +433,22 @@ export class NewTimesheetComponentComponent implements OnInit {
     console.log(this.currentTimesheet.state);
     switch (this.currentTimesheet.state) {
       case '0':
-        this.timeshetStatus = "Modificabile";
+        this.timeshetStatus = "Errato";
         break;
 
       case '1':
-        this.timeshetStatus = "Accettato dal dipendente";
+        this.timeshetStatus = "Modificabile";
         break;
 
       case '2':
-        this.timeshetStatus = "Accettato dall'amministrazione";
+        this.timeshetStatus = "Accettato dal dipendente";
         break;
 
       case '3':
+        this.timeshetStatus = "Accettato dall'amministrazione";
+        break;
+
+      case '4':
         this.timeshetStatus = "Pagato";
         break;
 
