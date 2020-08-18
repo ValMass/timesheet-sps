@@ -1,3 +1,4 @@
+import { Timesheet } from './../../../models/timesheet';
 
 import { Component, OnInit } from '@angular/core'; import {
   CalendarEvent,
@@ -21,6 +22,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TimesheetUserService } from '../services/timesheet-user.service';
 import { Timesheetu } from '../models/timesheet';
+import { AddEventModalUserComponent } from '../add-event-modal/add-event-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -29,15 +32,23 @@ import { Timesheetu } from '../models/timesheet';
 })
 export class TimesheetEditComponent implements OnInit {
 
-// UNKNOWN
-modalData: {
-  action: string;
-  event: CalendarEvent;
-};
-/////////////////////////////
+  // UNKNOWN
+  modalData: {
+    action: string;
+    event: CalendarEvent;
+  };
+  /////////////////////////////
+
+
+  //// Ask Confirmation Modal //////////////
+  showModalSave = false;
+  showModalFreeze = false;
+  confirmationMessage = "";
+  //////////////////////////////////////////
 
 
   actualTimesheetUserId = 0;
+  actualTimesheetState = 0;
   actualTimesheet: Timesheetu;
   events: CalendarEvent[] = [];
 
@@ -67,6 +78,7 @@ modalData: {
   public timeshetStatus = '';
 
   constructor(
+    public dialog: MatDialog,
     private route: ActivatedRoute,
     private toastrService: ToastrService,
     private timesheetService: TimesheetUserService,
@@ -76,15 +88,69 @@ modalData: {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
     const usrId = this.getIdFromLocalStorage();
-    this.timesheetService.getTimesheet( month, year, usrId).subscribe(
+    this.actualTimesheetUserId = usrId;
+    this.timesheetService.getTimesheet(month, year, usrId).subscribe(
       timesheet => {
-        this.loadCurrentMonthTimesheet(timesheet);
-        console.log(this.actualTimesheet);
-        this.events = this.actualTimesheet.dayjson;
+          if (timesheet === "{}"){
+            this.setEmptyCurrentMonthTimesheet();
 
+          } else {
+            this.loadCurrentMonthTimesheet(timesheet);
+            console.log(this.actualTimesheet.dayjson);
+            this.events = this.actualTimesheet.dayjson;
+          }
+      },
+      error => {
+        this.setErrorCurrentMonthTimesheet();
+        console.log("errore http");
+      }
+    );
+  }
+
+  myPreviousClick() {
+    const month = this.viewDate.getMonth();
+    const year = this.viewDate.getFullYear();
+    const usrId = this.getIdFromLocalStorage();
+    this.events = [];
+    this.timesheetService.getTimesheet(month, year, usrId).subscribe(
+      timesheet => {
+        if (timesheet === "{}"){
+          this.setEmptyCurrentMonthTimesheet();
+
+        } else {
+          this.loadCurrentMonthTimesheet(timesheet);
+          console.log(this.actualTimesheet.dayjson);
+          this.events = this.actualTimesheet.dayjson;
+        }
 
       },
       error => {
+        this.toastrService.error("Errore Http " + error);
+      }
+    );
+  }
+
+  myNextClick() {
+    const month = this.viewDate.getMonth();
+    const year = this.viewDate.getFullYear();
+    const usrId = this.getIdFromLocalStorage();
+    this.events = [];
+    this.timesheetService.getTimesheet(month, year, usrId).subscribe(
+      timesheet => {
+        if (timesheet === "{}") {
+
+          this.setEmptyCurrentMonthTimesheet();
+
+        } else {
+
+          this.loadCurrentMonthTimesheet(timesheet);
+          console.log(this.actualTimesheet.dayjson);
+          this.events = this.actualTimesheet.dayjson;
+        }
+
+      },
+      error => {
+        console.log(error);
 
       }
     );
@@ -105,104 +171,169 @@ modalData: {
     console.log(JSON.stringify(events));
   }
 
-  myPreviousClick() {
-   /* console.log('se e\' vero so forte');
-    const month = this.viewDate.getMonth();
-    const year = this.viewDate.getFullYear();
-    const userid = this.id;
-    this.events = [];
-    this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, userid).subscribe(
-      (res) => {
-        console.log(res);
-        if (res['status'] === 'error') {
-          console.log("Error: " + res['message']);
-
-        } else {
-          this.currentTimesheet.fromObject(res['data']);
-          this.loadCurrentMonthTimesheet(res['data']);
-        }
-      },
-      error => {
-        this.toastrService.error('Errore nella richiesta http ');
-      }
-    );*/
-  }
-
-  myNextClick() {
-    /*const month = this.viewDate.getMonth();
-    const year = this.viewDate.getFullYear();
-    const userid = this.id;
-    this.events = [];
-    this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, userid).subscribe(
-      (res) => {
-        console.log(res);
-        if (res['status'] === 'error') {
-          console.log("Error: " + res['message']);
-
-        } else {
-          this.currentTimesheet.fromObject(res['data']);
-          this.loadCurrentMonthTimesheet(res['data']);
-        }
-      },
-      error => {
-        this.toastrService.error('Errore nella richiesta http ');
-      }
-    );*/
-  }
 
   createEvent(datenn: any, event: any): void {
     console.log(datenn);
-    this.events.forEach(element => {
-      // console.log(JSON.stringify(element));
-    });
-    console.log(JSON.stringify(event));
-
+    this.openAddEventDialog();
 
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
     console.log(event);
   }
+
+  openAddEventDialog() {
+    const dialogRef = this.dialog.open(AddEventModalUserComponent, {
+      width: '300px',
+      data: { date: this.viewDate }
+    });
+    dialogRef.afterClosed().subscribe(
+      res => {
+        if (res.data !== 'close') {
+          const event = {
+            title: res.data.contractCode,
+            start: new Date(res.data.eventDate),
+            nOre: res.data.numeroOre,
+            actions: this.actions,
+          };
+
+          this.events = [...this.events, event];
+          this.toastrService.success('Evento aggiunto');
+        } else {
+          this.toastrService.success('Nessuna operazione effettuata');
+        }
+
+
+      });
+
+  }
+
+
+
+
+
   //// UTILITY FUNCTION /////////////////
-  getIdFromLocalStorage(){
+  closeConfirmationModal() {
+    this.showModalSave = false;
+    this.showModalFreeze = false;
+  }
+
+  askTosaveCurrentTimesheet() {
+    this.showModalSave = true;
+    if (this.actualTimesheet.id) {
+      this.confirmationMessage = 'Vuoi salvare il timesheet  del ' + this.actualTimesheet.month + ' ' + this.actualTimesheet.year;
+    }
+  }
+
+  saveCurrentTimesheet() {
+
+    console.log(this.actualTimesheet);
+    if (this.actualTimesheet) {
+
+      this.timesheetService.saveTimesheet(this.actualTimesheet).subscribe(
+        timesheet => {
+          console.log(timesheet);
+          this.loadCurrentMonthTimesheet(timesheet);
+          this.events = this.actualTimesheet.dayjson;
+          this.closeConfirmationModal();
+        },
+        error => {
+
+        }
+
+      );
+    } else {
+      console.log("timesheet vuoto");
+      this.createfromEmptyTimesheet();
+    }
+
+  }
+
+  askToAcceptTimesheet() {
+    this.showModalFreeze = true;
+    if (this.actualTimesheet.id) {
+      this.confirmationMessage = 'Vuoi salvare definitivamente il timesheet  del '
+        + this.actualTimesheet.month + ' ' + this.actualTimesheet.year;
+    }
+  }
+
+  freezeCurrentTimesheet() {
+
+  }
+
+  getIdFromLocalStorage() {
     const tmp = localStorage.getItem('currentUser');
     const tmpArray = JSON.parse(tmp);
     return tmpArray.id;
   }
 
+  createfromEmptyTimesheet(){
+    const month = this.viewDate.getMonth();
+    const year = this.viewDate.getFullYear();
+    const timesheet = {
+      month: this.viewDate.getMonth(),
+      year: this.viewDate.getFullYear(),
+      dayjson: this.events,
+      userid: this.actualTimesheetUserId.toString(),
+      freezed: '0',
+      state: '0',
+    };
+    this.actualTimesheet = timesheet;
+  }
+
   loadCurrentMonthTimesheet(recivedTimesheet) {
     this.actualTimesheet = recivedTimesheet;
     let tmpEvents = JSON.parse(recivedTimesheet.dayjson);
-
+    this.actualTimesheet.dayjson = []; // non e' sbagliato serve per eliminare le schifezze che potrebbero essere rimaste
+    console.log(tmpEvents);
     tmpEvents.forEach(element => {
       const newEvent = {
         title: element.title,
         start: new Date(element.start),
         nOre: element.nOre,
         actions: this.actions,
-      }
+      };
       this.actualTimesheet.dayjson = [...this.actualTimesheet.dayjson, newEvent];
     });
     this.updateStateLabel();
+  }
+
+
+  setEmptyCurrentMonthTimesheet() {
+    this.actualTimesheet = null;
+    this.events = [];
+    this.timeshetStatus = "Modificabile";
+
+
+  }
+
+  setErrorCurrentMonthTimesheet() {
+    this.actualTimesheet = null;
+    this.events = [];
+    this.timeshetStatus = "Errato";
+
   }
 
   updateStateLabel() {
     console.log(this.actualTimesheet.state);
     switch (this.actualTimesheet.state) {
       case '0':
-        this.timeshetStatus = "Modificabile";
+        this.timeshetStatus = "Errato";
         break;
 
       case '1':
-        this.timeshetStatus = "Accettato dal dipendente";
+        this.timeshetStatus = "Modificabile";
         break;
 
       case '2':
-        this.timeshetStatus = "Accettato dall'amministrazione";
+        this.timeshetStatus = "Accettato dal dipendente";
         break;
 
       case '3':
+        this.timeshetStatus = "Accettato dall'amministrazione";
+        break;
+
+      case '4':
         this.timeshetStatus = "Pagato";
         break;
 

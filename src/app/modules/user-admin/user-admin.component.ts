@@ -59,6 +59,9 @@ export class UserAdminComponent implements OnInit {
     tmpanag.name = dialogRes['name'];
     tmpanag.surname = dialogRes['surname'];
     tmpanag.birthdate = dialogRes['birthdate'];
+    tmpanag.address = dialogRes['address'];
+    tmpanag.phonenumber1 = dialogRes['phonenumber1'];
+    tmpanag.phonenumber2 = dialogRes['phonenumber2'];
     return { usertoadd: tmpuser, anagtoadd: tmpanag };
   }
 
@@ -76,7 +79,7 @@ export class UserAdminComponent implements OnInit {
           result => {
             console.log(result);
             if (result['status'] === 'error') {
-              this.toastrService.success(result.toString());
+              this.toastrService.error(result.toString());
             } else {
               myObj.usertoadd.anagraphicid = result['data'].id;
               this.userAdminService.createNewUser(myObj.usertoadd).subscribe(

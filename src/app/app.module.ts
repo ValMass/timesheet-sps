@@ -37,6 +37,8 @@ import { UserAdminCreationComponent } from './modules/user-admin/user-admin-crea
 import { AuthInterceptor } from './_helper/expired.interceptor';
 import { Router } from '@angular/router';
 import { TimesheetUserModule } from './modules/timesheet-user/timesheet-user.module';
+import { AddEventModalUserComponent } from './modules/timesheet-user/add-event-modal/add-event-modal.component';
+
 
 @NgModule({
   declarations: [
@@ -53,6 +55,7 @@ import { TimesheetUserModule } from './modules/timesheet-user/timesheet-user.mod
     AddCustomerOfficeDialogComponent,
     ConfirmationDialogComponent,
     NotFoundComponent,
+
 
   ],
   imports: [
@@ -73,7 +76,7 @@ import { TimesheetUserModule } from './modules/timesheet-user/timesheet-user.mod
     TimesheetModule,
     ToastrModule.forRoot(),
     TimesheetUserModule, // ToastrModule added
-
+    
 
   ],
   exports: [
@@ -84,7 +87,13 @@ import { TimesheetUserModule } from './modules/timesheet-user/timesheet-user.mod
     MatNativeDateModule,
     MatIconModule,
   ],
-  entryComponents: [AddEventModalComponent, AddUserDialogComponent, AddOfficeDialogComponent, UserAdminCreationComponent ],
+  entryComponents: [
+    AddEventModalComponent,
+    AddEventModalUserComponent,
+    AddUserDialogComponent,
+    AddOfficeDialogComponent,
+    UserAdminCreationComponent,
+  ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {

@@ -3,17 +3,29 @@ import { CommonModule } from '@angular/common';
 
 import { TimesheetUserRoutingModule } from './timesheet-user-routing.module';
 import { TimesheetEditComponent } from './timesheet-edit/timesheet-edit.component';
-import { CalendarModule } from 'angular-calendar';
-import { DateAdapter } from '@angular/material/core';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { AddEventModalUserComponent } from './add-event-modal/add-event-modal.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from '@app/shared/shared.module';
 
 
 @NgModule({
-  declarations: [TimesheetEditComponent],
+  declarations: [TimesheetEditComponent, AddEventModalUserComponent],
   imports: [
     CommonModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
-    TimesheetUserRoutingModule
-  ]
+    TimesheetUserRoutingModule,
+    MatDatepickerModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    SharedModule,
+
+  ],
+  entryComponents: [
+    AddEventModalUserComponent,
+  ],
 })
 export class TimesheetUserModule { }

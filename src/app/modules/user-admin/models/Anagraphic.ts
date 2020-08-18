@@ -14,4 +14,7 @@ export class Anagraphic {
   buonipastobool: string;
   sex: string;
   contractid: string;
+  phonenumber1: string;
+  phonenumber2: string;
+
 }

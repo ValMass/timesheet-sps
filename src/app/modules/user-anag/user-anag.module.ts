@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { UserAnagRoutingModule } from './user-anag-routing.module';
 import { UserAnagComponent } from './user-anag.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -11,7 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     UserAnagRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ]
 })
 export class UserAnagModule { }

@@ -1,7 +1,7 @@
 export interface Timesheetu {
-  id: string;
-  month: string;
-  year: string;
+  id?: string;
+  month: number;
+  year: number;
   dayjson?: Array<any>;
   validatedbyadmin?: string;
   validationtimestamp?: string;

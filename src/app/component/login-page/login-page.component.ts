@@ -77,6 +77,7 @@ export class LoginPageComponent implements OnInit {
         },
         error => {
           this.error = error;
+          this.toastrService.error('Errore http');
           this.loading = false;
         });
   }

@@ -52,7 +52,10 @@ export class UserAdminCreationComponent implements OnInit {
     isadmin: new FormControl(''),
     name: new FormControl(''),
     surname: new FormControl(''),
+    address: new FormControl('', [ Validators.required, ] ),
     birthdate : new FormControl(''),
+    phonenumber1: new FormControl('', [ Validators.required, ]),
+    phonenumber2: new FormControl(''),
   });
 
 
