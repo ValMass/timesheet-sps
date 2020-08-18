@@ -53,7 +53,7 @@ export class TimesheetEditComponent implements OnInit {
   events: CalendarEvent[] = [];
   ismodifiable = false;
   timeshetStatus = '1';
-  
+
   activeDayIsOpen = false;
   viewDate: Date = new Date();
   CalendarView = CalendarView;
@@ -337,10 +337,11 @@ export class TimesheetEditComponent implements OnInit {
     console.log(this.viewDate);
     const now = new Date();
     console.log(now);
-    if (isSameMonth(now, this.viewDate) && ( this.timeshetStatus === '1' || )) {
+    if (isSameMonth(now, this.viewDate) && ( this.timeshetStatus === '1')) {
 
       this.ismodifiable = true;
       return true;
+      
     } else {
 
       this.ismodifiable = false;
