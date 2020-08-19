@@ -41,6 +41,7 @@ export class TimesheetUserService implements Resolve<any> {
     }), mergeMap(something => {
       if (something && (something["status"] === 'done')) {
         return of(something["data"]);
+        console.log("observer pieno");
       } else {
         console.log("observer vuoto");
         return EMPTY;

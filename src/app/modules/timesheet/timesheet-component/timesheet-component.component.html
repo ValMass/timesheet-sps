@@ -35,29 +35,7 @@
       <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
     </div>
     <div class="col-md-4">
-      <div class="btn-group">
-        <div
-          class="btn btn-primary"
-          (click)="setView(CalendarView.Month)"
-          [class.active]="view === CalendarView.Month"
-        >
-          Month
-        </div>
-        <div
-          class="btn btn-primary"
-          (click)="setView(CalendarView.Week)"
-          [class.active]="view === CalendarView.Week"
-        >
-          Week
-        </div>
-        <div
-          class="btn btn-primary"
-          (click)="setView(CalendarView.Day)"
-          [class.active]="view === CalendarView.Day"
-        >
-          Day
-        </div>
-      </div>
+      <h5 class="mt-4 btn btn-primary text-light">{{ timeshetStatus }}</h5>
     </div>
   </div>
   <br />
@@ -85,7 +63,6 @@
     >
     </mwl-calendar-week-view>
   </div>
-  <h5 class="mt-4 btn btn-primary text-light">{{ timeshetStatus }}</h5>
 
   <!-- <button class="btn btn-primary w-100 mt-5" (click)="openModal()">Aggiungi evento</button> -->
   <div>
