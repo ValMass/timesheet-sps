@@ -122,7 +122,7 @@ export class TimesheetEditComponent implements OnInit {
     this.timesheetService.getTimesheet(month, year, usrId).subscribe(
       timesheet => {
         if (timesheet === "{}") {
-          this.setEmptyCurrentMonthTimesheet();
+          this.createfromEmptyTimesheet();
 
         } else {
           this.loadCurrentMonthTimesheet(timesheet);
@@ -147,7 +147,7 @@ export class TimesheetEditComponent implements OnInit {
       timesheet => {
         if (timesheet === "{}") {
 
-          this.setEmptyCurrentMonthTimesheet();
+          this.createfromEmptyTimesheet();
 
         } else {
 
@@ -335,10 +335,7 @@ export class TimesheetEditComponent implements OnInit {
 
   setEmptyCurrentMonthTimesheet() {
     console.log('setemptyTimesheet');
-    this.actualTimesheet = {
-
-
-    };
+    this.actualTimesheet = null;
     this.events = [];
     this.timeshetStatus = "Modificabile";
 

@@ -9,12 +9,18 @@ import { StatsUserService } from '../services/stats-user.service';
 })
 export class WorkedHourComponent implements OnInit {
   @Input() userId;
+  @Input() month;
   @Input() year;
   @Input() workedThisMonth;
+
+  monthLabel = "";
+  monthsName = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
+   'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
 
   constructor(private statsUserService: StatsUserService) { }
 
   ngOnInit(): void {
+    this.monthLabel = this.monthsName[this.month];
 
 
     //this.statsUserService.loadAllEventForThisYear(this.userId, this.year).subscribe();

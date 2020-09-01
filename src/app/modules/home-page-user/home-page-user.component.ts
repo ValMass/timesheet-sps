@@ -13,8 +13,11 @@ export class HomePageUserComponent implements OnInit {
   public workedThisMonth = 0;
   public userid = 0;
   public year = 0;
+  public month = 0;
   public anagId = 0;
   public anag: Anag;
+
+
 
   constructor(
     private statsUserService: StatsUserService,
@@ -23,6 +26,7 @@ export class HomePageUserComponent implements OnInit {
   ngOnInit(): void {
     this.userid = this.getIdFromLocalStorage();
     this.year = this.getCurrentYear();
+    this.month = this.getCurrentMonth();
     this.anagId = this.getAnagIdFromLocalStorage();
     this.statsUserService.getAnagraphicById(this.anagId).subscribe(
       result => {
