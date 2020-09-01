@@ -11,6 +11,8 @@ export class HomePageUserComponent implements OnInit {
   public name = "";
   public surname = "";
   public workedThisMonth = 0;
+  public deseaseThisMonth = 0;
+  public permessiThisMonth = 0;
   public userid = 0;
   public year = 0;
   public month = 0;
@@ -55,6 +57,8 @@ export class HomePageUserComponent implements OnInit {
             if( Number(element['month']) === this.getCurrentMonth() ) {
               const eventlist = JSON.parse(element['dayjson']);
               this.workedThisMonth = element["totalworkedhours"];
+              this.permessiThisMonth = element["totalpermessihours"];
+              this.deseaseThisMonth = element["totaldeseasehours"];
               eventlist.forEach(element => {
 
 
