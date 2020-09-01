@@ -82,7 +82,9 @@ export class CustomerDetailComponent implements OnChanges {
       }
     );
   }
-
+  aggiungiUfficio(){
+    
+  }
   onSubmit() {
     console.log('ok');
     this.submitted = true;

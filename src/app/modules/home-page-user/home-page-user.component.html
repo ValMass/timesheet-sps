@@ -1,2 +1,5 @@
-<p>home-page-user works!</p>
-<app-worked-hour></app-worked-hour>
+<h1 class="text-center mb-4"> Benvenuto  {{ name }} {{ surname }}</h1>
+<app-worked-hour class="mt-4"
+  [userId]="userid"
+  [workedThisMonth]="workedThisMonth"
+></app-worked-hour>

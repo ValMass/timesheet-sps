@@ -12,13 +12,13 @@ export class CustomerOfficeService {
 
   constructor(private http: HttpClient) { }
 
-  getOfficesByCustomer(customerid): Observable<Office> {
+  getOfficesByCustomer(customerid) {
     const url = environment.apiUrl + 'customerOffices/listAllCustomerOfficesByCustomerId.php';
     return this.http.post(url, { customerid }).pipe(catchError(error => {
       return EMPTY;
     }), mergeMap(something => {
       if (something) {
-        return of(something['data'] as Office);
+        return of(something);
       } else {
         return EMPTY;
       }
@@ -33,7 +33,7 @@ export class CustomerOfficeService {
     const cap = realuser.cap;
     const userscreationdate = new Date();
     const url = environment.apiUrl + '/customeroffices/createCustomerOffices.php';
-    return this.http.post(url, { address, city, cap, userscreationdate  });
+    return this.http.post(url, { address, city, cap, userscreationdate });
   }
 
   delete(customeroffice) {

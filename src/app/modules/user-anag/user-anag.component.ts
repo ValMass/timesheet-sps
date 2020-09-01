@@ -43,7 +43,6 @@ export class UserAnagComponent implements OnInit {
     sex: new FormControl('', [Validators.required,]),
     contractid: new FormControl('', [Validators.required,]),
   });
-  // regnuminps, contracttype, distaccatoda, distaccatoa, sededilavoro, valorerimborsistimato, buonipastobool, sex, contractid,
   ngOnInit() {
     this.currentAnagId = this.getIdFromLocalStorage();
     const id = this.getIdFromLocalStorage();
@@ -54,6 +53,7 @@ export class UserAnagComponent implements OnInit {
           this.dbAnag = anag["data"];
           this.nome = this.dbAnag.name;
           this.cognome = this.dbAnag.surname;
+          console.log(this.dbAnag);
           let newanag = {
             name: this.dbAnag.name,
             surname: this.dbAnag.surname,
@@ -72,6 +72,7 @@ export class UserAnagComponent implements OnInit {
             sex: this.anagForm.get('surname').value,
             contractid: this.anagForm.get('surname').value,
           }
+          console.log(newanag);
           this.anagForm.patchValue(newanag);
         } else {
           console.log("error");
@@ -123,23 +124,23 @@ export class UserAnagComponent implements OnInit {
 
   submit() {
     let newanag = {
-      id: this.anagForm.get('name').value,
-      name: this.anagForm.get('name').value,
-      surname: this.anagForm.get('surname').value,
-      address: this.anagForm.get('surname').value,
-      phonenumber1: this.anagForm.get('surname').value,
-      phonenumber2: this.anagForm.get('surname').value,
-      birthdate: this.anagForm.get('surname').value,
-      birthplace: this.anagForm.get('surname').value,
-      regnuminps: this.anagForm.get('surname').value,
-      contracttype: this.anagForm.get('surname').value,
-      distaccatoda: this.anagForm.get('surname').value,
-      distaccatoa: this.anagForm.get('surname').value,
-      sededilavoro: this.anagForm.get('surname').value,
-      valorerimborsistimato: this.anagForm.get('surname').value,
-      buonipastobool: this.anagForm.get('surname').value,
-      sex: this.anagForm.get('surname').value,
-      contractid: this.anagForm.get('surname').value,
+      id: this.dbAnag.id,
+      name: this.dbAnag.name,
+      surname: this.dbAnag.surname,
+      address: this.anagForm.get('address').value,
+      phonenumber1: this.anagForm.get('phonenumber1').value,
+      phonenumber2: this.anagForm.get('phonenumber2').value,
+      birthdate: this.dbAnag.birthdate,
+      birthplace: this.dbAnag.birthplace,
+      regnuminps: this.dbAnag.regnuminps,
+      contracttype: this.dbAnag.contracttype,
+      distaccatoda: this.dbAnag.distaccatoda,
+      distaccatoa: this.dbAnag.distaccatoa,
+      sededilavoro: this.dbAnag.sededilavoro,
+      valorerimborsistimato: this.dbAnag.valorerimborsistimato,
+      buonipastobool: this.dbAnag.buonipastobool,
+      sex: this.dbAnag.sex,
+      contractid: this.dbAnag.contractid,
     }
     console.log(newanag);
   }

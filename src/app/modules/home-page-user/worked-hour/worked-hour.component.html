@@ -1,4 +1,46 @@
-<p>worked-hour works!</p>
+<section>
+  <div class="card">
+    <div class="card-header">
+      <h2>Riassunto Mensile</h2>
+    </div>
+    <div class="card-body">
+      <div class="my-2 row">
+        <p class="d-inline col-4">Ore Lavorate</p>
+        <p class="d-inline px-4" >{{ workedThisMonth }}</p>
+      </div>
+      <div class="my-2 row">
+        <p class="d-inline col-4">Ore Permesso</p>
+        <p class="d-inline px-4">{{ workedThisMonth }}</p>
+      </div>
+      <div class="my-2 row">
+        <p class="d-inline col-4 ">Ore Ferie</p>
+        <p class="d-inline px-4">{{ workedThisMonth }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!--<div class="card margin-card">
+  <div class="card-header">
+    <p class="card-header-title">
+      Riassunto del mese in corso
+      &nbsp;
+    </p>
+  </div>
+  <div class="container border border-dark">
+    <p>
+      Ore Lavorate
+    </p>
+    <p>
+      {{ workedThisMonth }}
+    </p>
+  </div>
+   <label for="worked">Ore lavorate</label> {{ workedThisMonth }}
+
+</div>
+ -->
 <!--
 <div style="display: block">
   <canvas mdbChart
