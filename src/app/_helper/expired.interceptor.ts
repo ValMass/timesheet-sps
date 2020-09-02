@@ -3,10 +3,12 @@ import { HttpInterceptor, HttpErrorResponse, HttpRequest, HttpHandler, HttpEvent
 import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { AuthenticationService } from '@app/services/authentication.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-    constructor(private router: Router) { }
+    constructor(private router: Router,
+                private authServ: AuthenticationService,) { }
 
     private handleAuthError(err: HttpErrorResponse): Observable<any> {
         // handle your auth error or rethrow
@@ -14,6 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
             // navigate /delete cookies or whatever
             this.router.navigateByUrl(`/login-page`);
             // if you've caught / handled the error, you don't want to rethrow it unless you also want downstream consumers to have to handle it as well.
+            this.authServ.removeCurrentSubject();
             localStorage.removeItem("currentUser");
             return of(err.message); // or EMPTY may be appropriate here
         }

@@ -27,7 +27,11 @@ import { TimesheetEditComponent } from './modules/timesheet-user/timesheet-edit/
 
 
 const routes: Routes = [
-  { path: '', component: HomePageComponent, canActivate: [AuthGuard]},
+  {
+    path: '',
+    component: LoginPageComponent,
+    canActivate: [AuthGuard]
+  },
   { path: 'login-page', component: LoginPageComponent  },
   { path: 'timesheet-page', component: NewTimesheetComponentComponent,  canActivate: [AuthGuard]  },
   { path: 'userprofile', component: UserprofilePageComponent , resolve: { user: UserAnagraphicResolverService }, canActivate: [AuthGuard] },
