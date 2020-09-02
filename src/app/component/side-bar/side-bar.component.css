@@ -7,11 +7,16 @@ body {
   overflow-y: auto;
 }
 
-.col-2 {
+.col-2-custom{
+  flex: 0 0 16.666667%;
+  max-width: 16.666667%;
+}
+
+.col-2-custom {
   max-height: 100% !important;
 }
 
-.col-2, .col-12 {
+.col-2-custom, .col-12 {
   padding: 0 !important;
 }
 
@@ -117,11 +122,11 @@ body {
 }
 
 #btn-custom {
-  width: 6em;
-  height: 6em;
+  width: 7.5em;
+  height: 7.5em;
   background-color: #962D37;
   box-shadow: 10px 10px 28px 0px rgba(0, 0, 0, 0.11);
-  padding: 1em 0;
+  padding: 2em 0;
   margin: auto;
   transition: transform 0.3s;
 }
@@ -135,21 +140,72 @@ li a {
   color: white;
 }
 
-.nav>li>a:hover{
-background-color: #962D37;
-cursor: pointer;
-color: white;
+.navbar-nav a:hover{
+  cursor: pointer;
+  color: #ddd;
 }
 
-.nav>li>a{
-  
-background-color: #962D37;
+.navbar-custom{
+  background-color: #962D37;
+  border-radius: 0;
+  justify-content: flex-start !important;
 }
 
-.active{
-  border: 1px solid white;
+.navbar-custom a{
+  color: white;
 }
+
+
 
 a:not([href]):not([tabindex]):hover{
-  color: #962D37;
+  color: #ddd;
+}
+
+.fas.fa-bars{
+  color: white;
+}
+
+.navbar-toggler-icon{
+  background-color: white;
+}
+
+
+@media(min-width: 320px) and (max-width: 991.98px){
+
+  /*.col-2-custom{
+    display: none !important;
+  }
+
+  .col-12-custom{
+    display: block !important;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .col-nav{
+      position: relative !important;
+      top: 0;
+      left: 0;
+      height: 150px;
+      width: 100%;
+  }
+
+  .nav.flex-column.m-auto{
+    display: flex;
+    flex-direction: row !important;
+  }
+
+  #btn-custom{
+    margin: 0 0.5em;
+  }*/
+
+
+}
+
+@media(min-width:992px) {
+
+  /*.col-12-custom{
+    display: none !important;
+  }*/
+
 }
