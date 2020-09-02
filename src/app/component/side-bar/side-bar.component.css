@@ -169,6 +169,29 @@ a:not([href]):not([tabindex]):hover{
   background-color: white;
 }
 
+.logo{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 5em;
+  height: 5em;
+  background-image: url("../../../assets/logo_sps.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.logo-container{
+  position: relative;
+  width: 5em;
+  height: 5em;
+  border-radius: 50%;
+  margin: auto;
+  background-color: white;
+  border: 1px solid white;
+}
+
 
 @media(min-width: 320px) and (max-width: 991.98px){
 

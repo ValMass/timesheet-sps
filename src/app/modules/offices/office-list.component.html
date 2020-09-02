@@ -20,7 +20,7 @@
         <td> <app-button-footer
           class="card-footer-item"
           [className]="'delete-item'"
-          [iconClasses]="'fas fa-trash'"
+          [iconClasses]="'fas fa-trash mr-3'"
           (clicked)="deleteOffice($event)"
           label="Elimina"
           [item]="office"
@@ -30,12 +30,12 @@
         <app-button-footer
           class="card-footer-item"
           [className]="'edit-item'"
-          [iconClasses]="'fas fa-edit'"
+          [iconClasses]="'fas fa-edit mr-3'"
           (clicked)="selectOffice($event)"
           label="Modifica"
           [item]="office"
         ></app-button-footer></td>
-     
+
       </tr>
     </tbody>
   </table>

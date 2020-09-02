@@ -25,10 +25,10 @@ export class SideBarComponent implements OnInit {
     // tslint:disable-next-line: triple-equals
     if ( currentU.isadmin == '1') {
       console.log('uno');
-      this.isadmin = false;
+      this.isadmin = true;
     } else {
       console.log('due');
-      this.isadmin = true;
+      this.isadmin = false;
     }
   }
 

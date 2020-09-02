@@ -1,6 +1,6 @@
 <div class="tab-user">
   <!-- maybe add refresh here -->
-  <list-header 
+  <list-header
   title="Aggiungi Ufficio"
   (add)="enableAddMode()"
   [selected]="selected"
@@ -17,7 +17,7 @@
       </office-list>
 
       <office-detail
-          *ngIf="selected" 
+          *ngIf="selected"
           [office]="selected"
           (unselect)="clear()"
           (save)="save($event)"

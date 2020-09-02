@@ -76,11 +76,17 @@
   </form>
 </div>
 <div class="card margin-card">
-    <header class="card-header">
-      <p class="card-header-title">
-       Lista uffici  {{editingCustomer.name}}
-        &nbsp;
-      </p>
+    <header class="card-header d-flex justify-content-between">
+      <div class="d-inline">
+        <p class="card-header-title d-inline m-3">
+          Lista uffici  {{editingCustomer.name}}
+           &nbsp;
+         </p>
+      </div>
+      <div class="d-inline">
+        <i class="fas fa-plus-square fa-2x"></i>
+      </div>
+
     </header>
 
   <table class="table table-striped no-margin">
