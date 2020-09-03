@@ -11,6 +11,10 @@
   text-align: center;
 }
 
+.form-group{
+  padding: 0;
+}
+
 .form-group label {
   font-weight: 300;
 }
