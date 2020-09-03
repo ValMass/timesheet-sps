@@ -1,9 +1,9 @@
-<div class="timesheet-container">
+<div class="timesheet-container-fluid">
   <div class="row text-center container-fluid">
     <div class="col-md-4">
       <div class="btn-group">
         <div
-          class="btn btn-primary"
+          class="btn btn-primary btn-cst-nav"
           mwlCalendarPreviousView
           [view]="view"
           [(viewDate)]="viewDate"
@@ -20,7 +20,7 @@
           Today
         </div>
         <div
-          class="btn btn-primary"
+          class="btn btn-primary btn-cst-nav"
           mwlCalendarNextView
           [view]="view"
           [(viewDate)]="viewDate"
@@ -35,7 +35,7 @@
       <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
     </div>
     <div class="col-md-4">
-      <h5 class="btn btn-primary text-light">{{ timeshetStatus }}</h5>
+      <h5 class="btn btn-primary text-light btn-cst-nav">{{ timeshetStatus }}</h5>
     </div>
   </div>
   <br />
@@ -65,12 +65,12 @@
   </div>
 
   <!-- <button class="btn btn-primary w-100 mt-5" (click)="openModal()">Aggiungi evento</button> -->
-  <div>
-    <button class="btn btn-primary mt-5 col-3" (click)="openDialog()">Aggiungi evento</button>
-    <button class="btn btn-primary mt-5 col-3" (click)="askTosaveCurrentTimesheet()">Salva</button>
-    <button class="btn btn-primary mt-5 col-3" (click)="askToFreeze()">Accetta come amministratore</button>
-    <button class="btn btn-primary mt-5 col-3" (click)="askToPayTimesheet()">Pagato</button>
-    <button class="btn btn-primary mt-5 col-3" (click)="askToResetState()">Azzera stato</button>
+  <div class="luce">
+    <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="openDialog()">Aggiungi evento</button>
+    <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="askTosaveCurrentTimesheet()">Salva</button>
+    <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="askToFreeze()">Accetta come amministratore</button>
+    <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="askToPayTimesheet()">Pagato</button>
+    <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="askToResetState()">Azzera stato</button>
   </div>
   <button class="btn btn-primary mt-5" (click)="checkIfTimesheetIsModifiable()">Dincibacco</button>
 </div>
