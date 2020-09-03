@@ -1,4 +1,4 @@
-@media (max-width: 576px){
+
   .luce{
     display: flex;
     flex-direction: column;
@@ -19,23 +19,3 @@
   .mt-5{
     margin-top: 0.3rem !important;
   }
-}
-
-@media (min-width: 768px){
-
-  .btn-cst-nav{
-    background-color: #962d37;
-    border: none;
-  }
-
-  .col-4{
-    flex: 0 0 100%;
-    max-width: 100%;
-    background-color: #962d37;
-    border: none;
-  }
-
-  .mt-5{
-    margin-top: 0.3rem !important;
-  }
-}
