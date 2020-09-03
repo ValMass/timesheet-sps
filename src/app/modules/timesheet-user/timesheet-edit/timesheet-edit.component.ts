@@ -194,7 +194,7 @@ export class TimesheetEditComponent implements OnInit {
   openAddEventDialog() {
     if (this.checkIfCanModify()) {
       const dialogRef = this.dialog.open(AddEventModalUserComponent, {
-        width: '300px',
+        width: '600px',
         data: { date: this.viewDate }
       });
       dialogRef.afterClosed().subscribe(

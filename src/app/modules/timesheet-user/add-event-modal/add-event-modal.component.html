@@ -6,7 +6,7 @@
       <div class="input-group">
         <h3>Data</h3>
         <!--<label for="dataevento">Data</label>-->
-        <input matInput [matDatepicker]="picker" required formControlName="eventDate">
+        <input class="input-number text-center mb-4"  matInput [matDatepicker]="picker" required formControlName="eventDate">
         <mat-datepicker-toggle matSuffix [for]="picker" class="bottone-data"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         <div *ngIf="f.eventDate.errors && submitted">Campo obligatorio</div>
@@ -43,7 +43,7 @@
       <div *ngIf="insertLavoro">
         <div>
           <label for="customRange3">Numero ore</label> {{ value }}
-          <input type="number" class="custom-range inp-text" value="8" min="0" max="12" step="1" id="customRange3"
+          <input type="number" class="custom-range inp-text input-number" value="8" min="0" max="12" step="1" id="customRange3"
             required formControlName="numeroOre" (input)="valueChanged($event)">
         </div>
         <div>
@@ -63,12 +63,10 @@
       </div>
 
       <div *ngIf="insertMalattia">
-        <div class="form-group row">
-          <label for="numeroprotocollo" class="col-sm-2 col-form-label">Numero protocollo</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="numProtocollo" placeholder="Numero protocollo"
+        <div class="mb-4">
+          <label for="numeroprotocollo" class="col-form-label">Numero protocollo</label>
+            <input type="text" class="form-control input-number" id="numProtocollo" placeholder="Numero protocollo"
               formControlName="numProtocollo"/>
-          </div>
         </div>
       </div>
       <div *ngIf="insertNumeroOre">
@@ -96,9 +94,9 @@
     </form>
 
   </div>
-  <div mat-dialog-actions>
-    <button type="button" mat-button mat-dialog-close class="btn btn-custom w-50" (click)="close()">Close</button>
-    <button form='myform' type="submit" class="btn btn-custom w-50">Salva</button>
+  <div class="d-flex justify-content-between" mat-dialog-actions>
+    <button type="button" mat-button mat-dialog-close class="btn btn-custom w-25" (click)="close()">Close</button>
+    <button form='myform' type="submit" class="btn btn-custom w-25">Salva</button>
   </div>
 
   <!--
