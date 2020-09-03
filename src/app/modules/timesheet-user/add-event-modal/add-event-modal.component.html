@@ -62,6 +62,26 @@
         </div>
       </div>
 
+      <div *ngIf="insertMalattia">
+        <div class="form-group row">
+          <label for="numeroprotocollo" class="col-sm-2 col-form-label">Numero protocollo</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="numProtocollo" placeholder="Numero protocollo"
+              formControlName="numProtocollo"/>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="insertNumeroOre">
+        <div>
+          <label for="customRange3">Numero ore</label> {{ value }}
+          <input type="number" class="custom-range inp-text" value="8" min="0" max="12" step="1" id="customRange3"
+            required formControlName="numeroOre" (input)="valueChanged($event)">
+        </div>
+      </div>
+
+
+
+
       <!-- <label for="customRange4">Data</label>
       <div class="input-group">
         <input class="form-control bord-rad-inp" placeholder="yyyy-mm-dd" required

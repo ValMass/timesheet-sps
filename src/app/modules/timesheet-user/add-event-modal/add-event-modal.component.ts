@@ -24,8 +24,8 @@ export class AddEventModalUserComponent implements OnInit   {
   profileForm :FormGroup;
 
   insertLavoro = false;
-  insertFerie = false;
   insertMalattia = false;
+  insertNumeroOre = false;
 
 
   constructor(
@@ -40,7 +40,8 @@ export class AddEventModalUserComponent implements OnInit   {
       numeroOre: [null, [Validators.required]],
       contractCode: [null, [Validators.required]],
       eventDate: [this.data.date, [Validators.required]],
-      codiceFatturazione: ['00', [Validators.required]]
+      codiceFatturazione: ['00', [Validators.required]],
+      numProtocollo: ['00', [Validators.required]]
     });
 
 
@@ -85,6 +86,7 @@ export class AddEventModalUserComponent implements OnInit   {
 
       case 'FERIE':
       case 'MATRIMO':
+      case 'MALFIG':
         this.insertLavoro = false;
         this.insertFerie = true;
         this.insertMalattia = false;
@@ -93,7 +95,6 @@ export class AddEventModalUserComponent implements OnInit   {
         break;
 
       case 'MALATT':
-      case 'MALFIG':
         this.insertLavoro = false;
         this.insertFerie = false;
         this.insertMalattia = true;
