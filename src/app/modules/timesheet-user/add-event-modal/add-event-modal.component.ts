@@ -23,6 +23,10 @@ export class AddEventModalUserComponent implements OnInit   {
 
   profileForm :FormGroup;
 
+  insertLavoro = false;
+  insertFerie = false;
+  insertMalattia = false;
+
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -35,7 +39,8 @@ export class AddEventModalUserComponent implements OnInit   {
     this.profileForm = this.formBuilder.group({
       numeroOre: [null, [Validators.required]],
       contractCode: [null, [Validators.required]],
-      eventDate: [this.data.date, [Validators.required]]
+      eventDate: [this.data.date, [Validators.required]],
+      codiceFatturazione: ['00', [Validators.required]]
     });
 
 
@@ -56,10 +61,46 @@ export class AddEventModalUserComponent implements OnInit   {
   }
 
   close() {
-    this.dialogRef.close({ data: "close"});
+    this.dialogRef.close({ data: 'close'});
   }
 
   valueChanged(e) {
     this.value = e.target.value;
+  }
+  onChangeSelect($event){
+    const value = $event.target.value;
+    switch (value) {
+      case 'LAVORO':
+      case 'SEDE':
+        this.insertLavoro = true;
+        this.insertFerie = false;
+        this.insertMalattia = false;
+        break;
+
+      case 'PERMNON':
+      case 'PERMESS':
+
+      break;
+
+
+      case 'FERIE':
+      case 'MATRIMO':
+        this.insertLavoro = false;
+        this.insertFerie = true;
+        this.insertMalattia = false;
+
+        this.profileForm.patchValue({numeroOre: 8});
+        break;
+
+      case 'MALATT':
+      case 'MALFIG':
+        this.insertLavoro = false;
+        this.insertFerie = false;
+        this.insertMalattia = true;
+        this.profileForm.patchValue({numeroOre: 8});
+        break;
+      default:
+        break;
+    }
   }
 }

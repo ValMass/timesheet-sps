@@ -22,6 +22,7 @@ export class AddEventModalComponent implements OnInit   {
   submitted:boolean = false;
 
   profileForm :FormGroup;
+  selectedContractCod;
 
 
   constructor(
@@ -69,5 +70,10 @@ export class AddEventModalComponent implements OnInit   {
 
   valueChanged(e) {
     this.value = e.target.value;
+  }
+
+  onChangeSelect($event){
+    console.log($event);
+    console.log(this.selectedContractCod);
   }
 }

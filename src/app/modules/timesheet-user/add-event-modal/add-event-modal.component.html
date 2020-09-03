@@ -2,37 +2,7 @@
   <h1 mat-dialog-title>Aggiungi evento</h1>
   <div mat-dialog-content>
     <form id='myform' class="p-1" [formGroup]="profileForm" (ngSubmit)="submit()">
-      <div>
-        <label for="customRange3">Numero ore</label> {{ value }}
-        <input type="number" class="custom-range inp-text" value="8" min="0" max="12" step="1" id="customRange3"
-         required formControlName="numeroOre" (input)="valueChanged($event)" >
-        <div *ngIf="f.numeroOre.errors && submitted">Campo obligatorio</div>
-      </div>
-      <div>
-      <label for="cars" class="cod-contratto">Codice contratto</label>
-      <select id="cars" name="cars" class="custom-select sel-text" formControlName="contractCode" required>
-        <option value="LAVORO" selected="selected">Lavoro ordinario</option>
-        <option value="SEDE">Attività interna</option>
-        <option value="PERMNON">Permesso non retribuito</option>
-        <option value="PERMESS">Permesso generico</option>
-        <option value="MALATT">Malattia</option>
-        <option value="LUTTO">Lutto parente primo grado</option>
-        <option value="AVIS">Donazione sangue</option>
-        <option value="FERIE">Ferie</option>
-        <option value="MATALA">Allattamento</option>
-        <option value="ASPETT">Aspettativa</option>
-        <option value="ELETTO">Permesso elettorale</option>
-        <option value="FESTSOP">Festivita soppresse</option>
-        <option value="MATERN">Materrnita</option>
-        <option value="MATFAC">Maternita facoltativa</option>
-        <option value="MALFIG">Malattia figlio</option>
-        <option value="MATRIMO">Matrimonio</option>
-        <option value="PARTIME">Tempo parziale</option>
-        <option value="PATRONO">Patrono</option>
-        <option value="UNIVERS">Assenza esami universitari</option>
-      </select>
-        <div *ngIf="f.contractCode.errors && submitted">Campo obligatorio</div>
-      </div>
+
       <div class="input-group">
         <h3>Data</h3>
         <!--<label for="dataevento">Data</label>-->
@@ -40,6 +10,56 @@
         <mat-datepicker-toggle matSuffix [for]="picker" class="bottone-data"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         <div *ngIf="f.eventDate.errors && submitted">Campo obligatorio</div>
+      </div>
+
+
+      <div>
+        <label for="cars" class="cod-contratto">Codice contratto</label>
+        <select id="cars" name="cars" class="custom-select sel-text" formControlName="contractCode"
+          (change)="onChangeSelect($event)" required>
+          <option value="LAVORO" selected="selected">Lavoro ordinario</option>
+          <option value="SEDE">Attività interna</option>
+          <option value="PERMNON">Permesso non retribuito</option>
+          <option value="PERMESS">Permesso generico</option>
+          <option value="MALATT">Malattia</option>
+          <option value="LUTTO">Lutto parente primo grado</option>
+          <option value="AVIS">Donazione sangue</option>
+          <option value="FERIE">Ferie</option>
+          <option value="MATALA">Allattamento</option>
+          <option value="ASPETT">Aspettativa</option>
+          <option value="ELETTO">Permesso elettorale</option>
+          <option value="FESTSOP">Festivita soppresse</option>
+          <option value="MATERN">Materrnita</option>
+          <option value="MATFAC">Maternita facoltativa</option>
+          <option value="MALFIG">Malattia figlio</option>
+          <option value="MATRIMO">Matrimonio</option>
+          <option value="PARTIME">Tempo parziale</option>
+          <option value="PATRONO">Patrono</option>
+          <option value="UNIVERS">Assenza esami universitari</option>
+        </select>
+        <div *ngIf="f.contractCode.errors && submitted">Campo obligatorio</div>
+      </div>
+
+      <div *ngIf="insertLavoro">
+        <div>
+          <label for="customRange3">Numero ore</label> {{ value }}
+          <input type="number" class="custom-range inp-text" value="8" min="0" max="12" step="1" id="customRange3"
+            required formControlName="numeroOre" (input)="valueChanged($event)">
+        </div>
+        <div>
+          <label for="cod-fatturazione" class="cod-fatturazione">Codice Fatturazione</label>
+          <select id="cod-fatturazione" name="cod-fatturazione" class="custom-select sel-text" formControlName="codiceFatturazione"
+            (change)="onChangeSelect($event)" required>
+            <option value="01">Ore ordinarie fatturabili</option>
+            <option value="02">Ore straordinarie fatturabili</option>
+            <option value="03">Ore festive fatturabili</option>
+            <option value="NF">Non fatturabili</option>
+            <option value="RP">Ore di reperibilità</option>
+            <option value="IN">Ore di intervento</option>
+            <option value="TR">Trasferta</option>
+          </select>
+          <div *ngIf="f.contractCode.errors && submitted">Campo obligatorio</div>
+        </div>
       </div>
 
       <!-- <label for="customRange4">Data</label>
@@ -57,8 +77,8 @@
 
   </div>
   <div mat-dialog-actions>
-    <button type="button" mat-button mat-dialog-close class="btn btn-custom w-50" (click)="close()" >Close</button>
-    <button form='myform' type="submit" class="btn btn-custom w-50" >Salva</button>
+    <button type="button" mat-button mat-dialog-close class="btn btn-custom w-50" (click)="close()">Close</button>
+    <button form='myform' type="submit" class="btn btn-custom w-50">Salva</button>
   </div>
 
   <!--
