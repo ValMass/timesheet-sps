@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  //apiUrl: 'https://timesheet.api.spsistemi.net/www/timesheetApi/spstimesheet/'
-  apiUrl: 'http://localhost:8080/'
+  apiUrl: 'https://timesheet.api.spsistemi.net/www/timesheetApi/spstimesheet/'
+  //apiUrl: 'http://localhost:8080/'
 }
 
 /*
