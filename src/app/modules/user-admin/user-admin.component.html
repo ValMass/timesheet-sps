@@ -1,16 +1,17 @@
-<div class="tab-user">
+<div class="tab-user container">
   <list-header title="Aggiungi Utenti" (add)="openDialog()">
   </list-header>
-</div>
-<div *ngIf="users">
-  <app-user-admin-list class="table table-striped" *ngIf="!selected " [useradmins]="users" (selected)="select($event)"
-    (deleted)="askToDelete($event)">
-  </app-user-admin-list>
+  <div *ngIf="users">
+    <app-user-admin-list class="table table-striped" *ngIf="!selected " [useradmins]="users" (selected)="select($event)"
+      (deleted)="askToDelete($event)">
+    </app-user-admin-list>
 
-  <app-user-admin-detail *ngIf="selected" [userAdmin]="selected" (unselect)="clear()" (save)="save($event)">
-  </app-user-admin-detail>
+    <app-user-admin-detail *ngIf="selected" [userAdmin]="selected" (unselect)="clear()" (save)="save($event)">
+    </app-user-admin-detail>
+  </div>
+
+  <app-modal class="modal-customer" [message]="message" [isOpen]="showModal" (handleNo)="closeModal()"
+    (handleYes)="deleteUserAdmin()">
+  </app-modal>
 </div>
 
-<app-modal class="modal-customer" [message]="message" [isOpen]="showModal" (handleNo)="closeModal()"
-  (handleYes)="deleteUserAdmin()">
-</app-modal>

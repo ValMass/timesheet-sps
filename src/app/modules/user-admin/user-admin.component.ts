@@ -67,7 +67,7 @@ export class UserAdminComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(UserAdminCreationComponent, {
-      width: '600px',
+      width: '800px',
       height: '700px',
       data: {}
     });

@@ -24,11 +24,11 @@
         <td>{{ customer.postacertificata }}</td>
         <td>{{ customer.referente }}</td>
         <td>
-          <app-button-footer class="card-footer-item" [className]="'delete-item'" [iconClasses]="'fas fa-trash'"
+          <app-button-footer class="card-footer-item" [className]="'delete-item'" [iconClasses]="'fas fa-trash mr-2'"
             (clicked)="deleteCustomer($event)" label="Elimina" [item]="customer"></app-button-footer>
         </td>
         <td>
-          <app-button-footer class="card-footer-item" [className]="'edit-item'" [iconClasses]="'fas fa-edit'"
+          <app-button-footer class="card-footer-item" [className]="'edit-item'" [iconClasses]="'fas fa-edit mr-2'"
             (clicked)="selectCustomer($event)" label="Modifica" [item]="customer"></app-button-footer>
         </td>
         <!-- <td>

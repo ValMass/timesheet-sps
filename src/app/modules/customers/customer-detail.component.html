@@ -1,6 +1,6 @@
 <div class="card margin-card">
   <header class="card-header">
-    <p class="card-header-title">
+    <p class="card-header-title display-4">
       {{editingCustomer.name}}
       &nbsp;
     </p>
@@ -67,25 +67,23 @@
     </div>
     <div>
       <footer class="card-footer ">
-        <app-button-footer class="card-footer-item" [className]="'cancel-button'" [iconClasses]="'fas fa-undo'"
+        <app-button-footer class="card-footer-item" [className]="'cancel-button'" [iconClasses]="'fas fa-undo mr-2'"
           (clicked)="clear()" label="Annulla" [item]="editingCustomer"></app-button-footer>
-        <app-button-footer class="card-footer-item" [className]="'save-button'" [iconClasses]="'fas fa-save'"
+        <app-button-footer class="card-footer-item" [className]="'save-button'" [iconClasses]="'fas fa-save mr-2'"
           label="Salva" [item]="editingCustomer"></app-button-footer>
       </footer>
     </div>
   </form>
 </div>
+
+<p class="card-header-title my-4 title-card-cst" style="font-size:20px;">
+  Lista uffici  {{editingCustomer.name}}
+   &nbsp;
+ </p>
 <div class="card margin-card">
     <header class="card-header d-flex justify-content-between">
-      <div class="d-inline">
-        <p class="card-header-title d-inline m-3">
-          Lista uffici  {{editingCustomer.name}}
-           &nbsp;
-         </p>
-      </div>
-      <div class="d-inline">
-        <i class="fas fa-plus-square fa-2x"></i>
-      </div>
+        <app-button-footer class="card-footer-item p-2" [className]="'cancel-button'" [iconClasses]="'fas fa-edit mr-2'"
+            (clicked)="aggiungiUfficio()" label="Aggiungi" [item]="editingCustomer"></app-button-footer>
 
     </header>
 
@@ -109,18 +107,17 @@
         <td>{{ office.city }}</td>
         <td>{{ office.cap }}</td>
         <td>
-          <app-button-footer class="card-footer-item" [className]="'delete-item'" [iconClasses]="'fas fa-trash'"
+          <app-button-footer class="card-footer-item" [className]="'delete-item'" [iconClasses]="'fas fa-trash mr-2'"
             (clicked)="deleteOffice(office)" label="Elimina" [item]="office"></app-button-footer>
         </td>
         <td>
-          <app-button-footer class="card-footer-item" [className]="'edit-item'" [iconClasses]="'fas fa-edit'"
+          <app-button-footer class="card-footer-item" [className]="'edit-item'" [iconClasses]="'fas fa-edit mr-2'"
             (clicked)="selectOffice(office)" label="Modifica" [item]="office"></app-button-footer>
         </td>
       </tr>
       <div>
         <footer class="card-footer ">
-          <app-button-footer class="card-footer-item" [className]="'cancel-button'" [iconClasses]="'fas fa-edit'"
-            (clicked)="aggiungiUfficio()" label="Aggiungi" [item]="editingCustomer"></app-button-footer>
+
         </footer>
       </div>
 

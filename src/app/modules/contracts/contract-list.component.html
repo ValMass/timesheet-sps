@@ -24,7 +24,7 @@
         <td> <app-button-footer
           class="card-footer-item"
           [className]="'delete-item'"
-          [iconClasses]="'fas fa-trash'"
+          [iconClasses]="'fas fa-trash mr-2'"
           (clicked)="deleteContract($event)"
           label="Elimina"
           [item]="contract"
@@ -33,7 +33,7 @@
         <app-button-footer
           class="card-footer-item"
           [className]="'edit-item'"
-          [iconClasses]="'fas fa-edit'"
+          [iconClasses]="'fas fa-edit mr-2'"
           (clicked)="selectContract($event)"
           label="Modifica"
           [item]="contract"
