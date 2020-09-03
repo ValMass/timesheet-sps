@@ -73,34 +73,53 @@ export class AddEventModalUserComponent implements OnInit   {
     switch (value) {
       case 'LAVORO':
       case 'SEDE':
+      case 'PARTIME':
         this.insertLavoro = true;
-        this.insertFerie = false;
+        this.insertNumeroOre = false;
         this.insertMalattia = false;
+        break;
+
+
+
+      case 'MALATT':
+        this.insertLavoro = false;
+        this.insertNumeroOre = false;
+        this.insertMalattia = true;
+        const patch = {
+          codiceFatturazione: '00',
+          numeroOre: 8,
+        };
+
+        this.profileForm.patchValue(patch);
         break;
 
       case 'PERMNON':
       case 'PERMESS':
+      case 'MATALA':
 
-      break;
-
-
-      case 'FERIE':
-      case 'MATRIMO':
-      case 'MALFIG':
         this.insertLavoro = false;
-        this.insertFerie = true;
+        this.insertNumeroOre = true;
         this.insertMalattia = false;
+        const patch2 = {
+          codiceFatturazione: '00',
+          numProtocollo: '00',
+        };
 
-        this.profileForm.patchValue({numeroOre: 8});
+        this.profileForm.patchValue(patch2);
         break;
 
-      case 'MALATT':
-        this.insertLavoro = false;
-        this.insertFerie = false;
-        this.insertMalattia = true;
-        this.profileForm.patchValue({numeroOre: 8});
-        break;
+
       default:
+        this.insertLavoro = false;
+        this.insertNumeroOre = false;
+        this.insertMalattia = false;
+        const patch3 = {
+          codiceFatturazione: '00',
+          numProtocollo: '00',
+          numeroOre: 8
+        };
+        this.profileForm.patchValue(patch3);
+
         break;
     }
   }

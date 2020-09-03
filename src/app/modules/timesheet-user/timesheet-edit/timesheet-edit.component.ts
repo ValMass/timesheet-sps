@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core'; import {
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarView,
+  CalendarEventTitleFormatter,
 } from 'angular-calendar';
 import {
   startOfDay,
@@ -24,11 +25,18 @@ import { TimesheetUserService } from '../services/timesheet-user.service';
 import { Timesheetu } from '../models/timesheet';
 import { AddEventModalUserComponent } from '../add-event-modal/add-event-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { CustomEventTitleFormatter } from './myeventformatter';
 
 
 @Component({
   templateUrl: './timesheet-edit.component.html',
-  styleUrls: ['./timesheet-edit.component.css']
+  styleUrls: ['./timesheet-edit.component.css'],
+  providers: [
+    {
+      provide: CalendarEventTitleFormatter,
+      useClass: CustomEventTitleFormatter,
+    },
+  ],
 })
 export class TimesheetEditComponent implements OnInit {
 
@@ -205,7 +213,8 @@ export class TimesheetEditComponent implements OnInit {
               start: new Date(res.data.eventDate),
               nOre: res.data.numeroOre,
               actions: this.actions,
-              codiceFatt: res.data.codiceFatturazione
+              codiceFatt: res.data.codiceFatturazione,
+              nProtocollo: res.data.numProtocollo,
             };
 
             this.events = [...this.events, event];
