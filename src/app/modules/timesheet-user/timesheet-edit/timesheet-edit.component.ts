@@ -205,6 +205,7 @@ export class TimesheetEditComponent implements OnInit {
               start: new Date(res.data.eventDate),
               nOre: res.data.numeroOre,
               actions: this.actions,
+              codiceFatt: res.data.codiceFatturazione
             };
 
             this.events = [...this.events, event];
