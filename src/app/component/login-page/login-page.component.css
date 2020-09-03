@@ -8,6 +8,7 @@
 .card-title {
   font-weight: 700;
   text-transform: uppercase;
+  text-align: center;
 }
 
 .form-group label {
@@ -31,3 +32,12 @@
   background-size: cover;
   background-position: center;
 }
+
+@media (max-width: 376px){
+  .card-body{
+    max-width: max-content;
+    padding: 0;
+    margin: auto;
+  }
+}
+
