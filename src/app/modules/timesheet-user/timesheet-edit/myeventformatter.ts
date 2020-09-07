@@ -32,7 +32,7 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
   // you can override any of the methods defined in the parent class
 
   month(event: CalendarEvent): string {
-    return `</b> ${this.tradMap.get(event.title)}`;
+    return `</b> ${this.tradMap.get(event.title)} ${event['nOre']}`;
   }
 
   week(event: CalendarEvent): string {
