@@ -197,13 +197,22 @@ export class TimesheetEditComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     console.log(event);
+    if (action === 'Edited'){
+      this.toastrService.success("Rimuovi l'evento e ricrealo");
+    }
+
+    if (action === 'Deleted'){
+      this.toastrService.success('Evento rimosso');
+    }
   }
 
   openAddEventDialog() {
     if (this.checkIfCanModify()) {
       const dialogRef = this.dialog.open(AddEventModalUserComponent, {
         width: '600px',
-        data: { date: this.viewDate }
+        data: { date: this.viewDate,
+                eventsList: this.events
+              }
       });
       dialogRef.afterClosed().subscribe(
         res => {
@@ -407,7 +416,6 @@ export class TimesheetEditComponent implements OnInit {
     }
     this.checkIfCanModify();
   }
-
 
   //// UNKNOWN FUNCTION//////////////////
   eventTimesChanged($event) {

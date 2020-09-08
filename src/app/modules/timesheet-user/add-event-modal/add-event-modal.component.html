@@ -1,12 +1,16 @@
 <div class="modal-container">
-  <h1 mat-dialog-title>Aggiungi evento</h1>
+  <div class="">
+    <h1 mat-dialog-title>Aggiungi evento</h1>
+    <h6 class="text-danger" *ngIf="aggiungiButtonDisabled" mat-dialog-title>{{errorMessage}}</h6>
+  </div>
   <div mat-dialog-content>
     <form id='myform' class="p-1" [formGroup]="profileForm" (ngSubmit)="submit()">
 
       <div class="input-group">
         <h3>Data</h3>
         <!--<label for="dataevento">Data</label>-->
-        <input class="input-number text-center mb-4"  matInput [matDatepicker]="picker" required formControlName="eventDate">
+        <input class="input-number text-center mb-4" matInput [matDatepicker]="picker" #ref required
+        (dateChange)="onDateChange($event)" formControlName="eventDate">
         <mat-datepicker-toggle matSuffix [for]="picker" class="bottone-data"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         <div *ngIf="f.eventDate.errors && submitted">Campo obligatorio</div>
@@ -43,13 +47,13 @@
       <div *ngIf="insertLavoro">
         <div>
           <label for="customRange3">Numero ore</label> {{ value }}
-          <input type="number" class="custom-range inp-text input-number" value="8" min="0" max="12" step="1" id="customRange3"
-            required formControlName="numeroOre" (input)="valueChanged($event)">
+          <input type="number" class="custom-range inp-text input-number" value="8" min="0" max="12" step="1"
+            id="customRange3" required formControlName="numeroOre" (input)="valueChanged($event)">
         </div>
         <div>
           <label for="cod-fatturazione" class="cod-fatturazione">Codice Fatturazione</label>
-          <select id="cod-fatturazione" name="cod-fatturazione" class="custom-select sel-text" formControlName="codiceFatturazione"
-            (change)="onChangeSelect($event)" required>
+          <select id="cod-fatturazione" name="cod-fatturazione" class="custom-select sel-text"
+            formControlName="codiceFatturazione" (change)="onChangeFattSelect($event)" required>
             <option value="01">Ore ordinarie fatturabili</option>
             <option value="02">Ore straordinarie fatturabili</option>
             <option value="03">Ore festive fatturabili</option>
@@ -65,8 +69,8 @@
       <div *ngIf="insertMalattia">
         <div class="mb-4">
           <label for="numeroprotocollo" class="col-form-label">Numero protocollo</label>
-            <input type="text" class="form-control input-number" id="numProtocollo" placeholder="Numero protocollo"
-              formControlName="numProtocollo"/>
+          <input type="text" class="form-control input-number" id="numProtocollo" placeholder="Numero protocollo"
+            formControlName="numProtocollo" />
         </div>
       </div>
       <div *ngIf="insertNumeroOre">
@@ -96,7 +100,8 @@
   </div>
   <div class="d-flex justify-content-between" mat-dialog-actions>
     <button type="button" mat-button mat-dialog-close class="btn btn-custom w-25" (click)="close()">Close</button>
-    <button form='myform' type="submit" class="btn btn-custom w-25">Salva</button>
+    <button form='myform' type="submit" class="btn btn-custom w-25"
+      disabled="{{aggiungiButtonDisabled}}">Aggiungi</button>
   </div>
 
   <!--

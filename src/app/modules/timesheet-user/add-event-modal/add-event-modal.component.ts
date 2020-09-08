@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef , } from '@angular/material/dialog';
 import { MatFormField } from '@angular/material/form-field';
 import { NgbDatepicker, NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { CalendarEvent } from 'angular-calendar';
 // import { NgbActiveModal , NgbDatepicker, NgbDate, NgbModule  } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -19,9 +20,14 @@ export class AddEventModalUserComponent implements OnInit   {
 
   name: string;
   value: number;
-  submitted:boolean = false;
-
-  profileForm :FormGroup;
+  canAdd = false;
+  dateObj: any;
+  submitted: boolean = false;
+  eventsPassed: CalendarEvent[] = [];
+  eventsSelected: CalendarEvent[] = [];
+  profileForm: FormGroup;
+  aggiungiButtonDisabled: boolean = false;
+  errorMessage = "";
 
   insertLavoro = false;
   insertMalattia = false;
@@ -44,7 +50,10 @@ export class AddEventModalUserComponent implements OnInit   {
       numProtocollo: ['00', [Validators.required]]
     });
 
-
+    this.dateObj = new Date(this.data.date);
+    this.eventsPassed = this.data.eventsList;
+    this.getEventsForDate(this.dateObj);
+    this.checkIfThisDayIsBusy();
 
 
   }
@@ -68,6 +77,14 @@ export class AddEventModalUserComponent implements OnInit   {
   valueChanged(e) {
     this.value = e.target.value;
   }
+
+  onDateChange(event) {
+    this.dateObj = new Date(event.value);
+    console.log(this.dateObj);
+    this.getEventsForDate(this.dateObj);
+    this.checkIfThisDayIsBusy();
+  }
+
   onChangeSelect($event){
     const value = $event.target.value;
     switch (value) {
@@ -121,6 +138,52 @@ export class AddEventModalUserComponent implements OnInit   {
         this.profileForm.patchValue(patch3);
 
         break;
+    }
+  }
+  getEventsForDate(selectedDate){
+    this.eventsPassed.forEach(event => {
+      console.log(event.start.getDate());
+      const eventDay = event.start.getDate();
+      const selectedDay = selectedDate.getDate();
+      if (eventDay === selectedDay ) {
+        console.log("event " + eventDay);
+        console.log("selectedDate " + selectedDay);
+        this.eventsSelected.push(event);
+      }
+    });
+    console.log(this.eventsSelected);
+  }
+
+  onChangeFattSelect($event){
+
+  }
+
+  checkIfThisDayIsBusy() {
+    const numberOfEventToday = this.eventsSelected.length;
+    console.log(this.eventsSelected);
+    switch (numberOfEventToday) {
+      case 1:
+        console.log("case 1");
+        this.oneEventThisDay();
+        break;
+
+      default:
+        console.log("case default");
+        this.aggiungiButtonDisabled = false;
+        this.errorMessage = '';
+        break;
+    }
+  }
+  oneEventThisDay(){
+    const event = this.eventsSelected.pop();
+    console.log(event.title);
+    if ( event.title === 'MALATT') {
+      this.aggiungiButtonDisabled = true;
+      this.errorMessage = 'Giorno di malattia';
+    }
+    if ( event.title === 'MATRIMO') {
+      this.aggiungiButtonDisabled = true;
+      this.errorMessage = 'Giorno di Matrimonio';
     }
   }
 }
