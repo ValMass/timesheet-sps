@@ -191,6 +191,12 @@ export class NewTimesheetComponentComponent implements OnInit {
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     console.log(event);
+    if ( action === "Edited" ) {
+      this.openEditDialog(this.modalData);
+    }
+    if ( action === "Deleted" ) {
+
+    }
   }
 
   setView(view: CalendarView) {
@@ -297,7 +303,10 @@ export class NewTimesheetComponentComponent implements OnInit {
   openDialog() {
     const dialogRef = this.dialog.open(AddEventModalComponent, {
       width: '300px',
-      data: { date : this.viewDate }
+      data: { date : this.viewDate,
+              isEdit: false,
+              toEdit: null
+            }
     });
     dialogRef.afterClosed().subscribe(
       res => {
@@ -311,7 +320,26 @@ export class NewTimesheetComponentComponent implements OnInit {
       });
 
   }
+  openEditDialog(modalData) {
+    const dialogRef = this.dialog.open(AddEventModalComponent, {
+      width: '300px',
+      data: { date : this.viewDate,
+              isEdit: true,
+              toEdit: modalData.event
+            }
+    });
+    dialogRef.afterClosed().subscribe(
+      res => {
+        console.log(res.data);
+        const newEvent: MyCalendarEvent = new MyCalendarEvent();
+        newEvent.title = res.data.contractCode;
+        newEvent.start = new Date(res.data.eventDate);
+        newEvent.nOre = res.data.numeroOre;
+        console.log(newEvent);
+        this.events = [...this.events, newEvent];
+      });
 
+  }
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;

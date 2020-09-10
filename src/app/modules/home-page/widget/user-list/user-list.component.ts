@@ -90,6 +90,6 @@ export class UserListComponent implements OnInit {
 
   redirectToUser(user){
     //const url = environment.apiUrl
-    this.router.navigate(['/detail/', user.id]);
+    this.router.navigate(['/timesheet/', user.id]);
   }
 }

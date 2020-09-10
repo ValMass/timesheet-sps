@@ -22,7 +22,7 @@ export class AddEventModalComponent implements OnInit   {
   submitted:boolean = false;
 
   profileForm :FormGroup;
-  selectedContractCod;
+  selectedContractCod = '';
 
 
   constructor(
@@ -33,11 +33,25 @@ export class AddEventModalComponent implements OnInit   {
 
 
   ngOnInit() {
-    this.profileForm = this.formBuilder.group({
-      numeroOre: [null, [Validators.required]],
-      contractCode: [null, [Validators.required]],
-      eventDate: [this.data.date, [Validators.required]]
-    });
+    console.log(this.data);
+    if(this.data.isEdit){
+      console.log(this.data.toEdit);
+      const tmp = this.data.toEdit;
+      this.selectedContractCod = tmp.title;
+      this.profileForm = this.formBuilder.group({
+        numeroOre: [tmp.nOre, [Validators.required]],
+        contractCode: [tmp.title, [Validators.required]],
+        eventDate: [this.data.date, [Validators.required]]
+      });
+    } else {
+      console.log("false");
+      this.profileForm = this.formBuilder.group({
+        numeroOre: [null, [Validators.required]],
+        contractCode: [null, [Validators.required]],
+        eventDate: [this.data.date, [Validators.required]]
+      });
+    }
+
 
 
 

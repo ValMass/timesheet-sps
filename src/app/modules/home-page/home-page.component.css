@@ -3,9 +3,20 @@ mat-grid-tile {
 }
 
 .custom-col {
-  height: 100%;
+  height: 400px;
+  overflow-y: scroll;
+  background-color:white;
 }
 
 .tab-user {
   padding: 1em 2em;
+}
+.custom-col::-webkit-scrollbar {
+  display: none;
+  }
+
+
+.custom-col {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

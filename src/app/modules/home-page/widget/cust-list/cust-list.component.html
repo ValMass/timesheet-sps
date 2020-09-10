@@ -1,0 +1,19 @@
+<div class="tab-user">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Nome utente</th>
+        <th scope="col">Nome utente</th>
+        <th scope="col">Email</th>
+        <th scope="col">Data di creazione</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customer of customerlist">
+        <td (click)="redirectToCustomer(customer)">{{ customer.name}} </td>
+        <td (click)="redirectToCustomer(customer)">{{ customer.legaladdress }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

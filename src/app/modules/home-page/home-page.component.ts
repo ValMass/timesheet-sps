@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserListComponent } from './widget/user-list/user-list.component';
+import { CustListComponent } from './widget/cust-list/cust-list.component';
 
 @Component({
   selector: 'app-home-page',

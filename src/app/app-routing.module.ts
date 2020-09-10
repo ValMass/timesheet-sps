@@ -23,6 +23,7 @@ import { NewTimesheetComponentComponent } from './modules/timesheet/timesheet-co
 import { UserAdminService } from './modules/user-admin/services/user-admin.service';
 import { NotFoundComponent } from './component/not-found/not-found.component';
 import { TimesheetEditComponent } from './modules/timesheet-user/timesheet-edit/timesheet-edit.component';
+import { CustListComponent } from './modules/home-page/widget/cust-list/cust-list.component';
 
 
 
@@ -92,7 +93,8 @@ const routes: Routes = [
     path: 'home-page',
     component: HomePageComponent,
     resolve:{
-      userlist: UserListResolverService
+      userlist: UserListResolverService,
+      customerlist: CustomerListResolverService
     }
   },
   {
