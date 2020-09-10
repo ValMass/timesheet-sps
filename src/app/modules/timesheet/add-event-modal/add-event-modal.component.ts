@@ -23,6 +23,7 @@ export class AddEventModalComponent implements OnInit   {
 
   profileForm :FormGroup;
   selectedContractCod = '';
+  errorMessage = '';
 
   insertMalattia = false;
   insertNumeroOre = false;
@@ -155,4 +156,7 @@ export class AddEventModalComponent implements OnInit   {
         break;
     }
   }
+  onChangeFattSelect(event){}
+  aggiungiButtonDisabled(){}
+  onDateChange(event){}
 }

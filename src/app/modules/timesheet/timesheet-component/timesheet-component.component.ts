@@ -6,7 +6,7 @@ import {
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarView,
-  CalendarEventAction,
+  
 } from 'angular-calendar';
 import {
   startOfDay,
