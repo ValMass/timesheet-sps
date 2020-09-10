@@ -178,11 +178,11 @@ export class AddEventModalUserComponent implements OnInit   {
     const event = this.eventsSelected.pop();
     console.log(event.title);
     if ( event.title === 'MALATT') {
-      this.aggiungiButtonDisabled = true;
+      //this.aggiungiButtonDisabled = true;
       this.errorMessage = 'Giorno di malattia';
     }
     if ( event.title === 'MATRIMO') {
-      this.aggiungiButtonDisabled = true;
+      //this.aggiungiButtonDisabled = true;
       this.errorMessage = 'Giorno di Matrimonio';
     }
   }

@@ -24,6 +24,9 @@ export class AddEventModalComponent implements OnInit   {
   profileForm :FormGroup;
   selectedContractCod = '';
 
+  insertMalattia = false;
+  insertNumeroOre = false;
+  insertLavoro = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -41,14 +44,20 @@ export class AddEventModalComponent implements OnInit   {
       this.profileForm = this.formBuilder.group({
         numeroOre: [tmp.nOre, [Validators.required]],
         contractCode: [tmp.title, [Validators.required]],
-        eventDate: [this.data.date, [Validators.required]]
+        eventDate: [this.data.date, [Validators.required]],
+        numProtocollo : [this.data.date, [Validators.required]],
+        codiceFatturazione: [tmp.codiceFatt, [Validators.required]],
       });
+      this.selectVisibleComponent(tmp.title);
+
     } else {
       console.log("false");
       this.profileForm = this.formBuilder.group({
         numeroOre: [null, [Validators.required]],
         contractCode: [null, [Validators.required]],
-        eventDate: [this.data.date, [Validators.required]]
+        eventDate: [this.data.date, [Validators.required]],
+        numProtocollo : [this.data.date, [Validators.required]],
+        codiceFatturazione: [null, [Validators.required]],
       });
     }
 
@@ -61,10 +70,6 @@ export class AddEventModalComponent implements OnInit   {
   get f() { return this.profileForm.controls; }
 
   submit() {
-
-
-
-
     console.log(this.profileForm.invalid);
     // if (this.profileForm.invalid) {
 
@@ -82,12 +87,72 @@ export class AddEventModalComponent implements OnInit   {
     this.activeModal.close(this.profileForm.value);*/
   }
 
+  close() {
+    this.dialogRef.close({ data: 'close'});
+  }
+
+
   valueChanged(e) {
     this.value = e.target.value;
   }
 
   onChangeSelect($event){
-    console.log($event);
-    console.log(this.selectedContractCod);
+    const value = $event.target.value;
+    this.selectVisibleComponent(value);
+  }
+
+  selectVisibleComponent(eventTitle){
+    switch (eventTitle) {
+      case 'LAVORO':
+      case 'SEDE':
+      case 'PARTIME':
+        this.insertLavoro = true;
+        this.insertNumeroOre = false;
+        this.insertMalattia = false;
+        break;
+
+
+
+      case 'MALATT':
+        this.insertLavoro = false;
+        this.insertNumeroOre = false;
+        this.insertMalattia = true;
+        const patch = {
+          codiceFatturazione: '00',
+          numeroOre: 8,
+        };
+
+        this.profileForm.patchValue(patch);
+        break;
+
+      case 'PERMNON':
+      case 'PERMESS':
+      case 'MATALA':
+
+        this.insertLavoro = false;
+        this.insertNumeroOre = true;
+        this.insertMalattia = false;
+        const patch2 = {
+          codiceFatturazione: '00',
+          numProtocollo: '00',
+        };
+
+        this.profileForm.patchValue(patch2);
+        break;
+
+
+      default:
+        this.insertLavoro = false;
+        this.insertNumeroOre = false;
+        this.insertMalattia = false;
+        const patch3 = {
+          codiceFatturazione: '00',
+          numProtocollo: '00',
+          numeroOre: 8
+        };
+        this.profileForm.patchValue(patch3);
+
+        break;
+    }
   }
 }

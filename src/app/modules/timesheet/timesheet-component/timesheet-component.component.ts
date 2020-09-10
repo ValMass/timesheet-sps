@@ -6,6 +6,7 @@ import {
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarView,
+  CalendarEventAction,
 } from 'angular-calendar';
 import {
   startOfDay,
@@ -52,10 +53,11 @@ export class MyCalendarEvent implements CalendarEvent {
   title: string;
   start: Date;
   nOre: number;
+  actions: CalendarEventAction[];
+  codiceFatt?: string;
+  nProtocollo?: string;
 
 }
-
-
 
 @Component({
   selector: 'app-timesheet-component',
@@ -302,7 +304,7 @@ export class NewTimesheetComponentComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(AddEventModalComponent, {
-      width: '300px',
+      width: '400px',
       data: { date : this.viewDate,
               isEdit: false,
               toEdit: null
@@ -315,6 +317,7 @@ export class NewTimesheetComponentComponent implements OnInit {
         newEvent.title = res.data.contractCode;
         newEvent.start = new Date(res.data.eventDate);
         newEvent.nOre = res.data.numeroOre;
+        newEvent.codiceFatt = res.data.codiceFatturazione;
         console.log(newEvent);
         this.events = [...this.events, newEvent];
       });
@@ -322,7 +325,7 @@ export class NewTimesheetComponentComponent implements OnInit {
   }
   openEditDialog(modalData) {
     const dialogRef = this.dialog.open(AddEventModalComponent, {
-      width: '300px',
+      width: '400px',
       data: { date : this.viewDate,
               isEdit: true,
               toEdit: modalData.event
@@ -402,6 +405,8 @@ export class NewTimesheetComponentComponent implements OnInit {
         start: new Date(element.start),
         nOre: element.nOre,
         actions: this.actions,
+        codiceFatt: element.codiceFatt,
+        nProtocollo: element.nProtocollo,
       }
       this.events = [...this.events, newEvent];
     });
@@ -434,6 +439,7 @@ export class NewTimesheetComponentComponent implements OnInit {
   }
 
   checkIfTimesheetIsModifiable() {
+    console.log(this.events);
     console.log(this.logoutService.currentUserValue.isadmin);
     switch (this.logoutService.currentUserValue.isadmin) {
       case '1':
