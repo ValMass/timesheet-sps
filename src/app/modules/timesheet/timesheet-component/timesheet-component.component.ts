@@ -6,7 +6,7 @@ import {
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarView,
-  
+
 } from 'angular-calendar';
 import {
   startOfDay,
@@ -76,7 +76,13 @@ export class NewTimesheetComponentComponent implements OnInit {
     // private confirmationDialogService: ConfirmationDialogService
   ) { }
 
-  id: any;
+  id: any; // id of logged admin user for later use;
+
+  //information showed on screen current timesheet
+  actualTimesheet = {}; // deprecated
+  public currentTimesheet = new Timesheet();
+  actualTimesheetUserId = '0';
+
 
   newEvent: MyCalendarEvent = new MyCalendarEvent();
 
@@ -87,6 +93,7 @@ export class NewTimesheetComponentComponent implements OnInit {
   viewDate: Date = new Date();
 
   activeDayIsOpen = false;
+
 
   refresh: Subject<any> = new Subject();
 
@@ -162,19 +169,18 @@ export class NewTimesheetComponentComponent implements OnInit {
   ];
   public timeshetStatus = '';
 
-  public currentTimesheet = new Timesheet();
+
 
   ngOnInit() {
 
     this.route.params.subscribe(params => {
-      this.id = +params.id;
+      this.actualTimesheetUserId = params.id;
     });
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
-    const usrId = this.id;
     this.events = [];
-    console.log(month + ' ' + year + ' ' + usrId);
-    this.timesheetRes.getTimesheet(month, year, usrId).subscribe(
+    console.log(month + ' ' + year + ' ' + this.actualTimesheetUserId);
+    this.timesheetRes.getTimesheet(month, year, this.actualTimesheetUserId).subscribe(
       (res) => {
         console.log(res);
         if (res['status'] === 'error') {
@@ -235,8 +241,7 @@ export class NewTimesheetComponentComponent implements OnInit {
   saveCurrentTimesheet() {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
-    const userid = this.id;
-    this.saveCurrentTimesheetInstance.save(this.events, month, year, userid)
+    this.saveCurrentTimesheetInstance.save(this.events, month, year, this.actualTimesheetUserId)
       .subscribe(
         res => {
           console.log(res);
@@ -260,7 +265,7 @@ export class NewTimesheetComponentComponent implements OnInit {
   freezeCurrentTimesheet() {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
-    this.timesheetRes.freeze(month, year, this.id)
+    this.timesheetRes.freeze(month, year, this.actualTimesheetUserId)
       .subscribe(data => {
         if (data['status'] === 'error') {
           this.toastrService.error('Errore durante il salvattaggio del timesheet: ' + data['message']);
@@ -282,10 +287,11 @@ export class NewTimesheetComponentComponent implements OnInit {
   resetTimesheetState() {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
-    this.timesheetRes.resetState(month, year, this.id)
+    this.timesheetRes.resetState(month, year, this.actualTimesheetUserId)
       .subscribe(data => {
         if (data['status'] === 'error') {
           this.toastrService.error('Errore durante il salvattaggio del timesheet: ' + data['message']);
+          this.createfromEmptyTimesheet();
 
         } else {
           this.events = [];
@@ -352,13 +358,13 @@ export class NewTimesheetComponentComponent implements OnInit {
     console.log('se e\' vero so forte');
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
-    const userid = this.id;
     this.events = [];
-    this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, userid).subscribe(
+    this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, this.actualTimesheetUserId).subscribe(
       (res) => {
         console.log(res);
         if (res['status'] === 'error') {
           console.log("Error: " + res['message']);
+          this.createfromEmptyTimesheet();
 
         } else {
           this.currentTimesheet.fromObject(res['data']);
@@ -374,13 +380,13 @@ export class NewTimesheetComponentComponent implements OnInit {
   myNextClick() {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
-    const userid = this.id;
     this.events = [];
-    this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, userid).subscribe(
+    this.saveCurrentTimesheetInstance.loadCurrentViewedEvent(month, year, this.actualTimesheetUserId).subscribe(
       (res) => {
         console.log(res);
         if (res['status'] === 'error') {
           console.log("Error: " + res['message']);
+          this.createfromEmptyTimesheet();
 
         } else {
           this.currentTimesheet.fromObject(res['data']);
@@ -459,6 +465,20 @@ export class NewTimesheetComponentComponent implements OnInit {
 
   }
 
+  createfromEmptyTimesheet() {
+    const month = this.viewDate.getMonth();
+    const year = this.viewDate.getFullYear();
+    this.currentTimesheet = new Timesheet();
+    this.currentTimesheet.month = String(this.viewDate.getMonth());
+    this.currentTimesheet.year = String(this.viewDate.getFullYear());
+    this.currentTimesheet.dayJson = [];
+    this.currentTimesheet.userid = this.actualTimesheetUserId;
+    this.currentTimesheet.freezed = '0';
+    this.currentTimesheet.state = '1';
+    this.currentTimesheet.totaldeseasehours = '0';
+    this.updateStateLabel();
+  }
+
   payTimesheet() {
 
   }
@@ -487,6 +507,7 @@ export class NewTimesheetComponentComponent implements OnInit {
         break;
 
       default:
+        this.timeshetStatus = "       ";
         break;
     }
   }

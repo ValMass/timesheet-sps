@@ -3,18 +3,18 @@ export class Timesheet {
   month: string;
   year: string;
   dayJson?: Array<any>;
-  validatedbyadmin: string;
-  validationtimestamp: string;
-  freezed: string;
-  freezedtimestamp: string;
-  totalworkeddays: string;
-  totalworkedhours: string;
-  totaldeseasehours: string;
+  validatedbyadmin?: string;
+  validationtimestamp?: string;
+  freezed?: string;
+  freezedtimestamp?: string;
+  totalworkeddays?: string;
+  totalworkedhours?: string;
+  totaldeseasehours?: string;
   userid: string;
   state: string;
-  totallivingexpense: string;
-  totaltravelexpense: string;
-  totalvariousexpanse: string;
+  totallivingexpense?: string;
+  totaltravelexpense?: string;
+  totalvariousexpanse?: string;
 
   fromObject(obj){
     this.id = obj.id;
