@@ -6,6 +6,7 @@ import {
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarView,
+  CalendarEventTitleFormatter,
 
 } from 'angular-calendar';
 import {
@@ -29,6 +30,7 @@ import { AuthenticationService } from '@app/services/authentication.service';
 import { TimesheetResolverService } from '../services/timesheet-resolver.service';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { EventTitleFormatter } from './eventTitleFormatter';
 
 
 
@@ -62,7 +64,13 @@ export class MyCalendarEvent implements CalendarEvent {
 @Component({
   selector: 'app-timesheet-component',
   templateUrl: './timesheet-component.component.html',
-  styleUrls: ['./timesheet-component.component.css']
+  styleUrls: ['./timesheet-component.component.css'],
+  providers: [
+    {
+      provide: CalendarEventTitleFormatter,
+      useClass: EventTitleFormatter,
+    },
+  ],
 })
 export class NewTimesheetComponentComponent implements OnInit {
 

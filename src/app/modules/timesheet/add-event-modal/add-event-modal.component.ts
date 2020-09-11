@@ -46,7 +46,7 @@ export class AddEventModalComponent implements OnInit   {
         numeroOre: [tmp.nOre, [Validators.required]],
         contractCode: [tmp.title, [Validators.required]],
         eventDate: [this.data.date, [Validators.required]],
-        numProtocollo : [this.data.date, [Validators.required]],
+        numProtocollo : [this.data.nProtocollo, [Validators.required]],
         codiceFatturazione: [tmp.codiceFatt, [Validators.required]],
       });
       this.selectVisibleComponent(tmp.title);
@@ -72,10 +72,10 @@ export class AddEventModalComponent implements OnInit   {
 
   submit() {
     console.log(this.profileForm.invalid);
-    // if (this.profileForm.invalid) {
+    if (this.profileForm.invalid) {
 
-    //  return;
-   // }
+      return;
+    }
     this.dialogRef.close({ data: this.profileForm.value });
     /*this.submitted = true;
 
