@@ -6,12 +6,22 @@
         <th scope="col">E-mail</th>
         <th scope="col">Telefono</th>
         <th scope="col">Telefono 2</th>
+        <th scope="col">Stato</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let user of listautenti; trackBy: trackById">
-        <td (click)="redirectToUser(user)">{{ user.username }} </td>
+        <td (click)="redirectToUser(user)">{{ user.name  }} {{ user.surname }} </td>
         <td (click)="redirectToUser(user)">{{ user.email }}</td>
+        <td (click)="redirectToUser(user)">{{ user.phonenumber1}}</td>
+        <td (click)="redirectToUser(user)">{{ user.phonenumber2 }}</td>
+        <td (click)="redirectToUser(user)">
+          <span class="pallino"
+          [ngClass]="{'pallinored': user.state === '1',
+                      'pallinoyell': user.state === '2',
+                      'pallinogreen': user.state === '3'}">
+        </span>
+        </td>
       </tr>
     </tbody>
   </table>

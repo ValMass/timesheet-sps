@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { NewUser } from '@app/models/newUser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ServicesService } from '../../services/services.service';
 
 @Component({
   selector: 'app-user-list',
@@ -16,9 +17,11 @@ export class UserListComponent implements OnInit {
     private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
+    private service: ServicesService,
   ) { }
+  viewDate: Date = new Date();
 
-  listautenti: NewUser[] = [];
+  listautenti: any[] = [];
 
   ngOnInit(): void {
     const observer = {
@@ -47,6 +50,17 @@ export class UserListComponent implements OnInit {
     };
 
     this.route.data.subscribe(observer);
+
+    const month = this.viewDate.getMonth();
+    const year = this.viewDate.getFullYear();
+    this.service.getListForAdminHomepage(month, year).subscribe(
+      res => {
+        if ( res.status === "done"){
+          this.listautenti = res.data;
+        }
+        console.log(res);
+      }
+    );
 /*
     let id = 1;
     const url = environment.apiUrl + '/user/listAllUsers.php';
