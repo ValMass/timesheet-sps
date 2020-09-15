@@ -24,14 +24,19 @@ import { UserAdminService } from './modules/user-admin/services/user-admin.servi
 import { NotFoundComponent } from './component/not-found/not-found.component';
 import { TimesheetEditComponent } from './modules/timesheet-user/timesheet-edit/timesheet-edit.component';
 import { CustListComponent } from './modules/home-page/widget/cust-list/cust-list.component';
+import { HomeGuard } from './_helper/home.guard';
 
 
 
 const routes: Routes = [
   {
     path: '',
-    component: LoginPageComponent,
-    canActivate: [AuthGuard]
+    component: HomePageComponent,
+    resolve:{
+      userlist: UserListResolverService,
+      customerlist: CustomerListResolverService
+    },
+    canActivate: [HomeGuard],
   },
   { path: 'login-page', component: LoginPageComponent  },
   { path: 'timesheet-page', component: NewTimesheetComponentComponent,  canActivate: [AuthGuard]  },
@@ -95,7 +100,8 @@ const routes: Routes = [
     resolve:{
       userlist: UserListResolverService,
       customerlist: CustomerListResolverService
-    }
+    },
+    canActivate: [AuthGuard],
   },
   {
     path: 'user-admin', loadChildren: () => import('./modules/user-admin/user-admin.module').then(m => m.UserAdminModule),
