@@ -86,12 +86,12 @@ export class UserAdminComponent implements OnInit {
         let myObj = this.parseDialogFormRes(res['data']);
         console.log(myObj);
         this.anagraphicService.addAnagraphicForUser(myObj.anagtoadd).subscribe(
-          result => {
-            console.log(result);
-            if (result['status'] === 'error') {
-              this.toastrService.error(result.toString());
+          next => {
+            console.log(next);
+            if (next['status'] === 'error') {
+              this.toastrService.error(res.toString());
             } else {
-              myObj.usertoadd.anagraphicid = result['data'].id;
+              myObj.usertoadd.anagraphicid = next['data'].id;
               this.userAdminService.createNewUser(myObj.usertoadd).subscribe(
                 result => {
                   if (result['status'] === 'error') {
@@ -109,6 +109,8 @@ export class UserAdminComponent implements OnInit {
                     newUser.regnumsps = user['regnumsps'];
                     newUser.userscreationdate = new Date().toString();
                     newUser.anagraphicid = result['data'].id;
+                    newUser.phonenumber1 = next['phonenumber1'];
+                    newUser.phonenumber2 = next['phonenumber2'];
                     console.log(newUser);
                     this.users = [...this.users, newUser];
                   }
