@@ -5,5 +5,5 @@ export class CustomerOffice {
   cap: string;
   companyid: number;
   contractid: number;
-
+  distanza?: number;
 }

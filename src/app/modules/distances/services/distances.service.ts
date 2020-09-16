@@ -1,0 +1,101 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Office } from '@app/models/office';
+import { environment } from '@environments/environment';
+import { forkJoin, Observable, throwError } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DistancesService {
+
+  constructor(private readonly http: HttpClient) { }
+
+  /**
+   * Torna tutte le sedi di SPS.
+   */
+  getAllOffices(): Observable<Office[]> {
+    const url = `${environment.apiUrl}/offices/listAllOffices.php`;
+    return this.http.get<Office[]>(url)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Torna la lista dei clienti con Nome e Sede.
+   * TODO: da rivedere in quanto così facendo viene invocata la "listAllCustomer" n volte quanti sono i clienti.
+   */
+  getAllCustomerOffice(): Observable<any> {
+    const url = `${environment.apiUrl}customerOffices/listAllCustomerOffices.php`;
+    return this.http.get<Array<any>>(url)
+      .pipe(
+        switchMap(val => {
+          return forkJoin(val['data'].map(data => this.http.get(`${environment.apiUrl}customer/listAllCustomer.php`)))
+            .pipe(
+              map(offices => offices.map((office, index) => {
+                return {...val['data'][index], ...{ name: this.findCompanyName(office['data'], val['data'][index].companyid) }}
+              }))
+            )
+        })
+      );
+  }
+
+  /**
+   * Vengono prima calcolate le geocordinate dei due uffici per poi tornare la distanza (in km).
+   * @param addressSps
+   * @param addressCustomerOffice
+   */
+  async getDistanceFromOffice(addressSps, addressCustomerOffice) {
+    const { results: spsResults } = await this.getGeocodeFromAddress(addressSps).toPromise();
+    const { results: customerResults } = await this.getGeocodeFromAddress(addressCustomerOffice).toPromise();
+    const { lat: latSps, lng: longSps } = spsResults[0].geometry.location;
+    const { lat: latCustomer, lng: longCustomer } = customerResults[0].geometry.location;
+    // TODO: trovare una soluzione migliore in quanto la distanza è approssimativa e non corretta.
+    // const url = `${environment.googleDistanceMatrixApi}units=imperial&origins=${latSps},${longSps}&destinations=${latCustomer},${longCustomer}&key=${environment.googleKey}`;
+    // const result = await this.http.get(url).toPromise();
+    return this.calcolateDistance(latSps, longSps, latCustomer, longCustomer);
+  }
+
+  /**
+   * Torna il geocode di un indirizzo.
+   * @param address
+   */
+  getGeocodeFromAddress(address): Observable<any> {
+    const url = `${environment.googleGeolocationApi}address=${address}&key=${environment.googleKey}`;
+    return this.http.get(url)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Cerca il nome corretto di un cliente partendo da una lista di indirizzi e un companyid.
+   * 
+   * @param offices 
+   * @param companyid 
+   */
+  findCompanyName(offices, companyid) {
+    const company = offices.filter(office => office.companyid === companyid);
+    return company[0].name;
+  }
+
+  deg2rad(deg) {
+    return deg * Math.PI / 180;
+  }
+
+  rad2deg(radians) {
+    return radians * 180 / Math.PI;
+  }
+
+  calcolateDistance(latSps, longSps, latCustomer, longCustomer) {
+    const theta = longSps - longCustomer;
+    let dist = Math.sin(this.deg2rad(latSps)) * Math.sin(this.deg2rad(latCustomer)) + Math.cos(this.deg2rad(latSps)) * Math.cos(this.deg2rad(latCustomer)) * Math.cos(this.deg2rad(theta));
+    dist = Math.acos(dist);
+    dist = this.rad2deg(dist);
+    return Math.floor(dist * 60 * 1.1515 / 0.621371);
+  }
+
+  handleError(error) {
+    // lanciare eventuale modale di errore.
+    console.log(error);
+    return throwError(`Errore: ${error['message']}`);
+  }
+}

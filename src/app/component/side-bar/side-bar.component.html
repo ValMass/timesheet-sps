@@ -76,24 +76,23 @@
     <span class="fas fa-bars"></span>
   </button>
 </div>
-
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" routerLink='/home-page' routerLinkActive #rla="routerLinkActive">Home</a>
-        <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" routerLink="/user-admin" routerLinkActive #rla1="routerLinkActive">Utenti</a>
+        <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-controls="v-pills-home" routerLink='/home-page' routerLinkActive #rla="routerLinkActive">Home</a>
+        <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-controls="v-pills-home" routerLink="/user-admin" routerLinkActive #rla1="routerLinkActive">Utenti</a>
         <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" routerLink="/officelist" routerLinkActive #rla2="routerLinkActive">Sedi</a>
-        <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" routerLink="/customers" routerLinkActive #rla3="routerLinkActive">Clienti</a>
-        <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" routerLink="/contracts" routerLinkActive #rla4="routerLinkActive">Contratti</a>
+        <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-controls="v-pills-home" routerLink="/customers" routerLinkActive #rla3="routerLinkActive">Clienti</a>
+        <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-controls="v-pills-home" routerLink="/contracts" routerLinkActive #rla4="routerLinkActive">Contratti</a>
+        <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-controls="v-pills-home" routerLink="/distances" routerLinkActive #rla4="routerLinkActive">Distanze</a>
         <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-controls="v-pills-home" (click)='logout()'>Esci</a>
       </div>
     </div>
-
   </div>
 </nav>
 </div>
-<ng-template #elseBlock>
 
+<ng-template #elseBlock>
   <nav class="navbar navbar-expand-md navbar-custom">
     <div class="logo-container mx-2">
       <div class="logo">
@@ -104,14 +103,12 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <ul class="navbar-nav mr-auto">
-        <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" routerLink='/home-page-user'>Home</a>
-        <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-home" routerLink='/timesheet-user'>Timesheet</a>
+        <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-controls="v-pills-home" routerLink='/home-page-user'>Home</a>
+        <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-controls="v-pills-home" routerLink='/timesheet-user'>Timesheet</a>
         <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-controls="v-pills-home" routerLink="/user-anag">Profilo</a>
         <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-controls="v-pills-home" (click)='logout()'>Esci</a>
-
       </ul>
     </div>
-
   </nav>
 </ng-template>
 

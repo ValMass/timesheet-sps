@@ -1,0 +1,32 @@
+<div class="tab-user container">
+  <!-- <button mat-button class="btn btn-primary w-100 mt-5">Aggiungi Distanza</button> -->
+  <ul class="list-group list-group-horizontal-lg">
+    <li class="list-group-item item-office"
+        *ngFor="let office of listAllOffice"
+        [class.office-active]="office === officeSelected"
+        (click)="officeDistance(office)">
+      {{ office.city }} - {{ office.address }}
+    </li>
+  </ul>
+  <div class="card margin-card" *ngIf="officeSelected; else selectOffice">
+    <table class="table table-striped no-margin">
+      <thead>
+        <tr>
+          <th scope="col">Nome Cliente</th>
+          <th scope="col">Indirizzo</th>
+          <th scope="col">Distanza (km)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let customerOffice of listAllCustomerForOffice">
+          <td>{{ customerOffice.name }}</td>
+          <td>{{ customerOffice.address }}</td>
+          <td>{{ customerOffice.distanza }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template class="card margin-card" #selectOffice>
+    <p>Seleziona un ufficio di partenza</p>
+  </ng-template>
+</div>

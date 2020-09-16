@@ -1,0 +1,8 @@
+.office-active {
+  background: #962d37;
+  color: white;
+}
+
+.item-office {
+  cursor: pointer;
+}

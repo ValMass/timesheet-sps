@@ -8,9 +8,6 @@ mat-grid-tile {
   background-color:white;
 }
 
-.tab-user {
-  padding: 1em 2em;
-}
 .custom-col::-webkit-scrollbar {
   display: none;
   }

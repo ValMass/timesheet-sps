@@ -64,7 +64,7 @@ const routes: Routes = [
   },
   {
     path: 'officelist/office-detail/:id',
-    component: OfficeDetailComponent  ,
+    component: OfficeDetailComponent,
     resolve: {
       officelist: OfficeListResolverService
     },
@@ -115,6 +115,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'distances',
+    loadChildren: () => import('./modules/distances/distances.module').then(m => m.DistancesModule),
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'timesheet-user',
     component: TimesheetEditComponent,
     /*
@@ -131,8 +136,6 @@ const routes: Routes = [
     component: NotFoundComponent,
 
   },
-
-
 ];
 
 @NgModule({
