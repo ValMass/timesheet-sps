@@ -71,4 +71,18 @@ export class UserAdminService implements Resolve<UserAdmin[]> {
 
   }
 
+  getListForUserList(month, year){
+    const url = environment.apiUrl + 'user/listAllUserWithTimesheetForMonth.php';
+    return this.http.post<any>(url, { month , year }).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+        return of(something);
+      } else {
+        return EMPTY;
+      }
+    })
+    );
+  }
+
 }

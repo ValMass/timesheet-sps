@@ -5,3 +5,31 @@
   border-radius: 5px;
   padding: 0.3em;
 }
+.pallino {
+  border-radius: 50%;
+  background-color: blue;
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+.pallinored {
+  border-radius: 50%;
+  background-color: red;
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+.pallinoyell {
+  border-radius: 50%;
+  background-color: yellow;
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+.pallinogreen {
+  border-radius: 50%;
+  background-color: green;
+  width: 20px;
+  height: 20px;
+  display: block;
+}

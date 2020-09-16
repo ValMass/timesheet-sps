@@ -14,14 +14,14 @@
 }
 .pallinoyell {
   border-radius: 50%;
-  background-color: red;
+  background-color: yellow;
   width: 20px;
   height: 20px;
   display: block;
 }
 .pallinogreen {
   border-radius: 50%;
-  background-color: red;
+  background-color: green;
   width: 20px;
   height: 20px;
   display: block;

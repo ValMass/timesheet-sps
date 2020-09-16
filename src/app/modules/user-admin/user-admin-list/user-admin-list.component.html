@@ -1,43 +1,37 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col">id</th>
-      <th scope="col">username</th>
-      <th scope="col">password</th>
-      <th scope="col">email</th>
-      <th scope="col">role</th>
-      <th scope="col">regnuminps</th>
-      <th scope="col">regnumsps</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Nome utente</th>
+      <th scope="col">E-mail</th>
+      <th scope="col">Numero di tel.</th>
+      <th scope="col">Numero di tel. alt.</th>
+      <th scope="col">Ruolo</th>
+      <th scope="col">Stato</th>
       <th scope="col">&nbsp;</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let useradmin of useradmins; trackBy: trackById; let i = index"
-    role="presentation">
-      <td>{{ useradmin.id }} </td>
+    <tr *ngFor="let useradmin of useradmins; trackBy: trackById; let i = index" role="presentation">
+      <td>{{ useradmin.name }} {{ useradmin.surname }} </td>
       <td>{{ useradmin.username }} </td>
-      <td>{{ useradmin.password }}</td>
       <td>{{ useradmin.email }}</td>
-      <td>{{ useradmin.role }}</td>
-      <td>{{ useradmin.regnuminps }}</td>
-      <td>{{ useradmin.regnumsps }}</td>
-      <td><button class="button-custom" mat-button color="accent" (click)="modifyTimesheet(useradmin)">Modifica Timesheet</button></td>
-      <td> <app-button-footer
-        class="card-footer-item"
-        [className]="'delete-item'"
-        [iconClasses]="'fas fa-trash mr-2'"
-        (clicked)="deleteUserAdmin($event)"
-        label="Delete"
-        [item]="useradmin"
-      ></app-button-footer>
-      <app-button-footer
-        class="card-footer-item"
-        [className]="'edit-item'"
-        [iconClasses]="'fas fa-edit mr-2'"
-        (clicked)="selectCustomer($event)"
-        label="Edit"
-        [item]="useradmin"
-      ></app-button-footer>
+      <td>{{ useradmin.phonenumber1 }}</td>
+      <td>{{ useradmin.phonenumber2 }}</td>
+      <td>{{ useradmin.role === '1' ? "Amministratore" : "Utente ordinario" }}</td>
+      <td>
+        <div class="pallino" [ngClass]="{'pallinored'  : useradmin.state === '1',
+                                         'pallinoyell' : useradmin.state === '2',
+                                         'pallinogreen': useradmin.state === '3'}">
+        </div>
+      </td>
+      <td><button class="button-custom" mat-button color="accent" (click)="modifyTimesheet(useradmin)">Modifica
+          Timesheet</button></td>
+      <td>
+        <app-button-footer class="card-footer-item" [className]="'delete-item'" [iconClasses]="'fas fa-trash mr-2'"
+          (clicked)="deleteUserAdmin($event)" label="Delete" [item]="useradmin"></app-button-footer>
+        <app-button-footer class="card-footer-item" [className]="'edit-item'" [iconClasses]="'fas fa-edit mr-2'"
+          (clicked)="selectCustomer($event)" label="Edit" [item]="useradmin"></app-button-footer>
     </tr>
   </tbody>
 </table>

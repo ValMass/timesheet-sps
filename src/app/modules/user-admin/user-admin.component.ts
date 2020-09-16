@@ -43,7 +43,17 @@ export class UserAdminComponent implements OnInit {
     };
 
     this.route.data.subscribe(observer);
-
+    const viewDate = new Date();
+    const month = viewDate.getMonth();
+    const year = viewDate.getFullYear();
+    console.log(month + ' ' + year);
+    this.userAdminService.getListForUserList( month, year).subscribe(
+      res => {
+        if (res.status === "done" ) {
+          this.users = res.data;
+        }
+      }
+    );
   }
   parseDialogFormRes(dialogRes) {
 
