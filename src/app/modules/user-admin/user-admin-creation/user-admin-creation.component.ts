@@ -5,6 +5,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import { OfficesService } from '../services/offices.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -39,7 +40,7 @@ export const MY_FORMATS = {
 })
 export class UserAdminCreationComponent implements OnInit {
   public submitted: boolean = false;
-
+  public officesList: any[];
   profileForm = new FormGroup({
 
     username: new FormControl('', [ Validators.required, ] ),
@@ -56,12 +57,14 @@ export class UserAdminCreationComponent implements OnInit {
     birthdate : new FormControl(''),
     phonenumber1: new FormControl('', [ Validators.required, ]),
     phonenumber2: new FormControl(''),
+    sededilavoro: new FormControl(''),
   });
 
 
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: string,
               private dialogRef: MatDialogRef<UserAdminCreationComponent>,
+              private officesService: OfficesService
               ) { }
 
   ngOnInit(): void {
@@ -70,7 +73,16 @@ export class UserAdminCreationComponent implements OnInit {
     let date = new Date(newyear, tmp.getMonth(), 1 );
 
     this.profileForm.patchValue({birthdate : date});
+    this.officesService.listAllOffices().subscribe(
+      result => {
+        console.log(result.data);
+        this.officesList = result.data ;
+      },
+      error => {
+        console.log(error);
+      }
 
+    );
   }
   get f() { return this.profileForm.controls; }
 
@@ -78,5 +90,7 @@ export class UserAdminCreationComponent implements OnInit {
     this.dialogRef.close({ data: this.profileForm.value });
 
   }
+
+
 }
 

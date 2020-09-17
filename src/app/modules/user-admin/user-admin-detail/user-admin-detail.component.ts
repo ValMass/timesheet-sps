@@ -10,6 +10,8 @@ import { Anagraphic } from '../models/Anagraphic';
 import { Observable } from 'rxjs';
 import { UserAdminService } from '../services/user-admin.service';
 import { ToastrService } from 'ngx-toastr';
+import { CustomersService } from '../services/customers.service';
+import { OfficesService } from '../services/offices.service';
 
 @Component({
   selector: 'app-user-admin-detail',
@@ -28,6 +30,8 @@ export class UserAdminDetailComponent implements OnInit {
   selectedContract: any;
 
   contractList: any[]; // Contract[]
+  customersList: any[]; // Customer[]
+  officesList: any[]; // Offices[]
 
 
   userForm = new FormGroup({
@@ -44,7 +48,7 @@ export class UserAdminDetailComponent implements OnInit {
     surname: new FormControl('', [Validators.required,]),
     birthdate: new FormControl('', [Validators.required,]),
     birthplace: new FormControl('', [Validators.required,]),
-
+    sededilavoro: new FormControl('', [Validators.required,]),
   });
   // id, address, regnuminps,  contracttype, distaccatoda, distaccatoa, sededilavoro, valorerimborsistimato, buonipastobool, sex, contractid
 
@@ -59,6 +63,8 @@ export class UserAdminDetailComponent implements OnInit {
     private contractService: ContractService,
     private userAdminService: UserAdminService,
     private toastrService: ToastrService,
+    private customerService: CustomersService,
+    private officesService: OfficesService,
   ) { }
 
   ngOnInit(): void {
@@ -71,6 +77,18 @@ export class UserAdminDetailComponent implements OnInit {
       email: this.userAdmin.email,
       isadmin: this.userAdmin.role,
     };
+
+    this.officesService.listAllOffices().subscribe(
+      result => {
+        console.log(result.data);
+        this.officesList = result.data ;
+      },
+      error => {
+        console.log(error);
+      }
+
+    );
+
     this.selectedContract = {};
     this.contractService.listAllContract(contact).subscribe(
       data => {
@@ -106,8 +124,9 @@ export class UserAdminDetailComponent implements OnInit {
         console.log(err);
 
       });
-
   }
+
+
   createListForcontract(contracts) {
     for (const contr of contracts) {
       contr.tolist = contr.title + ' ' + contr.contracttype + ' ' + contr.level + ' livello ' + contr.ccnl;
