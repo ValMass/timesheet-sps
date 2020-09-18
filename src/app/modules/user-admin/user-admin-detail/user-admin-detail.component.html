@@ -125,8 +125,51 @@
 
       <button form='myform' type="submit" class="btn btn-custom w-50">Salva</button>
     </form>
-
   </mat-expansion-panel>
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Assegna attività
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+
+    <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="openAddActivityDialog()">Aggiungi attività</button>
+    <table class="table table-striped no-margin">
+      <thead>
+        <tr>
+          <th scope="col">Nome Attività</th>
+          <th scope="col">Cliente</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let activityCus of activityList; let i = index" role="presentation">
+          <td>{{ activityCus.name }} </td>
+          <td>{{ activityCus.customername }} </td>
+          <td>
+            <app-button-footer class="card-footer-item" [className]="'delete-item'" [iconClasses]="'fas fa-trash mr-2'"
+              (clicked)="deleteActivity($event)" label="Elimina" ></app-button-footer>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+<!--
+    <form class="p-5" name="activity" id="activity" [formGroup]="activityForm" (ngSubmit)="submitActivity()">
+      <div class="form-group row">
+        <label for="activity" class="col-sm-2 col-form-label">Tipo di contratto</label>
+        <div class="col-sm-10">
+          <ng-select [items]="activityList"  bindLabel="name"  [(ngModel)]="selectedContract"
+            formControlName="activityForm">
+          </ng-select>
+        </div>
+      </div>
+
+      <button form='myform' type="submit" class="btn btn-custom w-50">Salva</button>
+    </form>
+  -->
+  </mat-expansion-panel>
+
 </mat-accordion>
 <div>
   <footer class="card-footer ">

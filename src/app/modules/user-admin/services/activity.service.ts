@@ -7,13 +7,12 @@ import { EMPTY, of } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class CustomersService {
+export class ActivityService {
 
   constructor(private http: HttpClient) { }
 
-  listAllCustomer() {
-    const id = 1;
-    const url = environment.apiUrl + 'customer/listAllCustomer.php';
+  listActivities(id) {
+    const url = environment.apiUrl + 'activities/getActivityAndCustomerByUserid.php';
     return this.http.post<any>(url, { id }).pipe(catchError(error => {
       return EMPTY;
     }), mergeMap(something => {

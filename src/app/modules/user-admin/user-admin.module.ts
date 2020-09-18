@@ -11,11 +11,13 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { UserAdminCreationComponent } from './user-admin-creation/user-admin-creation.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { AddActivityComponent } from './add-activity/add-activity.component';
+import { AddEventModalUserComponent } from '../timesheet-user/add-event-modal/add-event-modal.component';
 
 
 
 @NgModule({
-  declarations: [UserAdminComponent, UserAdminListComponent, UserAdminDetailComponent, UserAdminCreationComponent],
+  declarations: [UserAdminComponent, UserAdminListComponent, UserAdminDetailComponent, UserAdminCreationComponent, AddActivityComponent],
   imports: [
     CommonModule,
     UserAdminRoutingModule,
@@ -24,8 +26,12 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     MatDatepickerModule,
     NgSelectModule,
   ],
-  entryComponents: [ UserAdminCreationComponent ],
-  providers:[
+  entryComponents: [
+    UserAdminCreationComponent,
+    AddEventModalUserComponent,
+  ],
+
+  providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'it-IT' },
   ]
 })

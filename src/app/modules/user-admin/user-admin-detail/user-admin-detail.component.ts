@@ -12,6 +12,9 @@ import { UserAdminService } from '../services/user-admin.service';
 import { ToastrService } from 'ngx-toastr';
 import { CustomersService } from '../services/customers.service';
 import { OfficesService } from '../services/offices.service';
+import { ActivityService } from '../services/activity.service';
+import { AddActivityComponent } from '../add-activity/add-activity.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-user-admin-detail',
@@ -30,8 +33,9 @@ export class UserAdminDetailComponent implements OnInit {
   selectedContract: any;
 
   contractList: any[]; // Contract[]
-  customersList: any[]; // Customer[]
   officesList: any[]; // Offices[]
+  customersList: any[]; // Customer[]
+  activityList: any[]; //activities
 
 
   userForm = new FormGroup({
@@ -58,6 +62,11 @@ export class UserAdminDetailComponent implements OnInit {
     birthplace: new FormControl('', [Validators.required,]),
   });
 
+  activityForm = new FormGroup({
+    id: new FormControl('', [Validators.required,]),
+    name: new FormControl('', [Validators.required,]),
+  });
+
   constructor(
     private anagService: AnagraphicService,
     private contractService: ContractService,
@@ -65,6 +74,8 @@ export class UserAdminDetailComponent implements OnInit {
     private toastrService: ToastrService,
     private customerService: CustomersService,
     private officesService: OfficesService,
+    private activityService: ActivityService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -77,6 +88,35 @@ export class UserAdminDetailComponent implements OnInit {
       email: this.userAdmin.email,
       isadmin: this.userAdmin.role,
     };
+
+    this.activityService.listActivities(this.userAdmin.id).subscribe(
+      result => {
+        console.log(result);
+        if ( result.status === 'done') {
+          this.activityList = result.data;
+        } else {
+          this.toastrService.error('Errore nella lista delle attività : ' + result.message);
+        }
+      },
+      error => {
+        console.log("activityservice error");
+      },
+    );
+
+    this.customerService.listAllCustomer().subscribe(
+      result => {
+        console.log(result);
+        if ( result.status === 'done') {
+          this.customersList = result.data;
+        } else {
+          this.toastrService.error('Errore nella lista dei clienti : ' + result.message);
+        }
+      },
+      error => {
+        console.log("customerservice error");
+
+      }
+    );
 
     this.officesService.listAllOffices().subscribe(
       result => {
@@ -201,7 +241,31 @@ export class UserAdminDetailComponent implements OnInit {
     );
 
   }
+
+  submitActivity() {
+
+  }
   saveAll() {
 
+  }
+
+  deleteActivity($event) {
+
+  }
+
+  openAddActivityDialog() {
+    const dialogRef = this.dialog.open( AddActivityComponent, {
+      width: '800px',
+      height: '700px',
+      data: {
+              userid: this.userAdmin.id,
+              customerList: this.customersList,
+            }
+    });
+    dialogRef.afterClosed().subscribe(
+      res => {
+
+      },
+      );
   }
 }

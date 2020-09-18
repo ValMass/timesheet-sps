@@ -39,6 +39,7 @@ import { AuthInterceptor } from './_helper/expired.interceptor';
 import { Router } from '@angular/router';
 import { TimesheetUserModule } from './modules/timesheet-user/timesheet-user.module';
 import { AddEventModalUserComponent } from './modules/timesheet-user/add-event-modal/add-event-modal.component';
+import { AddActivityComponent } from './modules/user-admin/add-activity/add-activity.component';
 
 
 
@@ -94,6 +95,7 @@ import { AddEventModalUserComponent } from './modules/timesheet-user/add-event-m
     AddEventModalUserComponent,
     AddUserDialogComponent,
     AddOfficeDialogComponent,
+    AddActivityComponent,
     UserAdminCreationComponent,
   ],
   providers: [
