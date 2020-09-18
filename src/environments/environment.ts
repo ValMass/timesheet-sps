@@ -4,11 +4,11 @@
 
 export const environment = {
   production: false,
-  // apiUrl: 'https://timesheet.api.spsistemi.net/www/timesheetApi/spstimesheet/',
-  apiUrl: 'http://localhost:8080/',
+  apiUrl: 'https://timesheet.api.spsistemi.net/www/timesheetApi/spstimesheet/',
+  // apiUrl: 'http://localhost:8080/',
   googleGeolocationApi: 'https://maps.googleapis.com/maps/api/geocode/json?',
   // googleDistanceMatrixApi: 'https://maps.googleapis.com/maps/api/distancematrix/json?',
-  googleKey: 'AIzaSyDOz1Yp8ZvpMS4ldIQchtooOjuIjpbK11M',
+  googleKey: '',
 }
 
 /*

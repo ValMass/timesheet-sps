@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomerOffice } from '@app/models/customeroffice';
+import { CustomerOfficeMatrix } from '@app/models/customerOfficeMatrix';
 import { Office } from '@app/models/office';
 import { DistancesService } from './services/distances.service';
 
@@ -11,7 +11,7 @@ import { DistancesService } from './services/distances.service';
 export class DistancesComponent implements OnInit {
   listAllOffice: Office[];
   officeSelected: Office;
-  listAllCustomerForOffice: CustomerOffice[];
+  listAllCustomerOffice: CustomerOfficeMatrix[];
 
   constructor(private distancesService: DistancesService) { }
 
@@ -20,19 +20,22 @@ export class DistancesComponent implements OnInit {
       .subscribe(res => {
         this.listAllOffice = res['data'];
     });
-
-    this.distancesService.getAllCustomerOffice()
-      .subscribe(res => {
-        this.listAllCustomerForOffice = res;
-    });
   }
 
   officeDistance(office: Office) {
     this.officeSelected = office;
-    this.listAllCustomerForOffice.forEach((customerOffice, index) => {
-      this.distancesService.getDistanceFromOffice(office.address, customerOffice.address).then(res => {
-        this.listAllCustomerForOffice[index].distanza = res;
-      });
+
+    this.distancesService.getListMatrixPointsByOfficeID(office.id)
+      .subscribe(res => {
+        console.log(res);
+        this.listAllCustomerOffice = res['data'];
     });
+  }
+
+  addDistanceFromOffice(distance, customerOffice) {
+    // TODO: Aggiungere la distanza inserita
+    console.log('CustomerOffice', customerOffice);
+    console.log('Office', this.officeSelected);
+    console.log('Distanza', distance);
   }
 }

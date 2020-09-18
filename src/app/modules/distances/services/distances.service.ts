@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CustomerOfficeMatrix } from '@app/models/customerOfficeMatrix';
 import { Office } from '@app/models/office';
 import { environment } from '@environments/environment';
 import { forkJoin, Observable, throwError } from 'rxjs';
@@ -23,7 +24,7 @@ export class DistancesService {
 
   /**
    * Torna la lista dei clienti con Nome e Sede.
-   * TODO: da rivedere in quanto così facendo viene invocata la "listAllCustomer" n volte quanti sono i clienti.
+   *
    */
   getAllCustomerOffice(): Observable<any> {
     const url = `${environment.apiUrl}customerOffices/listAllCustomerOffices.php`;
@@ -41,6 +42,20 @@ export class DistancesService {
   }
 
   /**
+   * Torna la lista dei clienti con la relativa distanza in km partendo da un determinato ufficio sps.
+   * @param officeId
+   */
+  getListMatrixPointsByOfficeID(officeId): Observable<CustomerOfficeMatrix[]> {
+    const url = `${environment.apiUrl}officesMatrix/listMatrixPointsByOfficeID.php`;
+    return this.http.post<CustomerOfficeMatrix[]>(url, {officesid: officeId})
+      .pipe(catchError(this.handleError));
+  }
+
+  addMatrixPointsToCustomerId() {
+    
+  }
+
+  /**
    * Vengono prima calcolate le geocordinate dei due uffici per poi tornare la distanza (in km).
    * @param addressSps
    * @param addressCustomerOffice
@@ -50,9 +65,6 @@ export class DistancesService {
     const { results: customerResults } = await this.getGeocodeFromAddress(addressCustomerOffice).toPromise();
     const { lat: latSps, lng: longSps } = spsResults[0].geometry.location;
     const { lat: latCustomer, lng: longCustomer } = customerResults[0].geometry.location;
-    // TODO: trovare una soluzione migliore in quanto la distanza è approssimativa e non corretta.
-    // const url = `${environment.googleDistanceMatrixApi}units=imperial&origins=${latSps},${longSps}&destinations=${latCustomer},${longCustomer}&key=${environment.googleKey}`;
-    // const result = await this.http.get(url).toPromise();
     return this.calcolateDistance(latSps, longSps, latCustomer, longCustomer);
   }
 
@@ -77,20 +89,27 @@ export class DistancesService {
     return company[0].name;
   }
 
-  deg2rad(deg) {
-    return deg * Math.PI / 180;
-  }
-
-  rad2deg(radians) {
-    return radians * 180 / Math.PI;
-  }
-
+  /**
+   * Calcola la distanza tra due coordinate e ritorna la distanza in km.
+   * @param latSps
+   * @param longSps
+   * @param latCustomer
+   * @param longCustomer
+   */
   calcolateDistance(latSps, longSps, latCustomer, longCustomer) {
     const theta = longSps - longCustomer;
     let dist = Math.sin(this.deg2rad(latSps)) * Math.sin(this.deg2rad(latCustomer)) + Math.cos(this.deg2rad(latSps)) * Math.cos(this.deg2rad(latCustomer)) * Math.cos(this.deg2rad(theta));
     dist = Math.acos(dist);
     dist = this.rad2deg(dist);
     return Math.floor(dist * 60 * 1.1515 / 0.621371);
+  }
+
+  deg2rad(deg) {
+    return deg * Math.PI / 180;
+  }
+
+  rad2deg(radians) {
+    return radians * 180 / Math.PI;
   }
 
   handleError(error) {

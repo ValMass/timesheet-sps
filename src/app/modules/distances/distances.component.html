@@ -15,13 +15,19 @@
           <th scope="col">Nome Cliente</th>
           <th scope="col">Indirizzo</th>
           <th scope="col">Distanza (km)</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let customerOffice of listAllCustomerForOffice">
-          <td>{{ customerOffice.name }}</td>
-          <td>{{ customerOffice.address }}</td>
-          <td>{{ customerOffice.distanza }}</td>
+        <tr *ngFor="let customerOffice of listAllCustomerOffice">
+          <td>--</td>
+          <td>{{ customerOffice.cus.address }}</td>
+          <td>
+            <input type="number" class="form-control distance-input" #distanceInput value="{{customerOffice.mat.distance}}"/>
+          </td>
+          <td>
+            <button class="btn btn-primary" (click)="addDistanceFromOffice(distanceInput.value, customerOffice)">ADD</button>
+          </td>
         </tr>
       </tbody>
     </table>
