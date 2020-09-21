@@ -42,10 +42,7 @@ export class DistancesComponent implements OnInit {
   }
 
   addDistanceFromOffice(distance, customerOffice: CustomerOfficeMatrix) {
-    console.log('CustomerOffice', customerOffice.cus.id);
-    console.log('Office', this.officeSelected.id);
-    console.log('Distanza', distance);
-    this.distancesService.addMatrixPointsToCustomerId(distance, this.officeSelected.id, customerOffice.cus.id)
+    this.distancesService.updateMatrixPointsToCustomerId(distance, this.officeSelected.id, customerOffice.cus.id)
       .subscribe(res => console.log(res));
   }
 }

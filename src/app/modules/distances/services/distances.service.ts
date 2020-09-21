@@ -67,8 +67,8 @@ export class DistancesService {
    * @param officeId
    * @param customerId
    */
-  addMatrixPointsToCustomerId(distance, officeId, customerId) {
-    const url = `${environment.apiUrl}officeMatrix/createMatrixPoint.php`;
+  updateMatrixPointsToCustomerId(distance, officeId, customerId) {
+    const url = `${environment.apiUrl}officesMatrix/updateMatrixPoint.php`;
     return this.http.post(url, {'distance': distance, 'officeid': officeId, 'customerid': customerId})
       .pipe(catchError(this.handleError));
   }
