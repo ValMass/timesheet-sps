@@ -11,8 +11,6 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'customer-detail',
   templateUrl: 'customer-detail.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
-
 })
 
 export class CustomerDetailComponent implements OnChanges {
@@ -56,9 +54,6 @@ export class CustomerDetailComponent implements OnChanges {
       this.editingCustomer = { ...this.customer };
       this.addMode = false;
       this.getoffices(this.customer.id);
-
-
-
     } else {
       this.editingCustomer = { id: undefined, name: '', legaladdress: '', pivacodicefiscale: '' };
       this.addMode = true;
@@ -94,7 +89,12 @@ export class CustomerDetailComponent implements OnChanges {
     dialogRef.afterClosed().subscribe(res => {
       if (res && res['data']) {
         this.customerOfficesService.save({...res['data'], customerid: this.customer.id}).subscribe(res => {
-          console.log(res);
+          if (res['status'] === 'done') {
+            this.toastrService.success('Ufficio creato correttamente');
+            this.officeslist.push(res['data']);
+          } else {
+            this.toastrService.error('Problemi nel creare l\'ufficio');
+          }
         });
       }
     });
@@ -106,8 +106,31 @@ export class CustomerDetailComponent implements OnChanges {
       data: {office: office}
     });
     dialogRef.afterClosed().subscribe(res => {
-      // TODO: endpoint per la modifica dell'ufficio del cliente.
+      this.customerOfficesService.update(res, office.id, office.customerid).subscribe(res => {
+        if (res['status'] === 'done') {
+          this.toastrService.success('Ufficio modificato correttamente');
+          const index = this.officeslist.findIndex(office => office.id === res['data'].id);
+          this.getoffices(this.customer.id);
+        } else {
+          this.toastrService.error('Problemi con la modifica dell\'ufficio');
+        }
+      });
     });
+  }
+
+  eliminaUfficio(office) {
+    if (confirm(`Vuoi cancellare l'ufficio ${office.address}`)) {
+      this.customerOfficesService.delete(office).subscribe(res => {
+        if (res['status'] === 'done') {
+          this.toastrService.success('Ufficio cancellato correttamente');
+          this.officeslist = this.officeslist.filter(office => {
+            return office.id !== res['data'].id;
+          });
+        } else {
+          this.toastrService.error('Problemi nel cancellare l\'ufficio');
+        }
+      });
+    }
   }
 
   onSubmit() {
@@ -120,10 +143,6 @@ export class CustomerDetailComponent implements OnChanges {
 
   clear() {
     this.unselect.emit();
-  }
-
-  deleteOffice(office){
-
   }
 
   trackById(index: number, office: Office): number {

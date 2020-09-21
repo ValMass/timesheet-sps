@@ -27,19 +27,20 @@ export class CustomerOfficeService {
   }
 
   save(customeroffice) {
-    const userscreationdate = new Date();
+
     const url = environment.apiUrl + '/customerOffices/createCustomerOffices.php';
-    return this.http.post(url, { address: customeroffice['address'], city: customeroffice['city'], cap: customeroffice['cap'], customerid: customeroffice['customerid'] });
+    return this.http.post(url, { address: customeroffice['address'], city: customeroffice['citta'], cap: customeroffice['cap'], customerid: customeroffice['customerid'] });
+
   }
 
-  update(customeroffice) {
-    // TODO: servizio per edit customeroffice.
+  update(customeroffice, id, customerid) {
+    const url = environment.apiUrl + 'customerOffices/updateCustomerOfficesById.php';
+    return this.http.post(url, { id: id, address: customeroffice['data'].address, city: customeroffice['data'].citta, cap: customeroffice['data'].cap, customerid: customerid });
   }
 
   delete(customeroffice) {
     const id = customeroffice.id;
-    const url = environment.apiUrl + '/customeroffices/deleteCustomerOfficesById.php';
-    console.log(url);
+    const url = environment.apiUrl + '/customerOffices/deleteCustomerOfficesById.php';
     return this.http.post(url, { id });
   }
 }
