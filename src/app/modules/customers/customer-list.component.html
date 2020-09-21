@@ -11,13 +11,12 @@
         <th scope="col">Referente</th>
         <th scope="col">&nbsp;</th>
         <th scope="col">&nbsp;</th>
-        <th scope="col">&nbsp;</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let customer of customers; trackBy: trackById; let i = index" role="presentation">
-        <td>{{ customer.id }} </td>
-        <td>{{ customer.name }} </td>
+        <td>{{ customer.id }}</td>
+        <td>{{ customer.name }}</td>
         <td>{{ customer.legaladdress }}</td>
         <td>{{ customer.pivacodicefiscale }}</td>
         <td>{{ customer.rea }}</td>

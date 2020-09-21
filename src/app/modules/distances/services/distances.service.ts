@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CustomerOfficeMatrix } from '@app/models/customerOfficeMatrix';
 import { Office } from '@app/models/office';
+import { Customer } from '@app/modules/customers/customer';
 import { environment } from '@environments/environment';
 import { forkJoin, Observable, throwError } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
@@ -19,6 +20,15 @@ export class DistancesService {
   getAllOffices(): Observable<Office[]> {
     const url = `${environment.apiUrl}/offices/listAllOffices.php`;
     return this.http.get<Office[]>(url)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * 
+   */
+  getAllCustomer(): Observable<Customer[]> {
+    const url = `${environment.apiUrl}customer/listAllCustomer.php`;
+    return this.http.get<Customer[]>(url)
       .pipe(catchError(this.handleError));
   }
 
@@ -51,8 +61,16 @@ export class DistancesService {
       .pipe(catchError(this.handleError));
   }
 
-  addMatrixPointsToCustomerId() {
-    
+  /**
+   * 
+   * @param distance
+   * @param officeId
+   * @param customerId
+   */
+  addMatrixPointsToCustomerId(distance, officeId, customerId) {
+    const url = `${environment.apiUrl}officeMatrix/createMatrixPoint.php`;
+    return this.http.post(url, {'distance': distance, 'officeid': officeId, 'customerid': customerId})
+      .pipe(catchError(this.handleError));
   }
 
   /**

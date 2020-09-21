@@ -81,12 +81,11 @@
    &nbsp;
  </p>
 <div class="card margin-card">
-    <header class="card-header d-flex justify-content-between">
-        <app-button-footer class="card-footer-item p-2" [className]="'cancel-button'" [iconClasses]="'fas fa-edit mr-2'"
-            (clicked)="aggiungiUfficio()" label="Aggiungi" [item]="editingCustomer"></app-button-footer>
+  <header class="card-header d-flex justify-content-between">
+      <app-button-footer class="card-footer-item p-2" [className]="'cancel-button'" [iconClasses]="'fas fa-edit mr-2'"
+          (clicked)="aggiungiUfficio()" label="Aggiungi" [item]="editingCustomer"></app-button-footer>
 
-    </header>
-
+  </header>
   <table class="table table-striped no-margin">
     <thead>
       <tr>
@@ -96,14 +95,12 @@
         <th scope="col">Cap</th>
         <th scope="col">&nbsp;</th>
         <th scope="col">&nbsp;</th>
-        <th scope="col">&nbsp;</th>
       </tr>
     </thead>
     <tbody>
-
       <tr *ngFor="let office of officeslist; trackBy: trackById; let i = index" role="presentation">
-        <td>{{ office.id }} </td>
-        <td>{{ office.address }} </td>
+        <td>{{ office.id }}</td>
+        <td>{{ office.address }}</td>
         <td>{{ office.city }}</td>
         <td>{{ office.cap }}</td>
         <td>
@@ -112,15 +109,9 @@
         </td>
         <td>
           <app-button-footer class="card-footer-item" [className]="'edit-item'" [iconClasses]="'fas fa-edit mr-2'"
-            (clicked)="selectOffice(office)" label="Modifica" [item]="office"></app-button-footer>
+            (clicked)="modificaUfficio(office)" label="Modifica" [item]="office"></app-button-footer>
         </td>
       </tr>
-      <div>
-        <footer class="card-footer ">
-
-        </footer>
-      </div>
-
     </tbody>
   </table>
 </div>

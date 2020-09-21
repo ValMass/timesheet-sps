@@ -5,6 +5,8 @@ import { Customer } from '@app/modules/customers/customer';
 import { Router, NavigationStart } from '@angular/router';
 import { CustomerOfficeService } from './services/customer-office.service';
 import { ToastrService } from 'ngx-toastr';
+import { AddCustomerOfficeComponent } from './components/add-customer-office/add-customer-office.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'customer-detail',
@@ -25,6 +27,7 @@ export class CustomerDetailComponent implements OnChanges {
 
   constructor(
     private router: Router,
+    public dialog: MatDialog,
     private customerOfficesService: CustomerOfficeService,
     private toastrService: ToastrService,
     private cd : ChangeDetectorRef
@@ -82,9 +85,31 @@ export class CustomerDetailComponent implements OnChanges {
       }
     );
   }
-  aggiungiUfficio(){
-    
+
+  aggiungiUfficio() {
+    const dialogRef = this.dialog.open(AddCustomerOfficeComponent, {
+      width: '800px',
+      data: {}
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res && res['data']) {
+        this.customerOfficesService.save({...res['data'], customerid: this.customer.id}).subscribe(res => {
+          console.log(res);
+        });
+      }
+    });
   }
+
+  modificaUfficio(office) {
+    const dialogRef = this.dialog.open(AddCustomerOfficeComponent, {
+      width: '800px',
+      data: {office: office}
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      // TODO: endpoint per la modifica dell'ufficio del cliente.
+    });
+  }
+
   onSubmit() {
     console.log('ok');
     this.submitted = true;
@@ -98,9 +123,6 @@ export class CustomerDetailComponent implements OnChanges {
   }
 
   deleteOffice(office){
-
-  }
-  selectOffice(office){
 
   }
 

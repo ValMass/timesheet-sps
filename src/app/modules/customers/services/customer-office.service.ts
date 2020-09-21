@@ -27,13 +27,13 @@ export class CustomerOfficeService {
   }
 
   save(customeroffice) {
-    const realuser = customeroffice.data;
-    const address = realuser.address;
-    const city = realuser.city;
-    const cap = realuser.cap;
     const userscreationdate = new Date();
     const url = environment.apiUrl + '/customeroffices/createCustomerOffices.php';
-    return this.http.post(url, { address, city, cap, userscreationdate });
+    return this.http.post(url, { address: customeroffice['address'], city: customeroffice['city'], cap: customeroffice['cap'], customerid: customeroffice['customerid'] });
+  }
+
+  update(customeroffice) {
+    // TODO: servizio per edit customeroffice.
   }
 
   delete(customeroffice) {

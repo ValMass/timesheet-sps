@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerOfficeMatrix } from '@app/models/customerOfficeMatrix';
 import { Office } from '@app/models/office';
+import { Customer } from '../customers/customer';
 import { DistancesService } from './services/distances.service';
 
 @Component({
@@ -10,8 +11,9 @@ import { DistancesService } from './services/distances.service';
 })
 export class DistancesComponent implements OnInit {
   listAllOffice: Office[];
+  listAllCustomer: Customer[];
   officeSelected: Office;
-  listAllCustomerOffice: CustomerOfficeMatrix[];
+  listAllCustomerOffice: Array<any>;
 
   constructor(private distancesService: DistancesService) { }
 
@@ -20,22 +22,30 @@ export class DistancesComponent implements OnInit {
       .subscribe(res => {
         this.listAllOffice = res['data'];
     });
+
+    this.distancesService.getAllCustomer()
+      .subscribe(res => {
+        this.listAllCustomer = res['data'];
+      });
   }
 
   officeDistance(office: Office) {
     this.officeSelected = office;
-
     this.distancesService.getListMatrixPointsByOfficeID(office.id)
       .subscribe(res => {
-        console.log(res);
-        this.listAllCustomerOffice = res['data'];
+        this.listAllCustomerOffice = res['data'].map(office => {
+          return this.listAllCustomer.map(el => {
+            if (el.id === office.cus.customerid) return { ...el, ...office };
+          });
+        });
     });
   }
 
-  addDistanceFromOffice(distance, customerOffice) {
-    // TODO: Aggiungere la distanza inserita
-    console.log('CustomerOffice', customerOffice);
-    console.log('Office', this.officeSelected);
+  addDistanceFromOffice(distance, customerOffice: CustomerOfficeMatrix) {
+    console.log('CustomerOffice', customerOffice.cus.id);
+    console.log('Office', this.officeSelected.id);
     console.log('Distanza', distance);
+    this.distancesService.addMatrixPointsToCustomerId(distance, this.officeSelected.id, customerOffice.cus.id)
+      .subscribe(res => console.log(res));
   }
 }
