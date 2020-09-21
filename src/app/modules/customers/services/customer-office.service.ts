@@ -28,7 +28,7 @@ export class CustomerOfficeService {
 
   save(customeroffice) {
     const userscreationdate = new Date();
-    const url = environment.apiUrl + '/customeroffices/createCustomerOffices.php';
+    const url = environment.apiUrl + '/customerOffices/createCustomerOffices.php';
     return this.http.post(url, { address: customeroffice['address'], city: customeroffice['city'], cap: customeroffice['cap'], customerid: customeroffice['customerid'] });
   }
 

@@ -255,8 +255,8 @@ export class UserAdminDetailComponent implements OnInit {
 
   openAddActivityDialog() {
     const dialogRef = this.dialog.open( AddActivityComponent, {
-      width: '800px',
-      height: '700px',
+      width: '600px',
+      height: '300px',
       data: {
               userid: this.userAdmin.id,
               customerList: this.customersList,
@@ -264,7 +264,23 @@ export class UserAdminDetailComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(
       res => {
+        console.log(res.data);
+        console.log(this.userAdmin.id);
 
+
+        this.activityService.createActivity(res.data.activityName, this.userAdmin.id , res.data.customerId).subscribe(
+          result => {
+            if ( result.status === "done"){
+              console.log(result.data);
+
+            } else {
+              this.toastrService.error("Errore nel salvare l'attività: " + result.message );
+            }
+          },
+          error =>{
+
+          }
+        );
       },
       );
   }

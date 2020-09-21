@@ -144,11 +144,11 @@
       </thead>
       <tbody>
         <tr *ngFor="let activityCus of activityList; let i = index" role="presentation">
-          <td>{{ activityCus.name }} </td>
-          <td>{{ activityCus.customername }} </td>
+          <td>{{ activityCus.act.name }} </td>
+          <td>{{ activityCus.cus.name }} </td>
           <td>
-            <app-button-footer class="card-footer-item" [className]="'delete-item'" [iconClasses]="'fas fa-trash mr-2'"
-              (clicked)="deleteActivity($event)" label="Elimina" ></app-button-footer>
+          <!--  <app-button-footer class="card-footer-item" [className]="'delete-item'" [iconClasses]="'fas fa-trash mr-2'"
+              (clicked)="deleteActivity($event)" label="Elimina" ></app-button-footer>-->
           </td>
         </tr>
       </tbody>
