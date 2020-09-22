@@ -39,32 +39,32 @@ export class UserAdminDetailComponent implements OnInit {
 
 
   userForm = new FormGroup({
-    username: new FormControl('', [Validators.required,]),
-    password: new FormControl('', [Validators.required,]),
-    numeroinps: new FormControl('', [Validators.required,]),
-    numerosps: new FormControl('', [Validators.required,]),
-    email: new FormControl('', [Validators.required,]),
-    isadmin: new FormControl('', [Validators.required,]),
+    username: new FormControl('', [Validators.required, ]),
+    password: new FormControl('', [Validators.required, ]),
+    numeroinps: new FormControl('', [Validators.required, ]),
+    numerosps: new FormControl('', [Validators.required, ]),
+    email: new FormControl('', [Validators.required, ]),
+    isadmin: new FormControl('', [Validators.required, ]),
   });
 
   anagForm = new FormGroup({
-    name: new FormControl('', [Validators.required,]),
-    surname: new FormControl('', [Validators.required,]),
-    birthdate: new FormControl('', [Validators.required,]),
-    birthplace: new FormControl('', [Validators.required,]),
-    sededilavoro: new FormControl('', [Validators.required,]),
+    name: new FormControl('', [Validators.required, ]),
+    surname: new FormControl('', [Validators.required, ]),
+    birthdate: new FormControl('', [Validators.required, ]),
+    birthplace: new FormControl('', [Validators.required, ]),
+    sededilavoro: new FormControl('', [Validators.required, ]),
   });
   // id, address, regnuminps,  contracttype, distaccatoda, distaccatoa, sededilavoro, valorerimborsistimato, buonipastobool, sex, contractid
 
   contractForm = new FormGroup({
-    contracttype: new FormControl('', [Validators.required,]),
-    startingfrom: new FormControl('', [Validators.required,]),
-    birthplace: new FormControl('', [Validators.required,]),
+    contracttype: new FormControl('', [Validators.required, ]),
+    startingfrom: new FormControl('', [Validators.required, ]),
+    birthplace: new FormControl('', [Validators.required, ]),
   });
 
   activityForm = new FormGroup({
-    id: new FormControl('', [Validators.required,]),
-    name: new FormControl('', [Validators.required,]),
+    id: new FormControl('', [Validators.required, ]),
+    name: new FormControl('', [Validators.required, ]),
   });
 
   constructor(
@@ -99,7 +99,7 @@ export class UserAdminDetailComponent implements OnInit {
         }
       },
       error => {
-        console.log("activityservice error");
+        console.log('activityservice error');
       },
     );
 
@@ -113,7 +113,7 @@ export class UserAdminDetailComponent implements OnInit {
         }
       },
       error => {
-        console.log("customerservice error");
+        console.log('customerservice error');
 
       }
     );
@@ -141,15 +141,15 @@ export class UserAdminDetailComponent implements OnInit {
     this.userForm.setValue(contact);
     this.anagService.getAnagraphic(this.userAdmin.anagraphicid).subscribe(
       data => {
-        console.log(data["data"]);
-        const actData = data["data"];
+        console.log(data['data']);
+        const actData = data['data'];
         this.anagForm.patchValue(actData);
         this.editingAnag = actData;
         if (actData.contractid != null) {
           this.contractService.getContract(actData.contractid).subscribe(
             res => {
-              console.log(res["data"]);
-              this.selectedContract = res["data"];
+              console.log(res['data']);
+              this.selectedContract = res['data'];
               this.selectedContract.tolist = this.selectedContract.title + ' '
                 + this.selectedContract.contracttype + ' ' + this.selectedContract.level + ' livello ' + this.selectedContract.ccnl;
               console.log(this.selectedContract);
@@ -270,14 +270,14 @@ export class UserAdminDetailComponent implements OnInit {
 
         this.activityService.createActivity(res.data.activityName, this.userAdmin.id , res.data.customerId).subscribe(
           result => {
-            if ( result.status === "done"){
+            if ( result.status === 'done'){
               console.log(result.data);
 
             } else {
-              this.toastrService.error("Errore nel salvare l'attività: " + result.message );
+              this.toastrService.error('Errore nel salvare l\'attività: ' + result.message );
             }
           },
-          error =>{
+          error => {
 
           }
         );

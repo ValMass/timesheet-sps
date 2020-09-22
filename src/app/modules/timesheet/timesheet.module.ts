@@ -10,6 +10,8 @@ import { AddEventModalComponent } from './add-event-modal/add-event-modal.compon
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -24,7 +26,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatDatepickerModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    MatCheckboxModule,
+    NgSelectModule,
   ],
   providers: []
 })

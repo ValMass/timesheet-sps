@@ -10,6 +10,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from '@app/shared/shared.module';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -22,6 +24,8 @@ import { SharedModule } from '@app/shared/shared.module';
     ReactiveFormsModule,
     HttpClientModule,
     SharedModule,
+    NgSelectModule,
+    MatCheckboxModule,
 
   ],
   entryComponents: [

@@ -28,6 +28,8 @@ export class AddEventModalComponent implements OnInit   {
   insertMalattia = false;
   insertNumeroOre = false;
   insertLavoro = false;
+  assignedact = 0;
+  allComplete = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -48,6 +50,8 @@ export class AddEventModalComponent implements OnInit   {
         eventDate: [this.data.date, [Validators.required]],
         numProtocollo : [this.data.nProtocollo, [Validators.required]],
         codiceFatturazione: [tmp.codiceFatt, [Validators.required]],
+        activityId: ['0', [Validators.required]],
+        smartWorking: ['0', [Validators.required]],
       });
       this.selectVisibleComponent(tmp.title);
 

@@ -112,7 +112,7 @@ export class NewTimesheetComponentComponent implements OnInit {
   showModalFreeze = false;
   showModalPay = false;
   showModalReset = false;
-
+  assignedActivities: any[] = [];
 
 
   events: CalendarEvent[] = [
@@ -200,6 +200,16 @@ export class NewTimesheetComponentComponent implements OnInit {
         }
       }
 
+    );
+    console.log( this.actualTimesheetUserId );
+    this.timesheetRes.getAllActivities(this.actualTimesheetUserId).subscribe(
+      response => {
+        console.log( response.data );
+        this.assignedActivities = response.data;
+      },
+      error => {
+
+      }
     );
 
   }

@@ -61,6 +61,7 @@ export class TimesheetEditComponent implements OnInit {
   events: CalendarEvent[] = [];
   ismodifiable = false;
   timeshetStatus = 'Modificabile';
+  assignedActivities: any[] = [];
 
   activeDayIsOpen = false;
   viewDate: Date = new Date();
@@ -119,6 +120,15 @@ export class TimesheetEditComponent implements OnInit {
       }
     );
     console.log(this.actualTimesheet);
+    this.timesheetService.getAllActivities(usrId).subscribe(
+      response => {
+        console.log( response.data );
+        this.assignedActivities = response.data;      },
+      error => {
+
+      }
+    );
+
     this.checkIfCanModify();
   }
 
@@ -210,8 +220,10 @@ export class TimesheetEditComponent implements OnInit {
     if (this.checkIfCanModify()) {
       const dialogRef = this.dialog.open(AddEventModalUserComponent, {
         width: '600px',
-        data: { date: this.viewDate,
-                eventsList: this.events
+        data: {
+                date: this.viewDate,
+                eventsList: this.events,
+                activityList: this.assignedActivities,
               }
       });
       dialogRef.afterClosed().subscribe(
@@ -224,6 +236,8 @@ export class TimesheetEditComponent implements OnInit {
               actions: this.actions,
               codiceFatt: res.data.codiceFatturazione,
               nProtocollo: res.data.numProtocollo,
+              activityId: res.data.activityId,
+              smartWorking: res.data.smartWorking,
             };
 
             this.events = [...this.events, event];

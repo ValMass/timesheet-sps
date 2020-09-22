@@ -69,4 +69,19 @@ export class TimesheetUserService implements Resolve<any> {
     })
     );
   }
+
+  getAllActivities(userid){
+    const url = environment.apiUrl + 'activities/getActivityAndCustomerByUserid.php';
+    return this.http.post<any>( url, { userid }  ).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+        return of(something);
+      } else {
+        console.log("observer vuoto");
+        return EMPTY;
+      }
+    })
+    );
+  }
 }

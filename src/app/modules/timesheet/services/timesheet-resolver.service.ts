@@ -74,4 +74,19 @@ export class TimesheetResolverService implements Resolve<any> {
     console.log(url);
     return this.http.post(url , { month , year, userid });
   }
+
+  getAllActivities(userid) {
+    const url = environment.apiUrl + 'activities/getActivityAndCustomerByUserid.php';
+    return this.http.post<any>( url, { userid }  ).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+        return of(something);
+      } else {
+        console.log("observer vuoto");
+        return EMPTY;
+      }
+    })
+    );
+  }
 }

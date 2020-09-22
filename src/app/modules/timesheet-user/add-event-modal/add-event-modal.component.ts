@@ -28,10 +28,11 @@ export class AddEventModalUserComponent implements OnInit   {
   profileForm: FormGroup;
   aggiungiButtonDisabled: boolean = false;
   errorMessage = "";
-
+  assignedact: any[];
   insertLavoro = false;
   insertMalattia = false;
   insertNumeroOre = false;
+  allComplete = false;
 
 
   constructor(
@@ -47,13 +48,16 @@ export class AddEventModalUserComponent implements OnInit   {
       contractCode: [null, [Validators.required]],
       eventDate: [this.data.date, [Validators.required]],
       codiceFatturazione: ['00', [Validators.required]],
-      numProtocollo: ['00', [Validators.required]]
+      numProtocollo: ['00', [Validators.required]],
+      activityId: ['0', [Validators.required]],
+      smartWorking: ['0', [Validators.required]],
     });
 
     this.dateObj = new Date(this.data.date);
     this.eventsPassed = this.data.eventsList;
     this.getEventsForDate(this.dateObj);
     this.checkIfThisDayIsBusy();
+    this.assignedact = this.data.activityList;
 
 
   }
@@ -62,11 +66,17 @@ export class AddEventModalUserComponent implements OnInit   {
 
   submit() {
     this.submitted = true;
-    console.log(this.profileForm.invalid);
-    if (this.profileForm.invalid) {
-
-      return;
+    console.log(this.allComplete);
+    if ( this.allComplete ) {
+      console.log(this.allComplete);
+      const tmp = { smartWorking: 1 };
+      this.profileForm.patchValue(tmp);
     }
+    console.log(this.profileForm.invalid);
+   // if (this.profileForm.invalid) {
+
+    //  return;
+    //}
     this.dialogRef.close({ data: this.profileForm.value });
   }
 
