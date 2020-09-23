@@ -34,6 +34,16 @@ export class DistancesComponent implements OnInit {
     this.distancesService.getListMatrixPointsByOfficeID(office.id)
       .subscribe(res => {
         this.listAllCustomerOffice = res['data'].map(office => {
+          this.distancesService.getDistanceFromOffice(this.officeSelected, office.cus)
+            .then(res => {
+              const distance = Math.floor(res['features'][0].properties.summary.distance / 1000);
+              if (Number(office.mat.distance) !== distance) {
+                office.mat.distance = distance;
+                office.mat['isDisabled'] = false;
+              } else {
+                office.mat['isDisabled'] = true;
+              }
+            });
           return this.listAllCustomer.map(el => {
             if (el.id === office.cus.customerid) return { ...el, ...office };
           });
@@ -41,7 +51,7 @@ export class DistancesComponent implements OnInit {
     });
   }
 
-  addDistanceFromOffice(distance, customerOffice: CustomerOfficeMatrix) {
+  updateDistanceFromOffice(distance, customerOffice: CustomerOfficeMatrix) {
     this.distancesService.updateMatrixPointsToCustomerId(distance, this.officeSelected.id, customerOffice.cus.id)
       .subscribe(res => console.log(res));
   }

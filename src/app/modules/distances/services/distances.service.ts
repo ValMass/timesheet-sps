@@ -4,7 +4,7 @@ import { CustomerOfficeMatrix } from '@app/models/customerOfficeMatrix';
 import { Office } from '@app/models/office';
 import { Customer } from '@app/modules/customers/customer';
 import { environment } from '@environments/environment';
-import { forkJoin, Observable, throwError } from 'rxjs';
+import { forkJoin, from, Observable, throwError } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -24,7 +24,7 @@ export class DistancesService {
   }
 
   /**
-   * 
+   * Torna la lista dei clienti.
    */
   getAllCustomer(): Observable<Customer[]> {
     const url = `${environment.apiUrl}customer/listAllCustomer.php`;
@@ -34,7 +34,6 @@ export class DistancesService {
 
   /**
    * Torna la lista dei clienti con Nome e Sede.
-   *
    */
   getAllCustomerOffice(): Observable<any> {
     const url = `${environment.apiUrl}customerOffices/listAllCustomerOffices.php`;
@@ -67,23 +66,25 @@ export class DistancesService {
    * @param officeId
    * @param customerId
    */
-  updateMatrixPointsToCustomerId(distance, officeId, customerId) {
+  updateMatrixPointsToCustomerId(distance, officeId, customerId): Observable<any> {
     const url = `${environment.apiUrl}officesMatrix/updateMatrixPoint.php`;
     return this.http.post(url, {'distance': distance, 'officeid': officeId, 'customerid': customerId})
       .pipe(catchError(this.handleError));
   }
 
   /**
-   * Vengono prima calcolate le geocordinate dei due uffici per poi tornare la distanza (in km).
+   * Vengono prima calcolate le geocordinate dei due uffici per poi tornare la distanza.
    * @param addressSps
    * @param addressCustomerOffice
    */
-  async getDistanceFromOffice(addressSps, addressCustomerOffice) {
-    const { results: spsResults } = await this.getGeocodeFromAddress(addressSps).toPromise();
-    const { results: customerResults } = await this.getGeocodeFromAddress(addressCustomerOffice).toPromise();
-    const { lat: latSps, lng: longSps } = spsResults[0].geometry.location;
-    const { lat: latCustomer, lng: longCustomer } = customerResults[0].geometry.location;
-    return this.calcolateDistance(latSps, longSps, latCustomer, longCustomer);
+  async getDistanceFromOffice(addressSps, addressCustomerOffice): Promise<any> {
+    const sps = addressSps.address + ', ' + addressSps.city;
+    const customer = addressCustomerOffice.address + ', ' + addressCustomerOffice.city;
+    const { features: spsResults } = await this.getGeocodeFromAddress(sps).toPromise();
+    const { features: customerResults } = await this.getGeocodeFromAddress(customer).toPromise();
+    const spsCords = spsResults[0].geometry.coordinates;
+    const customerCords = customerResults[0].geometry.coordinates;
+    return await this.calcolateDistance(spsCords, customerCords).toPromise();
   }
 
   /**
@@ -91,7 +92,7 @@ export class DistancesService {
    * @param address
    */
   getGeocodeFromAddress(address): Observable<any> {
-    const url = `${environment.googleGeolocationApi}address=${address}&key=${environment.googleKey}`;
+    const url = `${environment.openRouteServiceGeoEndpoint}api_key=${environment.openRouteServiceKey}&text=${address}`;
     return this.http.get(url)
       .pipe(catchError(this.handleError));
   }
@@ -102,7 +103,7 @@ export class DistancesService {
    * @param offices 
    * @param companyid 
    */
-  findCompanyName(offices, companyid) {
+  findCompanyName(offices, companyid): String {
     const company = offices.filter(office => office.companyid === companyid);
     return company[0].name;
   }
@@ -114,24 +115,13 @@ export class DistancesService {
    * @param latCustomer
    * @param longCustomer
    */
-  calcolateDistance(latSps, longSps, latCustomer, longCustomer) {
-    const theta = longSps - longCustomer;
-    let dist = Math.sin(this.deg2rad(latSps)) * Math.sin(this.deg2rad(latCustomer)) + Math.cos(this.deg2rad(latSps)) * Math.cos(this.deg2rad(latCustomer)) * Math.cos(this.deg2rad(theta));
-    dist = Math.acos(dist);
-    dist = this.rad2deg(dist);
-    return Math.floor(dist * 60 * 1.1515 / 0.621371);
-  }
-
-  deg2rad(deg) {
-    return deg * Math.PI / 180;
-  }
-
-  rad2deg(radians) {
-    return radians * 180 / Math.PI;
+  calcolateDistance(spsCords, customerCords): Observable<any> {
+    const url = `${environment.openRouteServiceDirectionEndpoint}api_key=${environment.openRouteServiceKey}&start=${spsCords[0]},${spsCords[1]}&end=${customerCords[0]},${customerCords[1]}`;
+    return this.http.get(url)
+      .pipe(catchError(this.handleError));
   }
 
   handleError(error) {
-    // lanciare eventuale modale di errore.
     console.log(error);
     return throwError(`Errore: ${error['message']}`);
   }

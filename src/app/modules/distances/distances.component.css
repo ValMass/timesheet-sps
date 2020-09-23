@@ -10,3 +10,9 @@
 .distance-input {
   width: 25%;
 }
+
+.distance-alert {
+  color: red;
+  display: block;
+  width: 100px;
+}
