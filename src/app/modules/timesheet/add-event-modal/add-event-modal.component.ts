@@ -30,6 +30,7 @@ export class AddEventModalComponent implements OnInit   {
   insertLavoro = false;
   assignedact = 0;
   allComplete = false;
+  selectedValue = 0;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -40,7 +41,8 @@ export class AddEventModalComponent implements OnInit   {
 
   ngOnInit() {
     console.log(this.data);
-    if(this.data.isEdit){
+    this.assignedact = this.data.activityList;
+    if ( this.data.isEdit ) {
       console.log(this.data.toEdit);
       const tmp = this.data.toEdit;
       this.selectedContractCod = tmp.title;
@@ -50,19 +52,20 @@ export class AddEventModalComponent implements OnInit   {
         eventDate: [this.data.date, [Validators.required]],
         numProtocollo : [this.data.nProtocollo, [Validators.required]],
         codiceFatturazione: [tmp.codiceFatt, [Validators.required]],
-        activityId: ['0', [Validators.required]],
+        activityId: [tmp.activityId, [Validators.required]],
         smartWorking: ['0', [Validators.required]],
       });
       this.selectVisibleComponent(tmp.title);
-
+      this.selectedValue = tmp.activityId;
     } else {
-      console.log("false");
       this.profileForm = this.formBuilder.group({
         numeroOre: [null, [Validators.required]],
         contractCode: [null, [Validators.required]],
         eventDate: [this.data.date, [Validators.required]],
         numProtocollo : [this.data.date, [Validators.required]],
         codiceFatturazione: [null, [Validators.required]],
+        activityId: ['0', [Validators.required]],
+        smartWorking: ['0', [Validators.required]],
       });
     }
 

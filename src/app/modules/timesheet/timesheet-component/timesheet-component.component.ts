@@ -59,7 +59,7 @@ export class MyCalendarEvent implements CalendarEvent {
   codiceFatt?: string;
   nProtocollo?: string;
   activityId?: number;
-  smartWorking?: string;
+  smartWorking?: number;
 
 }
 
@@ -203,10 +203,10 @@ export class NewTimesheetComponentComponent implements OnInit {
       }
 
     );
-    console.log( this.actualTimesheetUserId );
+    console.log(this.actualTimesheetUserId);
     this.timesheetRes.getAllActivities(this.actualTimesheetUserId).subscribe(
       response => {
-        console.log( response.data );
+        console.log(response.data);
         this.assignedActivities = response.data;
       },
       error => {
@@ -219,10 +219,10 @@ export class NewTimesheetComponentComponent implements OnInit {
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     console.log(event);
-    if ( action === "Edited" ) {
+    if (action === "Edited") {
       this.openEditDialog(this.modalData);
     }
-    if ( action === "Deleted" ) {
+    if (action === "Deleted") {
 
     }
   }
@@ -298,9 +298,9 @@ export class NewTimesheetComponentComponent implements OnInit {
 
 
       },
-      error => {
-        this.toastrService.error('Errore nella richiesta http ');
-      });
+        error => {
+          this.toastrService.error('Errore nella richiesta http ');
+        });
     this.closeModal();
   }
 
@@ -321,9 +321,9 @@ export class NewTimesheetComponentComponent implements OnInit {
 
 
       },
-      error => {
-        this.toastrService.error('Errore nella richiesta http ');
-      });
+        error => {
+          this.toastrService.error('Errore nella richiesta http ');
+        });
     this.closeModal();
   }
 
@@ -331,10 +331,12 @@ export class NewTimesheetComponentComponent implements OnInit {
   openDialog() {
     const dialogRef = this.dialog.open(AddEventModalComponent, {
       width: '400px',
-      data: { date : this.viewDate,
-              isEdit: false,
-              toEdit: null
-            }
+      data: {
+        date: this.viewDate,
+        isEdit: false,
+        toEdit: null,
+        activityList: this.assignedActivities,
+      }
     });
     dialogRef.afterClosed().subscribe(
       res => {
@@ -345,7 +347,7 @@ export class NewTimesheetComponentComponent implements OnInit {
         newEvent.nOre = res.data.numeroOre;
         newEvent.codiceFatt = res.data.codiceFatturazione;
         newEvent.activityId = res.data.activityId;
-        newEvent.smartWorking = res.data.smartWorking;
+        newEvent.smartWorking = +res.data.smartWorking;
         console.log(newEvent);
         this.events = [...this.events, newEvent];
       });
@@ -354,20 +356,27 @@ export class NewTimesheetComponentComponent implements OnInit {
   openEditDialog(modalData) {
     const dialogRef = this.dialog.open(AddEventModalComponent, {
       width: '400px',
-      data: { date : this.viewDate,
-              isEdit: true,
-              toEdit: modalData.event
-            }
+      data: {
+        date: this.viewDate,
+        isEdit: true,
+        toEdit: modalData.event,
+        activityList: this.assignedActivities,
+      }
     });
     dialogRef.afterClosed().subscribe(
       res => {
-        console.log(res.data);
-        const newEvent: MyCalendarEvent = new MyCalendarEvent();
-        newEvent.title = res.data.contractCode;
-        newEvent.start = new Date(res.data.eventDate);
-        newEvent.nOre = res.data.numeroOre;
-        console.log(newEvent);
-        this.events = [...this.events, newEvent];
+        if (res) {
+          console.log(res.data);
+          const newEvent: MyCalendarEvent = new MyCalendarEvent();
+          newEvent.title = res.data.contractCode;
+          newEvent.start = new Date(res.data.eventDate);
+          newEvent.nOre = res.data.numeroOre;
+          newEvent.codiceFatt = res.data.codiceFatturazione;
+          newEvent.activityId = res.data.activityId;
+          newEvent.smartWorking = +res.data.smartWorking;
+          this.events = [...this.events, newEvent];
+        }
+
       });
 
   }
@@ -435,6 +444,8 @@ export class NewTimesheetComponentComponent implements OnInit {
         actions: this.actions,
         codiceFatt: element.codiceFatt,
         nProtocollo: element.nProtocollo,
+        activityId: element.activityId,
+        smartWorking: element.smartWorking,
       }
       this.events = [...this.events, newEvent];
     });

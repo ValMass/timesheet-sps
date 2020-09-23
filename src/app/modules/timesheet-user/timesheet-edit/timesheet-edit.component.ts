@@ -237,7 +237,7 @@ export class TimesheetEditComponent implements OnInit {
               codiceFatt: res.data.codiceFatturazione,
               nProtocollo: res.data.numProtocollo,
               activityId: res.data.activityId,
-              smartWorking: res.data.smartWorking,
+              smartWorking: +res.data.smartWorking,
             };
 
             this.events = [...this.events, event];
