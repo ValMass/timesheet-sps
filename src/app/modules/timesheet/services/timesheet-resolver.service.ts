@@ -69,7 +69,7 @@ export class TimesheetResolverService implements Resolve<any> {
     return this.http.post(url , { month , year, userid });
   }
 
-  resetState(month , year, userid){
+  resetState(month , year, userid) {
     const url = environment.apiUrl + 'timesheets/resetTimesheetState.php';
     console.log(url);
     return this.http.post(url , { month , year, userid });

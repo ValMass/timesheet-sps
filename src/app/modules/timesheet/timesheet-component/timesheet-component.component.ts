@@ -58,6 +58,8 @@ export class MyCalendarEvent implements CalendarEvent {
   actions: CalendarEventAction[];
   codiceFatt?: string;
   nProtocollo?: string;
+  activityId?: number;
+  smartWorking?: string;
 
 }
 
@@ -342,6 +344,8 @@ export class NewTimesheetComponentComponent implements OnInit {
         newEvent.start = new Date(res.data.eventDate);
         newEvent.nOre = res.data.numeroOre;
         newEvent.codiceFatt = res.data.codiceFatturazione;
+        newEvent.activityId = res.data.activityId;
+        newEvent.smartWorking = res.data.smartWorking;
         console.log(newEvent);
         this.events = [...this.events, newEvent];
       });
