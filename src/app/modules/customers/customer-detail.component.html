@@ -37,33 +37,7 @@
           <div *ngIf="piva.errors.required">Campo obbligatorio</div>
         </div>
       </div>
-
-
-      <div class="form-group">
-        <label for="rea">REA</label>
-        <input name="rea" class="form-control " type="text" [(ngModel)]="editingCustomer.rea" #rea="ngModel"
-          placeholder="REA" [ngClass]="{'is-invalid':f.submitted && rea.invalid}" required />
-        <div *ngIf="f.submitted && rea.invalid" class="invalid-feedback">
-          <div *ngIf="rea.errors.required">Campo obbligatorio</div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="postacertificata">Posta certificata</label>
-        <input name="postacertificata" class="form-control " type="text" [(ngModel)]="editingCustomer.postacertificata"
-          #postacertificata="ngModel" placeholder="Posta Certificata" />
-        <!-- <div *ngIf="f.submitted && postacertificata.invalid" class="invalid-feedback">
-                      <div *ngIf="postacertificata.errors.required">Campo obbligatorio</div>
-                  </div> -->
-      </div>
-
-      <div class="form-group">
-        <label for="referente">Referente</label>
-        <div class="">
-          <input name="referente" type="text" class="form-control " id="referente" placeholder="Referente"
-            [(ngModel)]="editingCustomer.referente" #referente="ngModel" />
-        </div>
-      </div>
+      
     </div>
     <div>
       <footer class="card-footer ">

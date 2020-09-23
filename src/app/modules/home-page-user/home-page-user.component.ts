@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { StatsUserService } from './services/stats-user.service';
 import { Anag } from './models/anag';
@@ -18,7 +19,7 @@ export class HomePageUserComponent implements OnInit {
   public month = 0;
   public anagId = 0;
   public anag: Anag;
-
+  public workedForCustomerList = new Map<any, any>();
 
 
   constructor(
@@ -30,6 +31,7 @@ export class HomePageUserComponent implements OnInit {
     this.year = this.getCurrentYear();
     this.month = this.getCurrentMonth();
     this.anagId = this.getAnagIdFromLocalStorage();
+
     this.statsUserService.getAnagraphicById(this.anagId).subscribe(
       result => {
         if(result['status'] === "done"){
@@ -54,13 +56,18 @@ export class HomePageUserComponent implements OnInit {
             console.log(element['month']);
             console.log(this.getCurrentMonth());
 
-            if( Number(element['month']) === this.getCurrentMonth() ) {
+            if ( Number(element['month']) === this.getCurrentMonth() ) {
               const eventlist = JSON.parse(element['dayjson']);
               this.workedThisMonth = element["totalworkedhours"];
               this.permessiThisMonth = element["totalpermessihours"];
               this.deseaseThisMonth = element["totaldeseasehours"];
-              eventlist.forEach(element => {
 
+              eventlist.forEach(element => {
+                if ( element.activityId ){
+                  const newore = this.workedForCustomerList.get(element.activityId);
+                  const newNumeroOre = newore + element.numOre;
+                  this.workedForCustomerList.set(element.activityId ,newNumeroOre);
+                }
 
               });
             }

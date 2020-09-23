@@ -6,9 +6,6 @@
         <th scope="col">Nome</th>
         <th scope="col">Indirizzo legale </th>
         <th scope="col">P. iva</th>
-        <th scope="col">Rea</th>
-        <th scope="col">Posta Certificata</th>
-        <th scope="col">Referente</th>
         <th scope="col">&nbsp;</th>
         <th scope="col">&nbsp;</th>
       </tr>
@@ -19,9 +16,6 @@
         <td>{{ customer.name }}</td>
         <td>{{ customer.legaladdress }}</td>
         <td>{{ customer.pivacodicefiscale }}</td>
-        <td>{{ customer.rea }}</td>
-        <td>{{ customer.postacertificata }}</td>
-        <td>{{ customer.referente }}</td>
         <td>
           <app-button-footer class="card-footer-item" [className]="'delete-item'" [iconClasses]="'fas fa-trash mr-2'"
             (clicked)="deleteCustomer($event)" label="Elimina" [item]="customer"></app-button-footer>
