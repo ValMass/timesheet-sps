@@ -3,7 +3,6 @@ mat-grid-tile {
 }
 
 .custom-col {
-  height: 400px;
   overflow-y: scroll;
   background-color:white;
 }

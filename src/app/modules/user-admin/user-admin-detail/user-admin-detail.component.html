@@ -5,7 +5,7 @@
         Modifica dati account
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <form class="p-5" name="user" id="user" [formGroup]="userForm" (ngSubmit)="submitUser()">
+    <form class="p-5" id="user" [formGroup]="userForm" (ngSubmit)="submitUser()">
       <div class="form-group row">
         <label for="username" class="col-sm-2 col-form-label">Nome utente</label>
         <div class="col-sm-10">
@@ -21,16 +21,16 @@
         </div>
       </div>
       <div class="form-group row">
-        <label for="numeroinps" class="col-sm-2 col-form-label">Numero inps</label>
+        <label for="regNumInps" class="col-sm-2 col-form-label">Numero inps</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="numeroinps" placeholder="Numero inps" formControlName="numeroinps"
+          <input type="text" class="form-control" id="regNumInps" placeholder="Numero inps" formControlName="regNumInps"
             required />
         </div>
       </div>
       <div class="form-group row">
-        <label for="numerosps" class="col-sm-2 col-form-label">Numero S.P.S.</label>
+        <label for="regNumSps" class="col-sm-2 col-form-label">Numero S.P.S.</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="numerosps" placeholder="Numero S.P.S." formControlName="numerosps"
+          <input type="text" class="form-control" id="regNumSps" placeholder="Numero S.P.S." formControlName="regNumSps"
             required />
         </div>
       </div>
@@ -41,25 +41,17 @@
         </div>
       </div>
       <div class="form-group row">
-        <label for="isadmin" class="col-sm-2 col-form-label">Ruolo</label>
+        <label for="role" class="col-sm-2 col-form-label">Ruolo</label>
         <div class="col-sm-10">
-          <select id="isadmin" name="isadmin" class="custom-select sel-text" formControlName="isadmin" required>
+          <select id="role" name="role" class="custom-select sel-text" formControlName="role" required>
             <option value="2" selected="selected">Utente Ordinario</option>
             <option value="1">Amministratore</option>
           </select>
         </div>
       </div>
+      <button type="submit" class="btn btn-primary btn-block mt-5">Salva</button>
     </form>
-    <footer class="card-footer ">
-      <app-button-footer class="card-footer-item" [className]="'cancel-button'" [iconClasses]="'fas fa-undo'"
-        (clicked)="clearUser()" label="Cancel" [item]="editingUser"></app-button-footer>
-      <app-button-footer class="card-footer-item" [className]="'save-button'" [iconClasses]="'fas fa-save'"
-        (clicked)="submitUser()" label="Save" [item]="editingUser"></app-button-footer>
-    </footer>
   </mat-expansion-panel>
-
-
-
 
   <mat-expansion-panel hideToggle>
     <mat-expansion-panel-header>
@@ -67,7 +59,7 @@
         Modifica anagrafica
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <form class="p-5" name="anag" id="anag" [formGroup]="anagForm" (ngSubmit)="submitAnag()">
+    <form class="p-5" id="anag" [formGroup]="anagForm" (ngSubmit)="submitAnag()">
       <div class="form-group row">
         <label for="name" class="col-sm-2 col-form-label">Nome</label>
         <div class="col-sm-10">
@@ -83,9 +75,10 @@
       </div>
       <div class="form-group row">
         <label for="birthdate" class="col-sm-2 col-form-label">Data di nascita</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="birthdate" placeholder="Data di nascita"
-            formControlName="birthdate" required />
+        <div class="col-sm-8">
+          <input matInput [matDatepicker]="picker" required formControlName="birthdate" disabled>
+          <mat-datepicker-toggle matSuffix [for]="picker" class="bottone-data"></mat-datepicker-toggle>
+          <mat-datepicker #picker disabled="false"></mat-datepicker>
         </div>
       </div>
       <div class="form-group row">
@@ -103,7 +96,7 @@
           </ng-select>
         </div>
       </div>
-      <button form='myform' type="submit" class="btn btn-custom w-50">Salva</button>
+      <button type="submit" class="btn btn-primary btn-block mt-5">Salva</button>
     </form>
   </mat-expansion-panel>
 
@@ -115,31 +108,28 @@
     </mat-expansion-panel-header>
     <form class="p-5" name="contract" id="contract" [formGroup]="contractForm" (ngSubmit)="submitContract()">
       <div class="form-group row">
-        <label for="contracttype" class="col-sm-2 col-form-label">Tipo di contratto</label>
+        <label for="contractid" class="col-sm-2 col-form-label">Tipo di contratto</label>
         <div class="col-sm-10">
-          <ng-select [items]="contractList"  bindLabel="tolist"  [(ngModel)]="selectedContract"
-            formControlName="contracttype">
+          <ng-select [items]="contractList" bindLabel="value" bindValue="id" formControlName="contractid">
           </ng-select>
         </div>
       </div>
-
-      <button form='myform' type="submit" class="btn btn-custom w-50">Salva</button>
+      <button type="submit" class="btn btn-primary btn-block mt-5">Salva</button>
     </form>
   </mat-expansion-panel>
+
   <mat-expansion-panel hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>
         Assegna attività
       </mat-panel-title>
     </mat-expansion-panel-header>
-
-
-    <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="openAddActivityDialog()">Aggiungi attività</button>
-    <table class="table table-striped no-margin">
+    <table class="table table-striped no-margin" *ngIf="activityList; else noActivity">
       <thead>
         <tr>
           <th scope="col">Nome Attività</th>
           <th scope="col">Cliente</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -147,33 +137,18 @@
           <td>{{ activityCus.act.name }} </td>
           <td>{{ activityCus.cus.name }} </td>
           <td>
-          <!--  <app-button-footer class="card-footer-item" [className]="'delete-item'" [iconClasses]="'fas fa-trash mr-2'"
-              (clicked)="deleteActivity($event)" label="Elimina" ></app-button-footer>-->
+            <span style="width: 20px; height: 20px; display: block;" class="card-footer-item fas fa-trash mr-2" (click)="deleteActivity(activityCus)"></span>
           </td>
         </tr>
       </tbody>
     </table>
-
-<!--
-    <form class="p-5" name="activity" id="activity" [formGroup]="activityForm" (ngSubmit)="submitActivity()">
-      <div class="form-group row">
-        <label for="activity" class="col-sm-2 col-form-label">Tipo di contratto</label>
-        <div class="col-sm-10">
-          <ng-select [items]="activityList"  bindLabel="name"  [(ngModel)]="selectedContract"
-            formControlName="activityForm">
-          </ng-select>
-        </div>
-      </div>
-
-      <button form='myform' type="submit" class="btn btn-custom w-50">Salva</button>
-    </form>
-  -->
+    <ng-template #noActivity>
+      <p>Non ci sono attività inserite per questo utente</p>
+    </ng-template>
+    <button class="btn btn-primary btn-block mt-3" (click)="openAddActivityDialog()">Aggiungi attività</button>
   </mat-expansion-panel>
-
 </mat-accordion>
-<div>
-  <footer class="card-footer ">
-    <app-button-footer class="card-footer-item" [className]="'cancel-button'" [iconClasses]="'fas fa-undo'"
-      (clicked)="clear()" label="Cancel" [item]="editingUser"></app-button-footer>
-  </footer>
-</div>
+<footer class="card-footer">
+  <button class="btn btn-primary btn-block mt-5" (click)="clear()"><span class="fas fa-undo"></span> Cancel</button>
+</footer>
+

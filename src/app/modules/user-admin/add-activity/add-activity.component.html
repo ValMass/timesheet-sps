@@ -6,21 +6,19 @@
       <input type="text" class="form-control" id="activityName" placeholder="Nome attività" formControlName="activityName" />
     </div>
   </div>
-
   <div class="form-group row">
     <label for="customerId" class="col-sm-4 col-form-label">Cliente</label>
     <div class="col-sm-8">
-      <ng-select [items]="customerlist"  bindLabel="name" formControlName="customerId" bindValue="id">
+      <ng-select [items]="customerlist" bindLabel="name" formControlName="customerId" bindValue="id">
       </ng-select>
     </div>
     <div *ngIf="activityForm.invalid && submitted">
       Campo necessario
     </div>
   </div>
+  <div class="d-flex justify-content-between" mat-dialog-actions>
+    <button type="button" mat-button mat-dialog-close class="btn btn-secondary w-25" (click)="close()">Close</button>
+    <button type="submit" class="btn btn-primary w-25">Aggiungi</button>
+  </div>
 </form>
-<div class="d-flex justify-content-between" mat-dialog-actions>
-  <button type="button" mat-button mat-dialog-close class="btn btn-custom w-25" (click)="close()">Close</button>
-  <button form='activityform' type="submit" class="btn btn-custom w-25"
-    >Aggiungi</button>
-</div>
 </div>

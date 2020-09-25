@@ -4,8 +4,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angu
     selector: 'list-header',
 
     template: `
-    <button mat-button class="btn btn-primary w-100 mt-5" [disabled]="selected" (click)="handleAdd()">{{title}}</button
-    >
+    <button mat-button class="btn btn-primary w-100 mt-5 mb-3" [disabled]="selected" (click)="handleAdd()">{{title}}</button>
     <h1 *ngIf="selected && selected.id">Modifica</h1>
     <h1 *ngIf="selected && !selected.id">Creazione</h1>
 

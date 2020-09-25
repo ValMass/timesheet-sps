@@ -1,5 +1,5 @@
-<div class="tab-user ">
-  <list-header title="Aggiungi Utenti" (add)="openDialog()">
+<div class="tab-user">
+  <list-header [selected]="selected" title="Aggiungi Utenti" (add)="openDialog()">
   </list-header>
   <div *ngIf="users">
     <app-user-admin-list class="table table-striped" *ngIf="!selected " [useradmins]="users" (selected)="select($event)"

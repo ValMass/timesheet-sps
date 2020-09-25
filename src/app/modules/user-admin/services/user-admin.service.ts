@@ -3,8 +3,9 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/r
 import { UserAdmin } from '../models/User-admin';
 import { environment } from '@environments/environment';
 import { catchError, mergeMap } from 'rxjs/operators';
-import { EMPTY, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { UserAnagInfo } from '../models/UserAnagInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -28,18 +29,19 @@ export class UserAdminService implements Resolve<UserAdmin[]> {
     );
   }
 
-  updateUser(user) {
+  updateUser(user: any) {
     const url = environment.apiUrl + '/user/updateUserById.php';
-    return this.http.post(url, user ).pipe(catchError(error => {
-      return EMPTY;
-    }), mergeMap(something => {
-      if (something) {
-        return of(something);
-      } else {
+    return this.http.post(url, user)
+      .pipe(catchError(error => {
         return EMPTY;
-      }
-    })
-    );
+      }), 
+      mergeMap(something => {
+        if (something) {
+          return of(something);
+        } else {
+          return EMPTY;
+        }
+      }));
   }
 
   createNewUser(userData) {
@@ -67,22 +69,25 @@ export class UserAdminService implements Resolve<UserAdmin[]> {
   deleteNewUser(userId) {
     const url = environment.apiUrl + 'user/deleteUserById.php';
     return this.http.post(url, { id: userId });
-
-
   }
 
-  getListForUserList(month, year){
+  getListForUserList(month, year) {
     const url = environment.apiUrl + 'user/listAllUserWithTimesheetForMonth.php';
-    return this.http.post<any>(url, { month , year }).pipe(catchError(error => {
+    return this.http.post<any>(url, { month , year })
+      .pipe(catchError(error => {
       return EMPTY;
-    }), mergeMap(something => {
-      if (something) {
-        return of(something);
-      } else {
-        return EMPTY;
-      }
-    })
-    );
+      }), 
+      mergeMap(something => {
+        if (something) {
+          return of(something);
+        } else {
+          return EMPTY;
+        }
+      }));
   }
 
+  getUserInfoById(id: Number): Observable<UserAnagInfo> {
+    const url = environment.apiUrl + 'user/getUserAndAnagById.php';
+    return this.http.post<any>(url, {id: id});
+  }
 }

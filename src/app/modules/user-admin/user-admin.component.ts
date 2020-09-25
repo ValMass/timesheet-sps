@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UserAdminCreationComponent } from './user-admin-creation/user-admin-creation.component';
 import { ToastrService } from 'ngx-toastr';
 import { AnagraphicService } from './services/anagraphic.service';
+import { AuthGuard } from '@app/_helper/auth.guard';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class UserAdminComponent implements OnInit {
     public dialog: MatDialog,
     private userAdminService: UserAdminService,
     private anagraphicService: AnagraphicService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
   ) { }
 
   ngOnInit(): void {
@@ -46,8 +47,7 @@ export class UserAdminComponent implements OnInit {
     const viewDate = new Date();
     const month = viewDate.getMonth();
     const year = viewDate.getFullYear();
-    console.log(month + ' ' + year);
-    this.userAdminService.getListForUserList( month, year).subscribe(
+    this.userAdminService.getListForUserList(month, year).subscribe(
       res => {
         if (res.status === "done" ) {
           this.users = res.data;
@@ -55,13 +55,13 @@ export class UserAdminComponent implements OnInit {
       }
     );
   }
-  parseDialogFormRes(dialogRes) {
 
+  parseDialogFormRes(dialogRes) {
     let tmpuser = new UserAdmin();
     tmpuser.username = dialogRes['username'];
     tmpuser.password = dialogRes['password'];
     tmpuser.email = dialogRes['email'];
-    tmpuser.role = dialogRes['role'];
+    tmpuser.role = dialogRes['isadmin'];
     tmpuser.regnuminps = dialogRes['regnuminps'];
     tmpuser.regnumsps = dialogRes['regnumsps'];
     tmpuser.userscreationdate = new Date().toString();
@@ -72,6 +72,7 @@ export class UserAdminComponent implements OnInit {
     tmpanag.address = dialogRes['address'];
     tmpanag.phonenumber1 = dialogRes['phonenumber1'];
     tmpanag.phonenumber2 = dialogRes['phonenumber2'];
+    tmpanag.sededilavoro = dialogRes['sededilavoro'];
     return { usertoadd: tmpuser, anagtoadd: tmpanag };
   }
 
@@ -84,7 +85,6 @@ export class UserAdminComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       res => {
         let myObj = this.parseDialogFormRes(res['data']);
-        console.log(myObj);
         this.anagraphicService.addAnagraphicForUser(myObj.anagtoadd).subscribe(
           next => {
             console.log(next);
@@ -111,7 +111,6 @@ export class UserAdminComponent implements OnInit {
                     newUser.anagraphicid = result['data'].id;
                     newUser.phonenumber1 = next['phonenumber1'];
                     newUser.phonenumber2 = next['phonenumber2'];
-                    console.log(newUser);
                     this.users = [...this.users, newUser];
                   }
                 });
@@ -123,9 +122,20 @@ export class UserAdminComponent implements OnInit {
         );
       }
     );
-
   }
 
+  getUserList() {
+    const viewDate = new Date();
+    const month = viewDate.getMonth();
+    const year = viewDate.getFullYear();
+    this.userAdminService.getListForUserList(month, year).subscribe(
+      res => {
+        if (res.status === "done" ) {
+          this.users = res.data;
+        }
+      }
+    );
+  }
 
   addCustomer(user: UserAdmin) {
     // this.userservice.createNewUser(user);
