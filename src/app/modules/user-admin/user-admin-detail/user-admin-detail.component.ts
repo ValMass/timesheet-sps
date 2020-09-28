@@ -3,7 +3,6 @@ import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms'
 import { AnagraphicService } from '../services/anagraphic.service';
 import { ContractService } from '../services/contract.service';
 import { UserAdmin } from '../models/User-admin';
-import { Anagraphic } from '../models/Anagraphic';
 import { UserAdminService } from '../services/user-admin.service';
 import { ToastrService } from 'ngx-toastr';
 import { CustomersService } from '../services/customers.service';
@@ -11,7 +10,6 @@ import { OfficesService } from '../services/offices.service';
 import { ActivityService } from '../services/activity.service';
 import { AddActivityComponent } from '../add-activity/add-activity.component';
 import { MatDialog } from '@angular/material/dialog';
-import { UserAnagInfo } from '../models/UserAnagInfo';
 
 @Component({
   selector: 'app-user-admin-detail',
@@ -89,9 +87,10 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
 
   async ngAfterViewInit() {
     const userInfo = await this.userAdminService.getUserInfoById(this.userAdmin.id).toPromise();
+    const anagInfo = await this.anagService.getAnagraphic(this.userAdmin.id).toPromise();
     this.userForm.patchValue(userInfo['data'][0].uset);
-    this.anagForm.patchValue(userInfo['data'][0].anag);
-    this.contractForm.patchValue({contractid: userInfo['data'][0].anag.contractid});
+    this.anagForm.patchValue(anagInfo['data']);
+    this.contractForm.patchValue({contractid: anagInfo['data'].contractid});
   }
 
   createListForcontract(contracts) {
@@ -128,13 +127,32 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       });
   }
 
-  submitContract() {
-    // passare tutta anagrafica.
-    console.log('stai provando ad aggiungere il contratto: ', this.contractForm.value);
+  async submitContract() {
+    const { contracttype, id } = this.contractList.filter(contract => contract.id === this.contractForm.value.contractid)[0];
+    const anagrafica = await this.anagService.getAnagraphic(this.userAdmin.id).toPromise();
+    const anagToUpdate = { ...anagrafica['data'], contracttype, contractid: id };
+    this.anagService.updateAnagraphicForUser(anagToUpdate)
+      .subscribe(res => {
+        if (res['status'] === 'done') {
+          this.toastrService.success('Contratto aggiornato correttamente');
+        } else {
+          this.toastrService.error('Errore nell\'aggiornamento del contratto');
+        }
+      });
   }
 
   deleteActivity(activity) {
-    console.log('stai provando a cancellare: ', activity);
+    if (confirm(`Sei sicuro di voler eliminare l'attività: ${activity.act.name}?`)) {
+      this.activityService.deleteActivityById(activity.act.id)
+        .subscribe(res => {
+          if (res['status'] === 'done') {
+            this.toastrService.success('Attività eliminata correttamente');
+            this.activityList = this.activityList.filter(activity => activity.act.id !== res['data'].id);
+          } else {
+            this.toastrService.error('Errore nell\'eliminazione dell\'attività');
+          }
+        });
+    }
   }
 
   createUserForm() {

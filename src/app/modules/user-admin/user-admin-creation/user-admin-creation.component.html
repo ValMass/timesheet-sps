@@ -92,6 +92,6 @@
   </form>
 </div>
 <div mat-dialog-actions class="p-2">
-  <button mat-button mat-dialog-close class="btn btn-custom w-50" cdkFocusInitial>Close</button>
-  <button form='myform' type="submit" class="btn btn-custom w-50">Salva</button>
+  <button mat-button mat-dialog-close class="btn btn-secondary w-50" cdkFocusInitial (click)="close()">Close</button>
+  <button form='myform' type="submit" class="btn btn-primary w-50">Salva</button>
 </div>

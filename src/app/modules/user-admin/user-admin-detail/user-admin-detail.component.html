@@ -137,7 +137,7 @@
           <td>{{ activityCus.act.name }} </td>
           <td>{{ activityCus.cus.name }} </td>
           <td>
-            <span style="width: 20px; height: 20px; display: block;" class="card-footer-item fas fa-trash mr-2" (click)="deleteActivity(activityCus)"></span>
+            <span style="width: 20px; height: 20px; display: block; cursor: pointer;" class="card-footer-item fas fa-trash mr-2" (click)="deleteActivity(activityCus)"></span>
           </td>
         </tr>
       </tbody>
@@ -151,4 +151,3 @@
 <footer class="card-footer">
   <button class="btn btn-primary btn-block mt-5" (click)="clear()"><span class="fas fa-undo"></span> Cancel</button>
 </footer>
-

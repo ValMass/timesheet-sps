@@ -84,42 +84,44 @@ export class UserAdminComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(
       res => {
-        let myObj = this.parseDialogFormRes(res['data']);
-        this.anagraphicService.addAnagraphicForUser(myObj.anagtoadd).subscribe(
-          next => {
-            console.log(next);
-            if (next['status'] === 'error') {
-              this.toastrService.error(res.toString());
-            } else {
-              myObj.usertoadd.anagraphicid = next['data'].id;
-              this.userAdminService.createNewUser(myObj.usertoadd).subscribe(
-                result => {
-                  if (result['status'] === 'error') {
-                    this.toastrService.error(result['message']);
-                    return;
-                  } else {
-                    let user = result['data'];
-                    const newUser = new UserAdmin();
-                    newUser.id = user['id'];
-                    newUser.username = user['username'];
-                    newUser.password = user['password'];
-                    newUser.email = user['email'];
-                    newUser.role = user['role'];
-                    newUser.regnuminps = user['regnuminps'];
-                    newUser.regnumsps = user['regnumsps'];
-                    newUser.userscreationdate = new Date().toString();
-                    newUser.anagraphicid = result['data'].id;
-                    newUser.phonenumber1 = next['phonenumber1'];
-                    newUser.phonenumber2 = next['phonenumber2'];
-                    this.users = [...this.users, newUser];
-                  }
-                });
+        if (res) {
+          let myObj = this.parseDialogFormRes(res['data']);
+          this.anagraphicService.addAnagraphicForUser(myObj.anagtoadd).subscribe(
+            next => {
+              console.log(next);
+              if (next['status'] === 'error') {
+                this.toastrService.error(res.toString());
+              } else {
+                myObj.usertoadd.anagraphicid = next['data'].id;
+                this.userAdminService.createNewUser(myObj.usertoadd).subscribe(
+                  result => {
+                    if (result['status'] === 'error') {
+                      this.toastrService.error(result['message']);
+                      return;
+                    } else {
+                      let user = result['data'];
+                      const newUser = new UserAdmin();
+                      newUser.id = user['id'];
+                      newUser.username = user['username'];
+                      newUser.password = user['password'];
+                      newUser.email = user['email'];
+                      newUser.role = user['role'];
+                      newUser.regnuminps = user['regnuminps'];
+                      newUser.regnumsps = user['regnumsps'];
+                      newUser.userscreationdate = new Date().toString();
+                      newUser.anagraphicid = result['data'].id;
+                      newUser.phonenumber1 = next['phonenumber1'];
+                      newUser.phonenumber2 = next['phonenumber2'];
+                      this.users = [...this.users, newUser];
+                    }
+                  });
+              }
+            },
+            error => {
+              this.toastrService.error('Errore http');
             }
-          },
-          error => {
-            this.toastrService.error('Errore http');
-          }
-        );
+          );
+        }
       }
     );
   }

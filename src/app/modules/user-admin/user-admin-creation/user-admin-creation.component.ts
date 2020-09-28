@@ -88,9 +88,10 @@ export class UserAdminCreationComponent implements OnInit {
 
   submit() {
     this.dialogRef.close({ data: this.profileForm.value });
-
   }
 
-
+  close() {
+    this.dialogRef.close();
+  }
 }
 

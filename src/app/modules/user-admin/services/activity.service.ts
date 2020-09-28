@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { catchError, mergeMap } from 'rxjs/operators';
-import { EMPTY, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -43,5 +43,10 @@ export class ActivityService {
       }
     })
     );
+  }
+
+  deleteActivityById(activityId): Observable<any> {
+    const url = environment.apiUrl + 'activities/deleteActivitiesById.php';
+    return this.http.post(url, {id: activityId});
   }
 }
