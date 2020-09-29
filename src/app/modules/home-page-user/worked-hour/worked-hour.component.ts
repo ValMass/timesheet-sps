@@ -12,6 +12,8 @@ export class WorkedHourComponent implements OnInit {
   @Input() month;
   @Input() year;
   @Input() workedThisMonth;
+  @Input() dayWorkedThisMonth;
+  @Input() daySmartWorkedThisMonth;
   @Input() deseaseThisMonth;
   @Input() permessiThisMonth;
 

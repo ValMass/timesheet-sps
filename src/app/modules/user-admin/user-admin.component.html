@@ -1,8 +1,11 @@
 <div class="tab-user ">
+  <button (click)="exportinXlsx()">Esporta in .Xlsx</button>
   <list-header title="Aggiungi Utenti" (add)="openDialog()">
   </list-header>
   <div *ngIf="users">
-    <app-user-admin-list class="table table-striped" *ngIf="!selected " [useradmins]="users" (selected)="select($event)"
+    <app-user-admin-list class="table table-striped" *ngIf="!selected "
+      [useradmins]="users"
+      (selected)="select($event)"
       (deleted)="askToDelete($event)">
     </app-user-admin-list>
 

@@ -97,7 +97,8 @@ const routes: Routes = [
   {
     path: 'home-page',
     component: HomePageComponent,
-    resolve:{
+    resolve:
+    {
       userlist: UserListResolverService,
       customerlist: CustomerListResolverService
     },

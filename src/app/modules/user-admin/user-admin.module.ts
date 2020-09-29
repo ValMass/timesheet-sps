@@ -17,7 +17,13 @@ import { AddEventModalUserComponent } from '../timesheet-user/add-event-modal/ad
 
 
 @NgModule({
-  declarations: [UserAdminComponent, UserAdminListComponent, UserAdminDetailComponent, UserAdminCreationComponent, AddActivityComponent],
+  declarations: [
+    UserAdminComponent,
+    UserAdminListComponent,
+    UserAdminDetailComponent,
+    UserAdminCreationComponent,
+    AddActivityComponent
+  ],
   imports: [
     CommonModule,
     UserAdminRoutingModule,

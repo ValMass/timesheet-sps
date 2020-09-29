@@ -359,6 +359,10 @@ export class TimesheetEditComponent implements OnInit {
         start: new Date(element.start),
         nOre: element.nOre,
         actions: this.actions,
+        codiceFatt: element.codiceFatturazione,
+        nProtocollo: element.numProtocollo,
+        activityId: element.activityId,
+        smartWorking: +element.smartWorking,
       };
       this.actualTimesheet.dayjson = [...this.actualTimesheet.dayjson, newEvent];
     });

@@ -84,5 +84,13 @@ export class UserAdminService implements Resolve<UserAdmin[]> {
     })
     );
   }
+  getUserInfoById(id: Number) {
+    const url = environment.apiUrl + 'user/getUserAndAnagById.php';
+    return this.http.post<any>(url, {id: id});
+  }
 
+  exportUserInfoInXlmx(month: number, year: number) {
+    const url = environment.apiUrl + 'user/listAllUserDataForMonthForExport.php';
+    return this.http.post<any>(url, { month , year });
+  }
 }

@@ -142,6 +142,7 @@ export class UserAdminComponent implements OnInit {
   select(user: UserAdmin) {
     console.log(user);
     this.selected = user;
+    this.userAdminService.getUserInfoById(user.id).subscribe(res => console.log(res));
   }
 
   update(user: UserAdmin) {
@@ -205,5 +206,20 @@ export class UserAdminComponent implements OnInit {
     }
     this.clear();
 
+  }
+
+  exportinXlsx() {
+    const viewDate = new Date();
+    const month = viewDate.getMonth();
+    const year = viewDate.getFullYear();
+    this.userAdminService.exportUserInfoInXlmx( month, year ).subscribe(
+      result => {
+        console.log(result);
+      },
+      error => {
+        console.log(error);
+      }
+
+    );
   }
 }

@@ -12,6 +12,8 @@ export class HomePageUserComponent implements OnInit {
   public name = "";
   public surname = "";
   public workedThisMonth = 0;
+  public dayWorkedThisMonth = 0;
+  public daySmartWorkThisMonth = 0;
   public deseaseThisMonth = 0;
   public permessiThisMonth = 0;
   public userid = 0;
@@ -61,6 +63,8 @@ export class HomePageUserComponent implements OnInit {
               this.workedThisMonth = element["totalworkedhours"];
               this.permessiThisMonth = element["totalpermessihours"];
               this.deseaseThisMonth = element["totaldeseasehours"];
+              this.dayWorkedThisMonth = element["totalworkeddays"];
+              this.daySmartWorkThisMonth = element["totalsmartworkday"];
 
               eventlist.forEach(element => {
                 if ( element.activityId ){

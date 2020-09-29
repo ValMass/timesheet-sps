@@ -43,7 +43,7 @@ export class TimesheetResolverService implements Resolve<any> {
 
   save(events , month, year, userid) {
 
-    const url = environment.apiUrl + '/timesheets/createTimesheet.php';
+    const url = environment.apiUrl + '/timesheets/createTimesheetV2.php';
     return this.http.post(url , { events , month , year, userid}).pipe(catchError(error   => {
       console.log(error);
       return EMPTY;
