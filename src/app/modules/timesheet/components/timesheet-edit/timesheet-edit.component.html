@@ -1,1 +1,58 @@
-<p>timesheet-edit works!</p>
+
+<div class="row text-center container-fluid">
+    <div class="col-md-4">
+      <div class="btn-group">
+        <div
+          class="btn btn-primary btn-cst-nav"
+          mwlCalendarPreviousView
+          [view]="view"
+          [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()"
+          (mwlClick)="myPreviousClick()"
+        >
+          Previous
+        </div>
+        <div
+          class="btn btn-outline-secondary"
+          mwlCalendarToday
+          [(viewDate)]="viewDate"
+        >
+          Today
+        </div>
+        <div
+          class="btn btn-primary btn-cst-nav"
+          mwlCalendarNextView
+          [view]="view"
+          [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()"
+          (mwlClick)="myNextClick()"
+        >
+          Next
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+    </div>
+
+    <div class="col-md-4">
+      <h5 class="btn btn-primary text-light btn-cst-nav">{{ timeshetStatus }}</h5>
+    </div>
+  </div>
+  <br />
+
+
+<div class= "container-fluid" [ngSwitch]="view">
+    <mwl-calendar-month-view
+      *ngSwitchCase="CalendarView.Month"
+      [viewDate]="viewDate"
+      [events]="events"
+      [refresh]="refresh"
+      [activeDayIsOpen]="activeDayIsOpen"
+      (dayClicked)="dayClicked($event.day)"
+      (dblclick)="createEvent([viewDate],$event)"
+      (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)"
+    >
+    </mwl-calendar-month-view>
+</div>

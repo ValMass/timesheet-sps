@@ -1,4 +1,4 @@
-export interface Timesheet {
+export interface CalendarEvent {
     title: string;
     start: Date,
     nOre: string,
