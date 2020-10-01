@@ -29,16 +29,11 @@ import { AddCustomerOfficeDialogComponent } from './component/modal-customer-off
 import { ConfirmationDialogComponent } from '@app/component/modal-customer-office/confirmation-dialog/confirmation-dialog.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { AddOfficeDialogComponent } from './modules/offices/modals/add-office-dialog/add-office-dialog.component';
-import { TimesheetModule } from './modules/timesheet/timesheet.module';
-import { AddEventModalComponent } from './modules/timesheet/add-event-modal/add-event-modal.component';
-
 import { ToastrModule } from 'ngx-toastr';
 import { NotFoundComponent } from './component/not-found/not-found.component';
 import { UserAdminCreationComponent } from './modules/user-admin/user-admin-creation/user-admin-creation.component';
 import { AuthInterceptor } from './_helper/expired.interceptor';
 import { Router } from '@angular/router';
-import { TimesheetUserModule } from './modules/timesheet-user/timesheet-user.module';
-import { AddEventModalUserComponent } from './modules/timesheet-user/add-event-modal/add-event-modal.component';
 import { AddActivityComponent } from './modules/user-admin/add-activity/add-activity.component';
 import { AddCustomerOfficeComponent } from './modules/customers/components/add-customer-office/add-customer-office.component';
 
@@ -76,9 +71,8 @@ import { AddCustomerOfficeComponent } from './modules/customers/components/add-c
     MatIconModule,
     MatExpansionModule,
     // My Module
-    TimesheetModule,
-    ToastrModule.forRoot(),
-    TimesheetUserModule, // ToastrModule added
+
+    ToastrModule.forRoot(), // ToastrModule added
 
 
   ],
@@ -91,8 +85,6 @@ import { AddCustomerOfficeComponent } from './modules/customers/components/add-c
     MatIconModule,
   ],
   entryComponents: [
-    AddEventModalComponent,
-    AddEventModalUserComponent,
     AddUserDialogComponent,
     AddOfficeDialogComponent,
     AddActivityComponent,

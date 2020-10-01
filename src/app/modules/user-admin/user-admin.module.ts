@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CommonModule } from '@angular/common';
-
 import { UserAdminRoutingModule } from './user-admin-routing.module';
 import { UserAdminComponent } from './user-admin.component';
 import { SharedModule } from '../../shared/shared.module';
@@ -12,7 +11,6 @@ import { UserAdminCreationComponent } from './user-admin-creation/user-admin-cre
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { AddActivityComponent } from './add-activity/add-activity.component';
-import { AddEventModalUserComponent } from '../timesheet-user/add-event-modal/add-event-modal.component';
 
 
 
@@ -34,7 +32,6 @@ import { AddEventModalUserComponent } from '../timesheet-user/add-event-modal/ad
   ],
   entryComponents: [
     UserAdminCreationComponent,
-    AddEventModalUserComponent,
   ],
 
   providers: [

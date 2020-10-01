@@ -19,10 +19,8 @@ import { UserDetailComponent } from './component/user-detail/user-detail.compone
 import { HomePageComponent } from './modules/home-page/home-page.component';
 import { OfficesComponent } from './modules/offices/offices.component';
 import { OfficeDetailComponent } from './modules/offices/office-detail/office-detail.component';
-import { NewTimesheetComponentComponent } from './modules/timesheet/timesheet-component/timesheet-component.component';
 import { UserAdminService } from './modules/user-admin/services/user-admin.service';
 import { NotFoundComponent } from './component/not-found/not-found.component';
-import { TimesheetEditComponent } from './modules/timesheet-user/timesheet-edit/timesheet-edit.component';
 import { CustListComponent } from './modules/home-page/widget/cust-list/cust-list.component';
 import { HomeGuard } from './_helper/home.guard';
 
@@ -39,7 +37,6 @@ const routes: Routes = [
     canActivate: [HomeGuard],
   },
   { path: 'login-page', component: LoginPageComponent  },
-  { path: 'timesheet-page', component: NewTimesheetComponentComponent,  canActivate: [AuthGuard]  },
   { path: 'userprofile', component: UserprofilePageComponent , resolve: { user: UserAnagraphicResolverService }, canActivate: [AuthGuard] },
   {
     path: 'userlist',
@@ -80,13 +77,17 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/contracts/contracts.module').then(m => m.ContractsModule)
   },
-  {
+  /*{ 
     path: 'timesheet/:id',
     component: NewTimesheetComponentComponent,
     resolve: {
       customer: TimesheetResolverService
     }
+  },*/
+  { path: 'timesheet',
+    loadChildren: () => import('./modules/timesheet/timesheet.module').then(m => m.TimesheetModule)
   },
+
   { path: 'customer-offices',
     loadChildren: () => import('./modules/customer-offices/customer-offices.module').then(m => m.CustomerOfficesModule)
   },
@@ -119,14 +120,6 @@ const routes: Routes = [
     path: 'distances',
     loadChildren: () => import('./modules/distances/distances.module').then(m => m.DistancesModule),
     canActivate: [AuthGuard],
-  },
-  {
-    path: 'timesheet-user',
-    component: TimesheetEditComponent,
-    /*
-    resolve: {
-      customer: TimesheetResolverService
-    }*/
   },
   {
     path: 'home-page-user', loadChildren: () => import('./modules/home-page-user/home-page-user.module').then(m => m.HomePageUserModule),
