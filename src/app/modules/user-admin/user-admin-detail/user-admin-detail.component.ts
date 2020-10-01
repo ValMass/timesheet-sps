@@ -1,13 +1,8 @@
-import { AnagraphicData } from './../../../models/anagraphicdatamodel';
-import { DateAdapter } from 'angular-calendar';
-import { Component, OnInit, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit } from '@angular/core';
+import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
 import { AnagraphicService } from '../services/anagraphic.service';
 import { ContractService } from '../services/contract.service';
 import { UserAdmin } from '../models/User-admin';
-import { Contract } from '../models/Contract';
-import { Anagraphic } from '../models/Anagraphic';
-import { Observable } from 'rxjs';
 import { UserAdminService } from '../services/user-admin.service';
 import { ToastrService } from 'ngx-toastr';
 import { CustomersService } from '../services/customers.service';
@@ -22,50 +17,20 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./user-admin-detail.component.css'],
 })
 
-export class UserAdminDetailComponent implements OnInit {
+export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   @Input() userAdmin: UserAdmin;
   @Output() unselect = new EventEmitter<string>();
   @Output() save = new EventEmitter<UserAdmin>();
 
-  addMode = false;
-  editingUser: UserAdmin = new UserAdmin();
-  editingAnag: Anagraphic;
-  selectedContract: any;
-
   contractList: any[]; // Contract[]
   officesList: any[]; // Offices[]
   customersList: any[]; // Customer[]
-  activityList: any[]; //activities
+  activityList: any[]; // activities
 
-
-  userForm = new FormGroup({
-    username: new FormControl('', [Validators.required, ]),
-    password: new FormControl('', [Validators.required, ]),
-    numeroinps: new FormControl('', [Validators.required, ]),
-    numerosps: new FormControl('', [Validators.required, ]),
-    email: new FormControl('', [Validators.required, ]),
-    isadmin: new FormControl('', [Validators.required, ]),
-  });
-
-  anagForm = new FormGroup({
-    name: new FormControl('', [Validators.required, ]),
-    surname: new FormControl('', [Validators.required, ]),
-    birthdate: new FormControl('', [Validators.required, ]),
-    birthplace: new FormControl('', [Validators.required, ]),
-    sededilavoro: new FormControl('', [Validators.required, ]),
-  });
-  // id, address, regnuminps,  contracttype, distaccatoda, distaccatoa, sededilavoro, valorerimborsistimato, buonipastobool, sex, contractid
-
-  contractForm = new FormGroup({
-    contracttype: new FormControl('', [Validators.required, ]),
-    startingfrom: new FormControl('', [Validators.required, ]),
-    birthplace: new FormControl('', [Validators.required, ]),
-  });
-
-  activityForm = new FormGroup({
-    id: new FormControl('', [Validators.required, ]),
-    name: new FormControl('', [Validators.required, ]),
-  });
+  userForm: FormGroup;
+  anagForm: FormGroup;
+  contractForm: FormGroup;
+  activityForm: FormGroup;
 
   constructor(
     private anagService: AnagraphicService,
@@ -76,212 +41,182 @@ export class UserAdminDetailComponent implements OnInit {
     private officesService: OfficesService,
     private activityService: ActivityService,
     public dialog: MatDialog,
+    private fb: FormBuilder,
   ) { }
 
   ngOnInit(): void {
-    console.log(this.userAdmin);
-    const contact = {
-      username: this.userAdmin.username,
-      password: this.userAdmin.password,
-      numeroinps: this.userAdmin.regnuminps,
-      numerosps: this.userAdmin.regnumsps,
-      email: this.userAdmin.email,
-      isadmin: this.userAdmin.role,
-    };
+    this.userForm = this.createUserForm();
+    this.anagForm = this.createAnagForm();
+    this.contractForm = this.createContractForm();
+    this.activityForm = this.createActivityForm();
 
-    this.activityService.listActivities(this.userAdmin.id).subscribe(
-      result => {
-        console.log(result);
-        if ( result.status === 'done') {
-          this.activityList = result.data;
-        } else {
-          this.toastrService.error('Errore nella lista delle attività : ' + result.message);
-        }
-      },
-      error => {
-        console.log('activityservice error');
-      },
-    );
+    this.getActivityList();
 
-    this.customerService.listAllCustomer().subscribe(
-      result => {
-        console.log(result);
-        if ( result.status === 'done') {
+    this.customerService.listAllCustomer()
+      .subscribe(result => {
+        if (result.status === 'done') {
           this.customersList = result.data;
         } else {
           this.toastrService.error('Errore nella lista dei clienti : ' + result.message);
         }
-      },
-      error => {
-        console.log('customerservice error');
+      });
 
-      }
-    );
-
-    this.officesService.listAllOffices().subscribe(
-      result => {
-        console.log(result.data);
+    this.officesService.listAllOffices()
+      .subscribe(result => {
         this.officesList = result.data ;
-      },
-      error => {
+      }, error => {
         console.log(error);
-      }
+      });
 
-    );
-
-    this.selectedContract = {};
-    this.contractService.listAllContract(contact).subscribe(
-      data => {
-
-        const tmp = this.createListForcontract(data.data);
-        this.contractList = tmp;
-        console.log(this.contractList);
-      }
-    );
-    this.userForm.setValue(contact);
-    this.anagService.getAnagraphic(this.userAdmin.anagraphicid).subscribe(
-      data => {
-        console.log(data['data']);
-        const actData = data['data'];
-        this.anagForm.patchValue(actData);
-        this.editingAnag = actData;
-        if (actData.contractid != null) {
-          this.contractService.getContract(actData.contractid).subscribe(
-            res => {
-              console.log(res['data']);
-              this.selectedContract = res['data'];
-              this.selectedContract.tolist = this.selectedContract.title + ' '
-                + this.selectedContract.contracttype + ' ' + this.selectedContract.level + ' livello ' + this.selectedContract.ccnl;
-              console.log(this.selectedContract);
-            },
-            error => { }
-          );
-        }
-
-
-      },
-      err => {
-        console.log(err);
-
+    this.contractService.listAllContract()
+      .subscribe(data => {
+        this.contractList = this.createListForcontract(data.data);
       });
   }
 
+  getActivityList() {
+    this.activityService.listActivities(this.userAdmin.id)
+      .subscribe(result => {
+        if (result.status === 'done') {
+          this.activityList = result.data;
+        } else {
+          this.toastrService.error('Errore nella lista delle attività : ' + result.message);
+        }
+      });
+  }
+
+  async ngAfterViewInit() {
+    const userInfo = await this.userAdminService.getUserInfoById(this.userAdmin.id).toPromise();
+    const anagInfo = await this.anagService.getAnagraphic(this.userAdmin.id).toPromise();
+    this.userForm.patchValue(userInfo['data'][0].uset);
+    this.anagForm.patchValue(anagInfo['data']);
+    this.contractForm.patchValue({contractid: anagInfo['data'].contractid});
+  }
 
   createListForcontract(contracts) {
     for (const contr of contracts) {
-      contr.tolist = contr.title + ' ' + contr.contracttype + ' ' + contr.level + ' livello ' + contr.ccnl;
+      contr.id = contr.id;
+      contr.value = contr.title + ' ' + contr.contracttype + ' ' + contr.level + ' livello ' + contr.ccnl;
     }
     return contracts;
+  }
+
+  submitUser() {
+    this.userAdminService.updateUser({id: this.userAdmin.id, ...this.userForm.value})
+      .subscribe(result => {
+        if (result['status'] === 'done') {
+          this.toastrService.success('Utente aggiornato');
+        } else {
+          this.toastrService.error('Errore: utente non salvato');
+        }
+      },
+      error => {
+        this.toastrService.error('Errore utente non salvato : ' + error);
+      }
+    );
+  }
+
+  submitAnag() {
+    this.anagService.updateAnagraphicForUser({id: this.userAdmin.id, ...this.anagForm.value})
+      .subscribe(res => {
+        if (res['status'] === 'done') {
+          this.toastrService.success('Anagrafica utente aggiornata');
+        } else {
+          this.toastrService.error('Errore nell\'aggiornamento dell\'anagrafica utente');
+        }
+      });
+  }
+
+  async submitContract() {
+    const { contracttype, id } = this.contractList.filter(contract => contract.id === this.contractForm.value.contractid)[0];
+    const anagrafica = await this.anagService.getAnagraphic(this.userAdmin.id).toPromise();
+    const anagToUpdate = { ...anagrafica['data'], contracttype, contractid: id };
+    this.anagService.updateAnagraphicForUser(anagToUpdate)
+      .subscribe(res => {
+        if (res['status'] === 'done') {
+          this.toastrService.success('Contratto aggiornato correttamente');
+        } else {
+          this.toastrService.error('Errore nell\'aggiornamento del contratto');
+        }
+      });
+  }
+
+  deleteActivity(activity) {
+    if (confirm(`Sei sicuro di voler eliminare l'attività: ${activity.act.name}?`)) {
+      this.activityService.deleteActivityById(activity.act.id)
+        .subscribe(res => {
+          if (res['status'] === 'done') {
+            this.toastrService.success('Attività eliminata correttamente');
+            this.activityList = this.activityList.filter(activity => activity.act.id !== res['data'].id);
+          } else {
+            this.toastrService.error('Errore nell\'eliminazione dell\'attività');
+          }
+        });
+    }
+  }
+
+  createUserForm() {
+    const userForm = this.fb.group({
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+      regNumInps: ['', [Validators.required]],
+      regNumSps: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      role: ['', [Validators.required]],
+    });
+  return userForm;
+  }
+
+  createAnagForm() {
+    const anagForm = this.fb.group({
+      name: ['', [Validators.required]],
+      surname: ['', [Validators.required]],
+      birthdate: ['', [Validators.required]],
+      birthplace: ['', [Validators.required]],
+      sededilavoro: ['', [Validators.required]],
+    });
+    return anagForm;
+  }
+
+  createContractForm() {
+    const contractForm = this.fb.group({
+      contractid: ['', [Validators.required]],
+    });
+    return contractForm;
+  }
+
+  createActivityForm() {
+    const activityForm = this.fb.group({
+      id: ['', [Validators.required, ]],
+      name: ['', [Validators.required, ]],
+    });
+    return activityForm;
   }
 
   clear() {
     this.unselect.emit();
   }
 
-  submitUser() {
-    let newUser = new UserAdmin();
-    newUser.id = this.userAdmin.id;
-    newUser.username = this.userForm.get('username').value;
-    newUser.password = this.userForm.get('password').value;
-    newUser.regnuminps = this.userForm.get('numeroinps').value;
-    newUser.regnumsps = this.userForm.get('numerosps').value;
-    newUser.email = this.userForm.get('email').value;
-    newUser.role = this.userForm.get('isadmin').value;
-
-    this.userAdminService.updateUser(newUser).subscribe(
-      result => {
-        console.log(result);
-        if (result['status'] === 'done') {
-          this.userAdmin.username = result['data'].username;
-          this.userAdmin.password = result['data'].password;
-          this.userAdmin.regnuminps = result['data'].regnuminps;
-          this.userAdmin.regnumsps = result['data'].regnumsps;
-          this.userAdmin.email = result['data'].email;
-          this.userAdmin.role = result['data'].role;
-          this.userForm.patchValue(this.userAdmin);
-          this.toastrService.success('Utente aggiornato');
-        } else {
-          this.toastrService.error('Errore: utente non salvato');
-          this.clearUser();
-        }
-      },
-      error => {
-        console.log(error);
-        this.toastrService.error('Errore utente non salvato : ' + error);
-        this.clearUser();
-      }
-    );
-  }
-
-  clearUser() {
-    console.log(this.editingUser);
-    const contact = {
-      username: this.userAdmin.username,
-      password: this.userAdmin.password,
-      numeroinps: this.userAdmin.regnuminps,
-      numerosps: this.userAdmin.regnumsps,
-      email: this.userAdmin.email,
-      isadmin: this.userAdmin.role,
-    };
-    this.userForm.setValue(contact);
-  }
-
-
-  submitAnag() { }
-  submitContract() {
-    console.log(this.selectedContract);
-    this.editingAnag.contractid = this.selectedContract.id;
-    this.anagService.updateAnagraphicForUser(this.editingAnag).subscribe(
-      data => {
-        console.log(data);
-      },
-      error => {
-
-      }
-    );
-
-  }
-
-  submitActivity() {
-
-  }
-  saveAll() {
-
-  }
-
-  deleteActivity($event) {
-
-  }
-
   openAddActivityDialog() {
-    const dialogRef = this.dialog.open( AddActivityComponent, {
+    const dialogRef = this.dialog.open(AddActivityComponent, {
       width: '600px',
-      height: '300px',
       data: {
-              userid: this.userAdmin.id,
-              customerList: this.customersList,
-            }
+        userid: this.userAdmin.id,
+        customerList: this.customersList,
+      }
     });
-    dialogRef.afterClosed().subscribe(
-      res => {
-        console.log(res.data);
-        console.log(this.userAdmin.id);
-
-
-        this.activityService.createActivity(res.data.activityName, this.userAdmin.id , res.data.customerId).subscribe(
-          result => {
-            if ( result.status === 'done'){
-              console.log(result.data);
-
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.activityService.createActivity(res.data.activityName, this.userAdmin.id, res.data.customerId)
+          .subscribe(result => {
+            if (result.status === 'done') {
+              this.toastrService.success('Attività aggiunta correttamente');
+              this.getActivityList();
             } else {
-              this.toastrService.error('Errore nel salvare l\'attività: ' + result.message );
+              this.toastrService.error('Errore nel salvare l\'attività: ' + result.message);
             }
-          },
-          error => {
-
-          }
-        );
-      },
-      );
+          });  
+      }
+    });
   }
 }

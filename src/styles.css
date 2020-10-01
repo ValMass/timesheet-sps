@@ -49,9 +49,15 @@ body {
     overflow-inline: scroll;
 }
 
-.btn.btn-primary{
+.btn.btn-primary {
     background-color: #962d37;
     border-color: #962d37;
+}
+
+.btn.btn-secondary {
+    border: 1px solid #962d37;
+    color: #962d37;
+    background: white;
 }
 
 .tab-user {
