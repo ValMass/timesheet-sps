@@ -5,6 +5,8 @@ import { TimesheetEditComponent } from './components/timesheet-edit/timesheet-ed
 import { TimesheetAddEventComponent } from './components/timesheet-add-event/timesheet-add-event.component';
 import { DateAdapter, CalendarModule } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from '@app/shared/shared.module';
 
 
 
@@ -14,6 +16,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     CommonModule,
     TimesheetRoutingModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+    HttpClientModule,
+    SharedModule,
   ]
 })
 export class TimesheetModule { }
