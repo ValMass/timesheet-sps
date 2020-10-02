@@ -21,10 +21,7 @@
         <td>{{ useradmin.phonenumber2 }}</td>
         <td>{{ useradmin.role === '1' ? "Amministratore" : "Utente ordinario" }}</td>
         <td>
-          <div class="pallino" [ngClass]="{'pallinored'  : useradmin.state === '1',
-                                          'pallinoyell' : useradmin.state === '2',
-                                          'pallinogreen': useradmin.state === '3'}">
-          </div>
+          <app-span-tooltip [state] = useradmin.state></app-span-tooltip>
         </td>
         <td><button class="button-custom" mat-button color="accent" (click)="modifyTimesheet(useradmin)">Modifica
             Timesheet</button></td>

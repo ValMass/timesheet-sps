@@ -1,3 +1,4 @@
+import { SharedModule } from './../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -6,6 +7,7 @@ import { HomePageComponent } from './home-page.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { UserListComponent } from './widget/user-list/user-list.component';
 import { CustListComponent } from './widget/cust-list/cust-list.component';
+import { TooltipModule } from 'ngx-tooltip';
 
 
 
@@ -13,14 +15,15 @@ import { CustListComponent } from './widget/cust-list/cust-list.component';
   declarations: [
     HomePageComponent,
     UserListComponent,
-    CustListComponent
+    CustListComponent,
 
   ],
   imports: [
     CommonModule,
     HomePageRoutingModule,
     MatGridListModule,
-
+    TooltipModule,
+    SharedModule
   ]
 })
 export class HomePageModule { }

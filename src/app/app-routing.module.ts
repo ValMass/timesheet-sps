@@ -77,7 +77,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/contracts/contracts.module').then(m => m.ContractsModule)
   },
-  /*{ 
+  /*{
     path: 'timesheet/:id',
     component: NewTimesheetComponentComponent,
     resolve: {
@@ -97,7 +97,7 @@ const routes: Routes = [
   },
   {
     path: 'home-page',
-    component: HomePageComponent,
+    loadChildren: () => import('./modules/home-page/home-page.module').then(m=> m.HomePageModule),
     resolve:
     {
       userlist: UserListResolverService,

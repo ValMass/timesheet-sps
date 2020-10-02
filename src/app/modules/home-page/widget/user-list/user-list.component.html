@@ -16,11 +16,12 @@
         <td (click)="redirectToUser(user)">{{ user.phonenumber1}}</td>
         <td (click)="redirectToUser(user)">{{ user.phonenumber2 }}</td>
         <td (click)="redirectToUser(user)">
-          <span class="pallino"
+          <!--<span class="pallino"
           [ngClass]="{'pallinored': user.state === '1',
                       'pallinoyell': user.state === '2',
                       'pallinogreen': user.state === '3'}">
-        </span>
+        </span>-->
+        <app-span-tooltip [state] = user.state></app-span-tooltip>
         </td>
       </tr>
     </tbody>
