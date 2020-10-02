@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class SideBarComponent implements OnInit {
 
   isadmin: boolean = true ;
+  destinationTimesheet;
 
   constructor(
     public logoutService: AuthenticationService,
@@ -22,6 +23,8 @@ export class SideBarComponent implements OnInit {
   ngOnInit() {
     let currentU = JSON.parse(localStorage.getItem('currentUser'));
     console.log(currentU);
+    this.destinationTimesheet = currentU.id;
+    console.log(this.destinationTimesheet);
     // tslint:disable-next-line: triple-equals
     if ( currentU.isadmin == '1') {
       console.log('uno');
