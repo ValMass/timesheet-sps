@@ -27,25 +27,25 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class TimesheetEditComponent implements OnInit {
 
-  //fake binded params for calendar view ngswitch
+  // fake binded params for calendar view ngswitch
   view: CalendarView = CalendarView.Month;
   CalendarView = CalendarView; // secondo me non ha senso ma l'autore del calendario lo mette bho
 
-  //Questo campo decide su che mese e giornno viene aperto il calendario
+  // Questo campo decide su che mese e giornno viene aperto il calendario
   viewDate: Date = new Date();
 
-  //non lo so ma lo vuole
+  // non lo so ma lo vuole
   refresh: Subject<any> = new Subject();
 
-  //lista degli eventi da visualizzare questo mese
+  // lista degli eventi da visualizzare questo mese
   events: CalendarEvent[] = [];
 
 
 
-  //flag che governa l'apertura o la chiusura della lista sotto i giorni con eventi
+  // flag che governa l'apertura o la chiusura della lista sotto i giorni con eventi
   activeDayIsOpen = false;
 
-  //questa label rispecchia lo status del mese attualmente caricato come timesheet
+  // questa label rispecchia lo status del mese attualmente caricato come timesheet
   timeshetStatus = "0";
 
 
@@ -79,7 +79,7 @@ export class TimesheetEditComponent implements OnInit {
 
   createEvent(datenn: any, event: any): void {
     console.log(datenn);
-    //this.openAddEventDialog();
+    // this.openAddEventDialog();
 
   }
 
