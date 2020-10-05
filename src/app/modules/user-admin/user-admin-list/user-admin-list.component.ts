@@ -16,6 +16,9 @@ export class UserAdminListComponent implements OnInit, OnChanges {
   @Output() deleted = new EventEmitter<UserAdmin>();
   @Output() selected = new EventEmitter<UserAdmin>();
 
+  //showbutton
+  @Output() showButton = new EventEmitter<Boolean>();
+
   constructor(
     private router: Router,
     private userAdminService: UserAdminService,
@@ -28,6 +31,8 @@ export class UserAdminListComponent implements OnInit, OnChanges {
     console.log(changes);
   }
   selectCustomer(user: UserAdmin) {
+    //showbutton
+    this.showButton.emit(false);
     this.selected.emit(user);
   }
 

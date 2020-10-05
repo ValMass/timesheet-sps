@@ -22,6 +22,9 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   @Output() unselect = new EventEmitter<string>();
   @Output() save = new EventEmitter<UserAdmin>();
 
+  //flag showButton
+  @Output() showButton = new EventEmitter<Boolean>();
+
   contractList: any[]; // Contract[]
   officesList: any[]; // Offices[]
   customersList: any[]; // Customer[]
@@ -194,6 +197,8 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   }
 
   clear() {
+    //showButton
+    this.showButton.emit(true);
     this.unselect.emit();
   }
 
@@ -215,7 +220,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
             } else {
               this.toastrService.error('Errore nel salvare l\'attività: ' + result.message);
             }
-          });  
+          });
       }
     });
   }

@@ -19,8 +19,11 @@ export class CustomerListComponent {
     @Output() selected = new EventEmitter<Customer>();
     @Output() associate = new EventEmitter<Customer>();
 
+    //showbutton
+    @Output() showButton = new EventEmitter<Boolean>();
 
     selectCustomer(customer: Customer) {
+        this.showButton.emit(false);
         this.selected.emit(customer);
     }
 

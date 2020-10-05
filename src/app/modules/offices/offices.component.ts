@@ -22,6 +22,14 @@ export class OfficesComponent implements OnInit {
   showModal = false;
   message: string = '';
   addMode: boolean = false;
+  //showbutton
+  showButton : boolean = true;
+
+  //flag showbutton
+  changeShowButton(flag){
+    this.showButton = flag;
+  }
+
 
   constructor(
     private route: ActivatedRoute,
@@ -150,7 +158,7 @@ export class OfficesComponent implements OnInit {
 
   save(office: Office) {
     console.log(office);
-    
+
     if (this.selected && this.selected.id) {
       this.update(office, this.selected);
     } else {

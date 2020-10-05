@@ -4,7 +4,7 @@
   title="Aggiungi Ufficio"
   (add)="enableAddMode()"
   [selected]="selected"
-  >
+  *ngIf= "showButton">
   </list-header>
 
   <div *ngIf="offices" >
@@ -13,6 +13,7 @@
           [offices]="offices"
           (selected)="select($event)"
           (deleted)="askToDelete($event)"
+          (showButton)="changeShowButton($event)"
          >
       </office-list>
 
@@ -21,6 +22,7 @@
           [office]="selected"
           (unselect)="clear()"
           (save)="save($event)"
+          (showButton)="changeShowButton($event)"
     ></office-detail>
   </div>
 

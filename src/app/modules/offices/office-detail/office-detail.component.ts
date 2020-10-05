@@ -15,6 +15,9 @@ export class OfficeDetailComponent implements OnChanges {
   @Output() unselect = new EventEmitter<string>();
   @Output() save = new EventEmitter<Office>();
 
+  //flag showButton
+  @Output() showButton = new EventEmitter<Boolean>();
+
   submitted:boolean;
   addMode = false;
   editingOffice: Office;
@@ -48,6 +51,7 @@ export class OfficeDetailComponent implements OnChanges {
   };
 
   clear() {
+    this.showButton.emit(true);
     this.unselect.emit();
   }
 

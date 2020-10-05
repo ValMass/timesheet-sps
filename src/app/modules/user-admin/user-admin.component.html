@@ -1,15 +1,17 @@
 <div class="tab-user ">
   <button (click)="exportinXlsx()">Esporta in .Xlsx</button>
-  <list-header title="Aggiungi Utenti" (add)="openDialog()">
+  <list-header title="Aggiungi Utenti" (add)="openDialog()"
+   *ngIf= "showButton">
   </list-header>
   <div *ngIf="users">
     <app-user-admin-list class="table table-striped" *ngIf="!selected "
       [useradmins]="users"
       (selected)="select($event)"
-      (deleted)="askToDelete($event)">
+      (deleted)="askToDelete($event)"
+      (showButton)="changeShowButton($event)">
     </app-user-admin-list>
 
-    <app-user-admin-detail *ngIf="selected" [userAdmin]="selected" (unselect)="clear()" (save)="save($event)">
+    <app-user-admin-detail *ngIf="selected" [userAdmin]="selected" (showButton)="changeShowButton($event)" (unselect)="clear()" (save)="save($event)">
     </app-user-admin-detail>
   </div>
 

@@ -23,7 +23,11 @@ export class OfficeListComponent {
     @Output() selected = new EventEmitter<Office>();
     @Output() associate = new EventEmitter<Office>();
 
+    //showbutton
+    @Output() showButton = new EventEmitter<Boolean>();
+
     selectOffice(office: Office) {
+        this.showButton.emit(false);
         this.selected.emit(office);
     }
 

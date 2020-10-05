@@ -24,6 +24,7 @@ export class UserAdminComponent implements OnInit {
   userToDelete: UserAdmin;
   showModal = false;
   message = '';
+  showButton : boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -176,6 +177,10 @@ export class UserAdminComponent implements OnInit {
   }
   closeModal() {
     this.showModal = false;
+  }
+  //flag showbutton
+  changeShowButton(flag){
+    this.showButton = flag;
   }
 
 

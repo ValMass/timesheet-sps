@@ -23,6 +23,10 @@ export class CustomerDetailComponent implements OnChanges {
   editingCustomer: Customer;
   officeslist: any[] = [];
 
+    //flag showButton
+    @Output() showButton = new EventEmitter<Boolean>();
+
+
   constructor(
     private router: Router,
     public dialog: MatDialog,
@@ -142,6 +146,7 @@ export class CustomerDetailComponent implements OnChanges {
   };
 
   clear() {
+    this.showButton.emit(true);
     this.unselect.emit();
   }
 

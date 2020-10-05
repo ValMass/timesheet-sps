@@ -23,6 +23,14 @@ export class CustomersComponent implements OnInit {
   showAcModal = false;
   message: string = '';
 
+  //showbutton
+  showButton : boolean = true;
+
+  //flag showbutton
+  changeShowButton(flag){
+    this.showButton = flag;
+  }
+
   constructor(
     private customerService: CustomerService,
     private toastrService: ToastrService,

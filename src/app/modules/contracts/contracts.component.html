@@ -4,6 +4,7 @@
     title="Aggiungi Contratti"
     (add)="enableAddMode()"
     [selected]="selected"
+    *ngIf= "showButton"
     >
     </list-header>
     <!-- <div *ngIf="customers$ | async as customers"> -->
@@ -12,14 +13,17 @@
             *ngIf="!selected "
             [contracts]="contracts"
             (selected)="select($event)"
-            (deleted)="askToDelete($event)">
+            (deleted)="askToDelete($event)"
+            (showButton)="changeShowButton($event)">
+
         </contract-list>
 
         <contract-detail
-            *ngIf="selected" 
+            *ngIf="selected"
             [contract]="selected"
             (unselect)="clear()"
             (save)="save($event)"
+            (showButton)="changeShowButton($event)"
       ></contract-detail>
     </div>
 

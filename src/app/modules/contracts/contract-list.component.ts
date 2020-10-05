@@ -10,7 +10,7 @@ import { Contract } from '@app/modules/contracts/contract';
               overflow-inline: scroll;
             }
           }
-          
+
           .table>tbody>tr>td {
             vertical-align: middle;
           }
@@ -22,9 +22,13 @@ export class ContractListComponent  {
     @Input() contracts: Contract[];
     @Output() deleted = new EventEmitter<Contract>();
     @Output() selected = new EventEmitter<Contract>();
-      
+
+    //showbutton
+    @Output() showButton = new EventEmitter<Boolean>();
+
 
     selectContract(contract: Contract) {
+        this.showButton.emit(false);
         this.selected.emit(contract);
     }
 

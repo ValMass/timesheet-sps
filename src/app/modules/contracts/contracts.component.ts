@@ -19,6 +19,14 @@ export class ContractsComponent implements OnInit {
     contractToDelete: Contract;
     message: string = '';
 
+    //showbutton
+  showButton : boolean = true;
+
+  //flag showbutton
+  changeShowButton(flag){
+    this.showButton = flag;
+  }
+
     constructor(private contractService: ContractService,
         public dialog: MatDialog,
         private toastrService: ToastrService
@@ -83,7 +91,7 @@ export class ContractsComponent implements OnInit {
 
     getContracts() {
 
-        //this.clear();        
+        //this.clear();
         this.contractService.getAllContracts().subscribe(data => {
 
             this.contracts = data['data'];

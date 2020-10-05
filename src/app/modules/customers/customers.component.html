@@ -3,7 +3,8 @@
     <list-header
     title="Aggiungi Clienti"
     (add)="enableAddMode()"
-    [selected]="selected">
+    [selected]="selected"
+    *ngIf= "showButton">
     </list-header>
 
     <!-- <div *ngIf="customers$ | async as customers"> -->
@@ -13,6 +14,7 @@
             [customers]="customers"
             (selected)="select($event)"
             (deleted)="askToDelete($event)"
+            (showButton)="changeShowButton($event)"
             >
         </customer-list>
 
@@ -21,6 +23,7 @@
             [customer]="selected"
             (unselect)="clear()"
             (save)="save($event)"
+            (showButton)="changeShowButton($event)"
           ></customer-detail>
     </div>
 

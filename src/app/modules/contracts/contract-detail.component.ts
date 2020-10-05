@@ -20,6 +20,9 @@ export class ContractDetailComponent implements OnChanges {
   addMode = false;
   editingContract: Contract;
 
+  //flag showButton
+  @Output() showButton = new EventEmitter<Boolean>();
+
   constructor(private router:Router) {
     //navigate to list and avoid strange routing behaviour on back click
     // router.events
@@ -54,6 +57,7 @@ export class ContractDetailComponent implements OnChanges {
   };
 
   clear() {
+    this.showButton.emit(true);
     this.unselect.emit();
   }
 
