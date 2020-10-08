@@ -37,6 +37,7 @@ import { AuthInterceptor } from './_helper/expired.interceptor';
 import { Router } from '@angular/router';
 import { AddActivityComponent } from './modules/user-admin/add-activity/add-activity.component';
 import { AddCustomerOfficeComponent } from './modules/customers/components/add-customer-office/add-customer-office.component';
+import { TimesheetAddEventComponent } from './modules/timesheet/components/timesheet-add-event/timesheet-add-event.component';
 
 
 @NgModule({
@@ -91,6 +92,7 @@ import { AddCustomerOfficeComponent } from './modules/customers/components/add-c
     AddActivityComponent,
     UserAdminCreationComponent,
     AddCustomerOfficeComponent,
+    TimesheetAddEventComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

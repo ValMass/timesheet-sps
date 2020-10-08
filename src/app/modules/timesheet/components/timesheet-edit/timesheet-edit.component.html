@@ -56,3 +56,19 @@
     >
     </mwl-calendar-month-view>
 </div>
+<div class="luce" *ngIf="ismodifiable;">
+  <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="openAddEventDialog()">Aggiungi evento</button>
+  <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="askTosaveCurrentTimesheet()">Salva</button>
+  <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="printEvents()">Dincibacco</button>
+ <!-- <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="askToAcceptTimesheet()">Accetta</button>
+  <button class="btn btn-primary mt-5 col-3" (click)="askToFreeze()">Accetta come amministratore</button>
+  <button class="btn btn-primary mt-5 col-3" (click)="askToPayTimesheet()">Pagato</button>
+  <button class="btn btn-primary mt-5 col-3" (click)="askToResetState()">Azzera stato</button>-->
+</div>
+<app-modal class="modal-customer" [message]="confirmationMessage" [isOpen]="showModalSave" (handleNo)="closeConfirmationModal()"
+  (handleYes)="saveCurrentTimesheet()">
+</app-modal>
+<!--
+<app-modal class="modal-customer" [message]="confirmationMessage" [isOpen]="showModalFreeze" (handleNo)="closeConfirmationModal()"
+  (handleYes)="freezeCurrentTimesheet()">
+</app-modal>-->
