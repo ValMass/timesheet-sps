@@ -17,13 +17,13 @@ export class SpanTooltipComponent implements OnInit {
   tooltip(state){
     let text;
 
-    if(state === 1){
+    if(state === '1'){
       text="Timesheet in modifca"
     }
-    else if(state === 2){
+    else if(state === '2'){
       text ="Timesheet confermato dalla risorsa"
     }
-    else if(state === 3){
+    else if(state === '3'){
       text="Timesheet confermato Dall'amministratore"
     }
     else {
