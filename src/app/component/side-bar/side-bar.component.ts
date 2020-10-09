@@ -26,7 +26,7 @@ export class SideBarComponent implements OnInit {
     this.destinationTimesheet = currentU.id;
     console.log(this.destinationTimesheet);
     // tslint:disable-next-line: triple-equals
-    if ( currentU.isadmin == '1') {
+    if ( currentU.isadmin == '1' ) {
       console.log('uno');
       this.isadmin = true;
     } else {

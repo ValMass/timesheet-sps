@@ -60,6 +60,11 @@ export class TimesheetEditComponent implements OnInit {
 
   currentTimesheetUserId = 0;
   currentTimesheet: Timesheet;
+
+  // queste due proprieta governano la presenza o meno dei bottoni per poter modificare gli eventi
+  //la prima decide se vedo i bottoni dell amministratore o dell utente
+  adminStyle = false;
+  //la seconda decide se mostrare o meno i bottoni in tutti e due i casi
   ismodifiable = true;
 
 
@@ -86,6 +91,12 @@ export class TimesheetEditComponent implements OnInit {
     },
   ];
 
+  // queste label governano l'apertura delle modali che chiedono conferma al click dei vari bottoni
+  showAcceptAsUser = false;
+  showAcceptAsAdmin = false;
+  showAcceptAsFinally = false;
+  showResetStatus = false;
+
 
   constructor(
     public dialog: MatDialog,
@@ -106,9 +117,11 @@ export class TimesheetEditComponent implements OnInit {
         if ( params.id ) {
           console.log("prendo id dal routing");
           this.currentTimesheetUserId = params.id;
+          this.adminStyle = true;
         } else {
           console.log("prendo id local storage");
           this.currentTimesheetUserId = this.getIdFromLocalStorage();
+          this.adminStyle = false;
         }
 
     },
@@ -153,14 +166,16 @@ export class TimesheetEditComponent implements OnInit {
           prova = result.data;
           console.log(result.data);
         } else {
-          console.log(result);
+          this.toastrService.error(result.message);
+          return false;
         }
       },
       error => {
-
+        this.toastrService.error('Http Error');
+        return false;
       }
     );
-
+    this.closeConfirmationModal();
   }
 
   myPreviousClick() {
@@ -187,6 +202,7 @@ export class TimesheetEditComponent implements OnInit {
     );
     this.checkIfCanModify();
   }
+
   myNextClick() {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
@@ -226,6 +242,7 @@ export class TimesheetEditComponent implements OnInit {
     }
     console.log(JSON.stringify(events));
   }
+
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
@@ -255,7 +272,9 @@ export class TimesheetEditComponent implements OnInit {
       year: this.viewDate.getFullYear(),
       dayjson: this.events,
       userid: this.currentTimesheetUserId.toString(),
-      freezed: '0',
+      validatedbyadmin: '0',
+      validatebyuser: '0',
+      validatebyfinal: '0',
       state: '0',
     };
     return timesheet;
@@ -372,8 +391,23 @@ export class TimesheetEditComponent implements OnInit {
     console.log(this.currentTimesheet);
     this.confirmationMessage = 'Vuoi salvare il timesheet  del ' + this.currentTimesheet.month + ' ' + this.currentTimesheet.year;
   }
+
+
+  askToAcceptAsUser() {}
+  askToAcceptAsAdmin() {}
+  askToAcceptAsFinally() {}
+  askToResetStatus() {}
+
+
+  /**
+   * questa funzione chiude tutte le modali che chiedono conferma delle operazioni
+   */
   closeConfirmationModal() {
     this.showModalSave = false;
+    this.showAcceptAsUser = false;
+    this.showAcceptAsAdmin = false;
+    this.showAcceptAsFinally = false;
+    this.showResetStatus = false;
 
   }
 }

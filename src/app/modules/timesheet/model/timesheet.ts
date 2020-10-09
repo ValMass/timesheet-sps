@@ -6,9 +6,11 @@ export interface Timesheet {
   state: string;
   dayjson?: Array<any>;
   validatedbyadmin?: string;
-  validationtimestamp?: string;
-  freezed?: string;
-  freezedtimestamp?: string;
+  validatebyadmintimestamp?: string;
+  validatebyuser?: string;
+  validatebyusertimestamp?: string;
+  validatebyfinal?: string;
+  validatebyfinaltimestamp?: string;
   workeddays?: string;
   workedhours?: string;
   deseaseday?: string;
