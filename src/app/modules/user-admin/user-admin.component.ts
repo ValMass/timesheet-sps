@@ -80,7 +80,7 @@ export class UserAdminComponent implements OnInit {
   openDialog() {
     const dialogRef = this.dialog.open(UserAdminCreationComponent, {
       width: '800px',
-      height: '700px',
+      height: '900px',
       data: {}
     });
     dialogRef.afterClosed().subscribe(
