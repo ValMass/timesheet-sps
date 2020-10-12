@@ -142,9 +142,11 @@ export class TimesheetEditComponent implements OnInit {
           console.log(this.currentTimesheet);
           this.events = this.currentTimesheet.dayjson;
           console.log(this.events);
+          this.updateStateLabel();
         } else {
           console.log(result);
           this.currentTimesheet = this.createEmptyTimesheet();
+          this.updateStateLabel();
         }
       },
       error => {
@@ -153,6 +155,7 @@ export class TimesheetEditComponent implements OnInit {
     );
 
     console.log(this.currentTimesheetUserId);
+
   }
 
   myPreviousClick() {
@@ -166,10 +169,12 @@ export class TimesheetEditComponent implements OnInit {
           this.loadCurrentMonthTimesheet(timesheet.data);
           console.log(this.currentTimesheet.dayjson);
           this.events = this.currentTimesheet.dayjson;
+          this.updateStateLabel();
 
         } else {
 
           this.currentTimesheet = this.createEmptyTimesheet();
+          this.updateStateLabel();
         }
 
       },
@@ -178,6 +183,7 @@ export class TimesheetEditComponent implements OnInit {
       }
     );
     this.checkIfCanModify();
+
   }
 
   myNextClick() {
@@ -191,10 +197,11 @@ export class TimesheetEditComponent implements OnInit {
           this.loadCurrentMonthTimesheet(timesheet.data);
           console.log(this.currentTimesheet.dayjson);
           this.events = this.currentTimesheet.dayjson;
-
+          this.updateStateLabel();
         } else {
 
           this.currentTimesheet = this.createEmptyTimesheet();
+          this.updateStateLabel();
         }
 
       },
@@ -203,6 +210,7 @@ export class TimesheetEditComponent implements OnInit {
       }
     );
     this.checkIfCanModify();
+
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -335,7 +343,7 @@ export class TimesheetEditComponent implements OnInit {
     this.currentTimesheet.state = this.currentTimesheet.state;
     switch (this.currentTimesheet.state) {
       case '0':
-        this.timeshetStatus = "Errato";
+        this.timeshetStatus = "Non inizializzato";
         break;
 
       case '1':
@@ -379,10 +387,11 @@ export class TimesheetEditComponent implements OnInit {
     this.timesheetService.saveTimesheet(this.currentTimesheet).subscribe(
       result => {
         if ( result.status === 'done') {
-          let prova: Timesheet;
-          prova = result.data;
-          console.log(result.data);
+          this.toastrService.success('Timesheet salvato');
+          this.loadCurrentMonthTimesheet(result.data);
+          console.log("saved");
         } else {
+          console.log("error");
           this.toastrService.error(result.message);
           return false;
         }
