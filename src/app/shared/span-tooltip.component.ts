@@ -24,7 +24,10 @@ export class SpanTooltipComponent implements OnInit {
       text ="Timesheet confermato dalla risorsa"
     }
     else if(state === '3'){
-      text="Timesheet confermato Dall'amministratore"
+      text="Timesheet confermato dall'amministratore"
+    }
+    else if(state === '4'){
+      text="Timesheet confermato definitivamente"
     }
     else {
       text ="Timesheet non inizializzato"

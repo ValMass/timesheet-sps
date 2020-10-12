@@ -50,4 +50,75 @@ export class TimesheethttpService implements Resolve<any> {
     })
     );
   }
+
+  acceptAsUser(month, year, userid){
+    const url = environment.apiUrl + 'timesheets/acceptTimesheetAsUser.php';
+    return this.http.post<any>(url, { month, year, userid }).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+
+        return of(something);
+      } else {
+
+        return EMPTY;
+      }
+    })
+    );
+
+  }
+
+  acceptAsAdmin(month, year, userid){
+    const url = environment.apiUrl + 'timesheets/acceptTimesheetAsAdmin.php';
+    return this.http.post<any>(url, { month, year, userid }).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+
+        return of(something);
+      } else {
+
+        return EMPTY;
+      }
+    })
+    );
+
+  }
+
+  acceptAsFinally(month, year, userid){
+    const url = environment.apiUrl + 'timesheets/acceptTimesheetAsFinally.php';
+    return this.http.post<any>(url, { month, year, userid }).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+
+        return of(something);
+      } else {
+
+        return EMPTY;
+      }
+    })
+    );
+
+  }
+
+
+
+  resetState(month, year, userid){
+    const url = environment.apiUrl + 'timesheets/resetTimesheetState.php';
+    return this.http.post<any>(url, { month, year, userid }).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+
+        return of(something);
+      } else {
+
+        return EMPTY;
+      }
+    })
+    );
+
+
+  }
 }

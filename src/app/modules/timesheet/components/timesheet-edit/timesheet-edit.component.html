@@ -76,17 +76,21 @@
 <app-modal class="modal-customer" [message]="confirmationMessage" [isOpen]="showModalSave" (handleNo)="closeConfirmationModal()"
   (handleYes)="saveCurrentTimesheet()">
 </app-modal>
+
 <app-modal class="modal-customer" [message]="confirmationMessage" [isOpen]="showAcceptAsUser" (handleNo)="closeConfirmationModal()"
-  (handleYes)="saveCurrentTimesheet()">
+  (handleYes)="acceptAsUser()">
 </app-modal>
+
 <app-modal class="modal-customer" [message]="confirmationMessage" [isOpen]="showAcceptAsAdmin" (handleNo)="closeConfirmationModal()"
-  (handleYes)="saveCurrentTimesheet()">
+  (handleYes)="acceptAsAdmin()">
 </app-modal>
+
 <app-modal class="modal-customer" [message]="confirmationMessage" [isOpen]="showAcceptAsFinally" (handleNo)="closeConfirmationModal()"
-  (handleYes)="saveCurrentTimesheet()">
+  (handleYes)="acceptAsFinally()">
 </app-modal>
+
 <app-modal class="modal-customer" [message]="confirmationMessage" [isOpen]="showResetStatus" (handleNo)="closeConfirmationModal()"
-  (handleYes)="saveCurrentTimesheet()">
+  (handleYes)="ResetStatus()">
 </app-modal>
 
 

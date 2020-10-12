@@ -68,9 +68,6 @@ export class TimesheetEditComponent implements OnInit {
   ismodifiable = true;
 
 
-  // variabili per le modali di conferma
-  showModalSave = false;
-  confirmationMessage = '';
 
   // action definite per gli eventi
   actions: CalendarEventAction[] = [
@@ -92,10 +89,14 @@ export class TimesheetEditComponent implements OnInit {
   ];
 
   // queste label governano l'apertura delle modali che chiedono conferma al click dei vari bottoni
+  // variabili per le modali di conferma
+  showModalSave = false;
   showAcceptAsUser = false;
   showAcceptAsAdmin = false;
   showAcceptAsFinally = false;
   showResetStatus = false;
+  // questo e' il messaggio visualizzato dalle modali di conferma
+  confirmationMessage = '';
 
 
   constructor(
@@ -152,30 +153,6 @@ export class TimesheetEditComponent implements OnInit {
     );
 
     console.log(this.currentTimesheetUserId);
-  }
-
-  saveCurrentTimesheet() {
-    const month = this.viewDate.getMonth();
-    const year = this.viewDate.getFullYear();
-    this.currentTimesheet.dayjson = this.events;
-    console.log(this.currentTimesheet.dayjson);
-    this.timesheetService.saveTimesheet(this.currentTimesheet).subscribe(
-      result => {
-        if ( result.status === 'done') {
-          let prova: Timesheet;
-          prova = result.data;
-          console.log(result.data);
-        } else {
-          this.toastrService.error(result.message);
-          return false;
-        }
-      },
-      error => {
-        this.toastrService.error('Http Error');
-        return false;
-      }
-    );
-    this.closeConfirmationModal();
   }
 
   myPreviousClick() {
@@ -387,17 +364,156 @@ export class TimesheetEditComponent implements OnInit {
   ///////////////////////////////////////////////////////////////////
 
   askTosaveCurrentTimesheet() {
+    const month = this.viewDate.getMonth();
+    const year = this.viewDate.getFullYear();
     this.showModalSave = true;
+    console.log(this.currentTimesheet);
+    this.confirmationMessage = 'Vuoi salvare il timesheet  del ' + month + '/' + year;
+  }
+
+  saveCurrentTimesheet() {
+    const month = this.viewDate.getMonth();
+    const year = this.viewDate.getFullYear();
+    this.currentTimesheet.dayjson = this.events;
+    console.log(this.currentTimesheet.dayjson);
+    this.timesheetService.saveTimesheet(this.currentTimesheet).subscribe(
+      result => {
+        if ( result.status === 'done') {
+          let prova: Timesheet;
+          prova = result.data;
+          console.log(result.data);
+        } else {
+          this.toastrService.error(result.message);
+          return false;
+        }
+      },
+      error => {
+        this.toastrService.error('Http Error');
+        return false;
+      }
+    );
+    this.closeConfirmationModal();
+  }
+
+  askToAcceptAsUser() {
+    this.showAcceptAsUser = true;
     console.log(this.currentTimesheet);
     this.confirmationMessage = 'Vuoi salvare il timesheet  del ' + this.currentTimesheet.month + ' ' + this.currentTimesheet.year;
   }
 
+  acceptAsUser() {
+    const month = this.viewDate.getMonth();
+    const year = this.viewDate.getFullYear();
+    const userid = this.currentTimesheetUserId;
+    this.timesheetService.acceptAsUser(month, year, userid).subscribe(
+      result => {
+        if( result.status === "done" ){
+          this.loadCurrentMonthTimesheet(result.data);
+          this.toastrService.success('Timesheet accettato dall utente ');
+          this.updateStateLabel();
 
-  askToAcceptAsUser() {}
-  askToAcceptAsAdmin() {}
-  askToAcceptAsFinally() {}
-  askToResetStatus() {}
+        } else {
+          this.toastrService.error(result.message);
+        }
+      },
+       error => {
+        this.toastrService.error(error);
+       }
+    );
+    this.closeConfirmationModal();
+  }
 
+  askToAcceptAsAdmin() {
+    this.showAcceptAsAdmin = true;
+    console.log(this.currentTimesheet);
+    this.confirmationMessage = 'Vuoi confermare il timesheet  del ' + this.currentTimesheet.month + ' ' + this.currentTimesheet.year;
+    console.log("askToAcceptAsAdmin");
+  }
+
+  acceptAsAdmin() {
+    const month = this.viewDate.getMonth();
+    const year = this.viewDate.getFullYear();
+    const userid = this.currentTimesheetUserId;
+    this.timesheetService.acceptAsAdmin(month, year, userid).subscribe(
+      result => {
+        if(result.status === "done"){
+          this.loadCurrentMonthTimesheet(result.data);
+          this.toastrService.success('Timesheet accettato dall amministrazione ');
+          this.updateStateLabel();
+
+        } else {
+          this.toastrService.error(result.message);
+        }
+      },
+       error => {
+        this.toastrService.error(error);
+       }
+    );
+    this.closeConfirmationModal();
+
+  }
+
+  askToAcceptAsFinally() {
+    this.showAcceptAsFinally = true;
+    console.log(this.currentTimesheet);
+    this.confirmationMessage = 'Vuoi confermare definitivamente il timesheet  del '
+    + this.currentTimesheet.month + ' ' + this.currentTimesheet.year;
+    console.log("askToAcceptAsUser");
+  }
+
+  acceptAsFinally() {
+    const month = this.viewDate.getMonth();
+    const year = this.viewDate.getFullYear();
+    const userid = this.currentTimesheetUserId;
+    this.timesheetService.acceptAsFinally(month, year, userid).subscribe(
+      result => {
+        if(result.status === "done"){
+          this.loadCurrentMonthTimesheet(result.data);
+          this.toastrService.success('Timesheet accettato definitivamente ');
+          this.updateStateLabel();
+
+        } else {
+          this.toastrService.error(result.message);
+        }
+      },
+       error => {
+        this.toastrService.error(error);
+       }
+    );
+    this.closeConfirmationModal();
+
+
+  }
+
+  askToResetStatus() {
+    this.showResetStatus = true;
+    console.log(this.currentTimesheet);
+    this.confirmationMessage = 'Vuoi rendere nuovamente modificabile il timesheet  del '
+    + this.currentTimesheet.month + ' ' + this.currentTimesheet.year;
+    console.log("askToAcceptAsUser");
+  }
+
+  ResetStatus() {
+    const month = this.viewDate.getMonth();
+    const year = this.viewDate.getFullYear();
+    const userid = this.currentTimesheetUserId;
+    this.timesheetService.resetState(month, year, userid).subscribe(
+      result => {
+        if(result.status === "done"){
+          this.loadCurrentMonthTimesheet(result.data);
+          this.toastrService.success('Timesheet torna modificabile');
+          this.updateStateLabel();
+
+        } else {
+          this.toastrService.error(result.message);
+        }
+      },
+       error => {
+        this.toastrService.error(error);
+       }
+    );
+    this.closeConfirmationModal();
+  }
 
   /**
    * questa funzione chiude tutte le modali che chiedono conferma delle operazioni
