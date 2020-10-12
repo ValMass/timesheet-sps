@@ -11,6 +11,7 @@ import { UserAdminCreationComponent } from './user-admin-creation/user-admin-cre
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { AddActivityComponent } from './add-activity/add-activity.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 
@@ -29,6 +30,7 @@ import { AddActivityComponent } from './add-activity/add-activity.component';
     MatExpansionModule,
     MatDatepickerModule,
     NgSelectModule,
+    MatCheckboxModule,
   ],
   entryComponents: [
     UserAdminCreationComponent,
