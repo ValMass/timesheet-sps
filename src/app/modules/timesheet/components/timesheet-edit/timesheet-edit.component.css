@@ -1,0 +1,20 @@
+.isEdit:hover {
+  cursor: initial;
+}
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+  background-color: #962d37;
+  border-color: #962d37;
+  box-shadow: none;
+}
+
+.luce {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.timesheet-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}

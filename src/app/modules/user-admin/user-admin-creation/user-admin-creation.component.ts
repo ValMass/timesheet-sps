@@ -1,7 +1,6 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
@@ -18,9 +17,6 @@ export const MY_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
-
-
-
 
 @Component({
   templateUrl: './user-admin-creation.component.html',
@@ -41,53 +37,55 @@ export const MY_FORMATS = {
 export class UserAdminCreationComponent implements OnInit {
   public submitted: boolean = false;
   public officesList: any[];
-  profileForm = new FormGroup({
-
-    username: new FormControl('', [ Validators.required, ] ),
-    password: new FormControl('', [ Validators.required, ] ),
-    email: new FormControl('', [ Validators.required, ] ),
-    userscreationdate: new FormControl('', [ Validators.required, ] ),
-    role: new FormControl('', [ Validators.required, ] ),
-    regnuminps: new FormControl('', [ Validators.required, ] ),
-    regnumsps: new FormControl('', [ Validators.required, ] ),
-    isadmin: new FormControl(''),
-    name: new FormControl(''),
-    surname: new FormControl(''),
-    address: new FormControl('', [ Validators.required, ] ),
-    birthdate : new FormControl(''),
-    phonenumber1: new FormControl('', [ Validators.required, ]),
-    phonenumber2: new FormControl(''),
-    sededilavoro: new FormControl(''),
-  });
-
-
+  profileForm: FormGroup;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: string,
+              private fb: FormBuilder,
               private dialogRef: MatDialogRef<UserAdminCreationComponent>,
               private officesService: OfficesService
               ) { }
 
   ngOnInit(): void {
+    this.profileForm = this.buildProfileForm();
+
     let tmp = new Date();
     let newyear = tmp.getFullYear() - 18;
-    let date = new Date(newyear, tmp.getMonth(), 1 );
-
-    this.profileForm.patchValue({birthdate : date});
-    this.officesService.listAllOffices().subscribe(
-      result => {
-        console.log(result.data);
-        this.officesList = result.data ;
-      },
-      error => {
-        console.log(error);
-      }
-
-    );
+    let date = new Date(newyear, tmp.getMonth(), 1);
+    this.profileForm.patchValue({birthdate: date});
+    this.officesService.listAllOffices().subscribe(res => {
+      this.officesList = res.data;
+    });
   }
+
   get f() { return this.profileForm.controls; }
 
   submit() {
     this.dialogRef.close({ data: this.profileForm.value });
+  }
+
+  buildProfileForm() {
+    const profileForm = this.fb.group({
+      username: ['', [ Validators.required]],
+      password: ['', [ Validators.required]],
+      email: ['', [ Validators.required] ],
+      userscreationdate: ['', [ Validators.required]],
+      role: ['', [ Validators.required]],
+      regnuminps: ['', [ Validators.required]],
+      regnumsps: ['', [ Validators.required]],
+      isadmin: [''],
+      name: [''],
+      surname: [''],
+      address: ['', [ Validators.required]],
+      birthdate : [''],
+      phonenumber1: ['', [ Validators.required]],
+      phonenumber2: [''],
+      sededilavoro: [''],
+      ral: [''],
+      rimborsoStimato: [''],
+      pagaGiorno: [''],
+      buonipastobool: [''],
+    });
+    return profileForm;
   }
 
   close() {

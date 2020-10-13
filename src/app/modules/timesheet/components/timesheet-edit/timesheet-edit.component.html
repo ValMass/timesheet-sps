@@ -19,8 +19,10 @@
         >
           Today
         </div>
-        <div
+        <button
           class="btn btn-primary btn-cst-nav"
+          [ngClass]="{'disabled': isDisabled()}"
+          [disabled]="isDisabled()"
           mwlCalendarNextView
           [view]="view"
           [(viewDate)]="viewDate"
@@ -28,7 +30,7 @@
           (mwlClick)="myNextClick()"
         >
           Next
-        </div>
+      </button>
       </div>
     </div>
     <div class="col-md-4">
@@ -36,7 +38,7 @@
     </div>
 
     <div class="col-md-4">
-      <h5 class="btn btn-primary text-light btn-cst-nav">{{ timeshetStatus }}</h5>
+      <h5 class="btn btn-primary text-light btn-cst-nav isEdit">{{ timeshetStatus }}</h5>
     </div>
   </div>
   <br />
@@ -57,19 +59,16 @@
     </mwl-calendar-month-view>
 </div>
 <div class="luce" *ngIf="ismodifiable;">
-  <div *ngIf="adminStyle;">
-    <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="openAddEventDialog()">Aggiungi evento</button>
-    <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="askTosaveCurrentTimesheet()">Salva</button>
-    <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="askToAcceptAsUser()">Accetta come utente</button>
-    <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="askToAcceptAsAdmin()">Accetta come amministratore</button>
-    <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="askToAcceptAsFinally()">Accetta definitivamente</button>
-    <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="askToResetStatus()">Azzera stato</button>
+  <div class="timesheet-controls">
+    <button class="btn btn-primary mt-5 mr-1 w-25 btn-cst" (click)="openAddEventDialog()">Aggiungi evento</button>
+    <button class="btn btn-warning mt-5 mr-1 w-25 btn-cst" (click)="askTosaveCurrentTimesheet()">Salva</button>
+    <button class="btn btn-primary mt-5 mr-1 w-25 btn-cst" (click)="askToAcceptAsUser()">Accetta come utente</button>
   </div>
-  <ng-template #elseBlock>
-    <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="openAddEventDialog()">Aggiungi evento</button>
-    <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="askTosaveCurrentTimesheet()">Salva</button>
-    <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="askToAcceptAsUser()">Accetta definitivamente</button>
-  </ng-template>
+  <div *ngIf="adminStyle;" class="timesheet-controls">
+    <button class="btn btn-primary mt-5 mr-1 w-25 btn-cst" (click)="askToAcceptAsAdmin()">Accetta come amministratore</button>
+    <button class="btn btn-success mt-5 mr-1 w-25 btn-cst" (click)="askToAcceptAsFinally()">Accetta definitivamente</button>
+    <button class="btn btn-primary mt-5 mr-1 w-25 btn-cst" (click)="askToResetStatus()">Azzera stato</button>
+  </div>
   <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="printEvents()">Dincibacco</button>
 </div>
 

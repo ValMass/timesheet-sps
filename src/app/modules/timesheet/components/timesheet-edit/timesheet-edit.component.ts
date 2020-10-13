@@ -186,6 +186,10 @@ export class TimesheetEditComponent implements OnInit {
 
   }
 
+  isDisabled() {
+    return new Date().getMonth() === this.viewDate.getMonth() ? true : false;
+  }
+
   myNextClick() {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
