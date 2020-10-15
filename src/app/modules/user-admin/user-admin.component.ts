@@ -10,6 +10,8 @@ import { UserAdminCreationComponent } from './user-admin-creation/user-admin-cre
 import { ToastrService } from 'ngx-toastr';
 import { AnagraphicService } from './services/anagraphic.service';
 import { AuthGuard } from '@app/_helper/auth.guard';
+import { FileService } from '@app/shared/services/file.service';
+import * as fileSaver from 'file-saver';
 
 
 @Component({
@@ -32,6 +34,7 @@ export class UserAdminComponent implements OnInit {
     private userAdminService: UserAdminService,
     private anagraphicService: AnagraphicService,
     private toastrService: ToastrService,
+    private fileservice: FileService
   ) { }
 
   ngOnInit(): void {
@@ -225,11 +228,8 @@ export class UserAdminComponent implements OnInit {
 
   }
 
-  exportinXlsx() {
-    const viewDate = new Date();
-    const month = viewDate.getMonth();
-    const year = viewDate.getFullYear();
-    this.userAdminService.exportUserInfoInXlmx( month, year ).subscribe(
+
+    /*this.userAdminService.exportUserInfoInXlmx( month, year ).subscribe(
       result => {
         console.log(result);
       },
@@ -237,6 +237,6 @@ export class UserAdminComponent implements OnInit {
         console.log(error);
       }
 
-    );
-  }
+    );*/
+
 }
