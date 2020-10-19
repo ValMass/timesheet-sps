@@ -1,3 +1,4 @@
+import { EconomicData } from './models/EconomicData';
 import { Anagraphic } from './models/Anagraphic';
 import { Component, OnInit } from '@angular/core';
 import { UserAdmin } from './models/User-admin';
@@ -26,7 +27,7 @@ export class UserAdminComponent implements OnInit {
   userToDelete: UserAdmin;
   showModal = false;
   message = '';
-  showButton : boolean = true;
+  showButton: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -53,7 +54,7 @@ export class UserAdminComponent implements OnInit {
     const year = viewDate.getFullYear();
     this.userAdminService.getListForUserList(month, year).subscribe(
       res => {
-        if (res.status === "done" ) {
+        if (res.status === "done") {
           this.users = res.data;
         }
       }
@@ -77,7 +78,11 @@ export class UserAdminComponent implements OnInit {
     tmpanag.phonenumber1 = dialogRes['phonenumber1'];
     tmpanag.phonenumber2 = dialogRes['phonenumber2'];
     tmpanag.sededilavoro = dialogRes['sededilavoro'];
-    return { usertoadd: tmpuser, anagtoadd: tmpanag };
+    const tmpeco = new EconomicData();
+    tmpeco.ral = dialogRes['ral'];
+    tmpeco.pagamensile = dialogRes['pagamensile'];
+    tmpeco.rimborsomensile = dialogRes['rimborsostimato'];
+    return { usertoadd: tmpuser, anagtoadd: tmpanag, economictoadd: tmpeco };
   }
 
   openDialog() {
@@ -90,41 +95,50 @@ export class UserAdminComponent implements OnInit {
       res => {
         if (res) {
           let myObj = this.parseDialogFormRes(res['data']);
-          this.anagraphicService.addAnagraphicForUser(myObj.anagtoadd).subscribe(
-            next => {
-              console.log(next);
-              if (next['status'] === 'error') {
-                this.toastrService.error(res.toString());
-              } else {
-                myObj.usertoadd.anagraphicid = next['data'].id;
-                this.userAdminService.createNewUser(myObj.usertoadd).subscribe(
-                  result => {
-                    if (result['status'] === 'error') {
-                      this.toastrService.error(result['message']);
-                      return;
-                    } else {
-                      let user = result['data'];
-                      const newUser = new UserAdmin();
-                      newUser.id = user['id'];
-                      newUser.username = user['username'];
-                      newUser.password = user['password'];
-                      newUser.email = user['email'];
-                      newUser.role = user['role'];
-                      newUser.regnuminps = user['regnuminps'];
-                      newUser.regnumsps = user['regnumsps'];
-                      newUser.userscreationdate = new Date().toString();
-                      newUser.anagraphicid = result['data'].id;
-                      newUser.phonenumber1 = next['phonenumber1'];
-                      newUser.phonenumber2 = next['phonenumber2'];
-                      this.users = [...this.users, newUser];
-                    }
-                  });
-              }
-            },
-            error => {
-              this.toastrService.error('Errore http');
+          this.anagraphicService.addEconomicData(myObj.economictoadd).subscribe(res => {
+            console.log('economicData:', res);
+            if (res['status'] === 'error') {
+              this.toastrService.error(res.toString());
+              return;
             }
-          );
+            myObj.anagtoadd.economicdataid = res['data'].id;
+            this.anagraphicService.addAnagraphicForUser(myObj.anagtoadd).subscribe(
+              next => {
+                console.log(next);
+                if (next['status'] === 'error') {
+                  this.toastrService.error(res.toString());
+                } else {
+                  myObj.usertoadd.anagraphicid = next['data'].id;
+                  this.userAdminService.createNewUser(myObj.usertoadd).subscribe(
+                    result => {
+                      if (result['status'] === 'error') {
+                        this.toastrService.error(result['message']);
+                        return;
+                      } else {
+                        let user = result['data'];
+                        const newUser = new UserAdmin();
+                        newUser.id = user['id'];
+                        newUser.username = user['username'];
+                        newUser.password = user['password'];
+                        newUser.email = user['email'];
+                        newUser.role = user['role'];
+                        newUser.regnuminps = user['regnuminps'];
+                        newUser.regnumsps = user['regnumsps'];
+                        newUser.userscreationdate = new Date().toString();
+                        newUser.anagraphicid = result['data'].id;
+                        newUser.phonenumber1 = next['phonenumber1'];
+                        newUser.phonenumber2 = next['phonenumber2'];
+                        this.users = [...this.users, newUser];
+                      }
+                    });
+                }
+              },
+              error => {
+                this.toastrService.error('Errore http');
+              }
+            );
+          })
+
         }
       }
     );
@@ -136,7 +150,7 @@ export class UserAdminComponent implements OnInit {
     const year = viewDate.getFullYear();
     this.userAdminService.getListForUserList(month, year).subscribe(
       res => {
-        if (res.status === "done" ) {
+        if (res.status === "done") {
           this.users = res.data;
         }
       }
@@ -182,7 +196,7 @@ export class UserAdminComponent implements OnInit {
     this.showModal = false;
   }
   //flag showbutton
-  changeShowButton(flag){
+  changeShowButton(flag) {
     this.showButton = flag;
   }
 
@@ -227,16 +241,5 @@ export class UserAdminComponent implements OnInit {
     this.clear();
 
   }
-
-
-    /*this.userAdminService.exportUserInfoInXlmx( month, year ).subscribe(
-      result => {
-        console.log(result);
-      },
-      error => {
-        console.log(error);
-      }
-
-    );*/
 
 }

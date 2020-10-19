@@ -16,5 +16,5 @@ export class Anagraphic {
   contractid: string;
   phonenumber1: string;
   phonenumber2: string;
-
+  economicdataid: string;
 }

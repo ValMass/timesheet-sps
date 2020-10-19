@@ -81,8 +81,8 @@ export class UserAdminCreationComponent implements OnInit {
       phonenumber2: [''],
       sededilavoro: [''],
       ral: [''],
-      rimborsoStimato: [''],
-      pagaGiorno: [''],
+      rimborsostimato: [''],
+      pagamensile: [''],
       buonipastobool: [''],
     });
     return profileForm;
