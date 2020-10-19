@@ -69,6 +69,13 @@ export class AnagraphicService {
     );
   }
 
+  //economic data
+  addEconomicData(economicData) {
+    const url = environment.apiUrl + 'economicData/createEconomicData.php';
+    return this.http.post(url , economicData);
+    // TODO
+  }
+
 }
 
 
