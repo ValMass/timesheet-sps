@@ -90,6 +90,7 @@ export class UserAdminComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(
       res => {
+        console.log(res);
         if (res) {
           let myObj = this.parseDialogFormRes(res['data']);
           this.anagraphicService.addEconomicData(myObj.economictoadd).subscribe(res => {
@@ -115,6 +116,7 @@ export class UserAdminComponent implements OnInit {
                         let user = result['data'];
                         const newUser = new UserAdmin();
                         newUser.id = user['id'];
+                        newUser.name = user['name'];
                         newUser.username = user['username'];
                         newUser.password = user['password'];
                         newUser.email = user['email'];
@@ -126,6 +128,8 @@ export class UserAdminComponent implements OnInit {
                         newUser.phonenumber1 = next['phonenumber1'];
                         newUser.phonenumber2 = next['phonenumber2'];
                         this.users = [...this.users, newUser];
+                        //console.log("user: ", user);
+                        console.log( "users: " ,this.users)
                       }
                     });
                 }
