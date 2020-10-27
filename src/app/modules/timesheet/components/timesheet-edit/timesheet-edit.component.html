@@ -70,6 +70,7 @@
     <button class="btn btn-primary mt-5 mr-1 w-25 btn-cst" (click)="askToResetStatus()">Azzera stato</button>
   </div>
   <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="printEvents()">Dincibacco</button>
+  <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="exportInExcel()">ExportInexcel</button>
 </div>
 
 <app-modal class="modal-customer" [message]="confirmationMessage" [isOpen]="showModalSave" (handleNo)="closeConfirmationModal()"

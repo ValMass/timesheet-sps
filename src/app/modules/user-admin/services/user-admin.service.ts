@@ -34,7 +34,7 @@ export class UserAdminService implements Resolve<UserAdmin[]> {
     return this.http.post(url, user)
       .pipe(catchError(error => {
         return EMPTY;
-      }), 
+      }),
       mergeMap(something => {
         if (something) {
           return of(something);
@@ -76,7 +76,7 @@ export class UserAdminService implements Resolve<UserAdmin[]> {
     return this.http.post<any>(url, { month , year })
       .pipe(catchError(error => {
       return EMPTY;
-      }), 
+      }),
       mergeMap(something => {
         if (something) {
           return of(something);
@@ -89,7 +89,7 @@ export class UserAdminService implements Resolve<UserAdmin[]> {
     const url = environment.apiUrl + 'user/getUserAndAnagById.php';
     return this.http.post<any>(url, {id: id});
   }
-  
+
   exportUserInfoInXlmx(month: number, year: number) {
     const url = environment.apiUrl + 'user/listAllUserDataForMonthForExport.php';
     return this.http.post<any>(url, { month , year });

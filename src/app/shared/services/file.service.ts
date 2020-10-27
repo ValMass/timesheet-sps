@@ -10,8 +10,13 @@ export class FileService {
 
   constructor(private http: HttpClient) { }
 
-  downloadFile( month, year ): any {
+  downloadTimesheetSummaryFile( month, year ): any {
     const url = environment.apiUrl + 'timesheets/exportTimesheetsByMonthAndYear.php';
     return this.http.post(url, { month, year }, {responseType: 'blob'});
+  }
+
+  downloadSingleTimesheetFile( month, year , userid ): any {
+    const url = environment.apiUrl + 'timesheets/exportOneTimesheetToXlsx.php';
+    return this.http.post(url, { month, year, userid }, {responseType: 'blob'});
   }
 }

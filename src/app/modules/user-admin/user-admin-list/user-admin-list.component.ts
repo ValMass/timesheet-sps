@@ -29,6 +29,7 @@ export class UserAdminListComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.useradmins);
   }
   ngOnChanges(changes: SimpleChanges) {
     console.log(changes);
@@ -59,7 +60,7 @@ export class UserAdminListComponent implements OnInit, OnChanges {
     const month = viewDate.getMonth();
     const year = viewDate.getFullYear();
     const nomefile = 'TimesheetExport' + '_' + month + '_' + year;
-    this.fileservice.downloadFile( month, year ).subscribe(response => {
+    this.fileservice.downloadTimesheetSummaryFile( month, year ).subscribe(response => {
       let blob: any = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8' });
       const url = window.URL.createObjectURL(blob);
       // window.open(url);

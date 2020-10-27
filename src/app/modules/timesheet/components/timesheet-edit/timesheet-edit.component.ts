@@ -25,6 +25,9 @@ import { Timesheet } from '../../model/timesheet';
 import { MatDialog } from '@angular/material/dialog';
 import { TimesheetAddEventComponent } from '../timesheet-add-event/timesheet-add-event.component';
 import { NewCalendarEvent } from '../../model/event';
+import { FileService } from '@app/shared/services/file.service';
+import * as fileSaver from 'file-saver';
+
 
 @Component({
   selector: 'app-timesheet-edit',
@@ -67,6 +70,8 @@ export class TimesheetEditComponent implements OnInit {
   //la seconda decide se mostrare o meno i bottoni in tutti e due i casi
   ismodifiable = true;
 
+  // lista delle attività assegnate all utente
+  assignedActivities = [];
 
 
   // action definite per gli eventi
@@ -104,6 +109,7 @@ export class TimesheetEditComponent implements OnInit {
     private toastrService: ToastrService,
     private route: ActivatedRoute,
     private timesheetService: TimesheethttpService,
+    private fileservice: FileService,
   ) { }
 
   ngOnInit(): void {
@@ -154,6 +160,21 @@ export class TimesheetEditComponent implements OnInit {
       }
     );
 
+    this.timesheetService.listActivities(this.currentTimesheetUserId).subscribe(
+      result => {
+        if ( result.status === 'done') {
+          this.assignedActivities = result.data;
+          console.log(result);
+          console.log(this.assignedActivities);
+
+        } else {
+
+        }
+      },
+      error => {
+
+      }
+    );
     console.log(this.currentTimesheetUserId);
 
   }
@@ -161,7 +182,7 @@ export class TimesheetEditComponent implements OnInit {
   myPreviousClick() {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
-    const userid = this.currentTimesheetUserId;
+    const userid = this.currentTimesheetUserId; // TODO verificare che e' lid giusto
     this.events = [];
     this.timesheetService.getTimesheet(month, year, userid).subscribe(
       timesheet => {
@@ -275,12 +296,13 @@ export class TimesheetEditComponent implements OnInit {
         data: {
                 date: this.viewDate,
                 eventsList: this.events,
-                //activityList: this.assignedActivities,
+                activityList: this.assignedActivities,
               }
       });
       dialogRef.afterClosed().subscribe(
         res => {
           if (res.data !== 'close') {
+            console.log(res.data);
             const event: NewCalendarEvent = {
               title: res.data.contractCode,
               start: new Date(res.data.eventDate),
@@ -301,9 +323,10 @@ export class TimesheetEditComponent implements OnInit {
 
         });
     } else {
-      this.toastrService.error('Timesheet accettato');
+      this.checkIfCanModifyErrorMsg();
     }
   }
+
   eventTimesChanged($event) {
 
   }
@@ -313,9 +336,27 @@ export class TimesheetEditComponent implements OnInit {
     const tmpArray = JSON.parse(tmp);
     return tmpArray.id;
   }
+
+  /**
+   * funzione che gestisce la possibilità o no di vedere i pulsanti di modifica eventi
+   */
   checkIfCanModify(){
+    if (this.currentTimesheet.state === "4"){
+      return false;
+    }
     // TODO: inserire logica
     return true;
+  }
+
+  /**
+   * gestisce i messaggi di errore per capire la motivazione dell'impossibilità di modificare il timesheet
+   */
+
+  checkIfCanModifyErrorMsg(){
+    if (this.currentTimesheet.state === "4"){
+      this.toastrService.error("impossibile modificare il timesheet: stato pagato");
+      return false;
+    }
   }
   printEvents(){
     console.log(this.events);
@@ -371,6 +412,28 @@ export class TimesheetEditComponent implements OnInit {
     }
     this.checkIfCanModify();
   }
+
+  exportInExcel() {
+    const month = this.viewDate.getMonth();
+    const year = this.viewDate.getFullYear();
+    const userid = this.currentTimesheetUserId;
+    const nomefile = 'TimesheetExport' + '_' + month + '_' + year + '.Xlsx';
+    this.fileservice.downloadSingleTimesheetFile( month, year, userid ).subscribe(response => {
+      let blob: any = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8' });
+      const url = window.URL.createObjectURL(blob);
+      // window.open(url);
+      // window.location.href = response.url;
+      fileSaver.saveAs(blob, nomefile);
+    }),
+    error => {
+      console.log('Error downloading the file' , error);
+    },
+    () => {
+      console.info('File downloaded successfully');
+    }
+
+  }
+
   ///////////////////////////////////////////////////////////////////
   // confirmation modal function
   ///////////////////////////////////////////////////////////////////

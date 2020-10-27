@@ -99,7 +99,6 @@ export class UserAdminComponent implements OnInit {
             console.log('economicData:', res);
             if (res['status'] === 'error') {
               this.toastrService.error(res.toString());
-              return;
             }
             myObj.anagtoadd.economicdataid = res['data'].id;
             this.anagraphicService.addAnagraphicForUser(myObj.anagtoadd).subscribe(

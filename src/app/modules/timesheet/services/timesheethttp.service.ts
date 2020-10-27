@@ -120,4 +120,18 @@ export class TimesheethttpService implements Resolve<any> {
 
 
   }
+
+  listActivities(userid) {
+    const url = environment.apiUrl + 'activities/getActivityAndCustomerByUserid.php';
+    return this.http.post<any>(url, { userid }).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+        return of(something);
+      } else {
+        return EMPTY;
+      }
+    })
+    );
+  }
 }
