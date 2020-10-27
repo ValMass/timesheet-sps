@@ -3,7 +3,7 @@ import { Anagraphic } from './models/Anagraphic';
 import { Component, OnInit } from '@angular/core';
 import { UserAdmin } from './models/User-admin';
 import { Observable } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UserAdminListComponent } from './user-admin-list/user-admin-list.component';
 import { UserAdminService } from './services/user-admin.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -33,6 +33,7 @@ export class UserAdminComponent implements OnInit {
     private userAdminService: UserAdminService,
     private anagraphicService: AnagraphicService,
     private toastrService: ToastrService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -90,11 +91,12 @@ export class UserAdminComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(
       res => {
-        console.log(res);
+        console.log(" 1 res: ", res.data);
+        const val = res.data
         if (res) {
           let myObj = this.parseDialogFormRes(res['data']);
           this.anagraphicService.addEconomicData(myObj.economictoadd).subscribe(res => {
-            console.log('economicData:', res);
+            console.log('2 economicData:', res);
             if (res['status'] === 'error') {
               this.toastrService.error(res.toString());
               return;
@@ -102,7 +104,7 @@ export class UserAdminComponent implements OnInit {
             myObj.anagtoadd.economicdataid = res['data'].id;
             this.anagraphicService.addAnagraphicForUser(myObj.anagtoadd).subscribe(
               next => {
-                console.log(next);
+                console.log('3 next:'  , next);
                 if (next['status'] === 'error') {
                   this.toastrService.error(res.toString());
                 } else {
@@ -114,9 +116,9 @@ export class UserAdminComponent implements OnInit {
                         return;
                       } else {
                         let user = result['data'];
+                        console.log('user ', user)
                         const newUser = new UserAdmin();
                         newUser.id = user['id'];
-                        newUser.name = user['name'];
                         newUser.username = user['username'];
                         newUser.password = user['password'];
                         newUser.email = user['email'];
@@ -125,8 +127,10 @@ export class UserAdminComponent implements OnInit {
                         newUser.regnumsps = user['regnumsps'];
                         newUser.userscreationdate = new Date().toString();
                         newUser.anagraphicid = result['data'].id;
-                        newUser.phonenumber1 = next['phonenumber1'];
-                        newUser.phonenumber2 = next['phonenumber2'];
+                        newUser.name = next['data'].name;
+                        newUser.surname = next['data'].surname;
+                        newUser.phonenumber1 = next['data'].phonenumber1;
+                        newUser.phonenumber2 = next['data'].phonenumber2;
                         this.users = [...this.users, newUser];
                         //console.log("user: ", user);
                         console.log( "users: " ,this.users)
@@ -191,7 +195,40 @@ export class UserAdminComponent implements OnInit {
     console.log(this.users);
   }
   clear() {
+    //this.router.navigateByUrl('/user-admin');
     this.selected = null;
+  }
+
+  //aggiorno la table con i dati aggiornati
+  clearUpdTable(evento){
+    //log
+    console.log("evento :" ,evento)
+    console.log("evento selected before:" ,this.selected)
+
+    //cambio i dati anagrafici della tabella a seconda di cosa arriva
+    if(evento != null){
+
+      if(evento.name != null){
+        this.selected.name = evento.name
+      }
+
+      if (evento.surname != null) {
+        this.selected.surname = evento.surname
+      }
+
+      if (evento.email != null){
+        this.selected.email = evento.email
+      }
+
+      if (evento.username != null) {
+        this.selected.username = evento.username
+      }
+
+    }
+    //log
+    console.log("evento selected after:" ,this.selected)
+    this.selected = null;
+
   }
   closeModal() {
     this.showModal = false;

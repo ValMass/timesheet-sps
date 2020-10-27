@@ -19,7 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   @Input() userAdmin: UserAdmin;
-  @Output() unselect = new EventEmitter<string>();
+  @Output() unselect = new EventEmitter<any>();
   @Output() save = new EventEmitter<UserAdmin>();
 
   //flag showButton
@@ -34,6 +34,13 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   anagForm: FormGroup;
   contractForm: FormGroup;
   activityForm: FormGroup;
+
+  anagFormValue : any
+  userFormValue : any
+
+  //flag boolean
+  anagFlag : boolean = false;
+  userFlag : boolean = false;
 
   constructor(
     private anagService: AnagraphicService,
@@ -109,6 +116,11 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       .subscribe(result => {
         if (result['status'] === 'done') {
           this.toastrService.success('Utente aggiornato');
+
+          //aggiorno il flag
+          this.userFlag = true;
+          this.userFormValue = this.userForm.value
+
         } else {
           this.toastrService.error('Errore: utente non salvato');
         }
@@ -124,6 +136,11 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       .subscribe(res => {
         if (res['status'] === 'done') {
           this.toastrService.success('Anagrafica utente aggiornata');
+
+          //aggiorno il flag
+          this.anagFlag = true;
+          this.anagFormValue = this.anagForm.value
+
         } else {
           this.toastrService.error('Errore nell\'aggiornamento dell\'anagrafica utente');
         }
@@ -196,10 +213,60 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     return activityForm;
   }
 
+  //clear e updata data se sono stati cambiati
   clear() {
+
+    //log
+    console.log("anagForm:" ,this.anagFormValue );
+    console.log("userForm:" ,this.userFormValue );
+
+    //a seconda dei casi viene emesso un dato diverso
+    switch(true){
+
+      case (this.userFlag  && this.anagFlag ):
+        //log
+        console.log("case1: " , "this.userFlag : ", this.userFlag , "this.anagFlag : ", this.anagFlag  );
+
+        //unisco
+        const  merged = Object.assign(this.anagFormValue, this.userFormValue);
+
+        //emetto
+        this.unselect.emit(merged);
+
+        break;
+      case (this.userFlag  && !this.anagFlag ):
+        //log
+        console.log("case2: " , "this.userFlag : ", this.userFlag , "this.anagFlag : ", this.anagFlag  );
+
+        //emetto
+        this.unselect.emit(this.userFormValue);
+
+        break;
+
+      case (!this.userFlag  && this.anagFlag ):
+         //log
+         console.log("case3: " , "this.userFlag : ", this.userFlag , "this.anagFlag : ", this.anagFlag  );
+
+         //emetto
+         this.unselect.emit(this.anagFormValue);
+
+        break;
+      case (!this.userFlag && !this.anagFlag ):
+        //log
+        console.log("case4: " , "this.userFlag : ", this.userFlag , "this.anagFlag : ", this.anagFlag  );
+
+        //emetto
+        this.unselect.emit(null);
+
+        break;
+    }
+    console.log("exit")
+
     //showButton
     this.showButton.emit(true);
-    this.unselect.emit();
+
+
+
   }
 
   openAddActivityDialog() {
