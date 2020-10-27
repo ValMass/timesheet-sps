@@ -1,7 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { UserAdmin } from '../models/User-admin';
 import { Router } from '@angular/router';
-import { UserAdminCreationComponent } from '../user-admin-creation/user-admin-creation.component';
 import { UserAdminService } from '../services/user-admin.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FileService } from '@app/shared/services/file.service';
@@ -11,7 +10,6 @@ import * as fileSaver from 'file-saver';
   selector: 'app-user-admin-list',
   templateUrl: './user-admin-list.component.html',
   styleUrls: ['./user-admin-list.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserAdminListComponent implements OnInit, OnChanges {
   @Input() useradmins: UserAdmin[];
@@ -29,10 +27,10 @@ export class UserAdminListComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.useradmins);
+    console.log( "useradmins: " ,this.useradmins);
   }
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
+    console.log('changes: ', changes);
   }
   selectCustomer(user: UserAdmin) {
     //showbutton

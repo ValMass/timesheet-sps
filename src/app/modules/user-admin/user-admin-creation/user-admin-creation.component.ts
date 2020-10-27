@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, NgForm } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
@@ -37,7 +37,8 @@ export const MY_FORMATS = {
 export class UserAdminCreationComponent implements OnInit {
   public submitted: boolean = false;
   public officesList: any[];
-  profileForm: FormGroup;
+  //profileForm: FormGroup;
+  datepicker: any;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: string,
               private fb: FormBuilder,
@@ -46,21 +47,24 @@ export class UserAdminCreationComponent implements OnInit {
               ) { }
 
   ngOnInit(): void {
-    this.profileForm = this.buildProfileForm();
-
+    //this.profileForm = this.buildProfileForm();
+    this.datepicker= new Date();
     let tmp = new Date();
     let newyear = tmp.getFullYear() - 18;
     let date = new Date(newyear, tmp.getMonth(), 1);
-    this.profileForm.patchValue({birthdate: date});
+    //this.profileForm.patchValue({birthdate: date});
     this.officesService.listAllOffices().subscribe(res => {
       this.officesList = res.data;
     });
   }
 
-  get f() { return this.profileForm.controls; }
+  //get f() { return this.profileForm.controls; }
 
-  submit() {
-    this.dialogRef.close({ data: this.profileForm.value });
+  submit(form : NgForm) {
+    const obj = {...form.value, 'birthdate': this.datepicker };
+    this.dialogRef.close({ data: obj });
+    //console.log('obj:', obj);
+    //console.log("datepicker" ,this.datepicker)
   }
 
   buildProfileForm() {
@@ -68,8 +72,8 @@ export class UserAdminCreationComponent implements OnInit {
       username: ['', [ Validators.required]],
       password: ['', [ Validators.required]],
       email: ['', [ Validators.required] ],
-      userscreationdate: ['', [ Validators.required]],
-      role: ['', [ Validators.required]],
+      userscreationdate: [''/*, [ Validators.required]*/],
+      role: [''/*, [ Validators.required]*/],
       regnuminps: ['', [ Validators.required]],
       regnumsps: ['', [ Validators.required]],
       isadmin: [''],
@@ -91,5 +95,6 @@ export class UserAdminCreationComponent implements OnInit {
   close() {
     this.dialogRef.close();
   }
+
 }
 
