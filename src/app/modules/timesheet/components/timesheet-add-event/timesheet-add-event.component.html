@@ -9,17 +9,19 @@
       <div class="input-group">
         <h3>Data</h3>
         <!--<label for="dataevento">Data</label>-->
-        <input class="input-number text-center mb-4" matInput [matDatepicker]="picker" #ref required
-          (dateChange)="onDateChange($event)" formControlName="eventDate">
+        <div>
+        <input class="form-control input-number text-center mb-4" matInput [matDatepicker]="picker" #ref required
+          (dateChange)="onDateChange($event)" formControlName="eventDate" [ngClass]="{'is-invalid': f.eventDate.errors && submitted}" style="width: 200px;">
+        </div>
         <mat-datepicker-toggle matSuffix [for]="picker" class="bottone-data"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-        <div *ngIf="f.eventDate.errors && submitted">Campo obligatorio</div>
       </div>
-
+      <div *ngIf="f.eventDate.errors && submitted" style="color: red;">Campo obbligatorio</div>
 
       <div>
         <label for="cars" class="cod-contratto">Codice contratto</label>
         <select id="cars" name="cars" class="custom-select sel-text" formControlName="contractCode"
+        [ngClass]="{'is-invalid':f.contractCode.errors && submitted}"
           (change)="onChangeSelect($event)" required>
           <option value="LAVORO" selected="selected">Lavoro ordinario</option>
           <option value="SEDE">Attività interna</option>
@@ -41,7 +43,7 @@
           <option value="PATRONO">Patrono</option>
           <option value="UNIVERS">Assenza esami universitari</option>
         </select>
-        <div *ngIf="f.contractCode.errors && submitted">Campo obligatorio</div>
+        <div *ngIf="f.contractCode.errors && submitted" style="color: red;">Campo obbligatorio</div>
       </div>
 
       <div *ngIf="insertLavoro">
@@ -53,6 +55,7 @@
         <div>
           <label for="cod-fatturazione" class="cod-fatturazione">Codice Fatturazione</label>
           <select id="cod-fatturazione" name="cod-fatturazione" class="custom-select sel-text"
+            [ngClass]="{'is-invalid':f.codiceFatturazione.value === '00' && submitted}"
             formControlName="codiceFatturazione" (change)="onChangeFattSelect($event)" required>
             <option value="01">Ore ordinarie fatturabili</option>
             <option value="02">Ore straordinarie fatturabili</option>
@@ -63,7 +66,7 @@
             <option value="IN">Ore di intervento</option>
             <option value="TR">Trasferta</option>
           </select>
-          <div *ngIf="f.contractCode.errors && submitted">Campo obligatorio</div>
+          <div *ngIf="f.codiceFatturazione.value === '00' && submitted" style="color: red;" >Campo obbligatorio</div>
         </div>
         <div class="form-group row">
           <label for="customerId" class="col-sm-4 col-form-label">Cliente</label>
@@ -85,7 +88,9 @@
         <div class="mb-4">
           <label for="numeroprotocollo" class="col-form-label">Numero protocollo</label>
           <input type="text" class="form-control input-number" id="numProtocollo" placeholder="Numero protocollo"
+            [ngClass]="{'is-invalid':f.numProtocollo.value === '00' && submitted}"
             formControlName="numProtocollo" />
+          <div *ngIf="f.numProtocollo.value === '00' && submitted" style="color: red;" >Campo obbligatorio</div>
         </div>
       </div>
       <div *ngIf="insertNumeroOre">

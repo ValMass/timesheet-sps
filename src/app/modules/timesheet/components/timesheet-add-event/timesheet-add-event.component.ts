@@ -66,7 +66,27 @@ export class TimesheetAddEventComponent implements OnInit {
 
     //  return;
     //}
-    this.dialogRef.close({ data: this.profileForm.value });
+    if(this.profileForm.value.contractCode != null && this.profileForm.value.eventDate != null)
+    {
+      if(this.profileForm.value.contractCode == 'MALATT'){
+        if (this.profileForm.value.numProtocollo != '00') {
+          this.dialogRef.close({ data: this.profileForm.value });
+        }
+      }
+      else{
+        if(this.profileForm.value.contractCode != 'LAVORO'
+             && this.profileForm.value.contractCode != 'SEDE'
+                && this.profileForm.value.contractCode != 'PARTIME'){
+          this.dialogRef.close({ data: this.profileForm.value });
+        }
+        else{
+          if(this.profileForm.value.codiceFatturazione != '00'){
+            this.dialogRef.close({ data: this.profileForm.value });
+          }
+        }
+      }
+    }
+
   }
 
   close() {
