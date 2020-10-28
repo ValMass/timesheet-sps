@@ -139,12 +139,12 @@ export class TimesheetAddEventComponent implements OnInit {
     console.log(this.eventsSelected);
     switch (numberOfEventToday) {
       case 1:
-        console.log("case 1");
+        console.log('case 1');
         this.oneEventThisDay();
         break;
 
       default:
-        console.log("case default");
+        console.log('case default');
         this.aggiungiButtonDisabled = false;
         this.errorMessage = '';
         break;
