@@ -373,7 +373,7 @@ export class TimesheetEditComponent implements OnInit {
         start: new Date(element.start),
         nOre: element.nOre,
         actions: this.actions,
-        codiceFatt: element.codiceFatturazione,
+        codiceFatt: element.codiceFatt,
         nProtocollo: element.numProtocollo,
         activityId: element.activityId,
         smartWorking: +element.smartWorking,
