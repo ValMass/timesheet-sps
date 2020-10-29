@@ -25,7 +25,6 @@ export class TimesheethttpService implements Resolve<any> {
       return EMPTY;
     }), mergeMap(something => {
       if (something) {
-
         return of(something);
       } else {
 
@@ -37,11 +36,11 @@ export class TimesheethttpService implements Resolve<any> {
   }
   saveTimesheet(timesheet: Timesheet) {
     const url = environment.apiUrl + '/timesheets/createTimesheetV2.php';
-    return this.http.post<Timesheet>( url, timesheet ).pipe(catchError(error => {
+    return this.http.post<any>( url, timesheet ).pipe(catchError(error => {
       return EMPTY;
     }), mergeMap(something => {
-      if (something && (something["status"] === 'done')) {
-        return of(something["data"]);
+      if (something) {
+        return of(something);
         console.log("observer pieno");
       } else {
         console.log("observer vuoto");
@@ -120,5 +119,19 @@ export class TimesheethttpService implements Resolve<any> {
     );
 
 
+  }
+
+  listActivities(userid) {
+    const url = environment.apiUrl + 'activities/getActivityAndCustomerByUserid.php';
+    return this.http.post<any>(url, { userid }).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+        return of(something);
+      } else {
+        return EMPTY;
+      }
+    })
+    );
   }
 }

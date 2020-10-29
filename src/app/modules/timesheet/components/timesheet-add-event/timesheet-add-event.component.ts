@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CalendarEvent } from 'angular-calendar';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-timesheet-add-event',
@@ -29,7 +30,8 @@ export class TimesheetAddEventComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<TimesheetAddEventComponent>,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastrService: ToastrService,
   ) { }
 
   ngOnInit(): void {
@@ -42,12 +44,7 @@ export class TimesheetAddEventComponent implements OnInit {
       activityId: ['0', [Validators.required]],
       smartWorking: [this.isChecked(), [Validators.required]],
     });
-
-    //this.dateObj = new Date(this.data.date);
-    //this.eventsPassed = this.data.eventsList;
-    //this.getEventsForDate(this.dateObj);
-    //this.checkIfThisDayIsBusy();
-    //this.assignedact = this.data.activityList;
+    this.assignedact = this.data.activityList;
   }
 
   get f() { return this.profileForm.controls; }
@@ -204,6 +201,11 @@ export class TimesheetAddEventComponent implements OnInit {
 
   }
   valueChanged(e) {
+    if ((e.target.value > 8) || (e.target.value < 0) ){
+      const tmp = { numeroOre: 0 };
+      this.profileForm.patchValue(tmp);
+      this.toastrService.error("inserisci da 1 a 8 ore");
+    }
     this.value = e.target.value;
   }
 

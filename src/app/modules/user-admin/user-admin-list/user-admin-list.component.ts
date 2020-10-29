@@ -3,6 +3,8 @@ import { UserAdmin } from '../models/User-admin';
 import { Router } from '@angular/router';
 import { UserAdminService } from '../services/user-admin.service';
 import { MatDialog } from '@angular/material/dialog';
+import { FileService } from '@app/shared/services/file.service';
+import * as fileSaver from 'file-saver';
 
 @Component({
   selector: 'app-user-admin-list',
@@ -18,13 +20,14 @@ export class UserAdminListComponent implements OnInit, OnChanges {
   @Output() showButton = new EventEmitter<Boolean>();
 
   constructor(
+    private fileservice: FileService,
     private router: Router,
     private userAdminService: UserAdminService,
     public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
-    console.log( "useradmins: " ,this.useradmins)
+    console.log( "useradmins: " ,this.useradmins);
   }
   ngOnChanges(changes: SimpleChanges) {
     console.log('changes: ', changes);
@@ -48,5 +51,25 @@ export class UserAdminListComponent implements OnInit, OnChanges {
     const ciccio = { state: { id: user.id, name: user.username } };
     const url = 'timesheet/' + user.id;
     this.router.navigateByUrl(url, ciccio);
+  }
+
+  exportinXlsx() {
+    const viewDate = new Date();
+    const month = viewDate.getMonth();
+    const year = viewDate.getFullYear();
+    const nomefile = 'TimesheetExport' + '_' + month + '_' + year;
+    this.fileservice.downloadTimesheetSummaryFile( month, year ).subscribe(response => {
+      let blob: any = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8' });
+      const url = window.URL.createObjectURL(blob);
+      // window.open(url);
+      // window.location.href = response.url;
+      fileSaver.saveAs(blob, nomefile);
+    }),
+    error => {
+      console.log('Error downloading the file' , error);
+    },
+    () => {
+      console.info('File downloaded successfully');
+    }
   }
 }
