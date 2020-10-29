@@ -24,7 +24,7 @@ export class TimesheetAddEventComponent implements OnInit {
   insertLavoro = false;
   insertMalattia = false;
   insertNumeroOre = false;
-  allComplete = false;
+  allComplete : boolean = true;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -40,7 +40,7 @@ export class TimesheetAddEventComponent implements OnInit {
       codiceFatturazione: ['00', [Validators.required]],
       numProtocollo: ['00', [Validators.required]],
       activityId: ['0', [Validators.required]],
-      smartWorking: ['0', [Validators.required]],
+      smartWorking: [this.isChecked(), [Validators.required]],
     });
 
     //this.dateObj = new Date(this.data.date);
@@ -54,12 +54,12 @@ export class TimesheetAddEventComponent implements OnInit {
 
   submit() {
     this.submitted = true;
-    console.log(this.allComplete);
-    if ( this.allComplete ) {
-      console.log(this.allComplete);
+    /*console.log(  "allComplete B" , this.allComplete);
+    if ( this.allComplete === true) {
+      console.log( "allComplete A");
       const tmp = { smartWorking: 1 };
       this.profileForm.patchValue(tmp);
-    }
+    }*/
     console.log('invalid :' + this.profileForm.invalid);
     console.log(this.profileForm.value);
    // if (this.profileForm.invalid) {
@@ -207,4 +207,14 @@ export class TimesheetAddEventComponent implements OnInit {
     this.value = e.target.value;
   }
 
+  isChecked(){
+    if(this.allComplete){
+      this.allComplete = false
+      console.log ("false " , this.allComplete)
+    }else{
+      this.allComplete = true
+      console.log ("true check" , this.allComplete)
+    }
+    return (this.allComplete)
+  }
 }

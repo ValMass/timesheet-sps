@@ -7,18 +7,20 @@
     <form id='myform' class="p-1" [formGroup]="profileForm" (ngSubmit)="submit()">
 
       <div class="input-group">
-        <h3>Data</h3>
+        <label>Data</label>
         <!--<label for="dataevento">Data</label>-->
         <div>
         <input class="form-control input-number text-center mb-4" matInput [matDatepicker]="picker" #ref required
           (dateChange)="onDateChange($event)" formControlName="eventDate" [ngClass]="{'is-invalid': f.eventDate.errors && submitted}" style="width: 200px;">
+
         </div>
         <mat-datepicker-toggle matSuffix [for]="picker" class="bottone-data"></mat-datepicker-toggle>
+        <div *ngIf="f.eventDate.errors && submitted" style="color: red; position:relative; right:200px; ">Campo obbligatorio</div><br>
         <mat-datepicker #picker></mat-datepicker>
       </div>
-      <div *ngIf="f.eventDate.errors && submitted" style="color: red;">Campo obbligatorio</div>
 
-      <div>
+
+      <div class="mb-2">
         <label for="cars" class="cod-contratto">Codice contratto</label>
         <select id="cars" name="cars" class="custom-select sel-text" formControlName="contractCode"
         [ngClass]="{'is-invalid':f.contractCode.errors && submitted}"
@@ -47,12 +49,12 @@
       </div>
 
       <div *ngIf="insertLavoro">
-        <div>
-          <label for="customRange3">Numero ore</label> {{ value }}
-          <input type="number" class="custom-range inp-text input-number" value="8" min="0" max="12" step="1"
-            id="customRange3" required formControlName="numeroOre" (input)="valueChanged($event)">
-        </div>
-        <div>
+          <div class="mb-3">
+            <label for="customRange3" class="col-form-label">Numero ore</label> {{ value }}
+            <input type="number" class="form-control input-number" value="8" min="0" max="12" step="1" id="customRange3"
+              required formControlName="numeroOre" (input)="valueChanged($event)">
+          </div>
+        <div class="mb-2">
           <label for="cod-fatturazione" class="cod-fatturazione">Codice Fatturazione</label>
           <select id="cod-fatturazione" name="cod-fatturazione" class="custom-select sel-text"
             [ngClass]="{'is-invalid':f.codiceFatturazione.value === '00' && submitted}"
@@ -68,35 +70,37 @@
           </select>
           <div *ngIf="f.codiceFatturazione.value === '00' && submitted" style="color: red;" >Campo obbligatorio</div>
         </div>
-        <div class="form-group row">
-          <label for="customerId" class="col-sm-4 col-form-label">Cliente</label>
-          <div class="col-sm-8">
+
+        <div class="mb-2">
+          <label for="customerId" class="col-form-label">Cliente</label>
+          <div>
             <ng-select [items]="assignedact" bindLabel="act.name" formControlName="activityId" bindValue="act.id">
             </ng-select>
           </div>
         </div>
-        <div class="form-group row">
-          <mat-checkbox class="example-margin" formControlName="smartWorking" [checked]="allComplete"
-            labelPosition="before">
 
+        <div class="mb-2">
+          <mat-checkbox class="example-margin" formControlName="smartWorking"
+            labelPosition="before">
             Smart Working
           </mat-checkbox>
+
         </div>
       </div>
 
       <div *ngIf="insertMalattia">
-        <div class="mb-4">
+        <div class="mb-2">
           <label for="numeroprotocollo" class="col-form-label">Numero protocollo</label>
           <input type="text" class="form-control input-number" id="numProtocollo" placeholder="Numero protocollo"
-            [ngClass]="{'is-invalid':f.numProtocollo.value === '00' && submitted}"
-            formControlName="numProtocollo" />
-          <div *ngIf="f.numProtocollo.value === '00' && submitted" style="color: red;" >Campo obbligatorio</div>
+            [ngClass]="{'is-invalid':f.numProtocollo.value === '00' && submitted}" formControlName="numProtocollo" />
+          <div *ngIf="f.numProtocollo.value === '00' && submitted" style="color: red;">Campo obbligatorio</div>
         </div>
       </div>
+
       <div *ngIf="insertNumeroOre">
-        <div>
-          <label for="customRange3">Numero ore</label> {{ value }}
-          <input type="number" class="custom-range inp-text" value="8" min="0" max="12" step="1" id="customRange3"
+        <div class="mb-2">
+          <label for="customRange3" class="col-form-label">Numero ore</label> {{ value }}
+          <input type="number" class="form-control input-number" value="8" min="0" max="12" step="1" id="customRange3"
             required formControlName="numeroOre" (input)="valueChanged($event)">
         </div>
       </div>
