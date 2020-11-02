@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class SideBarComponent implements OnInit {
 
   isadmin: boolean = true ;
+  isSuperAdmin: boolean = false ;
   destinationTimesheet;
 
   constructor(
@@ -26,12 +27,19 @@ export class SideBarComponent implements OnInit {
     this.destinationTimesheet = currentU.id;
     console.log(this.destinationTimesheet);
     // tslint:disable-next-line: triple-equals
-    if ( currentU.isadmin == '1' ) {
+    if ( currentU.isadmin === '0') {
       console.log('uno');
       this.isadmin = true;
+      this.isSuperAdmin = true;
+    }
+    if ( currentU.isadmin === '1' ) {
+      console.log('uno');
+      this.isadmin = true;
+      this.isSuperAdmin = false; // per essere chiari
     } else {
       console.log('due');
       this.isadmin = false;
+      this.isSuperAdmin = false; // per essere chiari
     }
   }
 

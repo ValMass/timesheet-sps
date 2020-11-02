@@ -19,7 +19,7 @@ import {
 
 import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TimesheethttpService } from '../../services/timesheethttp.service';
 import { Timesheet } from '../../model/timesheet';
 import { MatDialog } from '@angular/material/dialog';
@@ -27,6 +27,8 @@ import { TimesheetAddEventComponent } from '../timesheet-add-event/timesheet-add
 import { NewCalendarEvent } from '../../model/event';
 import { FileService } from '@app/shared/services/file.service';
 import * as fileSaver from 'file-saver';
+import { AuthenticationService } from '@app/services/authentication.service';
+import { User } from '@app/models/user';
 
 
 @Component({
@@ -108,8 +110,10 @@ export class TimesheetEditComponent implements OnInit {
     public dialog: MatDialog,
     private toastrService: ToastrService,
     private route: ActivatedRoute,
+    private router: Router,
     private timesheetService: TimesheethttpService,
     private fileservice: FileService,
+    private authenticationService: AuthenticationService,
   ) { }
 
   ngOnInit(): void {
@@ -130,6 +134,7 @@ export class TimesheetEditComponent implements OnInit {
           this.currentTimesheetUserId = this.getIdFromLocalStorage();
           this.adminStyle = false;
         }
+        console.log(this.currentTimesheetUserId);
 
     },
     error => {
@@ -332,15 +337,30 @@ export class TimesheetEditComponent implements OnInit {
   }
 
   getIdFromLocalStorage() {
-    const tmp = localStorage.getItem('currentUser');
-    const tmpArray = JSON.parse(tmp);
-    return tmpArray.id;
+    const user: User = this.authenticationService.currentUserValue;
+    if ( user == null){
+      this.toastrService.error("getIdFromLocalStorage() -> null");
+      this.router.navigate(['/home-page']);
+      return null;
+    }
+
+    console.log(user);
+    return user.id;
   }
 
+  getRoleFromLocalStorage() {
+    const user: User = this.authenticationService.currentUserValue;
+    return user.role;
+  }
   /**
    * funzione che gestisce la possibilità o no di vedere i pulsanti di modifica eventi
    */
   checkIfCanModify(){
+
+    if (this.getRoleFromLocalStorage() == '0') {
+      return true;
+    }
+
     if (this.currentTimesheet.state === '4'){
       return false;
     }

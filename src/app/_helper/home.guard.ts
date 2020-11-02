@@ -9,15 +9,16 @@ import { Observable } from 'rxjs';
 export class HomeGuard implements CanActivate {
   constructor(private authenticationService: AuthenticationService, private router: Router) {}
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot):
+  Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const currentUser = this.authenticationService.currentUserValue;
 
-    return currentUser && currentUser.token && currentUser.isadmin === '1' ? true : this.goToHome();
+    return currentUser && currentUser.token && (currentUser.isadmin === '1' || currentUser.isadmin === '0') ? true : this.goToHome();
   }
 
   goToHome() {
     this.router.navigate(['home-page-user']);
     return false;
   }
-  
+
 }
