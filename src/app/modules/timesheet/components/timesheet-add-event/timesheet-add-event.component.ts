@@ -25,7 +25,7 @@ export class TimesheetAddEventComponent implements OnInit {
   insertLavoro = false;
   insertMalattia = false;
   insertNumeroOre = false;
-  allComplete = false;
+  allComplete : boolean = true;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -42,7 +42,7 @@ export class TimesheetAddEventComponent implements OnInit {
       codiceFatturazione: ['00', [Validators.required]],
       numProtocollo: ['00', [Validators.required]],
       activityId: ['0', [Validators.required]],
-      smartWorking: ['0', [Validators.required]],
+      smartWorking: [this.isChecked(), [Validators.required]],
     });
     this.assignedact = this.data.activityList;
   }
@@ -51,19 +51,39 @@ export class TimesheetAddEventComponent implements OnInit {
 
   submit() {
     this.submitted = true;
-    console.log(this.allComplete);
-    if ( this.allComplete ) {
-      console.log(this.allComplete);
+    /*console.log(  "allComplete B" , this.allComplete);
+    if ( this.allComplete === true) {
+      console.log( "allComplete A");
       const tmp = { smartWorking: 1 };
       this.profileForm.patchValue(tmp);
-    }
+    }*/
     console.log('invalid :' + this.profileForm.invalid);
     console.log(this.profileForm.value);
    // if (this.profileForm.invalid) {
 
     //  return;
     //}
-    this.dialogRef.close({ data: this.profileForm.value });
+    if(this.profileForm.value.contractCode != null && this.profileForm.value.eventDate != null)
+    {
+      if(this.profileForm.value.contractCode == 'MALATT'){
+        if (this.profileForm.value.numProtocollo != '00') {
+          this.dialogRef.close({ data: this.profileForm.value });
+        }
+      }
+      else{
+        if(this.profileForm.value.contractCode != 'LAVORO'
+             && this.profileForm.value.contractCode != 'SEDE'
+                && this.profileForm.value.contractCode != 'PARTIME'){
+          this.dialogRef.close({ data: this.profileForm.value });
+        }
+        else{
+          if(this.profileForm.value.codiceFatturazione != '00'){
+            this.dialogRef.close({ data: this.profileForm.value });
+          }
+        }
+      }
+    }
+
   }
 
   close() {
@@ -189,18 +209,14 @@ export class TimesheetAddEventComponent implements OnInit {
     this.value = e.target.value;
   }
 
-  switchSmartWorking($event) {
-
-    console.log($event);
-    if ($event.checked === true) {
-      const tmp = { smartWorking: 1 };
-      this.profileForm.patchValue(tmp);
-
-    } else {
-      const tmp = { smartWorking: 0 };
-      this.profileForm.patchValue(tmp);
-
+  isChecked(){
+    if(this.allComplete){
+      this.allComplete = false
+      console.log ("false " , this.allComplete)
+    }else{
+      this.allComplete = true
+      console.log ("true check" , this.allComplete)
     }
+    return (this.allComplete)
   }
-
 }

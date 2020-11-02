@@ -67,13 +67,13 @@ export class UserAdminCreationComponent implements OnInit {
     //console.log("datepicker" ,this.datepicker)
   }
 
-  buildProfileForm() {
+  /*buildProfileForm() {
     const profileForm = this.fb.group({
       username: ['', [ Validators.required]],
       password: ['', [ Validators.required]],
       email: ['', [ Validators.required] ],
-      userscreationdate: [''/*, [ Validators.required]*/],
-      role: [''/*, [ Validators.required]*/],
+      userscreationdate: [''],
+      role: [''],
       regnuminps: ['', [ Validators.required]],
       regnumsps: ['', [ Validators.required]],
       isadmin: [''],
@@ -90,7 +90,7 @@ export class UserAdminCreationComponent implements OnInit {
       buonipastobool: [''],
     });
     return profileForm;
-  }
+  }*/
 
   close() {
     this.dialogRef.close();

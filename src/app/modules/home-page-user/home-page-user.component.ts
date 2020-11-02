@@ -51,7 +51,7 @@ export class HomePageUserComponent implements OnInit {
     );
 
     this.statsUserService.loadAllEventForThisYear( this.userid, this.year ).subscribe(
-      result => {
+      result => { console.log("result data ", result)
         if ( result['status'] === "done" ){
           console.log(result['data']);
           result['data'].forEach(element => {
@@ -60,11 +60,13 @@ export class HomePageUserComponent implements OnInit {
 
             if ( Number(element['month']) === this.getCurrentMonth() ) {
               const eventlist = JSON.parse(element['dayjson']);
-              this.workedThisMonth = element["totalworkedhours"];
-              this.permessiThisMonth = element["totalpermessihours"];
-              this.deseaseThisMonth = element["totaldeseasehours"];
-              this.dayWorkedThisMonth = element["totalworkeddays"];
-              this.daySmartWorkThisMonth = element["totalsmartworkday"];
+              console.log('element' , element)
+              console.log('element' , element.workedhours)
+              this.workedThisMonth = element["workedhours"];
+              this.permessiThisMonth = element["permessihours"];
+              this.deseaseThisMonth = element["deseaseday"];
+              this.dayWorkedThisMonth = element["workeddays"];
+              this.daySmartWorkThisMonth = element["smartworkday"];
 
               eventlist.forEach(element => {
                 if ( element.activityId ){
