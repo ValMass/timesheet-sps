@@ -28,19 +28,27 @@ export class SideBarComponent implements OnInit {
     console.log(this.destinationTimesheet);
     // tslint:disable-next-line: triple-equals
     if ( currentU.isadmin === '0') {
-      console.log('uno');
+      console.log('zero');
       this.isadmin = true;
       this.isSuperAdmin = true;
+      return;
     }
     if ( currentU.isadmin === '1' ) {
       console.log('uno');
       this.isadmin = true;
       this.isSuperAdmin = false; // per essere chiari
-    } else {
+      return;
+    }
+    if (currentU.isadmin === '2') {
       console.log('due');
       this.isadmin = false;
       this.isSuperAdmin = false; // per essere chiari
+      return;
     }
+    console.log('role error'); // forse va bene
+    this.logoutService.logout();
+    return;
+
   }
 
   logout() {

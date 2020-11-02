@@ -21,7 +21,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let customerOffice of listAllCustomerOffice">
-          <td>{{ customerOffice[0]?.name }}</td>
+          <td>{{ customerOffice[0]?.cst.name }}</td>
           <td>{{ customerOffice[0]?.cus.address }}</td>
           <td>
             <input type="number" class="form-control distance-input" #distanceInput value="{{customerOffice[0]?.mat.distance}}"/>

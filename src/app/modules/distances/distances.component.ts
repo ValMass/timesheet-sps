@@ -44,9 +44,7 @@ export class DistancesComponent implements OnInit {
                 office.mat['isDisabled'] = true;
               }
             });
-          return this.listAllCustomer.map(el => {
-            if (el.id === office.cus.customerid) return { ...el, ...office };
-          });
+          return office;
         });
     });
   }

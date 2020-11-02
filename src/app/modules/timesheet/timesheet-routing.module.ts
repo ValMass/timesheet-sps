@@ -9,6 +9,7 @@ const routes: Routes = [
   {
     path: '',
     component: TimesheetEditComponent,
+    canActivate: [TimesheetGuardGuard,]
   },
   {
     path: ':id',

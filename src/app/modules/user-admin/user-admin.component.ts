@@ -214,7 +214,7 @@ export class UserAdminComponent implements OnInit {
         this.selected.name = evento.name
       }
 
-      if (evento.surname != null) {
+      if (evento.sangularurname != null) {
         this.selected.surname = evento.surname
       }
 
