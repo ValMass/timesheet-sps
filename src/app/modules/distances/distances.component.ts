@@ -46,6 +46,7 @@ export class DistancesComponent implements OnInit {
             });
           return office;
         });
+        console.log(this.listAllCustomerOffice);
     });
   }
 

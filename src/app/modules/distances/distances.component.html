@@ -21,10 +21,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let customerOffice of listAllCustomerOffice">
-          <td>{{ customerOffice[0]?.cst.name }}</td>
-          <td>{{ customerOffice[0]?.cus.address }}</td>
+          <td>{{ customerOffice.cst.name }}</td>
+          <td>{{ customerOffice.cus.address }}</td>
           <td>
-            <input type="number" class="form-control distance-input" #distanceInput value="{{customerOffice[0]?.mat.distance}}"/>
+            <input type="number" class="form-control distance-input" #distanceInput value="{{customerOffice.mat.distance}}"/>
           </td>
           <td>
             <button class="btn btn-primary" [disabled]="customerOffice[0]?.mat.isDisabled" (click)="updateDistanceFromOffice(distanceInput.value, customerOffice[0])">UPDATE</button>
