@@ -453,6 +453,13 @@ export class TimesheetEditComponent implements OnInit {
     }
 
   }
+  calcTrasferte(){
+    this.timesheetService.calcTrasferte('1', '5000').subscribe(
+      res =>{
+        console.log(res);
+      }
+    );
+  }
 
   ///////////////////////////////////////////////////////////////////
   // confirmation modal function

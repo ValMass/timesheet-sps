@@ -134,4 +134,18 @@ export class TimesheethttpService implements Resolve<any> {
     })
     );
   }
+
+  calcTrasferte( officesid, rimborso ){
+    const url = environment.apiUrl + 'officesMatrix/createRimborso.php';
+    return this.http.post<any>(url, { officesid, rimborso }).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+        return of(something);
+      } else {
+        return EMPTY;
+      }
+    })
+    );
+  }
 }

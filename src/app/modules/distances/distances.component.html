@@ -27,10 +27,10 @@
             <input type="number" class="form-control distance-input" #distanceInput value="{{customerOffice.mat.distance}}"/>
           </td>
           <td>
-            <button class="btn btn-primary" [disabled]="customerOffice[0]?.mat.isDisabled" (click)="updateDistanceFromOffice(distanceInput.value, customerOffice[0])">UPDATE</button>
+            <button class="btn btn-primary" [disabled]="customerOffice?.mat.isDisabled" (click)="updateDistanceFromOffice(distanceInput.value, customerOffice)">UPDATE</button>
           </td>
           <td>
-            <span class="distance-alert" *ngIf="!customerOffice[0]?.mat.isDisabled"><small>* attenzione, la distanza è differente da quella presente sul db, aggiornala cliccando update!</small></span>
+            <span class="distance-alert" *ngIf="!customerOffice?.mat.isDisabled"><small>* attenzione, la distanza è differente da quella presente sul db, aggiornala cliccando update!</small></span>
           </td>
         </tr>
       </tbody>
