@@ -1,0 +1,54 @@
+<div mat-dialog-content>
+  <h2>Lista trasferte del mese</h2>
+  <div class="row">
+    <form (ngSubmit)="ricalcolaTrasferte(paramForm)" #paramForm="ngForm">
+      <div class="col-4">
+        <label for="acivalue">Aci</label>
+        <input type="text" id="acivalue" name="acivalue" #acivalueinput [ngModel]="acivalue">
+      </div>
+      <div class="col-4">
+        <label for="diaria">Diaria</label>
+        <input type="text" id="diaria" name="diaria" #diariainput [ngModel]="diariavalue">
+      </div>
+      <div class="col-4">
+        <button class="btn btn-primary" type="submit" >Ricalcola</button>
+      </div>
+    </form>
+
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Stringa</th>
+        <th scope="col">Distanza</th>
+        <th scope="col">Rimborso</th>
+      </tr>
+    </thead>
+    <tbody>  <!--trackBy: trackById;-->
+      <tr *ngFor="let trasferta of trasferteListTemp; trackBy: trackById; let i = index" role="presentation">
+        <td>{{ trasferta.coff.address }}</td>
+        <td>{{ trasferta.matr.distance }}</td>
+        <td>{{ trasferta.calcoli }}</td>
+        <!-- <td>{{ useradmin.name }} {{ useradmin.surname }} </td>
+        <td>{{ useradmin.username }} </td>
+        <td>{{ useradmin.email }}</td>
+        <td>{{ useradmin.phonenumber1 }}</td>
+        <td>{{ useradmin.phonenumber2 }}</td>
+        <td>{{ useradmin.role === '1' ? "Amministratore" : "Utente ordinario" }}</td>
+        <td>
+          <app-span-tooltip [state] = useradmin.state></app-span-tooltip>
+        </td>
+
+          <app-button-footer class="card-footer-item" [className]="'delete-item'" [iconClasses]="'fas fa-trash mr-2'"
+            (clicked)="deleteUserAdmin($event)" label="Delete" [item]="useradmin"></app-button-footer>
+          <app-button-footer class="card-footer-item" [className]="'edit-item'" [iconClasses]="'fas fa-edit mr-2'"
+            (clicked)="selectCustomer($event)" label="Edit" [item]="useradmin"></app-button-footer>
+        -->
+      </tr>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-between" mat-dialog-actions>
+    <button class="btn btn-primary w-25" (click)="closeModal()">Chiudi</button>
+    <button class="btn btn-primary w-25" (click)="saveList()" >Salva</button>
+  </div>
+</div>

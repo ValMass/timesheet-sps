@@ -135,9 +135,23 @@ export class TimesheethttpService implements Resolve<any> {
     );
   }
 
-  calcTrasferte( officesid, rimborso ){
-    const url = environment.apiUrl + 'officesMatrix/createRimborso.php';
-    return this.http.post<any>(url, { officesid, rimborso }).pipe(catchError(error => {
+  calcTrasferte(timesheetId, aciValue, diaria){
+    const url = environment.apiUrl + 'timesheets/calcolaTrasferte.php';
+    return this.http.post<any>(url, {timesheetId, aciValue, diaria }).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+        return of(something);
+      } else {
+        return EMPTY;
+      }
+    })
+    );
+  }
+
+  getUserData( id ){
+    const url = environment.apiUrl + 'user/getAllUserInfoByUserId.php';
+    return this.http.post<any>(url, { id }).pipe(catchError(error => {
       return EMPTY;
     }), mergeMap(something => {
       if (something) {

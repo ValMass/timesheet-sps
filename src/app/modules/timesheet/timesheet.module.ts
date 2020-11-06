@@ -11,12 +11,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { TimesheetTrasferteModalComponent } from './components/timesheet-trasferte-modal/timesheet-trasferte-modal.component';
 
 
 
 
 @NgModule({
-  declarations: [TimesheetEditComponent, TimesheetAddEventComponent,],
+  declarations: [TimesheetEditComponent, TimesheetAddEventComponent, TimesheetTrasferteModalComponent,],
   imports: [
     CommonModule,
     TimesheetRoutingModule,

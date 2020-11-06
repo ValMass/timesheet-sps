@@ -38,6 +38,7 @@ import { Router } from '@angular/router';
 import { AddActivityComponent } from './modules/user-admin/add-activity/add-activity.component';
 import { AddCustomerOfficeComponent } from './modules/customers/components/add-customer-office/add-customer-office.component';
 import { TimesheetAddEventComponent } from './modules/timesheet/components/timesheet-add-event/timesheet-add-event.component';
+import { TimesheetTrasferteModalComponent } from './modules/timesheet/components/timesheet-trasferte-modal/timesheet-trasferte-modal.component';
 
 
 @NgModule({
@@ -93,6 +94,7 @@ import { TimesheetAddEventComponent } from './modules/timesheet/components/times
     UserAdminCreationComponent,
     AddCustomerOfficeComponent,
     TimesheetAddEventComponent,
+    TimesheetTrasferteModalComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
