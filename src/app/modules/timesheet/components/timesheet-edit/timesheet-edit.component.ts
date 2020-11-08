@@ -99,6 +99,11 @@ export class TimesheetEditComponent implements OnInit {
   // questo e' il messaggio visualizzato dalle modali di conferma
   confirmationMessage = "";
 
+  //variabili che controllano i tasti a seconda dello stato del timesheet
+  disableAggiungiEvento = true;
+  disableCalcolaTrasferte = false;
+  disableSalva = false;
+
   constructor(
     public dialog: MatDialog,
     private toastrService: ToastrService,
@@ -331,15 +336,15 @@ export class TimesheetEditComponent implements OnInit {
    * funzione che gestisce la possibilità o no di vedere i pulsanti di modifica eventi
    */
   checkIfCanModify() {
-    if (this.getRoleFromLocalStorage() == "0") {
+    const userRole = this.getRoleFromLocalStorage();
+    if (this.isDisabled() || userRole == "0" ) {
+      this.ismodifiable = true;
       return true;
-    }
-
-    if (this.currentTimesheet.state === "4") {
+    } else {
+      this.ismodifiable = false;
       return false;
     }
-    // TODO: inserire logica
-    return true;
+
   }
 
   /**
@@ -355,6 +360,7 @@ export class TimesheetEditComponent implements OnInit {
     }
   }
   printEvents() {
+    console.log(this.currentTimesheet);
     console.log(this.events);
   }
 
@@ -362,7 +368,7 @@ export class TimesheetEditComponent implements OnInit {
     this.currentTimesheet = recivedTimesheet;
     const tmpEvents = JSON.parse(recivedTimesheet.dayjson);
     this.currentTimesheet.dayjson = []; // non e' sbagliato serve per eliminare le schifezze che potrebbero essere rimaste
-    console.log(tmpEvents);
+    console.log(this.currentTimesheet);
     tmpEvents.forEach((element) => {
       const newEvent = {
         title: element.title,
@@ -383,26 +389,45 @@ export class TimesheetEditComponent implements OnInit {
   }
 
   updateStateLabel() {
+
+
+    this.currentTimesheet.state = String(this.currentTimesheet.state);
     console.log(this.currentTimesheet.state);
     this.currentTimesheet.state = this.currentTimesheet.state;
     switch (this.currentTimesheet.state) {
       case "0":
+        this.disableAggiungiEvento = false;
+        this.disableCalcolaTrasferte = true;
         this.timeshetStatus = "Non inizializzato";
         break;
 
       case "1":
+        this.disableAggiungiEvento = false;
+        this.disableCalcolaTrasferte = true;
         this.timeshetStatus = "Modificabile";
         break;
 
       case "2":
+        if ( this.getRoleFromLocalStorage() === '0' || this.getRoleFromLocalStorage() === '1' ) {
+          this.disableSalva = false;
+          this.disableAggiungiEvento = false;
+        } else {
+          this.disableSalva = true;
+          this.disableAggiungiEvento = true;
+        }
+
+        this.disableCalcolaTrasferte = false;
         this.timeshetStatus = "Accettato dal dipendente";
         break;
 
       case "3":
+        this.disableCalcolaTrasferte = false;
         this.timeshetStatus = "Accettato dall'amministrazione";
         break;
 
       case "4":
+        this.disableAggiungiEvento = true;
+        this.disableCalcolaTrasferte = false;
         this.timeshetStatus = "Pagato";
         break;
 
@@ -449,7 +474,7 @@ export class TimesheetEditComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (res) => {
         console.log(res);
-        if ( res === undefined || Object.keys(res).length ) {
+        if ( res === undefined ) {
           this.toastrService.info("Nessna Operazione effettuata");
         } else {
           this.currentTimesheet.trasferte = res.data;
@@ -577,7 +602,8 @@ export class TimesheetEditComponent implements OnInit {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
     const userid = this.currentTimesheetUserId;
-    this.timesheetService.acceptAsFinally(month, year, userid).subscribe(
+    const loggeduserid = this.authenticationService.currentUserValue.id;
+    this.timesheetService.acceptAsFinally(month, year, userid, loggeduserid).subscribe(
       (result) => {
         if (result.status === "done") {
           this.loadCurrentMonthTimesheet(result.data);
@@ -609,7 +635,8 @@ export class TimesheetEditComponent implements OnInit {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
     const userid = this.currentTimesheetUserId;
-    this.timesheetService.resetState(month, year, userid).subscribe(
+    const loggeduserid = this.authenticationService.currentUserValue.id;
+    this.timesheetService.resetState(month, year, userid, loggeduserid).subscribe(
       (result) => {
         if (result.status === "done") {
           this.loadCurrentMonthTimesheet(result.data);

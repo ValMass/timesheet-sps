@@ -60,18 +60,18 @@
 </div>
 <div class="luce" *ngIf="ismodifiable;">
   <div class="timesheet-controls">
-    <button class="btn btn-primary mt-5 mr-1 w-25 btn-cst" (click)="openAddEventDialog()">Aggiungi evento</button>
-    <button class="btn btn-warning mt-5 mr-1 w-25 btn-cst" (click)="askTosaveCurrentTimesheet()">Salva</button>
+    <button class="btn btn-primary mt-5 mr-1 w-25 btn-cst" (click)="openAddEventDialog()" [disabled]="disableAggiungiEvento">Aggiungi evento</button>
+    <button class="btn btn-warning mt-5 mr-1 w-25 btn-cst" (click)="askTosaveCurrentTimesheet()" [disabled]="disableSalva">Salva</button>
     <button class="btn btn-primary mt-5 mr-1 w-25 btn-cst" (click)="askToAcceptAsUser()">Accetta come utente</button>
   </div>
   <div *ngIf="adminStyle;" class="timesheet-controls">
     <button class="btn btn-primary mt-5 mr-1 w-25 btn-cst" (click)="askToAcceptAsAdmin()">Accetta come amministratore</button>
     <button class="btn btn-success mt-5 mr-1 w-25 btn-cst" (click)="askToAcceptAsFinally()">Accetta definitivamente</button>
     <button class="btn btn-primary mt-5 mr-1 w-25 btn-cst" (click)="askToResetStatus()">Azzera stato</button>
+    <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="exportInExcel()">ExportInexcel</button>
+    <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="calcTrasferte()" [disabled]="disableCalcolaTrasferte">Calcola Trasferte</button>
   </div>
   <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="printEvents()">Dincibacco</button>
-  <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="exportInExcel()">ExportInexcel</button>
-  <button class="btn btn-primary mt-5 col-4 btn-cst" (click)="calcTrasferte()">Calcola Trasferte</button>
 </div>
 
 <app-modal class="modal-customer" [message]="confirmationMessage" [isOpen]="showModalSave" (handleNo)="closeConfirmationModal()"

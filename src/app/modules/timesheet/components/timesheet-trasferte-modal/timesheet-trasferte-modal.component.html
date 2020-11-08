@@ -4,7 +4,7 @@
     <form (ngSubmit)="ricalcolaTrasferte(paramForm)" #paramForm="ngForm">
       <div class="col-4">
         <label for="acivalue">Aci</label>
-        <input type="text" id="acivalue" name="acivalue" #acivalueinput [ngModel]="acivalue">
+        <input type="text" id="acivalue" name="acivalue" #acivalueinput [ngModel]="acivalue" (ngModelChange)="modelChanged($event)">
       </div>
       <div class="col-4">
         <label for="diaria">Diaria</label>
@@ -49,6 +49,6 @@
   </table>
   <div class="d-flex justify-content-between" mat-dialog-actions>
     <button class="btn btn-primary w-25" (click)="closeModal()">Chiudi</button>
-    <button class="btn btn-primary w-25" (click)="saveList()" >Salva</button>
+    <button class="btn btn-primary w-25" (click)="saveList()" [disabled]="disableSave" >Salva</button>
   </div>
 </div>

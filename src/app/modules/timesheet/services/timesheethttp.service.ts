@@ -84,9 +84,9 @@ export class TimesheethttpService implements Resolve<any> {
 
   }
 
-  acceptAsFinally(month, year, userid){
+  acceptAsFinally(month, year, userid, loggeduserid){
     const url = environment.apiUrl + 'timesheets/acceptTimesheetAsFinally.php';
-    return this.http.post<any>(url, { month, year, userid }).pipe(catchError(error => {
+    return this.http.post<any>(url, { month, year, userid, loggeduserid }).pipe(catchError(error => {
       return EMPTY;
     }), mergeMap(something => {
       if (something) {
@@ -103,9 +103,9 @@ export class TimesheethttpService implements Resolve<any> {
 
 
 
-  resetState(month, year, userid){
+  resetState(month, year, userid, loggeduserid){
     const url = environment.apiUrl + 'timesheets/resetTimesheetState.php';
-    return this.http.post<any>(url, { month, year, userid }).pipe(catchError(error => {
+    return this.http.post<any>(url, { month, year, userid, loggeduserid }).pipe(catchError(error => {
       return EMPTY;
     }), mergeMap(something => {
       if (something) {
