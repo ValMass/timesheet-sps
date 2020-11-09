@@ -22,7 +22,7 @@
 
       <div class="mb-2">
         <label for="cars" class="cod-contratto">Codice contratto</label>
-        <select id="cars" name="cars" class="custom-select sel-text" formControlName="contractCode"
+        <select id="cars" name="cars" class="custom-select sel-text" formControlName="contractCode" 
         [ngClass]="{'is-invalid':f.contractCode.errors && submitted}"
           (change)="onChangeSelect($event)" required>
           <option value="LAVORO" selected="selected">Lavoro ordinario</option>

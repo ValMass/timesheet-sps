@@ -25,6 +25,20 @@ export class UserAnagService {
     );
   }
 
+  getWorkOffice(id) {
+    const url = environment.apiUrl + 'offices/getOfficesById.php';
+    return this.http.post<any>(url, { id }).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+        return of(something);
+      } else {
+        return EMPTY;
+      }
+    })
+    );
+  }
+
   updateAnagraphicForUser(anagraphic) {
     const url = environment.apiUrl + 'anagraphicData/updateAnagraphicDataById.php';
     return this.http.post(url, anagraphic).pipe(catchError(error => {

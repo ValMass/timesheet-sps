@@ -32,7 +32,7 @@
 
     <div class="form-group">
       <label for="cap" >C.A.P</label>
-      <input name="cap" class="form-control" type="number" [(ngModel)]="editingOffice.cap" #cap="ngModel"
+      <input name="cap" class="form-control" type="text" [(ngModel)]="editingOffice.cap" #cap="ngModel"
         placeholder="CAP" [ngClass]="{'is-invalid':f.submitted && cap.invalid}" required/>
       <div *ngIf="f.submitted && cap.invalid" class="invalid-feedback">
         <div *ngIf="cap.errors.required">Campo obbligatorio</div>

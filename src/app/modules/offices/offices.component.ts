@@ -92,6 +92,7 @@ export class OfficesComponent implements OnInit {
 
   //used in save()
   addOffice(office: Office) {
+    console.log(office);
     this.officeService.createNewOffice(office).subscribe(data => {
       console.log(data);
       this.toastrService.success('ufficio aggiunto');

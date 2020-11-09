@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 import { UserAnagService } from './service/user-anag.service';
 import { ContractAnagService } from './service/contract-anag.service';
+import { AuthenticationService } from '@app/services/authentication.service';
+import { User } from '@app/models/user';
 
 @Component({
   selector: 'app-user-anag',
@@ -16,36 +18,39 @@ export class UserAnagComponent implements OnInit {
   selectedContract;
   nome = "";
   cognome = "";
+  workplaceId = 0;
 
   constructor(
     private route: ActivatedRoute,
     public fb: FormBuilder,
     private userAnag: UserAnagService,
     private contractAnag: ContractAnagService,
+    private authenticationService: AuthenticationService
   ) { }
 
   anagForm = new FormGroup({
-    name: new FormControl('', [Validators.required,]),
-    surname: new FormControl('', [Validators.required,]),
-    address: new FormControl('', [Validators.required,]),
-    email: new FormControl('', [Validators.required,]),
-    phonenumber1: new FormControl('', [Validators.required,]),
-    phonenumber2: new FormControl('', [Validators.required,]),
-    birthdate: new FormControl('', [Validators.required,]),
-    birthplace: new FormControl('', [Validators.required,]),
-    regnuminps: new FormControl('', [Validators.required,]),
-    contracttype: new FormControl('', [Validators.required,]),
-    distaccatoda: new FormControl('', [Validators.required,]),
-    distaccatoa: new FormControl('', [Validators.required,]),
-    sededilavoro: new FormControl('', [Validators.required,]),
-    valorerimborsistimato: new FormControl('', [Validators.required,]),
-    buonipastobool: new FormControl('', [Validators.required,]),
-    sex: new FormControl('', [Validators.required,]),
-    contractid: new FormControl('', [Validators.required,]),
+    name: new FormControl('', [Validators.required, ]),
+    surname: new FormControl('', [Validators.required, ]),
+    address: new FormControl('', [Validators.required, ]),
+    email: new FormControl('', [Validators.required, ]),
+    phonenumber1: new FormControl('', [Validators.required, ]),
+    phonenumber2: new FormControl('', [Validators.required, ]),
+    birthdate: new FormControl('', [Validators.required, ]),
+    birthplace: new FormControl('', [Validators.required, ]),
+    regnuminps: new FormControl('', [Validators.required, ]),
+    contracttype: new FormControl('', [Validators.required, ]),
+    distaccatoda: new FormControl('', [Validators.required, ]),
+    distaccatoa: new FormControl('', [Validators.required, ]),
+    sededilavoro: new FormControl('', [Validators.required, ]),
+    valorerimborsistimato: new FormControl('', [Validators.required, ]),
+    buonipastobool: new FormControl('', [Validators.required, ]),
+    sex: new FormControl('', [Validators.required, ]),
+    contractid: new FormControl('', [Validators.required, ]),
   });
   ngOnInit() {
     this.currentAnagId = this.getIdFromLocalStorage();
     const id = this.getIdFromLocalStorage();
+    const emails = this.getEmailFromLocalStorage();
     this.userAnag.getAnagraphic(id).subscribe(
       anag => {
         if (anag['status'] === "done") {
@@ -53,11 +58,13 @@ export class UserAnagComponent implements OnInit {
           this.dbAnag = anag["data"];
           this.nome = this.dbAnag.name;
           this.cognome = this.dbAnag.surname;
+          this.workplaceId = this.dbAnag.sededilavoro;
           console.log(this.dbAnag);
           let newanag = {
             name: this.dbAnag.name,
             surname: this.dbAnag.surname,
             address: this.dbAnag.address,
+            email: emails,
             phonenumber1: this.dbAnag.phonenumber1,
             phonenumber2: this.dbAnag.phonenumber2,
             birthdate: this.dbAnag.birthdate,
@@ -71,9 +78,17 @@ export class UserAnagComponent implements OnInit {
             buonipastobool: this.anagForm.get('surname').value,
             sex: this.anagForm.get('surname').value,
             contractid: this.anagForm.get('surname').value,
-          }
+          };
           console.log(newanag);
-          this.anagForm.patchValue(newanag);
+          this.userAnag.getWorkOffice(this.workplaceId).subscribe(
+            res => {
+              console.log(res.data);
+              newanag.sededilavoro = res.data.address;
+              this.anagForm.patchValue(newanag);
+            }
+          );
+          console.log(newanag);
+          //this.anagForm.patchValue(newanag);
         } else {
           console.log("error");
         }
@@ -98,6 +113,8 @@ export class UserAnagComponent implements OnInit {
     } else {
       console.log("no contract found");
     }
+
+
     /*
         this.route.data.subscribe(
           data => {
@@ -154,8 +171,9 @@ export class UserAnagComponent implements OnInit {
   }
 
   getEmailFromLocalStorage() {
-    const tmp = localStorage.getItem('currentUser');
-    const tmpArray = JSON.parse(tmp);
-    return tmpArray.email;
+    const user: User = this.authenticationService.currentUserValue;
+    return user.email;
   }
+
+
 }

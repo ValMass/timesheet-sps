@@ -22,7 +22,7 @@ export class TimesheetAddEventComponent implements OnInit {
   aggiungiButtonDisabled: boolean = false;
   errorMessage = "";
   assignedact: any[];
-  insertLavoro = false;
+  insertLavoro = true;
   insertMalattia = false;
   insertNumeroOre = false;
   allComplete : boolean = true;
@@ -36,10 +36,10 @@ export class TimesheetAddEventComponent implements OnInit {
 
   ngOnInit(): void {
     this.profileForm = this.formBuilder.group({
-      numeroOre: [null, [Validators.required]],
-      contractCode: [null, [Validators.required]],
+      numeroOre: ['8', [Validators.required]],
+      contractCode: ['LAVORO', [Validators.required]],
       eventDate: [this.data.date, [Validators.required]],
-      codiceFatturazione: ['00', [Validators.required]],
+      codiceFatturazione: ['01', [Validators.required]],
       numProtocollo: ['00', [Validators.required]],
       activityId: ['0', [Validators.required]],
       smartWorking: [this.isChecked(), [Validators.required]],

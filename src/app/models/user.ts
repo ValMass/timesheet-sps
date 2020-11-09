@@ -7,4 +7,5 @@ export class User {
   token?: string;
   isadmin: string;
   role: string;
+  email: string;
 }

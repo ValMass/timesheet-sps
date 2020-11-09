@@ -304,7 +304,7 @@ export class TimesheetEditComponent implements OnInit {
           };
 
           this.events = [...this.events, event];
-          this.toastrService.success("Evento aggiunto");
+          this.toastrService.success("Evento aggiunto temporaneamente. Salvare il timesheet per applicare le modifiche");
         } else {
           this.toastrService.error("Nessuna operazione effettuata");
         }
@@ -494,7 +494,7 @@ export class TimesheetEditComponent implements OnInit {
     this.showModalSave = true;
     console.log(this.currentTimesheet);
     this.confirmationMessage =
-      "Vuoi salvare il timesheet  del " + month + "/" + year;
+      "Vuoi salvare il timesheet ?";
   }
 
   saveCurrentTimesheet() {
