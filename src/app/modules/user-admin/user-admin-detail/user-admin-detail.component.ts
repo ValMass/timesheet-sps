@@ -10,6 +10,7 @@ import { OfficesService } from '../services/offices.service';
 import { ActivityService } from '../services/activity.service';
 import { AddActivityComponent } from '../add-activity/add-activity.component';
 import { MatDialog } from '@angular/material/dialog';
+import { EconomicService } from '../services/economic.service';
 
 @Component({
   selector: 'app-user-admin-detail',
@@ -32,6 +33,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
 
   userForm: FormGroup;
   anagForm: FormGroup;
+  econForm: FormGroup;
   contractForm: FormGroup;
   activityForm: FormGroup;
 
@@ -50,6 +52,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     private customerService: CustomersService,
     private officesService: OfficesService,
     private activityService: ActivityService,
+    private economicService: EconomicService,
     public dialog: MatDialog,
     private fb: FormBuilder,
   ) { }
@@ -57,6 +60,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.userForm = this.createUserForm();
     this.anagForm = this.createAnagForm();
+    this.econForm = this.createEconomicForm();
     this.contractForm = this.createContractForm();
     this.activityForm = this.createActivityForm();
 
@@ -98,8 +102,11 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   async ngAfterViewInit() {
     const userInfo = await this.userAdminService.getUserInfoById(this.userAdmin.id).toPromise();
     const anagInfo = await this.anagService.getAnagraphic(this.userAdmin.id).toPromise();
+    console.log(anagInfo);
+    const economicInfo = await this.economicService.getEconomic(anagInfo['data']['economicdataid']).toPromise();
     this.userForm.patchValue(userInfo['data'][0].uset);
     this.anagForm.patchValue(anagInfo['data']);
+    this.econForm.patchValue(economicInfo['data']);
     this.contractForm.patchValue({contractid: anagInfo['data'].contractid});
   }
 
@@ -161,6 +168,22 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       });
   }
 
+  submitEconomic() {
+    console.log(this.econForm.value);
+    this.economicService.updateEconomicData(this.econForm.value).subscribe(
+      res =>{
+        if (res['status'] === 'done') {
+        this.toastrService.success('Economic data aggiornato correttamente');
+      } else {
+        this.toastrService.error('Errore nell\'aggiornamento del contratto');
+      }
+    },
+    error => {
+      this.toastrService.error('Errore http: ' + error);
+    }
+    );
+  }
+
   deleteActivity(activity) {
     if (confirm(`Sei sicuro di voler eliminare l'attività: ${activity.act.name}?`)) {
       this.activityService.deleteActivityById(activity.act.id)
@@ -184,7 +207,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       email: ['', [Validators.required]],
       role: ['', [Validators.required]],
     });
-  return userForm;
+    return userForm;
   }
 
   createAnagForm() {
@@ -196,6 +219,16 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       sededilavoro: ['', [Validators.required]],
     });
     return anagForm;
+  }
+  createEconomicForm() {
+    const economicForm = this.fb.group({
+      ral: ['', [Validators.required]],
+      pagamensile: ['', [Validators.required]],
+      rimborsomensile: ['', [Validators.required]],
+      diaria: ['', [Validators.required]],
+      acivalue: ['', [Validators.required]],
+    });
+    return economicForm;
   }
 
   createContractForm() {

@@ -2,8 +2,8 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th scope="col">Nome utente</th>
-        <th scope="col">Nome utente</th>
+        <th scope="col">Nome cliente</th>
+        <th scope="col">Indirizzo sede legale</th>
         <th scope="col">Email</th>
         <th scope="col">Data di creazione</th>
       </tr>
@@ -12,6 +12,7 @@
       <tr *ngFor="let customer of customerlist">
         <td (click)="redirectToCustomer(customer)">{{ customer.name}} </td>
         <td (click)="redirectToCustomer(customer)">{{ customer.legaladdress }}</td>
+        <td (click)="redirectToCustomer(customer)">{{ customer.postacertificata }}</td>
       </tr>
     </tbody>
   </table>

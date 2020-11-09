@@ -63,6 +63,7 @@ export class UserAdminComponent implements OnInit {
   }
 
   parseDialogFormRes(dialogRes) {
+    console.log("preparse ", dialogRes);
     let tmpuser = new UserAdmin();
     tmpuser.username = dialogRes['username'];
     tmpuser.password = dialogRes['password'];
@@ -83,6 +84,9 @@ export class UserAdminComponent implements OnInit {
     tmpeco.ral = dialogRes['ral'];
     tmpeco.pagamensile = dialogRes['pagamensile'];
     tmpeco.rimborsomensile = dialogRes['rimborsostimato'];
+    tmpeco.diaria = dialogRes['diaria'];
+    tmpeco.acivalue = dialogRes['acivalue'];
+
     return { usertoadd: tmpuser, anagtoadd: tmpanag, economictoadd: tmpeco };
   }
 

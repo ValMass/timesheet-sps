@@ -117,7 +117,51 @@
       <button type="submit" class="btn btn-primary btn-block mt-5">Salva</button>
     </form>
   </mat-expansion-panel>
-
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Modifica dati economici
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <form class="p-5" name="contract" id="contract" [formGroup]="econForm" (ngSubmit)="submitEconomic()">
+      <div class="form-group row">
+        <label for="ral" class="col-sm-2 col-form-label">Ral</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="ral" placeholder="Rendimento annuo lordo"
+            formControlName="ral" required />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="diaria" class="col-sm-2 col-form-label">Diaria</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="diaria" placeholder="Diaria in caso di trasferta"
+            formControlName="diaria" required />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="acivalue" class="col-sm-2 col-form-label">Valore tabella Aci</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="acivalue" placeholder="Valore tabella Aci"
+            formControlName="acivalue" required />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="pagamensile" class="col-sm-2 col-form-label">Paga mensile</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="pagamensile" placeholder="Paga Mensile"
+            formControlName="pagamensile" required />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="rimborsomensile" class="col-sm-2 col-form-label">Rimborso mensile</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="rimborsomensile" placeholder="Rimborso mensile"
+            formControlName="rimborsomensile" required />
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block mt-5">Salva</button>
+    </form>
+  </mat-expansion-panel>
   <mat-expansion-panel hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>
