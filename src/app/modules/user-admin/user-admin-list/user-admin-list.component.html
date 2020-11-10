@@ -24,7 +24,7 @@
         <td>
           <app-span-tooltip [state] = useradmin.state></app-span-tooltip>
         </td>
-        <td><button class="button-custom" mat-button color="accent" (click)="modifyTimesheet(useradmin)">Modifica
+        <td><button class="button-custom" mat-button color="accent" (click)="modifyTimesheet(useradmin)" [disabled]="useradmin.role === '1' || useradmin.role === '0'">Modifica
             Timesheet</button></td>
         <td>
           <app-button-footer class="card-footer-item" [className]="'delete-item'" [iconClasses]="'fas fa-trash mr-2'"

@@ -71,9 +71,9 @@ export class UserAdminService implements Resolve<UserAdmin[]> {
     return this.http.post(url, { id: userId });
   }
 
-  getListForUserList(month, year) {
+  getListForUserList(month, year, role) {
     const url = environment.apiUrl + 'user/listAllUserWithTimesheetForMonth.php';
-    return this.http.post<any>(url, { month , year })
+    return this.http.post<any>(url, { month , year, role })
       .pipe(catchError(error => {
       return EMPTY;
       }),

@@ -13,6 +13,7 @@ import { AnagraphicService } from './services/anagraphic.service';
 import { AuthGuard } from '@app/_helper/auth.guard';
 import { FileService } from '@app/shared/services/file.service';
 import * as fileSaver from 'file-saver';
+import { AuthenticationService } from '@app/services/authentication.service';
 
 
 @Component({
@@ -37,6 +38,7 @@ export class UserAdminComponent implements OnInit {
     private toastrService: ToastrService,
     private fileservice: FileService,
     private router: Router,
+    private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
@@ -48,12 +50,12 @@ export class UserAdminComponent implements OnInit {
       error: err => console.log('Observer got an error: ' + JSON.stringify(err)),
       complete: () => console.log('Observer got a complete notification'),
     };
-
+    const loggeduser = this.authenticationService.currentUserValue;
     this.route.data.subscribe(observer);
     const viewDate = new Date();
     const month = viewDate.getMonth();
     const year = viewDate.getFullYear();
-    this.userAdminService.getListForUserList(month, year).subscribe(
+    this.userAdminService.getListForUserList(month, year, loggeduser.role).subscribe(
       res => {
         if (res.status === "done") {
           this.users = res.data;
@@ -160,7 +162,8 @@ export class UserAdminComponent implements OnInit {
     const viewDate = new Date();
     const month = viewDate.getMonth();
     const year = viewDate.getFullYear();
-    this.userAdminService.getListForUserList(month, year).subscribe(
+    const loggeduser = this.authenticationService.currentUserValue;
+    this.userAdminService.getListForUserList(month, year, loggeduser.role).subscribe(
       res => {
         if (res.status === "done") {
           this.users = res.data;

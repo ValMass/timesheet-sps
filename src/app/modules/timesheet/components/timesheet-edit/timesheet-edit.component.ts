@@ -1,11 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 import {
   CalendarEvent,
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarView,
   CalendarEventTitleFormatter,
-} from "angular-calendar";
+} from 'angular-calendar';
 import {
   startOfDay,
   endOfDay,
@@ -15,26 +15,26 @@ import {
   isSameDay,
   isSameMonth,
   addHours,
-} from "date-fns";
+} from 'date-fns';
 
-import { Subject } from "rxjs";
-import { ToastrService } from "ngx-toastr";
-import { ActivatedRoute, Router } from "@angular/router";
-import { TimesheethttpService } from "../../services/timesheethttp.service";
-import { Timesheet } from "../../model/timesheet";
-import { MatDialog } from "@angular/material/dialog";
-import { TimesheetAddEventComponent } from "../timesheet-add-event/timesheet-add-event.component";
-import { TimesheetTrasferteModalComponent } from "../timesheet-trasferte-modal/timesheet-trasferte-modal.component";
-import { NewCalendarEvent } from "../../model/event";
-import { FileService } from "@app/shared/services/file.service";
-import * as fileSaver from "file-saver";
-import { AuthenticationService } from "@app/services/authentication.service";
-import { User } from "@app/models/user";
+import { Subject } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TimesheethttpService } from '../../services/timesheethttp.service';
+import { Timesheet } from '../../model/timesheet';
+import { MatDialog } from '@angular/material/dialog';
+import { TimesheetAddEventComponent } from '../timesheet-add-event/timesheet-add-event.component';
+import { TimesheetTrasferteModalComponent } from '../timesheet-trasferte-modal/timesheet-trasferte-modal.component';
+import { NewCalendarEvent } from '../../model/event';
+import { FileService } from '@app/shared/services/file.service';
+import * as fileSaver from 'file-saver';
+import { AuthenticationService } from '@app/services/authentication.service';
+import { User } from '@app/models/user';
 
 @Component({
-  selector: "app-timesheet-edit",
-  templateUrl: "./timesheet-edit.component.html",
-  styleUrls: ["./timesheet-edit.component.css"],
+  selector: 'app-timesheet-edit',
+  templateUrl: './timesheet-edit.component.html',
+  styleUrls: ['./timesheet-edit.component.css'],
 })
 export class TimesheetEditComponent implements OnInit {
   // fake binded params for calendar view ngswitch
@@ -56,7 +56,7 @@ export class TimesheetEditComponent implements OnInit {
   // queste sono le variabili che rappresentano lo stato attuale del timesheet
 
   // questa label rispecchia lo status del mese attualmente caricato come timesheet
-  timeshetStatus = "0";
+  timeshetStatus = '0';
 
   currentTimesheetUserId = 0;
   currentTimesheet: Timesheet;
@@ -74,17 +74,17 @@ export class TimesheetEditComponent implements OnInit {
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-      a11yLabel: "Edit",
+      a11yLabel: 'Edit',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent("Edited", event);
+        this.handleEvent('Edited', event);
       },
     },
     {
       label: '<i class="fas fa-fw fa-trash-alt"></i>',
-      a11yLabel: "Delete",
+      a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         this.events = this.events.filter((iEvent) => iEvent !== event);
-        this.handleEvent("Deleted", event);
+        this.handleEvent('Deleted', event);
       },
     },
   ];
@@ -97,7 +97,7 @@ export class TimesheetEditComponent implements OnInit {
   showAcceptAsFinally = false;
   showResetStatus = false;
   // questo e' il messaggio visualizzato dalle modali di conferma
-  confirmationMessage = "";
+  confirmationMessage = '';
 
   //variabili che controllano i tasti a seconda dello stato del timesheet
   disableAggiungiEvento = true;
@@ -124,18 +124,18 @@ export class TimesheetEditComponent implements OnInit {
     this.route.params.subscribe(
       (params) => {
         if (params.id) {
-          console.log("prendo id dal routing");
+          console.log('prendo id dal routing');
           this.currentTimesheetUserId = params.id;
           this.adminStyle = true;
         } else {
-          console.log("prendo id local storage");
+          console.log('prendo id local storage');
           this.currentTimesheetUserId = this.getIdFromLocalStorage();
           this.adminStyle = false;
         }
         console.log(this.currentTimesheetUserId);
       },
       (error) => {
-        console.log("error find addressid");
+        console.log('error find addressid');
       }
     );
 
@@ -146,7 +146,7 @@ export class TimesheetEditComponent implements OnInit {
       .getTimesheet(month, year, this.currentTimesheetUserId)
       .subscribe(
         (result) => {
-          if (result.status === "done") {
+          if (result.status === 'done') {
             const recivedTimesheet = result.data as Timesheet;
             this.loadCurrentMonthTimesheet(recivedTimesheet);
             console.log(this.currentTimesheet);
@@ -164,7 +164,7 @@ export class TimesheetEditComponent implements OnInit {
 
     this.timesheetService.listActivities(this.currentTimesheetUserId).subscribe(
       (result) => {
-        if (result.status === "done") {
+        if (result.status === 'done') {
           this.assignedActivities = result.data;
           console.log(result);
           console.log(this.assignedActivities);
@@ -183,7 +183,7 @@ export class TimesheetEditComponent implements OnInit {
     this.events = [];
     this.timesheetService.getTimesheet(month, year, userid).subscribe(
       (timesheet) => {
-        if (timesheet.status === "done") {
+        if (timesheet.status === 'done') {
           this.loadCurrentMonthTimesheet(timesheet.data);
           console.log(this.currentTimesheet.dayjson);
           this.events = this.currentTimesheet.dayjson;
@@ -194,7 +194,7 @@ export class TimesheetEditComponent implements OnInit {
         }
       },
       (error) => {
-        this.toastrService.error("Errore Http " + error);
+        this.toastrService.error('Errore Http ' + error);
       }
     );
     this.checkIfCanModify();
@@ -211,7 +211,7 @@ export class TimesheetEditComponent implements OnInit {
     this.events = [];
     this.timesheetService.getTimesheet(month, year, userid).subscribe(
       (timesheet) => {
-        if (timesheet.status === "done") {
+        if (timesheet.status === 'done') {
           this.loadCurrentMonthTimesheet(timesheet.data);
           console.log(this.currentTimesheet.dayjson);
           this.events = this.currentTimesheet.dayjson;
@@ -222,7 +222,7 @@ export class TimesheetEditComponent implements OnInit {
         }
       },
       (error) => {
-        this.toastrService.error("Errore Http " + error);
+        this.toastrService.error('Errore Http ' + error);
       }
     );
     this.checkIfCanModify();
@@ -254,12 +254,12 @@ export class TimesheetEditComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     console.log(event);
-    if (action === "Edited") {
-      this.toastrService.success("Rimuovi l'evento e ricrealo");
+    if (action === 'Edited') {
+      this.toastrService.success('Rimuovi l\'evento e ricrealo');
     }
 
-    if (action === "Deleted") {
-      this.toastrService.success("Evento rimosso");
+    if (action === 'Deleted') {
+      this.toastrService.success('Evento rimosso');
     }
   }
 
@@ -271,18 +271,18 @@ export class TimesheetEditComponent implements OnInit {
       year: this.viewDate.getFullYear(),
       dayjson: this.events,
       userid: this.currentTimesheetUserId.toString(),
-      validatedbyadmin: "0",
-      validatebyuser: "0",
-      validatebyfinal: "0",
+      validatedbyadmin: '0',
+      validatebyuser: '0',
+      validatebyfinal: '0',
       trasferte: '',
-      state: "0",
+      state: '0',
     };
     return timesheet;
   }
   openAddEventDialog() {
     if (this.checkIfCanModify()) {
       const dialogRef = this.dialog.open(TimesheetAddEventComponent, {
-        width: "600px",
+        width: '600px',
         data: {
           date: this.viewDate,
           eventsList: this.events,
@@ -290,7 +290,7 @@ export class TimesheetEditComponent implements OnInit {
         },
       });
       dialogRef.afterClosed().subscribe((res) => {
-        if (res.data !== "close") {
+        if (res.data !== 'close') {
           console.log(res.data);
           const event: NewCalendarEvent = {
             title: res.data.contractCode,
@@ -304,9 +304,9 @@ export class TimesheetEditComponent implements OnInit {
           };
 
           this.events = [...this.events, event];
-          this.toastrService.success("Evento aggiunto temporaneamente. Salvare il timesheet per applicare le modifiche");
+          this.toastrService.success('Evento aggiunto temporaneamente. Salvare il timesheet per applicare le modifiche');
         } else {
-          this.toastrService.error("Nessuna operazione effettuata");
+          this.toastrService.error('Nessuna operazione effettuata');
         }
       });
     } else {
@@ -319,8 +319,8 @@ export class TimesheetEditComponent implements OnInit {
   getIdFromLocalStorage() {
     const user: User = this.authenticationService.currentUserValue;
     if (user == null) {
-      this.toastrService.error("getIdFromLocalStorage() -> null");
-      this.router.navigate(["/home-page"]);
+      this.toastrService.error('getIdFromLocalStorage() -> null');
+      this.router.navigate(['/home-page']);
       return null;
     }
 
@@ -337,7 +337,7 @@ export class TimesheetEditComponent implements OnInit {
    */
   checkIfCanModify() {
     const userRole = this.getRoleFromLocalStorage();
-    if (this.isDisabled() || userRole == "0" ) {
+    if (this.isDisabled() || userRole == '0' ) {
       this.ismodifiable = true;
       return true;
     } else {
@@ -352,9 +352,9 @@ export class TimesheetEditComponent implements OnInit {
    */
 
   checkIfCanModifyErrorMsg() {
-    if (this.currentTimesheet.state === "4") {
+    if (this.currentTimesheet.state === '4') {
       this.toastrService.error(
-        "impossibile modificare il timesheet: stato pagato"
+        'impossibile modificare il timesheet: stato pagato'
       );
       return false;
     }
@@ -395,19 +395,19 @@ export class TimesheetEditComponent implements OnInit {
     console.log(this.currentTimesheet.state);
     this.currentTimesheet.state = this.currentTimesheet.state;
     switch (this.currentTimesheet.state) {
-      case "0":
+      case '0':
         this.disableAggiungiEvento = false;
         this.disableCalcolaTrasferte = true;
-        this.timeshetStatus = "Non inizializzato";
+        this.timeshetStatus = 'Non inizializzato';
         break;
 
-      case "1":
+      case '1':
         this.disableAggiungiEvento = false;
         this.disableCalcolaTrasferte = true;
-        this.timeshetStatus = "Modificabile";
+        this.timeshetStatus = 'Modificabile';
         break;
 
-      case "2":
+      case '2':
         if ( this.getRoleFromLocalStorage() === '0' || this.getRoleFromLocalStorage() === '1' ) {
           this.disableSalva = false;
           this.disableAggiungiEvento = false;
@@ -417,18 +417,18 @@ export class TimesheetEditComponent implements OnInit {
         }
 
         this.disableCalcolaTrasferte = false;
-        this.timeshetStatus = "Accettato dal dipendente";
+        this.timeshetStatus = 'Accettato dal dipendente';
         break;
 
-      case "3":
+      case '3':
         this.disableCalcolaTrasferte = false;
-        this.timeshetStatus = "Accettato dall'amministrazione";
+        this.timeshetStatus = 'Accettato dall\'amministrazione';
         break;
 
-      case "4":
+      case '4':
         this.disableAggiungiEvento = true;
         this.disableCalcolaTrasferte = false;
-        this.timeshetStatus = "Pagato";
+        this.timeshetStatus = 'Pagato';
         break;
 
       default:
@@ -441,13 +441,13 @@ export class TimesheetEditComponent implements OnInit {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
     const userid = this.currentTimesheetUserId;
-    const nomefile = "TimesheetExport" + "_" + month + "_" + year + ".Xlsx";
+    const nomefile = 'TimesheetExport' + '_' + month + '_' + year + '.Xlsx';
     this.fileservice
       .downloadSingleTimesheetFile(month, year, userid)
       .subscribe((response) => {
         let blob: any = new Blob([response], {
           type:
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8",
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8',
         });
         const url = window.URL.createObjectURL(blob);
         // window.open(url);
@@ -455,16 +455,16 @@ export class TimesheetEditComponent implements OnInit {
         fileSaver.saveAs(blob, nomefile);
       }),
       (error) => {
-        console.log("Error downloading the file", error);
+        console.log('Error downloading the file', error);
       },
       () => {
-        console.info("File downloaded successfully");
+        console.info('File downloaded successfully');
       };
   }
   calcTrasferte() {
     console.log(this.currentTimesheet.trasferte);
     const dialogRef = this.dialog.open(TimesheetTrasferteModalComponent, {
-        width: "600px",
+        width: '600px',
 
         data: {
           trasferta: JSON.parse(this.currentTimesheet.trasferte),
@@ -475,11 +475,11 @@ export class TimesheetEditComponent implements OnInit {
       (res) => {
         console.log(res);
         if ( res === undefined ) {
-          this.toastrService.info("Nessna Operazione effettuata");
+          this.toastrService.info('Nessna Operazione effettuata');
         } else {
           this.currentTimesheet.trasferte = res.data;
           this.saveCurrentTimesheet();
-          this.toastrService.success("Trasferte Salvate");
+          this.toastrService.success('Trasferte Salvate');
         }
       });
   }
@@ -494,7 +494,7 @@ export class TimesheetEditComponent implements OnInit {
     this.showModalSave = true;
     console.log(this.currentTimesheet);
     this.confirmationMessage =
-      "Vuoi salvare il timesheet ?";
+      'Vuoi salvare il timesheet ?';
   }
 
   saveCurrentTimesheet() {
@@ -504,18 +504,18 @@ export class TimesheetEditComponent implements OnInit {
     console.log(this.currentTimesheet.dayjson);
     this.timesheetService.saveTimesheet(this.currentTimesheet).subscribe(
       (result) => {
-        if (result.status === "done") {
-          this.toastrService.success("Timesheet salvato");
+        if (result.status === 'done') {
+          this.toastrService.success('Timesheet salvato');
           this.loadCurrentMonthTimesheet(result.data);
-          console.log("saved");
+          console.log('saved');
         } else {
-          console.log("error");
+          console.log('error');
           this.toastrService.error(result.message);
           return false;
         }
       },
       (error) => {
-        this.toastrService.error("Http Error");
+        this.toastrService.error('Http Error');
         return false;
       }
     );
@@ -526,10 +526,7 @@ export class TimesheetEditComponent implements OnInit {
     this.showAcceptAsUser = true;
     console.log(this.currentTimesheet);
     this.confirmationMessage =
-      "Vuoi salvare il timesheet  del " +
-      this.currentTimesheet.month +
-      " " +
-      this.currentTimesheet.year;
+      'Vuoi accettare il timesheet corrente e inviarlo all amministrazione? Una volta inviato non potrai piu modificarlo. '
   }
 
   acceptAsUser() {
@@ -538,9 +535,9 @@ export class TimesheetEditComponent implements OnInit {
     const userid = this.currentTimesheetUserId;
     this.timesheetService.acceptAsUser(month, year, userid).subscribe(
       (result) => {
-        if (result.status === "done") {
+        if (result.status === 'done') {
           this.loadCurrentMonthTimesheet(result.data);
-          this.toastrService.success("Timesheet accettato dall utente ");
+          this.toastrService.success('Timesheet accettato dall utente ');
           this.updateStateLabel();
         } else {
           this.toastrService.error(result.message);
@@ -557,11 +554,8 @@ export class TimesheetEditComponent implements OnInit {
     this.showAcceptAsAdmin = true;
     console.log(this.currentTimesheet);
     this.confirmationMessage =
-      "Vuoi confermare il timesheet  del " +
-      this.currentTimesheet.month +
-      " " +
-      this.currentTimesheet.year;
-    console.log("askToAcceptAsAdmin");
+      'Vuoi confermare il timesheet ? Una volta accettato non sara piu possibile cambiarlo.';
+    console.log('askToAcceptAsAdmin');
   }
 
   acceptAsAdmin() {
@@ -570,10 +564,10 @@ export class TimesheetEditComponent implements OnInit {
     const userid = this.currentTimesheetUserId;
     this.timesheetService.acceptAsAdmin(month, year, userid).subscribe(
       (result) => {
-        if (result.status === "done") {
+        if (result.status === 'done') {
           this.loadCurrentMonthTimesheet(result.data);
           this.toastrService.success(
-            "Timesheet accettato dall amministrazione "
+            'Timesheet accettato dall amministrazione '
           );
           this.updateStateLabel();
         } else {
@@ -591,11 +585,8 @@ export class TimesheetEditComponent implements OnInit {
     this.showAcceptAsFinally = true;
     console.log(this.currentTimesheet);
     this.confirmationMessage =
-      "Vuoi confermare definitivamente il timesheet  del " +
-      this.currentTimesheet.month +
-      " " +
-      this.currentTimesheet.year;
-    console.log("askToAcceptAsUser");
+      'Vuoi confermare definitivamente il timesheet? Una volta modificato non sara piu possibile modificarlo';
+    console.log('askToAcceptAsUser');
   }
 
   acceptAsFinally() {
@@ -605,9 +596,9 @@ export class TimesheetEditComponent implements OnInit {
     const loggeduserid = this.authenticationService.currentUserValue.id;
     this.timesheetService.acceptAsFinally(month, year, userid, loggeduserid).subscribe(
       (result) => {
-        if (result.status === "done") {
+        if (result.status === 'done') {
           this.loadCurrentMonthTimesheet(result.data);
-          this.toastrService.success("Timesheet accettato definitivamente ");
+          this.toastrService.success('Timesheet accettato definitivamente ');
           this.updateStateLabel();
         } else {
           this.toastrService.error(result.message);
@@ -624,11 +615,11 @@ export class TimesheetEditComponent implements OnInit {
     this.showResetStatus = true;
     console.log(this.currentTimesheet);
     this.confirmationMessage =
-      "Vuoi rendere nuovamente modificabile il timesheet  del " +
+      'Vuoi rendere nuovamente modificabile il timesheet  del ' +
       this.currentTimesheet.month +
-      " " +
+      ' ' +
       this.currentTimesheet.year;
-    console.log("askToAcceptAsUser");
+    console.log('askToAcceptAsUser');
   }
 
   ResetStatus() {
@@ -638,9 +629,9 @@ export class TimesheetEditComponent implements OnInit {
     const loggeduserid = this.authenticationService.currentUserValue.id;
     this.timesheetService.resetState(month, year, userid, loggeduserid).subscribe(
       (result) => {
-        if (result.status === "done") {
+        if (result.status === 'done') {
           this.loadCurrentMonthTimesheet(result.data);
-          this.toastrService.success("Timesheet torna modificabile");
+          this.toastrService.success('Timesheet torna modificabile');
           this.updateStateLabel();
         } else {
           this.toastrService.error(result.message);

@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { mergeMap, catchError } from 'rxjs/operators';
 import { environment } from '@environments/environment';
 
-@Injectable({
+@Injectable({  // TODO ricordqarsi di rimuovere questo file nopn serve piu
   providedIn: 'root'
 })
 export class UserListResolverService implements Resolve<any> {

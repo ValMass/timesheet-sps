@@ -12,9 +12,9 @@ export class ServicesService {
   constructor(private http: HttpClient) { }
 
 
-  getListForAdminHomepage(month, year){
+  getListForAdminHomepage(month, year, role){
     const url = environment.apiUrl + 'user/listAllUserWithTimesheetForMonth.php';
-    return this.http.post<any>(url, { month , year }).pipe(catchError(error => {
+    return this.http.post<any>(url, { month , year, role}).pipe(catchError(error => {
       return EMPTY;
     }), mergeMap(something => {
       if (something) {

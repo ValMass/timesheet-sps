@@ -4,6 +4,7 @@ import { environment } from '@environments/environment';
 import { NewUser } from '@app/models/newUser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ServicesService } from '../../services/services.service';
+import { AuthenticationService } from '@app/services/authentication.service';
 
 @Component({
   selector: 'app-user-list',
@@ -18,42 +19,17 @@ export class UserListComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private service: ServicesService,
+    private authenticationService: AuthenticationService,
   ) { }
   viewDate: Date = new Date();
 
   listautenti: any[] = [];
 
   ngOnInit(): void {
-    const observer = {
-      next: x => {
-        console.log(x.userlist.data);
-        let usArray = x.userlist.data;
-        usArray.forEach((element) => {
-          console.log(element);
-          const newElement = new NewUser();
-          newElement.id = element.id;
-          newElement.password = element.password;
-          newElement.anagraphicid = element.anagraphicid;
-          newElement.email = element.email;
-          newElement.regnuminps = element.regnuminps;
-          newElement.regnumsps = element.regnumsps;
-          newElement.role = element.role;
-          newElement.token = element.token;
-          newElement.tokencreationdate = element.tokencreationdate;
-          newElement.username = element.username;
-          newElement.userscreationdate = element.userscreationdate;
-          this.listautenti = [...this.listautenti, newElement];
-        });
-      },
-      error: erriks => console.log('Observer got an error: ' + JSON.stringify(erriks)),
-      complete: () => console.log('Observer got a complete notification'),
-    };
-
-    this.route.data.subscribe(observer);
-
+    const loggeduser = this.authenticationService.currentUserValue;
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
-    this.service.getListForAdminHomepage(month, year).subscribe(
+    this.service.getListForAdminHomepage(month, year, loggeduser.role).subscribe(
       res => {
         if ( res.status === "done"){
           this.listautenti = res.data;
