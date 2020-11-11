@@ -30,11 +30,18 @@ import { FileService } from '@app/shared/services/file.service';
 import * as fileSaver from 'file-saver';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { User } from '@app/models/user';
+import { EventTitleFormatter } from './eventTitleFormatter';
 
 @Component({
   selector: 'app-timesheet-edit',
   templateUrl: './timesheet-edit.component.html',
   styleUrls: ['./timesheet-edit.component.css'],
+  providers: [
+    {
+      provide: CalendarEventTitleFormatter,
+      useClass: EventTitleFormatter,
+    },
+  ],
 })
 export class TimesheetEditComponent implements OnInit {
   // fake binded params for calendar view ngswitch
@@ -103,6 +110,14 @@ export class TimesheetEditComponent implements OnInit {
   disableAggiungiEvento = true;
   disableCalcolaTrasferte = false;
   disableSalva = false;
+  disableAzeraStato = false;
+  disableAccettaComeUtente = false;
+  disableAccettaComeAmministratore = false;
+
+  // variabili per gestire la visibilita del bottone aaccetta come finally
+  disableAccettaComeFinally = false; // gestisce la visibilità
+  veroDisableFinally = false; // gestisce il disable
+
 
   constructor(
     public dialog: MatDialog,
@@ -397,12 +412,22 @@ export class TimesheetEditComponent implements OnInit {
     switch (this.currentTimesheet.state) {
       case '0':
         this.disableAggiungiEvento = false;
+        this.disableSalva = false;
+        this.disableAccettaComeUtente = true;
+        this.disableAccettaComeAmministratore = true;
+        this.disableAccettaComeFinally = true;
+        this.disableAzeraStato = true;
         this.disableCalcolaTrasferte = true;
         this.timeshetStatus = 'Non inizializzato';
         break;
 
       case '1':
         this.disableAggiungiEvento = false;
+        this.disableSalva = false;
+        this.disableAccettaComeUtente = false;
+        this.disableAccettaComeAmministratore = true;
+        this.disableAccettaComeFinally = true;
+        this.disableAzeraStato = true;
         this.disableCalcolaTrasferte = true;
         this.timeshetStatus = 'Modificabile';
         break;
@@ -415,19 +440,42 @@ export class TimesheetEditComponent implements OnInit {
           this.disableSalva = true;
           this.disableAggiungiEvento = true;
         }
-
+        this.disableAccettaComeUtente = true;
+        this.disableAccettaComeAmministratore = false;
+        this.disableAccettaComeFinally = true;
+        this.disableAzeraStato = true;
         this.disableCalcolaTrasferte = false;
         this.timeshetStatus = 'Accettato dal dipendente';
         break;
 
       case '3':
+        if ( this.getRoleFromLocalStorage() === '1' ) {
+          this.disableSalva = false;
+          this.disableAggiungiEvento = false;
+        } else {
+          this.disableSalva = true;
+          this.disableAggiungiEvento = true;
+        }
         this.disableCalcolaTrasferte = false;
+        this.disableAccettaComeUtente = true;
+        this.disableAccettaComeAmministratore = true;
+        this.disableAccettaComeFinally = false;
+        this.disableAzeraStato = true;
+        this.disableCalcolaTrasferte = false;
+        this.veroDisableFinally = false;
         this.timeshetStatus = 'Accettato dall\'amministrazione';
         break;
 
       case '4':
-        this.disableAggiungiEvento = true;
-        this.disableCalcolaTrasferte = false;
+        this.disableAccettaComeUtente = true;
+        this.disableAccettaComeAmministratore = true;
+        this.disableAccettaComeFinally = false;
+        this.veroDisableFinally = true;
+        if ( this.getRoleFromLocalStorage() === '0') {
+          this.disableAzeraStato = false;
+        } else {
+          this.disableAzeraStato = true;
+        }
         this.timeshetStatus = 'Pagato';
         break;
 
@@ -615,10 +663,7 @@ export class TimesheetEditComponent implements OnInit {
     this.showResetStatus = true;
     console.log(this.currentTimesheet);
     this.confirmationMessage =
-      'Vuoi rendere nuovamente modificabile il timesheet  del ' +
-      this.currentTimesheet.month +
-      ' ' +
-      this.currentTimesheet.year;
+      'Vuoi rendere nuovamente modificabile il timesheet? Proseguendo '
     console.log('askToAcceptAsUser');
   }
 
