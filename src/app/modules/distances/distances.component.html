@@ -24,7 +24,7 @@
           <td>{{ customerOffice.cst.name }}</td>
           <td>{{ customerOffice.cus.address }}</td>
           <td>
-            <input type="number" class="form-control distance-input" #distanceInput value="{{customerOffice.mat.distance}}"/>
+            <input type="number" [disabled]="customerOffice?.mat.isDisabled" class="form-control distance-input" #distanceInput value="{{customerOffice.mat.distance}}"/>
           </td>
           <td>
             <button class="btn btn-primary" [disabled]="customerOffice?.mat.isDisabled" (click)="updateDistanceFromOffice(distanceInput.value, customerOffice)">UPDATE</button>

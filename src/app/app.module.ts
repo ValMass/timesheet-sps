@@ -39,6 +39,8 @@ import { AddActivityComponent } from './modules/user-admin/add-activity/add-acti
 import { AddCustomerOfficeComponent } from './modules/customers/components/add-customer-office/add-customer-office.component';
 import { TimesheetAddEventComponent } from './modules/timesheet/components/timesheet-add-event/timesheet-add-event.component';
 import { TimesheetTrasferteModalComponent } from './modules/timesheet/components/timesheet-trasferte-modal/timesheet-trasferte-modal.component';
+import { LoaderComponent } from './component/loader/loader.component';
+import { LoaderInterceptor } from './_helper/loader.interceptor';
 
 
 @NgModule({
@@ -56,6 +58,7 @@ import { TimesheetTrasferteModalComponent } from './modules/timesheet/components
     AddCustomerOfficeDialogComponent,
     ConfirmationDialogComponent,
     NotFoundComponent,
+    LoaderComponent,
 
 
   ],
@@ -102,7 +105,11 @@ import { TimesheetTrasferteModalComponent } from './modules/timesheet/components
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptor,
+      multi: true,
     },
   ],
   bootstrap: [AppComponent]

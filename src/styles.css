@@ -1,66 +1,74 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "../node_modules/angular-calendar/css/angular-calendar.css";
-@import "../node_modules/ngx-toastr/toastr.css";
-html, body {
-    height: 100%;
-    width: 100%;
+@import '../node_modules/angular-calendar/css/angular-calendar.css';
+@import '../node_modules/ngx-toastr/toastr.css';
+html,
+body {
+  height: 100%;
+  width: 100%;
 }
 
 body {
-    margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
 :root {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 .header-title {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 
 /* remove dots from the ul  */
 
 .no-bullets {
-    list-style-type: none;
-    /* Remove bullets */
-    padding: 0;
-    /* Remove padding */
-    margin: 0;
-    /* Remove margins */
+  list-style-type: none;
+  /* Remove bullets */
+  padding: 0;
+  /* Remove padding */
+  margin: 0;
+  /* Remove margins */
 }
 
-.no-margin{
-    margin: 0;
+.no-margin {
+  margin: 0;
 }
 
 /* bootstrap form-group styling */
 
 .form-group {
-    padding: 0 3rem;
+  padding: 0 3rem;
 }
 
-.margin-card{
-    margin-top: 0.8rem;
+.margin-card {
+  margin-top: 0.8rem;
 }
 
 /* used in table */
-.overflow-scroll{
-    overflow-inline: scroll;
+.overflow-scroll {
+  overflow-inline: scroll;
 }
 
 .btn.btn-primary {
-    background-color: #962d37;
-    border-color: #962d37;
+  background-color: #962d37;
+  border-color: #962d37;
 }
 
 .btn.btn-secondary {
-    border: 1px solid #962d37;
-    color: #962d37;
-    background: white;
+  border: 1px solid #962d37;
+  color: #962d37;
+  background: white;
 }
 
 .tab-user {
-    padding: 1em 2em;
+  padding: 1em 2em;
+}
+
+.toast-container .toast {
+  padding: 4rem !important;
+}
+.toast-message {
+  font-size: 1.1rem;
 }
