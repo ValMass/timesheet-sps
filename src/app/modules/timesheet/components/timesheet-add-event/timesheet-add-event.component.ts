@@ -77,13 +77,13 @@ export class TimesheetAddEventComponent implements OnInit {
           this.dialogRef.close({ data: this.profileForm.value });
         }
         else{
-          if(this.profileForm.value.codiceFatturazione != '00'){
+          if(this.profileForm.value.codiceFatturazione != '00'
+              && this.profileForm.value.activityId != undefined ){
             this.dialogRef.close({ data: this.profileForm.value });
           }
         }
       }
     }
-
   }
 
   close() {

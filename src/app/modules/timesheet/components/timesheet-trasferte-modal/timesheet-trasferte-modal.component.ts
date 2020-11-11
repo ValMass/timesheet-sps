@@ -77,7 +77,10 @@ export class TimesheetTrasferteModalComponent implements OnInit {
           this.trasferteList = JSON.parse(res.data);
           this.trasferteListTemp = this.trasferteList.map( x => {
             console.log(x);
+            console.log(paramform.value.acivalue);
+            
             x["calcoli"] = (x.matr.distance * 2 * paramform.value.acivalue) + paramform.value.diaria;
+
             return x;
           });
         } else {
