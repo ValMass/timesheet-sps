@@ -1,10 +1,11 @@
-import { Component, OnInit, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { UserAdmin } from '../models/User-admin';
 import { Router } from '@angular/router';
 import { UserAdminService } from '../services/user-admin.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FileService } from '@app/shared/services/file.service';
 import * as fileSaver from 'file-saver';
+import { strategy } from '@angular-devkit/core/src/experimental/jobs';
 
 @Component({
   selector: 'app-user-admin-list',
@@ -71,5 +72,23 @@ export class UserAdminListComponent implements OnInit, OnChanges {
     () => {
       console.info('File downloaded successfully');
     }
+  }
+
+  choseRoleString(role){
+    console.log(role)
+    let rol = "";
+    switch (role){
+      case '0':
+        rol =  "Super amministratore";
+        break;
+      case '1':
+        rol =  "Amministratore";
+        break;
+      case '2':
+        rol =  "Utente ordinario";
+        break;
+    }
+    return rol;
+
   }
 }

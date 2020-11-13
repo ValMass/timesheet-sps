@@ -3,6 +3,7 @@
        class="pallino" [ngClass]="{'pallinored' : state === '1',
                                   'pallinoyell' : state === '2',
                                   'pallinogreen': state === '3',
-                                  'pallinofinal': state === '4'}">
+                                  'pallinofinal': state === '4',
+                                  'pallinogrey': userRole === '1' || userRole === '0' }">
   </div>
 </span>

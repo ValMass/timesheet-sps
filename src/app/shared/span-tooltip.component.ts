@@ -8,10 +8,12 @@ import { Component, Input, OnInit } from '@angular/core';
 export class SpanTooltipComponent implements OnInit {
 
   @Input() state: any;
+  @Input() userRole: any;
 
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.userRole);
   }
 
   tooltip(state){

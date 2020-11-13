@@ -80,6 +80,11 @@ export class UserListComponent implements OnInit {
 
   redirectToUser(user){
     //const url = environment.apiUrl
-    this.router.navigate(['/timesheet/', user.id]);
+    if(user.role == "0" || user.role == "1" ){
+      return;
+    } else {
+      this.router.navigate(['/timesheet/', user.id]);
+    }
+
   }
 }

@@ -20,9 +20,10 @@
         <td>{{ useradmin.email }}</td>
         <td>{{ useradmin.phonenumber1 }}</td>
         <td>{{ useradmin.phonenumber2 }}</td>
-        <td>{{ useradmin.role === '1' ? "Amministratore" : "Utente ordinario" }}</td>
+       <!--<td>{{ useradmin.role === '1' ? "Amministratore" : "Utente ordinario" }}</td>-->
+       <td>{{ choseRoleString(useradmin.role) }}</td>
         <td>
-          <app-span-tooltip [state] = useradmin.state></app-span-tooltip>
+          <app-span-tooltip [state] = "useradmin.state" [userRole] = "useradmin.role"></app-span-tooltip>
         </td>
         <td><button class="button-custom" mat-button color="accent" (click)="modifyTimesheet(useradmin)" [disabled]="useradmin.role === '1' || useradmin.role === '0'">Modifica
             Timesheet</button></td>
