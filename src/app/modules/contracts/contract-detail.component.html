@@ -43,7 +43,7 @@
 
       <div class="form-group">
         <label for="level">Livello</label>
-        <input name="level" class="form-control" type="number" [(ngModel)]="editingContract.level" #level="ngModel"
+        <input name="level" class="form-control" type="text" [(ngModel)]="editingContract.level" #level="ngModel"
           placeholder="" [ngClass]="{'is-invalid':f.submitted && level.invalid}" required />
         <div *ngIf="f.submitted && level.invalid" class="invalid-feedback">
           <div *ngIf="level.errors.required">Campo obbligatorio</div>

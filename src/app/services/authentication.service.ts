@@ -24,7 +24,7 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  removeCurrentSubject(){
+  removeCurrentSubject() {
     this.currentUserSubject.next(null);
   }
 
