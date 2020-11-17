@@ -199,12 +199,15 @@ export class TimesheetEditComponent implements OnInit {
     this.timesheetService.getTimesheet(month, year, userid).subscribe(
       (timesheet) => {
         if (timesheet.status === 'done') {
-          this.loadCurrentMonthTimesheet(timesheet.data);
+          console.log(timesheet);
+          const recivedTimesheet = timesheet.data as Timesheet;
+          this.loadCurrentMonthTimesheet(recivedTimesheet);
           console.log(this.currentTimesheet.dayjson);
           this.events = this.currentTimesheet.dayjson;
           this.updateStateLabel();
         } else {
           this.currentTimesheet = this.createEmptyTimesheet();
+          console.log(timesheet);
           this.updateStateLabel();
         }
       },
@@ -227,7 +230,8 @@ export class TimesheetEditComponent implements OnInit {
     this.timesheetService.getTimesheet(month, year, userid).subscribe(
       (timesheet) => {
         if (timesheet.status === 'done') {
-          this.loadCurrentMonthTimesheet(timesheet.data);
+          const recivedTimesheet = timesheet.data as Timesheet;
+          this.loadCurrentMonthTimesheet(recivedTimesheet);
           console.log(this.currentTimesheet.dayjson);
           this.events = this.currentTimesheet.dayjson;
           this.updateStateLabel();
@@ -320,6 +324,7 @@ export class TimesheetEditComponent implements OnInit {
     };
     return timesheet;
   }
+
   openAddEventDialog() {
     if (this.checkIfCanModify()) {
       const dialogRef = this.dialog.open(TimesheetAddEventComponent, {
@@ -606,6 +611,7 @@ export class TimesheetEditComponent implements OnInit {
           console.log(this.currentTimesheet);
           this.loadCurrentMonthTimesheet(result.data);
           this.toastrService.success('Timesheet salvato');
+          this.updateStateLabel();
           console.log('saved');
         } else {
           console.log('error');
