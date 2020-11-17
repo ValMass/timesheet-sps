@@ -61,8 +61,22 @@ export class UserAdminCreationComponent implements OnInit {
   //get f() { return this.profileForm.controls; }
 
   submit(form : NgForm) {
+    
+
+    //se ce una virgola lo converte in punto
+    //console.log("form" , form.value.acivalue);
+    let commaDot : string = form.value.acivalue.replace(/,/g, '.')
+    form.value.acivalue = commaDot;
+    
+    
     const obj = {...form.value, 'birthdate': this.datepicker };
+
+    //console.log("form + commaDot" ,  form.value.acivalue)
+    //console.log("form dopo modifche" ,  form.value)
+
+    //chiudo il modale
     this.dialogRef.close({ data: obj });
+   
     //console.log('obj:', obj);
     //console.log("datepicker" ,this.datepicker)
   }
