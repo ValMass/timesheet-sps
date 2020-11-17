@@ -26,7 +26,7 @@
     </thead>
     <tbody>  <!--trackBy: trackById;-->
       <tr *ngFor="let trasferta of trasferteListTemp; trackBy: trackById; let i = index" role="presentation">
-        <td>{{ trasferta.coff.address }}</td>
+        <td>{{ trasferta.coff.address ? trasferta.coff.address : trasferta.off.address }}</td>
         <td>{{ trasferta.matr.distance }}</td>
         <td>{{ trasferta.calcoli }}</td>
         <!-- <td>{{ useradmin.name }} {{ useradmin.surname }} </td>

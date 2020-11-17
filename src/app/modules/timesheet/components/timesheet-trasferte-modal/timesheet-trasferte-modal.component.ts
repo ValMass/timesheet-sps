@@ -1,64 +1,59 @@
-import { NgForm } from '@angular/forms';
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TimesheethttpService } from '../../services/timesheethttp.service';
+import { NgForm } from "@angular/forms";
+import { Component, Inject, OnInit } from "@angular/core";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { TimesheethttpService } from "../../services/timesheethttp.service";
+import { Timesheet } from "../../model/timesheet";
 
 @Component({
-  templateUrl: './timesheet-trasferte-modal.component.html',
-  styleUrls: ['./timesheet-trasferte-modal.component.css']
+  templateUrl: "./timesheet-trasferte-modal.component.html",
+  styleUrls: ["./timesheet-trasferte-modal.component.css"],
 })
 export class TimesheetTrasferteModalComponent implements OnInit {
   trasferteList: any[] = [];
   trasferteListTemp: any[] = [];
-
+  trasferteListchanged: any[] = [];
+  trasferteListTempchanged: any[] = [];
+  currentTimesheet: Timesheet = null;
+  currentUserData = null;
   acivalue = 0.54;
   diariavalue = 20;
-
+  canagedAcivalue = 0;
+  canageddiariavalue = 0;
   disableSave = false;
+  changed = false;
 
   constructor(
-      @Inject(MAT_DIALOG_DATA) public data: any,
-      private dialogRef: MatDialogRef<TimesheetTrasferteModalComponent>,
-      private timesheetService: TimesheethttpService,
-      ) { }
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<TimesheetTrasferteModalComponent>,
+    private timesheetService: TimesheethttpService
+  ) {}
 
   async ngOnInit(): Promise<void> {
-    const id = 2;
-
-    /*this.timesheetService.getUserData(id).subscribe(
-      res => {
-        console.log("userdataResult -> ", res.data);
-      }
-    );*/
+    this.currentTimesheet = this.data.timesheet;
+    const userId = this.currentTimesheet.userid;
+    this.trasferteList = JSON.parse(this.currentTimesheet.trasferte);
+    console.log(this.trasferteList);
     let res = null;
     try {
-
-      res = await this.timesheetService.getUserData(id).toPromise();
-
+      res = await this.timesheetService.getUserData(userId).toPromise();
     } catch (e) {
       console.log(e);
     }
-
-    console.log(this.data.trasferta);
-    this.trasferteList = this.data.trasferta ;
-    this.trasferteListTemp = this.trasferteList.map( x => {
-      console.log(x);
-      x["calcoli"] = (x.matr.distance * 2 * this.acivalue) + this.diariavalue;
+    this.currentUserData = res["data"][0];
+    console.log(this.currentUserData);
+    this.acivalue = this.currentUserData.ecd.acivalue;
+    this.diariavalue = this.currentUserData.ecd.diaria;
+    this.trasferteListTemp = this.trasferteList.map((x) => {
+      x["calcoli"] = this.calcolaPesoTrasferte(
+        x.matr.distance,
+        this.acivalue,
+        this.diariavalue
+      );
       return x;
     });
-
-    /*this.timesheetService.calcTrasferte("1", "2000", customeridList).subscribe(
-      (result) => {
-      console.log("risultati -> ",result);
-      this.trasferteList = result.data;
-      console.log("trasferteList -> ",this.trasferteList);
-    },
-    error => {
-      console.log(error);
-    });*/
-
   }
-  modelChanged(event){
+
+  modelChanged(event) {
     if (parseFloat(event) !== 0) {
       console.log("false");
       this.disableSave = false;
@@ -70,27 +65,39 @@ export class TimesheetTrasferteModalComponent implements OnInit {
 
   ricalcolaTrasferte(paramform: NgForm) {
     console.log(paramform.value.acivalue);
+    console.log(paramform.value.diaria);
     console.log(this.data.timesheet);
-    this.timesheetService.calcTrasferte(this.data.timesheet.id, paramform.value.acivalue, paramform.value.diaria).subscribe(
-      res => {
-        if( res.status === "done"){
-          this.trasferteList = JSON.parse(res.data);
-          this.trasferteListTemp = this.trasferteList.map( x => {
-            console.log(x);
-            console.log(paramform.value.acivalue);
-            
-            x["calcoli"] = (x.matr.distance * 2 * paramform.value.acivalue) + paramform.value.diaria;
-
-            return x;
-          });
-        } else {
-          console.log(res.message);
+    this.changed = true;
+    this.timesheetService
+      .calcTrasferte(
+        this.data.timesheet.id,
+        paramform.value.acivalue,
+        paramform.value.diaria
+      )
+      .subscribe(
+        (res) => {
+          console.log("entro 3");
+          if (res.status === "done") {
+            this.trasferteListchanged = JSON.parse(res.data);
+            this.trasferteListTemp = this.trasferteListchanged.map((x) => {
+              x["calcoli"] = this.calcolaPesoTrasferte(
+                x.matr.distance,
+                paramform.value.acivalue,
+                paramform.value.diaria
+              );
+              this.acivalue = paramform.value.acivalue;
+              this.diariavalue = paramform.value.diaria;
+              console.log('x["calcoli"]: ', x["calcoli"]);
+              return x;
+            });
+          } else {
+            console.log(res.message);
+          }
+        },
+        (error) => {
+          console.log(error);
         }
-      },
-      error => {
-
-      }
-    );
+      );
   }
 
   closeModal() {
@@ -98,10 +105,26 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   }
 
   saveList() {
-    this.dialogRef.close({ data: this.trasferteList });
+    if(this.changed) {
+      console.log('changed');
+      this.dialogRef.close({ data: this.trasferteList, acivalue: this.acivalue, diaria: this.diariavalue });
+    } else {
+      console.log('not changed');
+      this.dialogRef.close({ data: this.trasferteListchanged, acivalue: 0, diaria: 0});
+    }
+
   }
 
   trackById(index: number, user: any): number {
     return user.id;
+  }
+
+  calcolaPesoTrasferte(distanza, acivalue, diaria) {
+    const kanderit = distanza * 2;
+    const extras = kanderit * acivalue;
+    console.log("euro x trasf : ", extras);
+    const tot = extras * 1 + diaria * 1;
+    console.log("tot : ", tot);
+    return tot;
   }
 }

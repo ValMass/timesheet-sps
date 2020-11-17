@@ -34,9 +34,9 @@ export class TimesheethttpService implements Resolve<any> {
     );
 
   }
-  saveTimesheet(timesheet: Timesheet) {
+  saveTimesheet(timesheet: Timesheet, loggeduserid) {
     const url = environment.apiUrl + '/timesheets/createTimesheetV2.php';
-    return this.http.post<any>( url, timesheet ).pipe(catchError(error => {
+    return this.http.post<any>( url, { timesheet, loggeduserid}).pipe(catchError(error => {
       return EMPTY;
     }), mergeMap(something => {
       if (something) {
@@ -136,8 +136,14 @@ export class TimesheethttpService implements Resolve<any> {
   }
 
   calcTrasferte(timesheetId, aciValue, diaria){
+
     const url = environment.apiUrl + 'timesheets/calcolaTrasferte.php';
-    return this.http.post<any>(url, {timesheetId, aciValue, diaria }).pipe(catchError(error => {
+    return this.http.post<any>(url, {timesheetId, aciValue, diaria });
+  }
+
+  getUserData( id ){
+    const url = environment.apiUrl + 'user/getAllUserInfoByUserId.php';
+    return this.http.post<any>(url, { id }).pipe(catchError(error => {
       return EMPTY;
     }), mergeMap(something => {
       if (something) {
@@ -149,9 +155,9 @@ export class TimesheethttpService implements Resolve<any> {
     );
   }
 
-  getUserData( id ){
-    const url = environment.apiUrl + 'user/getAllUserInfoByUserId.php';
-    return this.http.post<any>(url, { id }).pipe(catchError(error => {
+  saveDiariaAndAciValue(diaria, acivalue, currenttimesheeuserid ){
+    const url = environment.apiUrl + 'economicData/updateDiariaAndAcivalue.php';
+    return this.http.post<any>(url, { diaria, acivalue, currenttimesheeuserid }).pipe(catchError(error => {
       return EMPTY;
     }), mergeMap(something => {
       if (something) {
