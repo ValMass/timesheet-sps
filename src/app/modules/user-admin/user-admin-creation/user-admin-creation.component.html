@@ -237,7 +237,7 @@
       <label for="acivalue" class="col-sm-4 col-form-label">Valore tablella ACI</label>
       <div class="col-sm-8">
         <input type="text" class="form-control" id="acivalue" placeholder="Inserisci valore tabella ACI"
-              [ngModel] name="acivalue" required pattern="[0-9 ]+$"  #acivalue="ngModel"
+              [ngModel] name="acivalue" required pattern="[0-9]+([,.][0-9]+)?$"  #acivalue="ngModel"
               [ngClass]="{'is-invalid':profileForm.submitted && acivalue.invalid}" />
              <div *ngIf="profileForm.submitted && acivalue.invalid" class="invalid-feedback">
                <div *ngIf="profileForm.submitted && acivalue.invalid && !acivalue.errors.pattern">Campo obbligatorio</div>
