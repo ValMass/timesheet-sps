@@ -1,13 +1,13 @@
 <h1 mat-dialog-title>Aggiungi utente</h1>
 <div mat-dialog-content>
-  <form id='myform' class="p-1" #profileForm="ngForm"  (ngSubmit)="profileForm.form.valid && submit(profileForm)" novalidate>
+  <form id='myform' class="p-1" #profileForm="ngForm" (ngSubmit)="profileForm.form.valid && submit(profileForm)"
+    novalidate>
 
     <div class="form-group row">
       <label for="username" class="col-sm-4 col-form-label">Nome Utente</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="username" placeholder="username"
-        [ngModel] name="username" required  minlength="4"  #username="ngModel"
-        [ngClass]="{'is-invalid':profileForm.submitted && username.invalid}" />
+        <input type="text" class="form-control" id="username" placeholder="username" [ngModel] name="username" required
+          minlength="4" #username="ngModel" [ngClass]="{'is-invalid':profileForm.submitted && username.invalid}" />
         <div *ngIf="profileForm.submitted && username.invalid" class="invalid-feedback">
           <div *ngIf="profileForm.submitted && username.invalid && !username.errors.minlength">Campo obbligatorio</div>
           <div *ngIf="profileForm.submitted && username.invalid && username.errors.minlength">Lunghezza minima 4</div>
@@ -18,9 +18,8 @@
     <div class="form-group row">
       <label for="password" class="col-sm-4 col-form-label">password</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="password" placeholder="password"
-         [ngModel] name="password" required  minlength="6"#password="ngModel"
-         [ngClass]="{'is-invalid':profileForm.submitted && password.invalid}" />
+        <input type="text" class="form-control" id="password" placeholder="password" [ngModel] name="password" required
+          minlength="6" #password="ngModel" [ngClass]="{'is-invalid':profileForm.submitted && password.invalid}" />
         <div *ngIf="profileForm.submitted && password.invalid" class="invalid-feedback">
           <div *ngIf="profileForm.submitted && password.invalid && !password.errors.minlength">Campo obbligatorio</div>
           <div *ngIf="profileForm.submitted && password.invalid && password.errors.minlength">Lunghezza minima 6</div>
@@ -31,47 +30,51 @@
     <div class="form-group row">
       <label for="email" class="col-sm-4 col-form-label">E mail</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="email" placeholder="email"
-               [ngModel] name="email" required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" #email="ngModel"
-               [ngClass]="{'is-invalid':profileForm.submitted && email.invalid}" />
-               <div *ngIf="profileForm.submitted && email.invalid" class="invalid-feedback">
-                 <div *ngIf="profileForm.submitted && email.invalid && !email.errors.pattern">Campo obbligatorio</div>
-                 <div *ngIf="profileForm.submitted && email.invalid && email.errors.pattern">Non rappresenta il formato email</div>
-               </div>
+        <input type="text" class="form-control" id="email" placeholder="email" [ngModel] name="email" required
+          pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" #email="ngModel"
+          [ngClass]="{'is-invalid':profileForm.submitted && email.invalid}" />
+        <div *ngIf="profileForm.submitted && email.invalid" class="invalid-feedback">
+          <div *ngIf="profileForm.submitted && email.invalid && !email.errors.pattern">Campo obbligatorio</div>
+          <div *ngIf="profileForm.submitted && email.invalid && email.errors.pattern">Non rappresenta il formato email
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="form-group row">
       <label for="regnuminps" class="col-sm-4 col-form-label">regnuminps</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="regnuminps" placeholder="regnuminps"
-              [ngModel] name="regnuminps" required pattern="[0-9 ]+$" #regnuminps="ngModel"
-              [ngClass]="{'is-invalid':profileForm.submitted && regnuminps.invalid}" />
-              <div *ngIf="profileForm.submitted && regnuminps.invalid" class="invalid-feedback">
-                <div *ngIf="profileForm.submitted && regnuminps.invalid && !regnuminps.errors.pattern">Campo obbligatorio</div>
-                <div *ngIf="profileForm.submitted && regnuminps.invalid && regnuminps.errors.pattern">sono accetate solo cifre</div>
-              </div>
+        <input type="text" class="form-control" id="regnuminps" placeholder="regnuminps" [ngModel] name="regnuminps"
+          required pattern="[0-9 ]+$" #regnuminps="ngModel"
+          [ngClass]="{'is-invalid':profileForm.submitted && regnuminps.invalid}" />
+        <div *ngIf="profileForm.submitted && regnuminps.invalid" class="invalid-feedback">
+          <div *ngIf="profileForm.submitted && regnuminps.invalid && !regnuminps.errors.pattern">Campo obbligatorio
+          </div>
+          <div *ngIf="profileForm.submitted && regnuminps.invalid && regnuminps.errors.pattern">sono accetate solo cifre
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="form-group row">
       <label for="regnumsps" class="col-sm-4 col-form-label">regnumsps</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="regnumsps" placeholder="regnumsps"
-               [ngModel] name="regnumsps"  required pattern="[0-9 ]+$" #regnumsps="ngModel"
-               [ngClass]="{'is-invalid':profileForm.submitted && regnumsps.invalid}" />
-              <div *ngIf="profileForm.submitted && regnumsps.invalid" class="invalid-feedback">
-                <div *ngIf="profileForm.submitted && regnumsps.invalid && !regnumsps.errors.pattern">Campo obbligatorio</div>
-                <div *ngIf="profileForm.submitted && regnumsps.invalid && regnumsps.errors.pattern">sono accetate solo cifre</div>
-              </div>
+        <input type="text" class="form-control" id="regnumsps" placeholder="regnumsps" [ngModel] name="regnumsps"
+          required pattern="[0-9 ]+$" #regnumsps="ngModel"
+          [ngClass]="{'is-invalid':profileForm.submitted && regnumsps.invalid}" />
+        <div *ngIf="profileForm.submitted && regnumsps.invalid" class="invalid-feedback">
+          <div *ngIf="profileForm.submitted && regnumsps.invalid && !regnumsps.errors.pattern">Campo obbligatorio</div>
+          <div *ngIf="profileForm.submitted && regnumsps.invalid && regnumsps.errors.pattern">sono accetate solo cifre
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="form-group row">
       <label for="isadmin" class="col-sm-4 col-form-label">Ruolo</label>
       <div class="col-sm-8">
-        <select id="isadmin" name="isadmin" class="custom-select sel-text" #isadmin="ngModel"
-                [ngModel] name="isadmin"  required [ngClass]="{'is-invalid':profileForm.submitted && isadmin.invalid}" >
+        <select id="isadmin" name="isadmin" class="custom-select sel-text" #isadmin="ngModel" [ngModel] name="isadmin"
+          required [ngClass]="{'is-invalid':profileForm.submitted && isadmin.invalid}">
           <option value="2" selected="selected">Utente Ordinario</option>
           <option value="1">Amministratore</option>
         </select>
@@ -84,36 +87,34 @@
     <div class="form-group row">
       <label for="name" class="col-sm-4 col-form-label">Nome</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="name" placeholder="nome"
-               [ngModel] name="name" required  minlength="2" #name="ngModel" #name="ngModel"
-               [ngClass]="{'is-invalid':profileForm.submitted && name.invalid}" />
+        <input type="text" class="form-control" id="name" placeholder="nome" [ngModel] name="name" required
+          minlength="2" #name="ngModel" #name="ngModel"
+          [ngClass]="{'is-invalid':profileForm.submitted && name.invalid}" />
         <div *ngIf="profileForm.submitted && name.invalid" class="invalid-feedback">
           <div *ngIf="profileForm.submitted && name.invalid && !name.errors.minlength">Campo obbligatorio</div>
           <div *ngIf="profileForm.submitted && name.invalid && name.errors.minlength">Lunghezza minima 2</div>
         </div>
-        </div>
+      </div>
     </div>
 
     <div class="form-group row">
       <label for="surname" class="col-sm-4 col-form-label">Cognome</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="surname" placeholder="Cognome"
-               [ngModel] name="surname" required  minlength="2" #surname="ngModel"
-               [ngClass]="{'is-invalid':profileForm.submitted && surname.invalid}" />
+        <input type="text" class="form-control" id="surname" placeholder="Cognome" [ngModel] name="surname" required
+          minlength="2" #surname="ngModel" [ngClass]="{'is-invalid':profileForm.submitted && surname.invalid}" />
         <div *ngIf="profileForm.submitted && surname.invalid" class="invalid-feedback">
           <div *ngIf="profileForm.submitted && surname.invalid && !surname.errors.minlength">Campo obbligatorio</div>
           <div *ngIf="profileForm.submitted && surname.invalid && surname.errors.minlength">Lunghezza minima 2</div>
         </div>
-        </div>
+      </div>
     </div>
 
 
     <div class="form-group row">
       <label for="address" class="col-sm-4 col-form-label">Indirizzo</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="address" placeholder="Indirizzo"
-               [ngModel] name="address" required  minlength="4" #address="ngModel"
-               [ngClass]="{'is-invalid':profileForm.submitted && address.invalid}" />
+        <input type="text" class="form-control" id="address" placeholder="Indirizzo" [ngModel] name="address" required
+          minlength="4" #address="ngModel" [ngClass]="{'is-invalid':profileForm.submitted && address.invalid}" />
         <div *ngIf="profileForm.submitted && address.invalid" class="invalid-feedback">
           <div *ngIf="profileForm.submitted && address.invalid && !address.errors.minlength">Campo obbligatorio</div>
           <div *ngIf="profileForm.submitted && address.invalid && address.errors.minlength">Lunghezza minima 4</div>
@@ -123,12 +124,10 @@
 
     <div class="form-group row">
       <label for="birthdate" class="col-sm-4 col-form-label">Data di nascita</label>
-      <div class="col-sm-8" >
-        <input matInput [matDatepicker]="picker" style="width: 200px"
-               disabled required
-               name="birthdate" class="form-control" id="birthdate"
-               [(ngModel)]="datepicker" #birthdate="ngModel"
-               [ngClass]="{'is-invalid':profileForm.submitted  && birthdate.invalid}" >
+      <div class="col-sm-8">
+        <input matInput [matDatepicker]="picker" style="width: 200px" disabled required name="birthdate"
+          class="form-control" id="birthdate" [(ngModel)]="datepicker" #birthdate="ngModel"
+          [ngClass]="{'is-invalid':profileForm.submitted  && birthdate.invalid}">
         <mat-datepicker-toggle matSuffix [for]="picker" class="bottone-data"></mat-datepicker-toggle>
         <mat-datepicker #picker disabled="false"></mat-datepicker>
         <div *ngIf="profileForm.submitted && birthdate.invalid" class="invalid-feedback">
@@ -136,40 +135,54 @@
           <div *ngIf="profileForm.submitted && birthdate.invalid">eta' minima 18 anni </div>
         </div>
       </div>
+    </div>
 
+    <div class="form-group row">
+      <label for="birthplace" class="col-sm-4 col-form-label">Luogo di nascita</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" id="birthplace" placeholder="Birthplace" [ngModel] name="birthplace" required
+          minlength="2" #birthplace="ngModel" [ngClass]="{'is-invalid':profileForm.submitted && birthplace.invalid}" />
+          <div *ngIf="profileForm.submitted && birthplace.invalid" class="invalid-feedback">
+            <div *ngIf="profileForm.submitted && birthplace.invalid && !birthplace.errors.minlength">Campo obbligatorio</div>
+            <div *ngIf="profileForm.submitted && birthplace.invalid && birthplace.errors.minlength">Lunghezza minima 2</div>
+          </div>
+      </div>
     </div>
 
     <div class="form-group row">
       <label for="phonenumber1" class="col-sm-4 col-form-label">Numero di telefono</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="phonenumber1" placeholder="Numero di telefono"
-              [ngModel] name="phonenumber1" required pattern="[0-9 ]+$" maxlength="15" #phonenumber1="ngModel"
-              [ngClass]="{'is-invalid':profileForm.submitted && phonenumber1.invalid}" />
-             <div *ngIf="profileForm.submitted && phonenumber1.invalid" class="invalid-feedback">
-               <div *ngIf="profileForm.submitted && phonenumber1.invalid && !phonenumber1.errors.pattern">Campo obbligatorio</div>
-               <div *ngIf="profileForm.submitted && phonenumber1.invalid && phonenumber1.errors.pattern">sono accetate solo cifre</div>
-             </div>
+        <input type="text" class="form-control" id="phonenumber1" placeholder="Numero di telefono" [ngModel]
+          name="phonenumber1" required pattern="[0-9 ]+$" maxlength="15" #phonenumber1="ngModel"
+          [ngClass]="{'is-invalid':profileForm.submitted && phonenumber1.invalid}" />
+        <div *ngIf="profileForm.submitted && phonenumber1.invalid" class="invalid-feedback">
+          <div *ngIf="profileForm.submitted && phonenumber1.invalid && !phonenumber1.errors.pattern">Campo obbligatorio
+          </div>
+          <div *ngIf="profileForm.submitted && phonenumber1.invalid && phonenumber1.errors.pattern">sono accetate solo
+            cifre</div>
         </div>
+      </div>
     </div>
 
     <div class="form-group row">
       <label for="phonenumber2" class="col-sm-4 col-form-label">Numero di telefono alternativo</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="phonenumber2" placeholder="Numero di telefono alternativo"
-               [ngModel] name="phonenumber2"  pattern="[0-9 ]+$" maxlength="15"  #phonenumber2="ngModel"
-               [ngClass]="{'is-invalid':profileForm.submitted && phonenumber2.invalid}" />
-              <div *ngIf="profileForm.submitted && phonenumber2.invalid" class="invalid-feedback">
-                <div *ngIf="profileForm.submitted && phonenumber2.invalid && !phonenumber2.errors.pattern">Campo obbligatorio</div>
-                <div *ngIf="profileForm.submitted && phonenumber2.invalid && phonenumber2.errors.pattern">sono accetate solo cifre</div>
-              </div>
+        <input type="text" class="form-control" id="phonenumber2" placeholder="Numero di telefono alternativo" [ngModel]
+          name="phonenumber2" pattern="[0-9 ]+$" maxlength="15" #phonenumber2="ngModel"
+          [ngClass]="{'is-invalid':profileForm.submitted && phonenumber2.invalid}" />
+        <div *ngIf="profileForm.submitted && phonenumber2.invalid" class="invalid-feedback">
+          <div *ngIf="profileForm.submitted && phonenumber2.invalid && !phonenumber2.errors.pattern">Campo obbligatorio
+          </div>
+          <div *ngIf="profileForm.submitted && phonenumber2.invalid && phonenumber2.errors.pattern">sono accetate solo
+            cifre</div>
+        </div>
       </div>
     </div>
 
     <div class="form-group row">
       <label for="sededilavoro" class="col-sm-4 col-form-label">Sede di assunzione</label>
       <div class="col-sm-8">
-        <ng-select [items]="officesList" bindLabel="address" bindValue="id"
-                   [ngModel] name="sededilavoro">
+        <ng-select [items]="officesList" bindLabel="address" bindValue="id" [ngModel] name="sededilavoro">
         </ng-select>
       </div>
     </div>
@@ -177,13 +190,12 @@
     <div class="form-group row">
       <label for="ral" class="col-sm-4 col-form-label">RAL</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="ral" placeholder="Inserisci la RAL"
-               [ngModel] name="ral" required  pattern="[0-9 ]+$"  #ral="ngModel"
-               [ngClass]="{'is-invalid':profileForm.submitted && ral.invalid}" />
-              <div *ngIf="profileForm.submitted && ral.invalid" class="invalid-feedback">
-                <div *ngIf="profileForm.submitted && ral.invalid && !ral.errors.pattern">Campo obbligatorio</div>
-                <div *ngIf="profileForm.submitted && ral.invalid && ral.errors.pattern">sono accetate solo cifre</div>
-              </div>
+        <input type="text" class="form-control" id="ral" placeholder="Inserisci la RAL" [ngModel] name="ral" required
+          pattern="[0-9 ]+$" #ral="ngModel" [ngClass]="{'is-invalid':profileForm.submitted && ral.invalid}" />
+        <div *ngIf="profileForm.submitted && ral.invalid" class="invalid-feedback">
+          <div *ngIf="profileForm.submitted && ral.invalid && !ral.errors.pattern">Campo obbligatorio</div>
+          <div *ngIf="profileForm.submitted && ral.invalid && ral.errors.pattern">sono accetate solo cifre</div>
+        </div>
       </div>
     </div>
 
@@ -199,50 +211,55 @@
       <label for="rimborso-stimato" class="col-sm-4 col-form-label">Valore Rimborso stimato</label>
       <div class="col-sm-8">
         <input type="text" class="form-control" id="rimborso-stimato" placeholder="Inserisci il rimborso stimato"
-               [ngModel] name="rimborsostimato" required pattern="[0-9 ]+$"  #rimborsostimato="ngModel"
-               [ngClass]="{'is-invalid':profileForm.submitted && rimborsostimato.invalid}" />
-              <div *ngIf="profileForm.submitted && rimborsostimato.invalid" class="invalid-feedback">
-                <div *ngIf="profileForm.submitted && rimborsostimato.invalid && !rimborsostimato.errors.pattern">Campo obbligatorio</div>
-                <div *ngIf="profileForm.submitted && rimborsostimato.invalid && rimborsostimato.errors.pattern">sono accetate solo cifre</div>
-              </div>
+          [ngModel] name="rimborsostimato" required pattern="[0-9 ]+$" #rimborsostimato="ngModel"
+          [ngClass]="{'is-invalid':profileForm.submitted && rimborsostimato.invalid}" />
+        <div *ngIf="profileForm.submitted && rimborsostimato.invalid" class="invalid-feedback">
+          <div *ngIf="profileForm.submitted && rimborsostimato.invalid && !rimborsostimato.errors.pattern">Campo
+            obbligatorio</div>
+          <div *ngIf="profileForm.submitted && rimborsostimato.invalid && rimborsostimato.errors.pattern">sono accetate
+            solo cifre</div>
+        </div>
       </div>
     </div>
 
     <div class="form-group row">
       <label for="paga-giorno" class="col-sm-4 col-form-label">Paga giorno</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="paga-giorno" placeholder="Inserisci la paga giorno"
-              [ngModel] name="pagamensile" required pattern="[0-9 ]+$"  #pagamensile="ngModel"
-              [ngClass]="{'is-invalid':profileForm.submitted && pagamensile.invalid}" />
-             <div *ngIf="profileForm.submitted && pagamensile.invalid" class="invalid-feedback">
-               <div *ngIf="profileForm.submitted && pagamensile.invalid && !pagamensile.errors.pattern">Campo obbligatorio</div>
-               <div *ngIf="profileForm.submitted && pagamensile.invalid && pagamensile.errors.pattern">sono accetate solo cifre</div>
-             </div>
+        <input type="text" class="form-control" id="paga-giorno" placeholder="Inserisci la paga giorno" [ngModel]
+          name="pagamensile" required pattern="[0-9 ]+$" #pagamensile="ngModel"
+          [ngClass]="{'is-invalid':profileForm.submitted && pagamensile.invalid}" />
+        <div *ngIf="profileForm.submitted && pagamensile.invalid" class="invalid-feedback">
+          <div *ngIf="profileForm.submitted && pagamensile.invalid && !pagamensile.errors.pattern">Campo obbligatorio
+          </div>
+          <div *ngIf="profileForm.submitted && pagamensile.invalid && pagamensile.errors.pattern">sono accetate solo
+            cifre</div>
+        </div>
       </div>
     </div>
 
     <div class="form-group row">
       <label for="diaria" class="col-sm-4 col-form-label">Diaria</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="diaria" placeholder="Inserisci diaria"
-              [ngModel] name="diaria" required pattern="[0-9 ]+$"  #diaria="ngModel"
-              [ngClass]="{'is-invalid':profileForm.submitted && diaria.invalid}" />
-             <div *ngIf="profileForm.submitted && diaria.invalid" class="invalid-feedback">
-               <div *ngIf="profileForm.submitted && diaria.invalid && !diaria.errors.pattern">Campo obbligatorio</div>
-               <div *ngIf="profileForm.submitted && diaria.invalid && diaria.errors.pattern">sono accetate solo cifre</div>
-             </div>
+        <input type="text" class="form-control" id="diaria" placeholder="Inserisci diaria" [ngModel] name="diaria"
+          required pattern="[0-9 ]+$" #diaria="ngModel"
+          [ngClass]="{'is-invalid':profileForm.submitted && diaria.invalid}" />
+        <div *ngIf="profileForm.submitted && diaria.invalid" class="invalid-feedback">
+          <div *ngIf="profileForm.submitted && diaria.invalid && !diaria.errors.pattern">Campo obbligatorio</div>
+          <div *ngIf="profileForm.submitted && diaria.invalid && diaria.errors.pattern">sono accetate solo cifre</div>
+        </div>
       </div>
     </div>
     <div class="form-group row">
       <label for="acivalue" class="col-sm-4 col-form-label">Valore tablella ACI</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="acivalue" placeholder="Inserisci valore tabella ACI"
-              [ngModel] name="acivalue" required pattern="[0-9]+([,.][0-9]+)?$"  #acivalue="ngModel"
-              [ngClass]="{'is-invalid':profileForm.submitted && acivalue.invalid}" />
-             <div *ngIf="profileForm.submitted && acivalue.invalid" class="invalid-feedback">
-               <div *ngIf="profileForm.submitted && acivalue.invalid && !acivalue.errors.pattern">Campo obbligatorio</div>
-               <div *ngIf="profileForm.submitted && acivalue.invalid && acivalue.errors.pattern">sono accetate solo cifre</div>
-             </div>
+        <input type="text" class="form-control" id="acivalue" placeholder="Inserisci valore tabella ACI" [ngModel]
+          name="acivalue" required pattern="[0-9]+([,.][0-9]+)?$" #acivalue="ngModel"
+          [ngClass]="{'is-invalid':profileForm.submitted && acivalue.invalid}" />
+        <div *ngIf="profileForm.submitted && acivalue.invalid" class="invalid-feedback">
+          <div *ngIf="profileForm.submitted && acivalue.invalid && !acivalue.errors.pattern">Campo obbligatorio</div>
+          <div *ngIf="profileForm.submitted && acivalue.invalid && acivalue.errors.pattern">sono accetate solo cifre
+          </div>
+        </div>
       </div>
     </div>
   </form>
@@ -250,5 +267,5 @@
 
 <div mat-dialog-actions class="p-2">
   <button mat-button mat-dialog-close class="btn btn-secondary w-50" cdkFocusInitial (click)="close()">Close</button>
-  <button form='myform' type="submit" class="btn btn-primary w-50" >Salva</button>
+  <button form='myform' type="submit" class="btn btn-primary w-50">Salva</button>
 </div>
