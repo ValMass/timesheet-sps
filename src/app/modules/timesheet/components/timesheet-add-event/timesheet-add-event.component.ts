@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CalendarEvent } from 'angular-calendar';
@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './timesheet-add-event.component.html',
   styleUrls: ['./timesheet-add-event.component.css']
 })
-export class TimesheetAddEventComponent implements OnInit {
+export class TimesheetAddEventComponent implements OnInit, AfterViewInit {
 
   name: string;
   value: number;
@@ -45,6 +45,21 @@ export class TimesheetAddEventComponent implements OnInit {
       smartWorking: [this.isChecked(), [Validators.required]],
     });
     this.assignedact = this.data.activityList;
+  }
+
+  ngAfterViewInit(): void {
+    if (this.data.type === 'edit') {
+      this.profileForm.patchValue(
+        {
+          smartWorking: +this.data.event.smartWorking,
+          codiceFatturazione: this.data.event.codiceFatt,
+          numeroProtocollo: this.data.event.nProtocollo,
+          numeroOre: this.data.event.nOre,
+          activityId: this.data.event.activityId,
+          contractCode: this.data.event.contractCode,
+        },
+      );
+    }
   }
 
   get f() { return this.profileForm.controls; }
@@ -209,14 +224,12 @@ export class TimesheetAddEventComponent implements OnInit {
     this.value = e.target.value;
   }
 
-  isChecked(){
-    if(this.allComplete){
-      this.allComplete = false
-      console.log ("false " , this.allComplete)
-    }else{
-      this.allComplete = true
-      console.log ("true check" , this.allComplete)
+  isChecked() {
+    if (this.allComplete) {
+      this.allComplete = false;
+    } else {
+      this.allComplete = true;
     }
-    return (this.allComplete)
+    return this.allComplete;
   }
 }

@@ -267,14 +267,39 @@ export class TimesheetEditComponent implements OnInit {
     // this.openAddEventDialog();
   }
 
-  handleEvent(action: string, event: CalendarEvent): void {
-    console.log(event);
+  handleEvent(action: string, eventToUpdate: CalendarEvent): void {
     if (action === 'Edited') {
-      this.toastrService.success('Rimuovi l\'evento e ricrealo');
-    }
-
-    if (action === 'Deleted') {
-      this.toastrService.success('Evento rimosso');
+      const dialogRef = this.dialog.open(TimesheetAddEventComponent, {
+        width: '600px',
+        data: {
+          event: eventToUpdate,
+          date: eventToUpdate.start,
+          type: 'edit',
+        },
+      });
+      dialogRef.afterClosed().subscribe((res) => {
+        if (res) {
+          if (res.data !== 'close') {
+            const event: NewCalendarEvent = {
+              title: res.data.contractCode,
+              start: new Date(res.data.eventDate),
+              nOre: res.data.numeroOre,
+              actions: this.actions,
+              codiceFatt: res.data.codiceFatturazione,
+              nProtocollo: res.data.numProtocollo,
+              activityId: res.data.activityId,
+              smartWorking: +res.data.smartWorking,
+              contractCode: res.data.contractCode,
+            };
+            const targetEvent = this.events.findIndex(item => item.start === res.data.eventDate);
+            this.events[targetEvent] = event;
+            this.events = [...this.events];
+            this.toastrService.success('Evento aggiornato temporaneamente. Salvare il timesheet per applicare le modifiche');
+          } else {
+            this.toastrService.error('Nessuna operazione effettuata');
+          }
+        }
+      });
     }
   }
 
@@ -317,6 +342,7 @@ export class TimesheetEditComponent implements OnInit {
             nProtocollo: res.data.numProtocollo,
             activityId: res.data.activityId,
             smartWorking: +res.data.smartWorking,
+            contractCode: res.data.contractCode,
           };
 
           this.events = [...this.events, event];

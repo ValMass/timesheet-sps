@@ -9,5 +9,5 @@ export interface NewCalendarEvent extends CalendarEvent  {
     nProtocollo: string;
     activityId: string;
     smartWorking: number;
-
+    contractCode: string;
 }
