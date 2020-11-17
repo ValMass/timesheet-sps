@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { environment } from '@environments/environment';
-import { EMPTY, of } from 'rxjs';
+import { EMPTY, of, throwError } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
 import { Timesheet } from '../model/timesheet';
 
@@ -37,6 +37,7 @@ export class TimesheethttpService implements Resolve<any> {
   saveTimesheet(timesheet: Timesheet, loggeduserid) {
     const url = environment.apiUrl + '/timesheets/createTimesheetV2.php';
     return this.http.post<any>( url, { timesheet, loggeduserid}).pipe(catchError(error => {
+      throw(error);
       return EMPTY;
     }), mergeMap(something => {
       if (something) {

@@ -620,7 +620,7 @@ export class TimesheetEditComponent implements OnInit {
         }
       },
       (error) => {
-        this.toastrService.error('Http Error');
+        this.toastrService.error(error.message);
         return false;
       }
     );
