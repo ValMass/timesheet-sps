@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  //apiUrl: 'https://timesheet.api.spsistemi.net/www/timesheetApi/spstimesheet/',
+  // apiUrl: 'https://timesheet.api.spsistemi.net/www/timesheetApi/spstimesheet/',
   apiUrl: 'http://localhost:8080/',
   openRouteServiceDirectionEndpoint: 'https://api.openrouteservice.org/v2/directions/driving-car?',
   openRouteServiceGeoEndpoint: 'https://api.openrouteservice.org/geocode/search?',
