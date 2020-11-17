@@ -1,3 +1,6 @@
+import { MY_DATE_FORMATS } from '@app/shared/my-date-formats';
+import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import {DateAdapter as DateAdapterIT , MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import { SharedModule } from './shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -41,6 +44,7 @@ import { TimesheetAddEventComponent } from './modules/timesheet/components/times
 import { TimesheetTrasferteModalComponent } from './modules/timesheet/components/timesheet-trasferte-modal/timesheet-trasferte-modal.component';
 import { LoaderComponent } from './component/loader/loader.component';
 import { LoaderInterceptor } from './_helper/loader.interceptor';
+
 
 
 @NgModule({
@@ -111,6 +115,14 @@ import { LoaderInterceptor } from './_helper/loader.interceptor';
       useClass: LoaderInterceptor,
       multi: true,
     },
+    {
+      provide: DateAdapterIT,
+      useClass: MomentDateAdapter,
+      deps: [ MAT_MOMENT_DATE_ADAPTER_OPTIONS ,]
+    },
+    {provide: MAT_DATE_LOCALE, useValue: 'it-IT' },
+    {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS},
+    
   ],
   bootstrap: [AppComponent]
 })
