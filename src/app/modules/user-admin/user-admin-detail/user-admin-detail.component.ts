@@ -107,6 +107,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     const anagInfo = await this.anagService.getAnagraphic(this.userAdmin.id).toPromise();
     console.log(anagInfo);
     const economicInfo = await this.economicService.getEconomic(anagInfo['data']['economicdataid']).toPromise();
+    console.log(economicInfo);
     this.userForm.patchValue(userInfo['data'][0].uset);
     this.anagForm.patchValue(anagInfo['data']);
     this.econForm.patchValue(economicInfo['data']);
@@ -225,6 +226,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   }
   createEconomicForm() {
     const economicForm = this.fb.group({
+      id: [''],
       ral: ['', [Validators.required]],
       pagamensile: ['', [Validators.required]],
       rimborsomensile: ['', [Validators.required]],
