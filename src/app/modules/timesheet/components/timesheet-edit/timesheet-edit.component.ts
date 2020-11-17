@@ -274,6 +274,7 @@ export class TimesheetEditComponent implements OnInit {
         data: {
           event: eventToUpdate,
           date: eventToUpdate.start,
+          activityList: this.assignedActivities,
           type: 'edit',
         },
       });
@@ -289,7 +290,8 @@ export class TimesheetEditComponent implements OnInit {
               nProtocollo: res.data.numProtocollo,
               activityId: res.data.activityId,
               smartWorking: +res.data.smartWorking,
-              contractCode: res.data.contractCode,
+              contractCode: res.data.title,
+              customerId: res.data.customerId,
             };
             const targetEvent = this.events.findIndex(item => item.start === res.data.eventDate);
             this.events[targetEvent] = event;
@@ -332,7 +334,6 @@ export class TimesheetEditComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe((res) => {
         if (res.data !== 'close') {
-          console.log(res.data);
           const event: NewCalendarEvent = {
             title: res.data.contractCode,
             start: new Date(res.data.eventDate),
@@ -341,6 +342,7 @@ export class TimesheetEditComponent implements OnInit {
             codiceFatt: res.data.codiceFatturazione,
             nProtocollo: res.data.numProtocollo,
             activityId: res.data.activityId,
+            customerId: res.data.customerId,
             smartWorking: +res.data.smartWorking,
             contractCode: res.data.contractCode,
           };
@@ -420,6 +422,7 @@ export class TimesheetEditComponent implements OnInit {
         codiceFatt: element.codiceFatt,
         nProtocollo: element.numProtocollo,
         activityId: element.activityId,
+        customerId: element.customerId,
         smartWorking: +element.smartWorking,
         ticketnumber: element.ticketnumber,
       };

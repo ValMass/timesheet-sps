@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CalendarEvent } from 'angular-calendar';
@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './timesheet-add-event.component.html',
   styleUrls: ['./timesheet-add-event.component.css']
 })
-export class TimesheetAddEventComponent implements OnInit, AfterViewInit {
+export class TimesheetAddEventComponent implements OnInit {
 
   name: string;
   value: number;
@@ -43,11 +43,10 @@ export class TimesheetAddEventComponent implements OnInit, AfterViewInit {
       numProtocollo: ['00', [Validators.required]],
       activityId: ['0', [Validators.required]],
       smartWorking: [this.isChecked(), [Validators.required]],
+      customerId: ['', [Validators.required]],
     });
     this.assignedact = this.data.activityList;
-  }
 
-  ngAfterViewInit(): void {
     if (this.data.type === 'edit') {
       this.profileForm.patchValue(
         {
@@ -56,7 +55,8 @@ export class TimesheetAddEventComponent implements OnInit, AfterViewInit {
           numeroProtocollo: this.data.event.nProtocollo,
           numeroOre: this.data.event.nOre,
           activityId: this.data.event.activityId,
-          contractCode: this.data.event.contractCode,
+          customerId: this.data.event.customerId,
+          contractCode: this.data.event.title,
         },
       );
     }

@@ -72,9 +72,18 @@
         </div>
 
         <div class="mb-2">
-          <label for="customerId" class="col-form-label">Cliente</label>
+          <label for="customerId" class="col-form-label">Attività</label>
           <div>
             <ng-select [items]="assignedact" bindLabel="act.name" formControlName="activityId" bindValue="act.id">
+            </ng-select>
+          </div>
+          <div *ngIf="f.activityId.errors && submitted" style="color: red;">Campo obbligatorio</div>
+        </div>
+
+        <div class="mb-2">
+          <label for="customerId" class="col-form-label">Cliente</label>
+          <div>
+            <ng-select [items]="assignedact" bindLabel="cus.name" formControlName="customerId" bindValue="cus.id">
             </ng-select>
           </div>
           <div *ngIf="f.activityId.errors && submitted" style="color: red;">Campo obbligatorio</div>

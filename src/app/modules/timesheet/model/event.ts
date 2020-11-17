@@ -10,4 +10,5 @@ export interface NewCalendarEvent extends CalendarEvent  {
     activityId: string;
     smartWorking: number;
     contractCode: string;
+    customerId: string;
 }
