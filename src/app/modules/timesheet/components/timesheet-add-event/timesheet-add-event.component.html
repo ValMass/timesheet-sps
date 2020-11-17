@@ -86,7 +86,7 @@
             <ng-select [items]="assignedact" bindLabel="cus.name" formControlName="customerId" bindValue="cus.id">
             </ng-select>
           </div>
-          <div *ngIf="f.activityId.errors && submitted" style="color: red;">Campo obbligatorio</div>
+          <div *ngIf="f.customerId.errors && submitted" style="color: red;">Campo obbligatorio</div>
         </div>
 
         <div class="mb-2">
