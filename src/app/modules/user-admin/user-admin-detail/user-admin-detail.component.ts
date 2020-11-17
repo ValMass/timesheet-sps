@@ -44,6 +44,9 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   anagFlag : boolean = false;
   userFlag : boolean = false;
 
+  //password
+  psw : string = "password";
+
   constructor(
     private anagService: AnagraphicService,
     private contractService: ContractService,
@@ -326,4 +329,14 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  //mostro o nascondo la password a seconda dei casi
+  pswHideShow(){
+    if (this.psw === "password"){
+      this.psw = "text";
+    }else{
+      this.psw = "password";
+    }
+  }
+
 }
