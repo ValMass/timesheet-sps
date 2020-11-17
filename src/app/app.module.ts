@@ -115,13 +115,8 @@ import { LoaderInterceptor } from './_helper/loader.interceptor';
       useClass: LoaderInterceptor,
       multi: true,
     },
-    {
-      provide: DateAdapterIT,
-      useClass: MomentDateAdapter,
-      deps: [ MAT_MOMENT_DATE_ADAPTER_OPTIONS ,]
-    },
+    
     {provide: MAT_DATE_LOCALE, useValue: 'it-IT' },
-    {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS},
     
   ],
   bootstrap: [AppComponent]
