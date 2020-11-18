@@ -1,6 +1,6 @@
 <h2 class="text-center font-weight-bold m-3">{{ nome }} {{ cognome }}</h2>
 <div class="userprofile">
-  <div class="userprofile-container mt-4">
+  <div class="userprofile-container mt-4"> 
     <form class="p-1" [formGroup]="anagForm" (ngSubmit)="submit()">
       <div class="form-group row">
         <label for="address" class="col-sm-4 col-form-label">Indirizzo</label>
@@ -26,16 +26,34 @@
           <input type="email" class="form-control" id="inputEmail" placeholder="Email" formControlName="email">
         </div>
       </div>
-      <div class="form-group row">
+      <!--<div class="form-group row">
         <label for="birthdate" class="col-sm-4 col-form-label">Data di Nascita</label>
         <div class="col-sm-8">
           <input type="date" class="form-control" id="birthdate" placeholder="Data di Nascita" formControlName="birthdate">
         </div>
+      </div>-->
+
+      <div class="form-group row">
+        <label for="birthdate" class="col-sm-4 col-form-label">Data di nascita</label>
+        <div class="col-sm-8">
+          <input matInput [matDatepicker]="picker" required formControlName="birthdate" disabled (dateChange)="changeData($event)">
+          <mat-datepicker-toggle matSuffix [for]="picker" class="bottone-data"></mat-datepicker-toggle>
+          <mat-datepicker #picker disabled="false"></mat-datepicker>
+        </div>
       </div>
+
       <div class="form-group row">
         <label for="sededilavoro" class="col-sm-4 col-form-label">Sede di lavoro</label>
         <div class="col-sm-8">
           <input type="text" class="form-control" id="sededilavoro" placeholder="Sede di lavoro" formControlName="sededilavoro" readonly>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="ral" class="col-sm-4 col-form-label">Buoni Pasto</label>
+        <div class="col-sm-8">
+          <mat-checkbox class="example-margin" id="buonipastobool"  name="buonipastobool" labelPosition="before">
+          </mat-checkbox>
         </div>
       </div>
      <!--  <div class="form-group row">

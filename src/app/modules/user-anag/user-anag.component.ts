@@ -19,6 +19,7 @@ export class UserAnagComponent implements OnInit {
   nome = "";
   cognome = "";
   workplaceId = 0;
+  data : any ;
 
   constructor(
     private route: ActivatedRoute,
@@ -54,12 +55,12 @@ export class UserAnagComponent implements OnInit {
     this.userAnag.getAnagraphic(id).subscribe(
       anag => {
         if (anag['status'] === "done") {
-          console.log(anag["data"]);
+          console.log("anag[data]" , anag["data"]);
           this.dbAnag = anag["data"];
           this.nome = this.dbAnag.name;
           this.cognome = this.dbAnag.surname;
           this.workplaceId = this.dbAnag.sededilavoro;
-          console.log(this.dbAnag);
+          console.log("dbAnag" ,this.dbAnag);
           let newanag = {
             name: this.dbAnag.name,
             surname: this.dbAnag.surname,
@@ -79,10 +80,10 @@ export class UserAnagComponent implements OnInit {
             sex: this.anagForm.get('surname').value,
             contractid: this.anagForm.get('surname').value,
           };
-          console.log(newanag);
+          console.log("newanag", newanag);
           this.userAnag.getWorkOffice(this.workplaceId).subscribe(
             res => {
-              console.log(res.data);
+              console.log("res" , res.data);
               newanag.sededilavoro = res.data.address;
               this.anagForm.patchValue(newanag);
             }
@@ -147,7 +148,7 @@ export class UserAnagComponent implements OnInit {
       address: this.anagForm.get('address').value,
       phonenumber1: this.anagForm.get('phonenumber1').value,
       phonenumber2: this.anagForm.get('phonenumber2').value,
-      birthdate: this.dbAnag.birthdate,
+      birthdate: this.updBirthdate(this.dbAnag.birthdate),
       birthplace: this.dbAnag.birthplace,
       regnuminps: this.dbAnag.regnuminps,
       contracttype: this.dbAnag.contracttype,
@@ -159,7 +160,7 @@ export class UserAnagComponent implements OnInit {
       sex: this.dbAnag.sex,
       contractid: this.dbAnag.contractid,
     }
-    console.log(newanag);
+    console.log("newanagsubmit " , newanag);
   }
 
   get fc() { return this.anagForm.controls; }
@@ -175,5 +176,19 @@ export class UserAnagComponent implements OnInit {
     return user.email;
   }
 
+  //quando la data viene cambiata catturo l'evento 
+  changeData(dataEvent){
+    //console.log("dataEvent", dataEvent.value)
+    this.data = new Date(dataEvent.value).toISOString();
+    //console.log(this.data);
+  }
+
+  //se l'utente modifica la data aggiorno la vecchia data di nascita
+  updBirthdate(birthdate){
+    if(this.data != null){
+      birthdate = this.data
+    }
+    return(birthdate);
+  }
 
 }
