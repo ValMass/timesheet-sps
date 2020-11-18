@@ -162,7 +162,7 @@ export class UserAnagComponent implements OnInit {
       phonenumber1: this.anagForm.get('phonenumber1').value,
       phonenumber2: this.anagForm.get('phonenumber2').value,
       birthdate: this.updBirthdate(this.dbAnag.birthdate),
-      birthplace: this.dbAnag.birthplace,
+      birthplace: this.anagForm.get('birthplace').value,
       regnuminps: this.dbAnag.regnuminps,
       contracttype: this.dbAnag.contracttype,
       distaccatoda: this.dbAnag.distaccatoda,

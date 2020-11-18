@@ -2,30 +2,36 @@
 <div class="userprofile">
   <div class="userprofile-container mt-4"> 
     <form class="p-1" [formGroup]="anagForm" (ngSubmit)="submit()">
+
       <div class="form-group row">
-        <label for="address" class="col-sm-4 col-form-label">Indirizzo</label>
+        <label for="inputEmail" class="col-sm-4 col-form-label">Email</label>
         <div class="col-sm-8">
-          <input type="email" class="form-control" id="address" placeholder="Indirizzo" formControlName="address">
+          <input type="email" class="form-control" id="inputEmail" placeholder="Email" formControlName="email" readonly>
         </div>
       </div>
+
       <div class="form-group row">
         <label for="phonenumber1" class="col-sm-4 col-form-label">Numero di telefono</label>
         <div class="col-sm-8">
-          <input type="text" class="form-control" id="phonenumber1" placeholder="Numero di telefono" formControlName="phonenumber1">
+          <input type="text" class="form-control" id="phonenumber1" placeholder="Numero di telefono" formControlName="phonenumber1" readonly>
         </div>
       </div>
+
       <div class="form-group row">
         <label for="phonenumber2" class="col-sm-4 col-form-label">Numero di telefono alternativo</label>
         <div class="col-sm-8">
           <input type="text" class="form-control" id="phonenumber2" placeholder="Numero di telefono" formControlName="phonenumber2">
         </div>
       </div>
+
       <div class="form-group row">
-        <label for="inputEmail" class="col-sm-4 col-form-label">Email</label>
+        <label for="address" class="col-sm-4 col-form-label">Indirizzo</label>
         <div class="col-sm-8">
-          <input type="email" class="form-control" id="inputEmail" placeholder="Email" formControlName="email">
+          <input type="email" class="form-control" id="address" placeholder="Indirizzo" formControlName="address">
         </div>
       </div>
+      
+      
       <!--<div class="form-group row">
         <label for="birthdate" class="col-sm-4 col-form-label">Data di Nascita</label>
         <div class="col-sm-8">
@@ -39,6 +45,13 @@
           <input matInput [matDatepicker]="picker" required formControlName="birthdate" disabled (dateChange)="changeData($event)">
           <mat-datepicker-toggle matSuffix [for]="picker" class="bottone-data"></mat-datepicker-toggle>
           <mat-datepicker #picker disabled="false"></mat-datepicker>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="birthplace" class="col-sm-4 col-form-label">Luogo di nascita</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="birthplace" placeholder="Luogo di nascita" formControlName="birthplace">
         </div>
       </div>
 
