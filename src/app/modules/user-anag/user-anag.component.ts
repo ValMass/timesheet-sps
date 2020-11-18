@@ -20,7 +20,8 @@ export class UserAnagComponent implements OnInit {
   cognome = "";
   workplaceId = 0;
   data : any ;
-
+  contratto : any ;
+  
   constructor(
     private route: ActivatedRoute,
     public fb: FormBuilder,
@@ -77,15 +78,19 @@ export class UserAnagComponent implements OnInit {
             birthdate: this.dbAnag.birthdate,
             birthplace: this.dbAnag.birthplace,
             regnuminps: this.dbAnag.regnuminps,
-            contracttype: this.anagForm.get('surname').value,
+            contracttype:  this.dbAnag.contracttype,
             distaccatoda: this.anagForm.get('surname').value,
             distaccatoa: this.anagForm.get('surname').value,
             sededilavoro: this.anagForm.get('surname').value,
             valorerimborsistimato: this.anagForm.get('surname').value,
             buonipastobool:this.dbAnag.buonipastobool,
             sex: this.anagForm.get('surname').value,
-            contractid: this.anagForm.get('surname').value,
+            contractid: this.dbAnag.contractid,
           };
+
+          //prendo il contratto
+          this.getContract(this.dbAnag.contractid);
+
           console.log("newanag", newanag);
           this.userAnag.getWorkOffice(this.workplaceId).subscribe(
             res => {
@@ -147,6 +152,8 @@ export class UserAnagComponent implements OnInit {
   }
 
   submit() {
+   
+
     let newanag = {
       id: this.dbAnag.id,
       name: this.dbAnag.name,
@@ -196,5 +203,17 @@ export class UserAnagComponent implements OnInit {
     }
     return(birthdate);
   }
+
+  //dato un id di un contratto restituisce i dati del contratto 
+  getContract(id){
+  this.contractAnag.getContract(id).subscribe(res  => {
+      //console.log("contratto GET" , res["data"])
+      let contrattoData = res["data"];
+      //console.log("contrattoData" , contrattoData )
+      this.contratto = contrattoData.title + " " + contrattoData.contracttype + " " + contrattoData.level + " " + "livello" + " " + contrattoData.ccnl;
+      //console.log("this.contratto" , this.contratto )
+    });
+  }
+
 
 }
