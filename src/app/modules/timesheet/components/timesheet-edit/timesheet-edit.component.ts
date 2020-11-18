@@ -570,21 +570,10 @@ export class TimesheetEditComponent implements OnInit {
           this.currentTimesheet.trasferte = res.data;
           console.log("acivalue to change", res.acivalue);
           console.log("diaria to change", res.diaria);
-          if( res.acivalue != 0 && res.diaria != 0){
-            this.timesheetService.saveDiariaAndAciValue(res.diaria, res.acivalue, this.currentTimesheet.userid ).subscribe(
-              res => {
-                if (res["status"] === "done") {
-                  this.toastrService.success("diaria e acivalue aggiornati");
-                } else {
-                  this.toastrService.error("diaria e acivalue non aggiornati");
-                }
-              },
-              error =>{
-                this.toastrService.error("http Error");
-              }
-            );
-
-          }
+          this.currentTimesheet.montlydiaria = res.diaria;
+          this.currentTimesheet.montlyacivalue = res.acivalue;
+          this.currentTimesheet.rimborsotrasferte = res.rimborsotrasferte;
+          this.currentTimesheet.rimborsotarget = res.rimborsotarget;
           this.saveCurrentTimesheet();
           this.toastrService.success('Trasferte Salvate');
         }

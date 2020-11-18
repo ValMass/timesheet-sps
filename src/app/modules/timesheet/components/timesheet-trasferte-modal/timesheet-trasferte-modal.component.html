@@ -14,7 +14,14 @@
         <button class="btn btn-primary" type="submit" >Ricalcola</button>
       </div>
     </form>
-
+    <div class="col-4">
+      <label for="rimborsodovuto">Rimborso dovuto</label>
+      <input type="text" id="rimborsodovuto" name="rimborsodovuto" #diariainput [ngModel]="rimborsodovuto">
+    </div>
+    <div class="col-4">
+      <label for="rimborsoproposto">Rimboso proposto</label>
+      <input type="text" id="rimborsoproposto" name="rimborsoproposto" #diariainput [ngModel]="rimborsoproposto">
+    </div>
   </div>
   <table class="table table-striped">
     <thead>

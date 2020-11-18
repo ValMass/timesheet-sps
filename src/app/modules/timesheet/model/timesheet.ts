@@ -32,4 +32,8 @@ export interface Timesheet {
   ticket?: string;
   ticketnumber?: string;
   distaccato?: string;
+  rimborsotrasferte?: string;
+  montlydiaria?: string;
+  montlyacivalue?: string;
+  rimborsotarget?: string;
 }

@@ -17,6 +17,8 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   currentUserData = null;
   acivalue = 0.54;
   diariavalue = 20;
+  rimborsoproposto = '0';
+  rimborsodovuto = '0';
   canagedAcivalue = 0;
   canageddiariavalue = 0;
   disableSave = false;
@@ -43,6 +45,8 @@ export class TimesheetTrasferteModalComponent implements OnInit {
     console.log(this.currentUserData);
     this.acivalue = this.currentUserData.ecd.acivalue;
     this.diariavalue = this.currentUserData.ecd.diaria;
+    this.rimborsoproposto = this.currentTimesheet.rimborsotrasferte;
+    this.rimborsodovuto = this.currentTimesheet.rimborsotarget;
     this.trasferteListTemp = this.trasferteList.map((x) => {
       x["calcoli"] = this.calcolaPesoTrasferte(
         x.matr.distance,
@@ -78,7 +82,9 @@ export class TimesheetTrasferteModalComponent implements OnInit {
         (res) => {
           console.log("entro 3");
           if (res.status === "done") {
-            this.trasferteListchanged = JSON.parse(res.data);
+            this.trasferteListchanged = JSON.parse(res.data.trasferte);
+            this.rimborsoproposto = res.data.rimborsotrasferte;
+            this.rimborsodovuto = res.data.rimborsotarget;
             this.trasferteListTemp = this.trasferteListchanged.map((x) => {
               x["calcoli"] = this.calcolaPesoTrasferte(
                 x.matr.distance,
@@ -107,10 +113,19 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   saveList() {
     if(this.changed) {
       console.log('changed');
-      this.dialogRef.close({ data: this.trasferteList, acivalue: this.acivalue, diaria: this.diariavalue });
+      this.dialogRef.close({
+        data: this.trasferteList,
+        acivalue: this.acivalue,
+        diaria: this.diariavalue,
+        rimborsotrasferte: this.rimborsoproposto,
+        rimborsotarget: this.rimborsodovuto });
     } else {
       console.log('not changed');
-      this.dialogRef.close({ data: this.trasferteListchanged, acivalue: 0, diaria: 0});
+      this.dialogRef.close({ data: this.trasferteListchanged,
+        acivalue: this.acivalue,
+        diaria: this.diariavalue,
+        rimborsotrasferte: this.rimborsoproposto,
+        rimborsotarget: this.rimborsodovuto});
     }
 
   }
@@ -126,5 +141,9 @@ export class TimesheetTrasferteModalComponent implements OnInit {
     const tot = extras * 1 + diaria * 1;
     console.log("tot : ", tot);
     return tot;
+  }
+
+  buttonVisibilityControlByStatus(){
+
   }
 }
