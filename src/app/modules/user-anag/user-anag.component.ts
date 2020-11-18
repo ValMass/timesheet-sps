@@ -56,7 +56,13 @@ export class UserAnagComponent implements OnInit {
       anag => {
         if (anag['status'] === "done") {
           console.log("anag[data]" , anag["data"]);
+          console.log("anag[data]" , anag["data"].buonipastobool);
+          
           this.dbAnag = anag["data"];
+
+          //flag buonipasto
+          this.dbAnag.buonipastobool = (anag["data"].buonipastobool == 0 ? false : true)
+
           this.nome = this.dbAnag.name;
           this.cognome = this.dbAnag.surname;
           this.workplaceId = this.dbAnag.sededilavoro;
@@ -76,7 +82,7 @@ export class UserAnagComponent implements OnInit {
             distaccatoa: this.anagForm.get('surname').value,
             sededilavoro: this.anagForm.get('surname').value,
             valorerimborsistimato: this.anagForm.get('surname').value,
-            buonipastobool: this.anagForm.get('surname').value,
+            buonipastobool:this.dbAnag.buonipastobool,
             sex: this.anagForm.get('surname').value,
             contractid: this.anagForm.get('surname').value,
           };

@@ -83,6 +83,7 @@ export class UserAdminComponent implements OnInit {
     tmpanag.phonenumber2 = dialogRes['phonenumber2'];
     tmpanag.sededilavoro = dialogRes['sededilavoro'];
     tmpanag.birthplace = dialogRes['birthplace'];
+    tmpanag.buonipastobool = dialogRes['buonipastobool']
     const tmpeco = new EconomicData();
     tmpeco.ral = dialogRes['ral'];
     tmpeco.pagamensile = dialogRes['pagamensile'];
@@ -114,7 +115,7 @@ export class UserAdminComponent implements OnInit {
             myObj.anagtoadd.economicdataid = res['data'].id;
             this.anagraphicService.addAnagraphicForUser(myObj.anagtoadd).subscribe(
               next => {
-                console.log('3 next:'  , next);
+                console.log('3 anag next:'  , next);
                 if (next['status'] === 'error') {
                   this.toastrService.error(res.toString());
                 } else {
