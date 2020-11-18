@@ -1,3 +1,5 @@
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -13,6 +15,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
     CommonModule,
     UserAnagRoutingModule,
     ReactiveFormsModule,
+    MatDatepickerModule,
+    MatCheckboxModule,
+
   ]
 })
 export class UserAnagModule { }

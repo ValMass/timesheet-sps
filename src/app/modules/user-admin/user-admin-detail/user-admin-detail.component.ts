@@ -143,8 +143,9 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   }
 
   submitAnag() {
+    console.log("this.anagForm.value" , this.anagForm.value)
     this.anagService.updateAnagraphicForUser({id: this.userAdmin.id, ...this.anagForm.value})
-      .subscribe(res => {
+      .subscribe(res => { console.log("Anagrafica" , res)
         if (res['status'] === 'done') {
           this.toastrService.success('Anagrafica utente aggiornata');
 
@@ -221,6 +222,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       birthdate: ['', [Validators.required]],
       birthplace: ['', [Validators.required]],
       sededilavoro: ['', [Validators.required]],
+      buonipastobool: ['', [Validators.required]],
     });
     return anagForm;
   }

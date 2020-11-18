@@ -19,7 +19,9 @@ export class UserAnagComponent implements OnInit {
   nome = "";
   cognome = "";
   workplaceId = 0;
-
+  data : any ;
+  contratto : any ;
+  
   constructor(
     private route: ActivatedRoute,
     public fb: FormBuilder,
@@ -54,12 +56,18 @@ export class UserAnagComponent implements OnInit {
     this.userAnag.getAnagraphic(id).subscribe(
       anag => {
         if (anag['status'] === "done") {
-          console.log(anag["data"]);
+          console.log("anag[data]" , anag["data"]);
+          console.log("anag[data]" , anag["data"].buonipastobool);
+          
           this.dbAnag = anag["data"];
+
+          //flag buonipasto
+          this.dbAnag.buonipastobool = (anag["data"].buonipastobool == 0 ? false : true)
+
           this.nome = this.dbAnag.name;
           this.cognome = this.dbAnag.surname;
           this.workplaceId = this.dbAnag.sededilavoro;
-          console.log(this.dbAnag);
+          console.log("dbAnag" ,this.dbAnag);
           let newanag = {
             name: this.dbAnag.name,
             surname: this.dbAnag.surname,
@@ -70,19 +78,23 @@ export class UserAnagComponent implements OnInit {
             birthdate: this.dbAnag.birthdate,
             birthplace: this.dbAnag.birthplace,
             regnuminps: this.dbAnag.regnuminps,
-            contracttype: this.anagForm.get('surname').value,
+            contracttype:  this.dbAnag.contracttype,
             distaccatoda: this.anagForm.get('surname').value,
             distaccatoa: this.anagForm.get('surname').value,
             sededilavoro: this.anagForm.get('surname').value,
             valorerimborsistimato: this.anagForm.get('surname').value,
-            buonipastobool: this.anagForm.get('surname').value,
+            buonipastobool:this.dbAnag.buonipastobool,
             sex: this.anagForm.get('surname').value,
-            contractid: this.anagForm.get('surname').value,
+            contractid: this.dbAnag.contractid,
           };
-          console.log(newanag);
+
+          //prendo il contratto
+          this.getContract(this.dbAnag.contractid);
+
+          console.log("newanag", newanag);
           this.userAnag.getWorkOffice(this.workplaceId).subscribe(
             res => {
-              console.log(res.data);
+              console.log("res" , res.data);
               newanag.sededilavoro = res.data.address;
               this.anagForm.patchValue(newanag);
             }
@@ -140,6 +152,8 @@ export class UserAnagComponent implements OnInit {
   }
 
   submit() {
+   
+
     let newanag = {
       id: this.dbAnag.id,
       name: this.dbAnag.name,
@@ -147,8 +161,8 @@ export class UserAnagComponent implements OnInit {
       address: this.anagForm.get('address').value,
       phonenumber1: this.anagForm.get('phonenumber1').value,
       phonenumber2: this.anagForm.get('phonenumber2').value,
-      birthdate: this.dbAnag.birthdate,
-      birthplace: this.dbAnag.birthplace,
+      birthdate: this.updBirthdate(this.dbAnag.birthdate),
+      birthplace: this.anagForm.get('birthplace').value,
       regnuminps: this.dbAnag.regnuminps,
       contracttype: this.dbAnag.contracttype,
       distaccatoda: this.dbAnag.distaccatoda,
@@ -159,7 +173,7 @@ export class UserAnagComponent implements OnInit {
       sex: this.dbAnag.sex,
       contractid: this.dbAnag.contractid,
     }
-    console.log(newanag);
+    console.log("newanagsubmit " , newanag);
   }
 
   get fc() { return this.anagForm.controls; }
@@ -173,6 +187,32 @@ export class UserAnagComponent implements OnInit {
   getEmailFromLocalStorage() {
     const user: User = this.authenticationService.currentUserValue;
     return user.email;
+  }
+
+  //quando la data viene cambiata catturo l'evento 
+  changeData(dataEvent){
+    //console.log("dataEvent", dataEvent.value)
+    this.data = new Date(dataEvent.value).toISOString();
+    //console.log(this.data);
+  }
+
+  //se l'utente modifica la data aggiorno la vecchia data di nascita
+  updBirthdate(birthdate){
+    if(this.data != null){
+      birthdate = this.data
+    }
+    return(birthdate);
+  }
+
+  //dato un id di un contratto restituisce i dati del contratto 
+  getContract(id){
+  this.contractAnag.getContract(id).subscribe(res  => {
+      //console.log("contratto GET" , res["data"])
+      let contrattoData = res["data"];
+      //console.log("contrattoData" , contrattoData )
+      this.contratto = contrattoData.title + " " + contrattoData.contracttype + " " + contrattoData.level + " " + "livello" + " " + contrattoData.ccnl;
+      //console.log("this.contratto" , this.contratto )
+    });
   }
 
 

@@ -225,11 +225,11 @@ export class TimesheetAddEventComponent implements OnInit {
   }
 
   isChecked() {
-    if (this.allComplete) {
+    /*if (this.allComplete) {
       this.allComplete = false;
     } else {
       this.allComplete = true;
-    }
-    return this.allComplete;
+    }*/
+    return (this.allComplete == true ? false : true);
   }
 }
