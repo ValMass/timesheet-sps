@@ -13,7 +13,7 @@ export class OfficeService {
 
   save(office) {
     const realuser = office.data;
-    const address = realuser.address; 
+    const address = realuser.address;
     const city = realuser.city;
     const cap = realuser.cap;
     const userscreationdate = new Date();
@@ -30,7 +30,7 @@ export class OfficeService {
   deleteOffice(officeId) {
     const url = environment.apiUrl + '/offices/deleteOfficesById.php';
     console.log(url);
-    return this.http.post(url,  {id:officeId });
+    return this.http.post(url,  { id: officeId });
   }
 
   createNewOffice(office):Observable<Office>{

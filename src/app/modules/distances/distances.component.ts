@@ -73,6 +73,9 @@ export class DistancesComponent implements OnInit {
         this.officeSelected.id,
         customerOffice.cus.id,
       )
-      .subscribe((res) => console.log(res));
+      .subscribe((res) => {
+        console.log(res);
+        customerOffice.mat['isDisabled'] = true;
+      });
   }
 }
