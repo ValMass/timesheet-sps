@@ -86,6 +86,7 @@ export class UserAnagComponent implements OnInit {
             buonipastobool:this.dbAnag.buonipastobool,
             sex: this.anagForm.get('surname').value,
             contractid: this.dbAnag.contractid,
+            economicdataid: this.dbAnag.economicdataid,
           };
 
           //prendo il contratto
@@ -172,8 +173,14 @@ export class UserAnagComponent implements OnInit {
       buonipastobool: this.dbAnag.buonipastobool,
       sex: this.dbAnag.sex,
       contractid: this.dbAnag.contractid,
+      economicdataid: this.dbAnag.economicdataid,
     }
-    console.log("newanagsubmit " , newanag);
+
+    console.log("data da aggiornare" , newanag)
+
+    this.userAnag.updateAnagraphicForUser(newanag).subscribe(res => {
+      //console.log("res submit post" , res)
+    });
   }
 
   get fc() { return this.anagForm.controls; }
@@ -210,7 +217,13 @@ export class UserAnagComponent implements OnInit {
       //console.log("contratto GET" , res["data"])
       let contrattoData = res["data"];
       //console.log("contrattoData" , contrattoData )
-      this.contratto = contrattoData.title + " " + contrattoData.contracttype + " " + contrattoData.level + " " + "livello" + " " + contrattoData.ccnl;
+      //se il contratto che ,i arriva è undefinied ritornera nessun contratto
+      if((contrattoData.title == undefined) && (contrattoData.contracttype == undefined) && (contrattoData.level == undefined) && (contrattoData.ccnl == undefined) ){
+        this.contratto = 'Nessun contratto'  
+      }else{
+        this.contratto = contrattoData.title + " " + contrattoData.contracttype + " " + contrattoData.level + " " + "livello" + " " + contrattoData.ccnl;
+      }
+      
       //console.log("this.contratto" , this.contratto )
     });
   }

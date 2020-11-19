@@ -223,6 +223,8 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       birthplace: ['', [Validators.required]],
       sededilavoro: ['', [Validators.required]],
       buonipastobool: ['', [Validators.required]],
+      phonenumber1: ['', [Validators.required]],
+      phonenumber2: ['', [Validators.required]],
     });
     return anagForm;
   }

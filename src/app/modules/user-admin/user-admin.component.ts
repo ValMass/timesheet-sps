@@ -236,6 +236,14 @@ export class UserAdminComponent implements OnInit {
         this.selected.username = evento.username
       }
 
+      if (evento.phonenumber1 != null) {
+        this.selected.phonenumber1 = evento.phonenumber1
+      }
+
+      if (evento.phonenumber2 != null) {
+        this.selected.phonenumber2 = evento.phonenumber2
+      }
+
     }
     //log
     console.log("evento selected after:" ,this.selected)
