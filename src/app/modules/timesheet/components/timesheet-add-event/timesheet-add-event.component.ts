@@ -54,7 +54,6 @@ export class TimesheetAddEventComponent implements OnInit {
 
     this.profileForm.get('customerId').valueChanges
       .subscribe(customerId => {
-        this.profileForm.get('activityId').patchValue('');
         this.assignedact = this.data.activityList
           .map((el: Object) => el['act'])
           .filter((item: Object) => item['customerid'] === customerId);
