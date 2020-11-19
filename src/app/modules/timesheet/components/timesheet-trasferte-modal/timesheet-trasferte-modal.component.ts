@@ -9,6 +9,7 @@ import { Timesheet } from "../../model/timesheet";
   styleUrls: ["./timesheet-trasferte-modal.component.css"],
 })
 export class TimesheetTrasferteModalComponent implements OnInit {
+  ricalcolaDisabled = false;
   trasferteList: any[] = [];
   trasferteListTemp: any[] = [];
   trasferteListchanged: any[] = [];
@@ -33,6 +34,13 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.currentTimesheet = this.data.timesheet;
     const userId = this.currentTimesheet.userid;
+    if ( this.currentTimesheet.state === '4' ){
+      
+      this.ricalcolaDisabled = true;
+    } else {
+
+      this.ricalcolaDisabled = false;
+    }
     this.trasferteList = JSON.parse(this.currentTimesheet.trasferte);
     console.log(this.trasferteList);
     let res = null;

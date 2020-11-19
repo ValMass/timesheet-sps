@@ -2,23 +2,28 @@
   <h2>Lista trasferte del mese</h2>
   <div class="row">
     <form (ngSubmit)="ricalcolaTrasferte(paramForm)" #paramForm="ngForm">
-      <div class="col-4">
+
+      <div class="left">
         <label for="acivalue">Aci</label>
         <input type="text" id="acivalue" name="acivalue" #acivalueinput [ngModel]="acivalue" (ngModelChange)="modelChanged($event)">
       </div>
-      <div class="col-4">
+      <div class="right">
         <label for="diaria">Diaria</label>
         <input type="text" id="diaria" name="diaria" #diariainput [ngModel]="diariavalue">
       </div>
-      <div class="col-4">
-        <button class="btn btn-primary" type="submit" >Ricalcola</button>
+
+      <div class="left mt-2 mb-2">
+        <button class="btn btn-primary" type="submit" [disabled]="ricalcolaDisabled" >Ricalcola</button>
       </div>
+
     </form>
-    <div class="col-4">
+  </div>
+  <div class="row">
+    <div class="left">
       <label for="rimborsodovuto">Rimborso dovuto</label>
       <input type="text" id="rimborsodovuto" name="rimborsodovuto" #diariainput [ngModel]="rimborsodovuto">
     </div>
-    <div class="col-4">
+    <div class="right">
       <label for="rimborsoproposto">Rimboso proposto</label>
       <input type="text" id="rimborsoproposto" name="rimborsoproposto" #diariainput [ngModel]="rimborsoproposto">
     </div>
