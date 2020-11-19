@@ -35,7 +35,7 @@ export class TimesheetTrasferteModalComponent implements OnInit {
     this.currentTimesheet = this.data.timesheet;
     const userId = this.currentTimesheet.userid;
     if ( this.currentTimesheet.state === '4' ){
-      
+
       this.ricalcolaDisabled = true;
     } else {
 
@@ -119,8 +119,9 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   }
 
   saveList() {
-    if(this.changed) {
-      console.log('changed');
+    if(!this.changed) {
+      console.log('not changed');
+      console.log(this.trasferteList);
       this.dialogRef.close({
         data: this.trasferteList,
         acivalue: this.acivalue,
@@ -128,8 +129,10 @@ export class TimesheetTrasferteModalComponent implements OnInit {
         rimborsotrasferte: this.rimborsoproposto,
         rimborsotarget: this.rimborsodovuto });
     } else {
-      console.log('not changed');
-      this.dialogRef.close({ data: this.trasferteListchanged,
+      console.log('changed');
+      console.log(this.trasferteListchanged);
+      this.dialogRef.close({
+        data: this.trasferteListchanged,
         acivalue: this.acivalue,
         diaria: this.diariavalue,
         rimborsotrasferte: this.rimborsoproposto,
