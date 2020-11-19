@@ -22,6 +22,7 @@ export class TimesheetAddEventComponent implements OnInit {
   aggiungiButtonDisabled: boolean = false;
   errorMessage = "";
   assignedact: any[];
+  customerList: any[];
   insertLavoro = true;
   insertMalattia = false;
   insertNumeroOre = false;
@@ -45,7 +46,19 @@ export class TimesheetAddEventComponent implements OnInit {
       smartWorking: [this.isChecked(), [Validators.required]],
       customerId: ['', [Validators.required]],
     });
-    this.assignedact = this.data.activityList;
+
+    const check = new Set();
+    this.customerList = this.data.activityList
+      .map((el: Object) => el['cus'])
+      .filter(item => !check.has(item['id']) && check.add(item['id']));
+
+    this.profileForm.get('customerId').valueChanges
+      .subscribe(customerId => {
+        this.profileForm.get('activityId').patchValue('');
+        this.assignedact = this.data.activityList
+          .map((el: Object) => el['act'])
+          .filter((item: Object) => item['customerid'] === customerId);
+      });
 
     if (this.data.type === 'edit') {
       this.profileForm.patchValue(
