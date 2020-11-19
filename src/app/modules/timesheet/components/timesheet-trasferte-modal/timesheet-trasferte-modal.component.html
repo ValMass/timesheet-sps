@@ -2,32 +2,65 @@
   <h2>Lista trasferte del mese</h2>
   <div class="row">
     <form (ngSubmit)="ricalcolaTrasferte(paramForm)" #paramForm="ngForm">
-
       <div class="left">
         <label for="acivalue">Aci</label>
-        <input type="text" id="acivalue" name="acivalue" #acivalueinput [ngModel]="acivalue" (ngModelChange)="modelChanged($event)">
+        <input
+          type="text"
+          id="acivalue"
+          name="acivalue"
+          #acivalueinput
+          [ngModel]="acivalue"
+          (ngModelChange)="modelChanged($event)"
+        />
       </div>
       <div class="right">
         <label for="diaria">Diaria</label>
-        <input type="text" id="diaria" name="diaria" #diariainput [ngModel]="diariavalue">
+        <input
+          type="text"
+          id="diaria"
+          name="diaria"
+          #diariainput
+          [ngModel]="diariavalue"
+        />
       </div>
 
       <div class="left mt-2 mb-2">
-        <button class="btn btn-primary" type="submit" [disabled]="ricalcolaDisabled" >Ricalcola</button>
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="ricalcolaDisabled"
+        >
+          Ricalcola
+        </button>
       </div>
-
     </form>
   </div>
+
   <div class="row">
-    <div class="left">
-      <label for="rimborsodovuto">Rimborso dovuto</label>
-      <input type="text" id="rimborsodovuto" name="rimborsodovuto" #diariainput [ngModel]="rimborsodovuto">
-    </div>
-    <div class="right">
-      <label for="rimborsoproposto">Rimboso proposto</label>
-      <input type="text" id="rimborsoproposto" name="rimborsoproposto" #diariainput [ngModel]="rimborsoproposto">
-    </div>
+    <form>
+      <div class="left">
+        <label for="rimborsodovuto">Rimborso dovuto</label>
+        <input
+          type="text"
+          id="rimborsodovuto"
+          name="rimborsodovuto"
+          #diariainput
+          [ngModel]="rimborsodovuto"
+        />
+      </div>
+      <div class="right">
+        <label for="rimborsoproposto">Rimboso proposto</label>
+        <input
+          type="text"
+          id="rimborsoproposto"
+          name="rimborsoproposto"
+          #diariainput
+          [ngModel]="rimborsoproposto"
+        />
+      </div>
+    </form>
   </div>
+
   <table class="table table-striped">
     <thead>
       <tr>
@@ -36,9 +69,23 @@
         <th scope="col">Rimborso</th>
       </tr>
     </thead>
-    <tbody>  <!--trackBy: trackById;-->
-      <tr *ngFor="let trasferta of trasferteListTemp; trackBy: trackById; let i = index" role="presentation">
-        <td>{{ trasferta.coff.address ? trasferta.coff.address : trasferta.off.address }}</td>
+    <tbody>
+      <!--trackBy: trackById;-->
+      <tr
+        *ngFor="
+          let trasferta of trasferteListTemp;
+          trackBy: trackById;
+          let i = index
+        "
+        role="presentation"
+      >
+        <td>
+          {{
+            trasferta.coff.address
+              ? trasferta.coff.address
+              : trasferta.off.address
+          }}
+        </td>
         <td>{{ trasferta.matr.distance }}</td>
         <td>{{ trasferta.calcoli }}</td>
         <!-- <td>{{ useradmin.name }} {{ useradmin.surname }} </td>
@@ -61,6 +108,12 @@
   </table>
   <div class="d-flex justify-content-between" mat-dialog-actions>
     <button class="btn btn-primary w-25" (click)="closeModal()">Chiudi</button>
-    <button class="btn btn-primary w-25" (click)="saveList()" [disabled]="disableSave" >Salva</button>
+    <button
+      class="btn btn-primary w-25"
+      (click)="saveList()"
+      [disabled]="disableSave"
+    >
+      Salva
+    </button>
   </div>
 </div>
