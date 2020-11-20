@@ -18,12 +18,16 @@
     <div class="form-group row">
       <label for="password" class="col-sm-4 col-form-label">password</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="password" placeholder="password" [ngModel] name="password" required
+        <input type="{{psw}}" class="form-control" id="password" placeholder="password" [ngModel] name="password" required
           minlength="6" #password="ngModel" [ngClass]="{'is-invalid':profileForm.submitted && password.invalid}" />
+          
         <div *ngIf="profileForm.submitted && password.invalid" class="invalid-feedback">
           <div *ngIf="profileForm.submitted && password.invalid && !password.errors.minlength">Campo obbligatorio</div>
           <div *ngIf="profileForm.submitted && password.invalid && password.errors.minlength">Lunghezza minima 6</div>
         </div>
+        <p style="display:inline; color: grey; cursor: pointer;" (click)="pswHideShow()">
+          {{psw == "password" ? 'Show' : 'Hide'}} Password 
+        </p> 
       </div>
     </div>
 
@@ -223,10 +227,10 @@
     </div>
 
     <div class="form-group row">
-      <label for="paga-giorno" class="col-sm-4 col-form-label">Paga giorno</label>
+      <label for="paga-giorno" class="col-sm-4 col-form-label">Paga mensile</label>
       <div class="col-sm-8">
         <input type="text" class="form-control" id="paga-giorno" placeholder="Inserisci la paga giorno" [ngModel]
-          name="pagamensile" required pattern="[0-9 ]+$" #pagamensile="ngModel"
+          name="pagamensile" required pattern="[0-9]+([,.][0-9]+)?$" #pagamensile="ngModel"
           [ngClass]="{'is-invalid':profileForm.submitted && pagamensile.invalid}" />
         <div *ngIf="profileForm.submitted && pagamensile.invalid" class="invalid-feedback">
           <div *ngIf="profileForm.submitted && pagamensile.invalid && !pagamensile.errors.pattern">Campo obbligatorio

@@ -40,6 +40,9 @@ export class UserAdminCreationComponent implements OnInit {
   //profileForm: FormGroup;
   datepicker: any;
 
+  //password
+  psw : string = "password";
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: string,
               private fb: FormBuilder,
               private dialogRef: MatDialogRef<UserAdminCreationComponent>,
@@ -65,10 +68,11 @@ export class UserAdminCreationComponent implements OnInit {
 
     //se ce una virgola lo converte in punto
     //console.log("form" , form.value.acivalue);
-    let commaDot : string = form.value.acivalue.replace(/,/g, '.')
-    form.value.acivalue = commaDot;
+    //let commaDotAciValue : string = form.value.acivalue.replace(/,/g, '.')
+    form.value.acivalue = this.commaToDot(form.value.acivalue);
     
-    
+    form.value.pagamensile = this.commaToDot(form.value.pagamensile);
+
     const obj = {...form.value, 'birthdate': this.datepicker };
 
     //console.log("form + commaDot" ,  form.value.acivalue)
@@ -108,6 +112,20 @@ export class UserAdminCreationComponent implements OnInit {
 
   close() {
     this.dialogRef.close();
+  }
+
+  //mostro o nascondo la password a seconda dei casi
+  pswHideShow(){
+    if (this.psw === "password"){
+      this.psw = "text";
+    }else{
+      this.psw = "password";
+    }
+  }
+
+  commaToDot(value){
+    let commaDotvalue: string = value.replace(/,/g, '.')
+    return(commaDotvalue);
   }
 
 }

@@ -74,19 +74,21 @@
         <div class="mb-2">
           <label for="customerId" class="col-form-label">Cliente</label>
           <div>
-            <ng-select [items]="customerList" bindLabel="name" formControlName="customerId" bindValue="id">
+            <ng-select [items]="customerList" bindLabel="name" formControlName="customerId" bindValue="id"
+            [ngClass]="{'error':f.customerId.errors  && submitted}">
             </ng-select>
           </div>
           <div *ngIf="f.customerId.errors && submitted" style="color: red;">Campo obbligatorio</div>
         </div>
         
         <div class="mb-2">
-          <label for="customerId" class="col-form-label">Attività</label>
+          <label for="activityId" class="col-form-label">Attività</label>
           <div>
-            <ng-select [readonly]="!assignedact" [items]="assignedact" bindLabel="name" formControlName="activityId" bindValue="id">
+            <ng-select [readonly]="!assignedact" [items]="assignedact" bindLabel="name" formControlName="activityId" bindValue="id" 
+            [ngClass]="{'error':(f.activityId.value === '0' || f.activityId.value === null) && submitted}">
             </ng-select>
           </div>
-          <div *ngIf="f.activityId.errors && submitted" style="color: red;">Campo obbligatorio</div>
+          <div *ngIf="(f.activityId.value === '0'  || f.activityId.value === null) && submitted" style="color: red;">Campo obbligatorio</div>
         </div>
         
         <div class="mb-2">
@@ -111,7 +113,9 @@
         <div class="mb-2">
           <label for="customRange3" class="col-form-label">Numero ore</label> {{ value }}
           <input type="number" class="form-control input-number" value="8" min="0" max="12" step="1" id="customRange3"
-            required formControlName="numeroOre" (input)="valueChanged($event)">
+            required formControlName="numeroOre" (input)="valueChanged($event)"
+            [ngClass]="{'is-invalid':(f.numeroOre.value == 0 || f.numeroOre.value == null) && submitted}">
+          <div *ngIf="(f.numeroOre.value == 0 || f.numeroOre.value == null) && submitted" style="color: red;">Campo obbligatorio</div>
         </div>
       </div>
     </form>
@@ -119,6 +123,6 @@
   </div>
   <div class="d-flex justify-content-between" mat-dialog-actions>
     <button type="button" mat-button mat-dialog-close class="btn btn-custom w-25" (click)="close()">Close</button>
-    <button [disabled]="!profileForm.valid" form='myform' type="submit" class="btn btn-custom w-25">Aggiungi</button>
+    <button  form='myform' type="submit" class="btn btn-custom w-25">Aggiungi</button>
   </div>
 </div>
