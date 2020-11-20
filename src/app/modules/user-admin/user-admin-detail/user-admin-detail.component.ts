@@ -313,6 +313,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
 
   openAddActivityDialog() {
     const dialogRef = this.dialog.open(AddActivityComponent, {
+      panelClass: 'custom-modalbox',
       width: '600px',
       data: {
         userid: this.userAdmin.id,

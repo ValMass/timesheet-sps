@@ -1,0 +1,7 @@
+.scrollable-box {
+    overflow: none !important;
+}    
+
+::ng-deep.scrollbar.mat-dialog-container {
+    overflow: none !important;
+}
