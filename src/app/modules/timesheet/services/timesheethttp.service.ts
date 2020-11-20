@@ -169,4 +169,18 @@ export class TimesheethttpService implements Resolve<any> {
     })
     );
   }
+  getUserOffice( id ){
+    const url = environment.apiUrl + 'offices/getOfficesById.php';
+    return this.http.post<any>(url, { id }).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+        return of(something);
+      } else {
+        return EMPTY;
+      }
+    })
+    );
+  }
+
 }

@@ -79,11 +79,21 @@
         role="presentation"
       >
         <td>
+          <div>
+            {{sededipartenza.address}} <span> - </span>
           {{
             trasferta.coff.address
               ? trasferta.coff.address
               : trasferta.off.address
           }}
+          </div>
+          <div>
+          {{
+            trasferta.coff.address
+              ? trasferta.coff.address
+              : trasferta.off.address
+          }} <span> - </span> {{sededipartenza.address}}
+          </div>
         </td>
         <td>{{ trasferta.matr.distance }}</td>
         <td>{{ trasferta.calcoli }}</td>

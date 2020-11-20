@@ -9,6 +9,7 @@ import { Timesheet } from "../../model/timesheet";
   styleUrls: ["./timesheet-trasferte-modal.component.css"],
 })
 export class TimesheetTrasferteModalComponent implements OnInit {
+  sededipartenza: any;
   ricalcolaDisabled = false;
   trasferteList: any[] = [];
   trasferteListTemp: any[] = [];
@@ -51,10 +52,19 @@ export class TimesheetTrasferteModalComponent implements OnInit {
     }
     this.currentUserData = res["data"][0];
     console.log(this.currentUserData);
-    this.acivalue = this.currentUserData.ecd.acivalue;
-    this.diariavalue = this.currentUserData.ecd.diaria;
+    this.acivalue = +this.currentTimesheet.montlyacivalue;
+    this.diariavalue = +this.currentTimesheet.montlydiaria;
     this.rimborsoproposto = this.currentTimesheet.rimborsotrasferte;
     this.rimborsodovuto = this.currentTimesheet.rimborsotarget;
+    let tmp: any = {};
+    try {
+      tmp = await this.timesheetService.getUserOffice(this.currentUserData.anad.sededilavoro).toPromise();
+    } catch (e) {
+      console.log(e);
+    }
+    this.sededipartenza = tmp['data'];
+    console.log(this.sededipartenza);
+
     this.trasferteListTemp = this.trasferteList.map((x) => {
       x["calcoli"] = this.calcolaPesoTrasferte(
         x.matr.distance,
