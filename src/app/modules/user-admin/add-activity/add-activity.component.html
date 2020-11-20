@@ -8,8 +8,12 @@
   </div>
   <div class="form-group row">
     <label for="customerId" class="col-sm-4 col-form-label">Cliente</label>
-    <div class="col-sm-8">
-      <ng-select [items]="customerlist" bindLabel="name" formControlName="customerId" bindValue="id">
+    <div class="col-sm-8 scrollable-box">
+      <ng-select
+      [items]="customerlist" 
+      bindLabel="name" 
+      formControlName="customerId" 
+      bindValue="id">
       </ng-select>
     </div>
     <div *ngIf="activityForm.invalid && submitted">
