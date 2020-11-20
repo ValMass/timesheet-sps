@@ -71,6 +71,8 @@ export class TimesheetAddEventComponent implements OnInit {
           contractCode: this.data.event.title,
         },
       );
+
+      
     }
   }
 
@@ -85,7 +87,7 @@ export class TimesheetAddEventComponent implements OnInit {
       this.profileForm.patchValue(tmp);
     }*/
     console.log('invalid :' + this.profileForm.invalid);
-    console.log(this.profileForm.value);
+    console.log("caso 0" ,this.profileForm.value);
    // if (this.profileForm.invalid) {
 
     //  return;
@@ -94,18 +96,30 @@ export class TimesheetAddEventComponent implements OnInit {
     {
       if(this.profileForm.value.contractCode == 'MALATT'){
         if (this.profileForm.value.numProtocollo != '00') {
-          this.dialogRef.close({ data: this.profileForm.value });
+           //console.log("caso1" , this.profileForm.value)
+           this.dialogRef.close({ data: this.profileForm.value });
         }
       }
       else{
         if(this.profileForm.value.contractCode != 'LAVORO'
-             && this.profileForm.value.contractCode != 'SEDE'
-                && this.profileForm.value.contractCode != 'PARTIME'){
+            && this.profileForm.value.contractCode != 'SEDE'
+            && this.profileForm.value.contractCode != 'PARTIME'
+            && (this.profileForm.value.numeroOre > 0)
+            && (this.profileForm.value.numeroOre != null))
+          {
+          //console.log("caso2" , this.profileForm.value)
           this.dialogRef.close({ data: this.profileForm.value });
-        }
+          }
         else{
-          if(this.profileForm.value.codiceFatturazione != '00'
-              && this.profileForm.value.activityId != undefined ){
+          if(
+              (this.profileForm.value.codiceFatturazione != '00')
+              && (this.profileForm.value.activityId != 0 )
+              && (this.profileForm.value.activityId != null )
+              && (this.profileForm.value.customerId != 0)
+              && (this.profileForm.value.customerId != null)
+            )
+            {
+            //console.log("caso3" , this.profileForm.value)
             this.dialogRef.close({ data: this.profileForm.value });
           }
         }
@@ -127,6 +141,7 @@ export class TimesheetAddEventComponent implements OnInit {
 
   onChangeSelect($event){
     const value = $event.target.value;
+    console.log("value" , value)
     switch (value) {
       case 'LAVORO':
       case 'SEDE':
