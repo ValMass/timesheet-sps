@@ -273,11 +273,13 @@ export class TimesheetEditComponent implements OnInit {
   checkIfCanEditOrDelete(): boolean {
     if (this.currentTimesheet.state === '2' || this.currentTimesheet.state === '3') {
       if (this.getRoleFromLocalStorage() !== '0' && this.getRoleFromLocalStorage() !== '1') {
+        this.toastrService.info('Impossibile modificare perchè già accettato');
         return false;
       } else {
         return true;
       }
     } else if (this.currentTimesheet.state === '4') {
+      this.toastrService.info('Impossibile modificare perchè già pagato');
       return false;
     } else {
       return true;
