@@ -158,9 +158,9 @@ export class TimesheetAddEventComponent implements OnInit {
         this.insertMalattia = false;
         this.insertSmartWorking = true;
         const patch1 = {
-          activityId: '1',
+          activityId: 1,
           codiceFatturazione: '01',
-          customerId: '1',
+          customerId: 1,
         };
 
         this.profileForm.patchValue(patch1);
