@@ -255,7 +255,9 @@ export class TimesheetEditComponent implements OnInit {
       ) {
         this.activeDayIsOpen = false;
       } else {
-        this.activeDayIsOpen = true;
+        if (this.currentTimesheet.state !== '2' && this.currentTimesheet.state !== '3' && this.currentTimesheet.state !== '4') {
+          this.activeDayIsOpen = true;
+        }
       }
       this.viewDate = date;
     }
