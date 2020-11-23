@@ -1,4 +1,4 @@
-.custom-modalbox .mat-dialog-container {
-    
-        overflow: none !important;
+::ng-deep .mat-dialog-container {
+        overflow: visible !important;
 }
+
