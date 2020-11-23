@@ -313,13 +313,14 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
 
   openAddActivityDialog() {
     const dialogRef = this.dialog.open(AddActivityComponent, {
-      panelClass: 'custom-modalbox',
       width: '600px',
+      panelClass: ['custom-dialog-container'],
       data: {
         userid: this.userAdmin.id,
         customerList: this.customersList,
       }
     });
+    dialogRef.addPanelClass(['custom-dialog-container']);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.activityService.createActivity(res.data.activityName, this.userAdmin.id, res.data.customerId)
