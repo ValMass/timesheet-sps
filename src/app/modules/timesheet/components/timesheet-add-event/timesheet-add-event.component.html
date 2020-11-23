@@ -70,7 +70,7 @@
           </select>
           <div *ngIf="f.codiceFatturazione.value === '00' && submitted" style="color: red;" >Campo obbligatorio</div>
         </div>
-        
+
         <div class="mb-2">
           <label for="customerId" class="col-form-label">Cliente</label>
           <div>
@@ -80,24 +80,23 @@
           </div>
           <div *ngIf="f.customerId.errors && submitted" style="color: red;">Campo obbligatorio</div>
         </div>
-        
+
         <div class="mb-2">
           <label for="activityId" class="col-form-label">Attività</label>
           <div>
-            <ng-select [readonly]="!assignedact" [items]="assignedact" bindLabel="name" formControlName="activityId" bindValue="id" 
+            <ng-select [readonly]="!assignedact" [items]="assignedact" bindLabel="name" formControlName="activityId" bindValue="id"
             [ngClass]="{'error':(f.activityId.value === '0' || f.activityId.value === null) && submitted}">
             </ng-select>
           </div>
           <div *ngIf="(f.activityId.value === '0'  || f.activityId.value === null) && submitted" style="color: red;">Campo obbligatorio</div>
         </div>
-        
-        <div class="mb-2">
-          <mat-checkbox class="example-margin" formControlName="smartWorking"
-            labelPosition="before">
-            Smart Working
-          </mat-checkbox>
+      </div>
+      <div class="mb-2" *ngIf="insertSmartWorking">
+        <mat-checkbox class="example-margin" formControlName="smartWorking"
+          labelPosition="before">
+          Smart Working
+        </mat-checkbox>
 
-        </div>
       </div>
 
       <div *ngIf="insertMalattia">
