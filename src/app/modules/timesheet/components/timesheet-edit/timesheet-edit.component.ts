@@ -90,7 +90,6 @@ export class TimesheetEditComponent implements OnInit {
       label: '<i class="fas fa-fw fa-trash-alt"></i>',
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
         this.handleEvent('Deleted', event);
       },
     },
@@ -271,8 +270,22 @@ export class TimesheetEditComponent implements OnInit {
     // this.openAddEventDialog();
   }
 
+  checkIfCanEditOrDelete(): boolean {
+    if (this.currentTimesheet.state === '2' || this.currentTimesheet.state === '3') {
+      if (this.getRoleFromLocalStorage() !== '0' && this.getRoleFromLocalStorage() !== '1') {
+        return false;
+      } else {
+        return true;
+      }
+    } else if (this.currentTimesheet.state === '4') {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   handleEvent(action: string, eventToUpdate: CalendarEvent): void {
-    if (action === 'Edited') {
+    if (action === 'Edited' && this.checkIfCanEditOrDelete()) {
       const dialogRef = this.dialog.open(TimesheetAddEventComponent, {
         width: '600px',
         data: {
@@ -306,6 +319,8 @@ export class TimesheetEditComponent implements OnInit {
           }
         }
       });
+    } else if (action === 'Deleted' && this.checkIfCanEditOrDelete()) {
+      this.events = this.events.filter((iEvent) => iEvent !== eventToUpdate);
     }
   }
 
