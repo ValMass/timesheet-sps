@@ -37,6 +37,7 @@ export class TimesheetAddEventComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log("data" , this.data)
     this.profileForm = this.formBuilder.group({
       numeroOre: ['8', [Validators.required]],
       contractCode: ['LAVORO', [Validators.required]],
@@ -72,8 +73,9 @@ export class TimesheetAddEventComponent implements OnInit {
           contractCode: this.data.event.title,
         },
       );
-
-
+      //passo il valore del title a onChangeSelect
+      console.log(this.data.event.title);
+      this.onChangeSelect(this.data.event.title)
     }
   }
 
@@ -139,10 +141,16 @@ export class TimesheetAddEventComponent implements OnInit {
     this.checkIfThisDayIsBusy();
   }
 
-
-  onChangeSelect($event){
+  //Ho diviso "onChangeSelect" con questa funzione prende il value dell'Evento che poi passera a onChangeSelect
+  onChangeSelectIfEvent($event){
+    console.log('$event',$event)
     const value = $event.target.value;
     console.log("value" , value)
+    this.onChangeSelect(value);
+  }
+  
+  onChangeSelect(value){
+    
     switch (value) {
       case 'LAVORO':
       case 'PARTIME':
@@ -182,6 +190,7 @@ export class TimesheetAddEventComponent implements OnInit {
       case 'PERMNON':
       case 'PERMESS':
       case 'MATALA':
+      case 'FERIE':
 
         this.insertLavoro = false;
         this.insertNumeroOre = true;
@@ -194,7 +203,7 @@ export class TimesheetAddEventComponent implements OnInit {
 
         this.profileForm.patchValue(patch3);
         break;
-
+      
 
       default:
         this.insertLavoro = false;
