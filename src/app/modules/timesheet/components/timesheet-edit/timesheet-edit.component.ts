@@ -278,10 +278,10 @@ export class TimesheetEditComponent implements OnInit {
       } else {
         return true;
       }
-    } else if (this.currentTimesheet.state === '4') {
+    } /*else if (this.currentTimesheet.state === '4') {
       this.toastrService.info('Impossibile modificare perchè già pagato');
       return false;
-    } else {
+    }*/else {
       return true;
     }
   }
@@ -523,6 +523,23 @@ export class TimesheetEditComponent implements OnInit {
         this.disableCalcolaTrasferte = false;
         this.veroDisableFinally = false;
         this.timeshetStatus = 'Accettato dall\'amministrazione';
+
+        //BOTTONE SALVA
+        //se Admin(1) o User(2) non deve vedere salva(caso 4)
+        if((this.getRoleFromLocalStorage() === '1') || (this.getRoleFromLocalStorage() === '2')){
+          this.disableSalva = true;
+        }else{
+          this.disableSalva = false;
+        }
+
+        //BOTTONE AGGIUNGI EVENTO
+        //se Admin(1) o User(2) non deve vedere salva(caso 4)
+        if((this.getRoleFromLocalStorage() === '1') || (this.getRoleFromLocalStorage() === '2')){
+          this.disableAggiungiEvento = true;
+        }else{
+          this.disableAggiungiEvento = false;
+        }
+
         break;
 
       case '4':
@@ -536,6 +553,32 @@ export class TimesheetEditComponent implements OnInit {
           this.disableAzeraStato = true;
         }
         this.timeshetStatus = 'Pagato';
+        
+        //BOTTONE SALVA
+        //se Admin(1) o User(2) non deve vedere salva(caso 4)
+        if((this.getRoleFromLocalStorage() === '1') || (this.getRoleFromLocalStorage() === '2')){
+          this.disableSalva = true;
+        }else{
+          this.disableSalva = false;
+        }
+
+        //BOTTONE AGGIUNGI EVENTO
+        //se Admin(1) o User(2) non deve vedere salva(caso 4)
+        if((this.getRoleFromLocalStorage() === '1') || (this.getRoleFromLocalStorage() === '2')){
+          this.disableAggiungiEvento = true;
+        }else{
+          this.disableAggiungiEvento = false;
+        }
+
+        //BOTTONE AZZERA STATO
+        //se SuperAdmin(0), Admin(1) o User(0) no deve vedere azzera stato (caso 4)
+        if((this.getRoleFromLocalStorage() === '0') || (this.getRoleFromLocalStorage() === '1') || (this.getRoleFromLocalStorage() === '2')){
+          this.disableAzeraStato = false;
+        }else{
+          this.disableAzeraStato = false;
+        }
+        
+
         break;
 
       default:
