@@ -11,10 +11,10 @@ import { Timesheet } from "../../model/timesheet";
 export class TimesheetTrasferteModalComponent implements OnInit {
   sededipartenza: any;
   ricalcolaDisabled = false;
-  trasferteList: any[] = [];
-  trasferteListTemp: any[] = [];
-  trasferteListchanged: any[] = [];
-  trasferteListTempchanged: any[] = [];
+  trasferteList: Array<any> = [];
+  trasferteListTemp: Array<any> = [];
+  trasferteListchanged: Array<any> = [];
+  trasferteListTempchanged: Array<any> = [];
   currentTimesheet: Timesheet = null;
   currentUserData = null;
   acivalue = 0.54;
@@ -33,6 +33,7 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    console.log(this.data.timesheet);
     this.currentTimesheet = this.data.timesheet;
     const userId = this.currentTimesheet.userid;
     if ( this.currentTimesheet.state === '4' ){
@@ -42,7 +43,7 @@ export class TimesheetTrasferteModalComponent implements OnInit {
 
       this.ricalcolaDisabled = false;
     }
-    this.trasferteList = JSON.parse(this.currentTimesheet.trasferte);
+    this.trasferteList = this.currentTimesheet.trasferte;
     console.log(this.trasferteList);
     let res = null;
     try {
@@ -100,7 +101,7 @@ export class TimesheetTrasferteModalComponent implements OnInit {
         (res) => {
           console.log("entro 3");
           if (res.status === "done") {
-            this.trasferteListchanged = JSON.parse(res.data.trasferte);
+            this.trasferteListchanged = res.data.trasferte;
             this.rimborsoproposto = res.data.rimborsotrasferte;
             this.rimborsodovuto = res.data.rimborsotarget;
             this.trasferteListTemp = this.trasferteListchanged.map((x) => {

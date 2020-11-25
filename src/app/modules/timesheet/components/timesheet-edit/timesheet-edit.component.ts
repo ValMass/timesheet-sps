@@ -1,3 +1,4 @@
+import { Trasferta } from './../../model/trasferta';
 import { Component, OnInit } from '@angular/core';
 import {
   CalendarEvent,
@@ -451,6 +452,7 @@ export class TimesheetEditComponent implements OnInit {
         newEvent,
       ];
     });
+    this.currentTimesheet.trasferte = JSON.parse(recivedTimesheet.trasferte);
     this.updateStateLabel();
   }
 
@@ -530,7 +532,9 @@ export class TimesheetEditComponent implements OnInit {
         this.veroDisableFinally = true;
         if ( this.getRoleFromLocalStorage() === '0') {
           this.disableAzeraStato = false;
+          this.disableSalva = false;
         } else {
+          this.disableSalva = true;
           this.disableAzeraStato = true;
         }
         this.timeshetStatus = 'Pagato';
@@ -611,7 +615,9 @@ export class TimesheetEditComponent implements OnInit {
     const year = this.viewDate.getFullYear();
     this.currentTimesheet.dayjson = this.events;
     const logged = this.authenticationService.currentUserValue.id;
-    console.log(this.currentTimesheet);
+    console.log(this.currentTimesheet.trasferte);
+    //this.currentTimesheet.trasferte = JSON.parse(this.currentTimesheet.trasferte);
+    console.log(this.currentTimesheet.trasferte);
     this.timesheetService.saveTimesheet(this.currentTimesheet, logged).subscribe(
       (result) => {
         if (result.status === 'done') {
