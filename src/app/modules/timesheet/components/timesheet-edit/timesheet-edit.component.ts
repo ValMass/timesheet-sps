@@ -274,13 +274,15 @@ export class TimesheetEditComponent implements OnInit {
   checkIfCanEditOrDelete(): boolean {
     if (this.currentTimesheet.state === '2' || this.currentTimesheet.state === '3') {
       if (this.getRoleFromLocalStorage() !== '0' && this.getRoleFromLocalStorage() !== '1') {
+        this.toastrService.info('Impossibile modificare perchè già accettato');
         return false;
       } else {
         return true;
       }
-    } else if (this.currentTimesheet.state === '4') {
+    } /*else if (this.currentTimesheet.state === '4') {
+      this.toastrService.info('Impossibile modificare perchè già pagato');
       return false;
-    } else {
+    }*/else {
       return true;
     }
   }
@@ -523,6 +525,23 @@ export class TimesheetEditComponent implements OnInit {
         this.disableCalcolaTrasferte = false;
         this.veroDisableFinally = false;
         this.timeshetStatus = 'Accettato dall\'amministrazione';
+
+        //BOTTONE SALVA
+        //se Admin(1) o User(2) non deve vedere salva(caso 4)
+        if((this.getRoleFromLocalStorage() === '1') || (this.getRoleFromLocalStorage() === '2')){
+          this.disableSalva = true;
+        }else{
+          this.disableSalva = false;
+        }
+
+        //BOTTONE AGGIUNGI EVENTO
+        //se Admin(1) o User(2) non deve vedere salva(caso 4)
+        if((this.getRoleFromLocalStorage() === '1') || (this.getRoleFromLocalStorage() === '2')){
+          this.disableAggiungiEvento = true;
+        }else{
+          this.disableAggiungiEvento = false;
+        }
+
         break;
 
       case '4':
@@ -530,14 +549,40 @@ export class TimesheetEditComponent implements OnInit {
         this.disableAccettaComeAmministratore = true;
         this.disableAccettaComeFinally = false;
         this.veroDisableFinally = true;
-        if ( this.getRoleFromLocalStorage() === '0') {
+        /*if ( this.getRoleFromLocalStorage() === '0') {
           this.disableAzeraStato = false;
           this.disableSalva = false;
         } else {
           this.disableSalva = true;
           this.disableAzeraStato = true;
-        }
+        }*/
         this.timeshetStatus = 'Pagato';
+        
+        //BOTTONE SALVA
+        //se Admin(1) o User(2) non deve vedere salva(caso 4)
+        if((this.getRoleFromLocalStorage() === '1') || (this.getRoleFromLocalStorage() === '2')){
+          this.disableSalva = true;
+        }else{
+          this.disableSalva = false;
+        }
+
+        //BOTTONE AGGIUNGI EVENTO
+        //se Admin(1) o User(2) non deve vedere salva(caso 4)
+        if((this.getRoleFromLocalStorage() === '1') || (this.getRoleFromLocalStorage() === '2')){
+          this.disableAggiungiEvento = true;
+        }else{
+          this.disableAggiungiEvento = false;
+        }
+
+        //BOTTONE AZZERA STATO
+        //se SuperAdmin(0), Admin(1) o User(2) no deve vedere azzera stato (caso 4)
+        if((this.getRoleFromLocalStorage() === '0') || (this.getRoleFromLocalStorage() === '1') || (this.getRoleFromLocalStorage() === '2')){
+          this.disableAzeraStato = true;
+        }else{
+          this.disableAzeraStato = false;
+        }
+        
+
         break;
 
       default:

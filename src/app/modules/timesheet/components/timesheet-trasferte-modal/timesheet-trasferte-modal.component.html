@@ -12,6 +12,7 @@
             #acivalueinput
             [ngModel]="acivalue"
             (ngModelChange)="modelChanged($event)"
+            [disabled]="ricalcolaDisabled"
           />
         </div>
         <div style="display: flex; flex-direction: column; align-items: baseline;">
@@ -22,6 +23,7 @@
             name="diaria"
             #diariainput
             [ngModel]="diariavalue"
+            [disabled]="ricalcolaDisabled"
           />
         </div>
       </div>
@@ -46,6 +48,7 @@
         name="rimborsodovuto"
         #diariainput
         [ngModel]="rimborsodovuto"
+        [disabled]="true"
       />
     </div>
     <div style="display: flex; flex-direction: column;">
@@ -56,6 +59,7 @@
         name="rimborsoproposto"
         #diariainput
         [ngModel]="rimborsoproposto"
+        [disabled]="true"
       />
     </div>
   </div>

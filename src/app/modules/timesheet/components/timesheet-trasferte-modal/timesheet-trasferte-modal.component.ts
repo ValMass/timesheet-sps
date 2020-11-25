@@ -55,8 +55,11 @@ export class TimesheetTrasferteModalComponent implements OnInit {
     console.log(this.currentUserData);
     this.acivalue = +this.currentTimesheet.montlyacivalue;
     this.diariavalue = +this.currentTimesheet.montlydiaria;
-    this.rimborsoproposto = this.currentTimesheet.rimborsotrasferte;
-    this.rimborsodovuto = this.currentTimesheet.rimborsotarget;
+
+    //arrotondo alla seconda cifra decimale
+    this.rimborsoproposto = (Number(this.currentTimesheet.rimborsotrasferte)).toFixed(2);
+    this.rimborsodovuto = (Number(this.currentTimesheet.rimborsotarget)).toFixed(2);
+
     let tmp: any = {};
     try {
       tmp = await this.timesheetService.getUserOffice(this.currentUserData.anad.sededilavoro).toPromise();
@@ -101,9 +104,12 @@ export class TimesheetTrasferteModalComponent implements OnInit {
         (res) => {
           console.log("entro 3");
           if (res.status === "done") {
+
             this.trasferteListchanged = res.data.trasferte;
-            this.rimborsoproposto = res.data.rimborsotrasferte;
-            this.rimborsodovuto = res.data.rimborsotarget;
+            //arrotondo alla seconda cifra decimale
+            this.rimborsoproposto = (res.data.rimborsotrasferte).toFixed(2);
+            this.rimborsodovuto = (res.data.rimborsotarget).toFixed(2);
+
             this.trasferteListTemp = this.trasferteListchanged.map((x) => {
               x["calcoli"] = this.calcolaPesoTrasferte(
                 x.matr.distance,
@@ -162,7 +168,9 @@ export class TimesheetTrasferteModalComponent implements OnInit {
     console.log("euro x trasf : ", extras);
     const tot = extras * 1 + diaria * 1;
     console.log("tot : ", tot);
-    return tot;
+
+    //arrotondo alla seconda cifra decimale
+    return tot.toFixed(2);
   }
 
   buttonVisibilityControlByStatus(){

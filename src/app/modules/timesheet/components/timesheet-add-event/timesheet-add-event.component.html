@@ -1,6 +1,6 @@
 <div class="modal-container">
   <div class="">
-    <h1 mat-dialog-title>Aggiungi evento</h1>
+    <h1 mat-dialog-title>{{this.data.type == 'edit' ? 'Modifica' : 'Aggiungi' }} evento</h1>
     <h6 class="text-danger" *ngIf="aggiungiButtonDisabled" mat-dialog-title>{{errorMessage}}</h6>
   </div>
   <div mat-dialog-content>
@@ -24,7 +24,7 @@
         <label for="cars" class="cod-contratto">Codice contratto</label>
         <select id="cars" name="cars" class="custom-select sel-text" formControlName="contractCode"
         [ngClass]="{'is-invalid':f.contractCode.errors && submitted}"
-          (change)="onChangeSelect($event)" required>
+          (change)="onChangeSelectIfEvent($event)" required>
           <option value="LAVORO" selected="selected">Lavoro ordinario</option>
           <option value="SEDE">Attività interna</option>
           <option value="PERMNON">Permesso non retribuito</option>
