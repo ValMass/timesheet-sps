@@ -547,11 +547,11 @@ export class TimesheetEditComponent implements OnInit {
         this.disableAccettaComeAmministratore = true;
         this.disableAccettaComeFinally = false;
         this.veroDisableFinally = true;
-        if ( this.getRoleFromLocalStorage() === '0') {
+        /*if ( this.getRoleFromLocalStorage() === '0') {
           this.disableAzeraStato = false;
         } else {
           this.disableAzeraStato = true;
-        }
+        }*/
         this.timeshetStatus = 'Pagato';
         
         //BOTTONE SALVA
@@ -571,9 +571,9 @@ export class TimesheetEditComponent implements OnInit {
         }
 
         //BOTTONE AZZERA STATO
-        //se SuperAdmin(0), Admin(1) o User(0) no deve vedere azzera stato (caso 4)
+        //se SuperAdmin(0), Admin(1) o User(2) no deve vedere azzera stato (caso 4)
         if((this.getRoleFromLocalStorage() === '0') || (this.getRoleFromLocalStorage() === '1') || (this.getRoleFromLocalStorage() === '2')){
-          this.disableAzeraStato = false;
+          this.disableAzeraStato = true;
         }else{
           this.disableAzeraStato = false;
         }
