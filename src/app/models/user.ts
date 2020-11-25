@@ -8,4 +8,5 @@ export class User {
   isadmin: string;
   role: string;
   email: string;
+  anagraphicid: number;
 }

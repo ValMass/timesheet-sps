@@ -186,9 +186,10 @@ export class UserAnagComponent implements OnInit {
   get fc() { return this.anagForm.controls; }
 
   getIdFromLocalStorage() {
-    const tmp = localStorage.getItem('currentUser');
-    const tmpArray = JSON.parse(tmp);
-    return tmpArray.anagraphicid;
+    //const tmp = localStorage.getItem('currentUser');
+    //const tmpArray = JSON.parse(tmp);
+    //return tmpArray.anagraphicid;
+    return this.authenticationService.currentUserValue.anagraphicid
   }
 
   getEmailFromLocalStorage() {

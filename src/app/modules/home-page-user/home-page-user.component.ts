@@ -1,3 +1,4 @@
+import { AuthenticationService } from '@app/services/authentication.service';
 import { map } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { StatsUserService } from './services/stats-user.service';
@@ -26,6 +27,7 @@ export class HomePageUserComponent implements OnInit {
 
   constructor(
     private statsUserService: StatsUserService,
+    private authenticationService :AuthenticationService 
   ) { }
 
   ngOnInit(): void {
@@ -91,15 +93,21 @@ export class HomePageUserComponent implements OnInit {
   }
 
   getIdFromLocalStorage() {
-    const tmp = localStorage.getItem('currentUser');
-    const tmpArray = JSON.parse(tmp);
-    return tmpArray.id;
+    console.log("IDAUTH" , this.authenticationService.currentUserValue.id)
+    console.log("AUTH" , this.authenticationService.currentUserValue)
+    //const tmp = localStorage.getItem('currentUser');
+    //const tmpArray = JSON.parse(tmp);
+    //return tmpArray.id;
+    return this.authenticationService.currentUserValue.id;
   }
 
   getAnagIdFromLocalStorage() {
-    const tmp = localStorage.getItem('currentUser');
-    const tmpArray = JSON.parse(tmp);
-    return tmpArray.anagraphicid;
+    console.log("ANAGIDAUTH" , this.authenticationService.currentUserValue.anagraphicid)
+    console.log("ANAGAUTH" , this.authenticationService.currentUserValue)
+    //const tmp = localStorage.getItem('currentUser');
+    //const tmpArray = JSON.parse(tmp);
+    //return tmpArray.anagraphicid;
+    return this.authenticationService.currentUserValue.anagraphicid;
   }
   getCurrentYear(){
     const date = new Date();

@@ -6,6 +6,8 @@ import { map } from 'rxjs/operators';
 import { environment } from '@environments/environment';
 import { User } from '@app/models/user';
 import { Router } from '@angular/router';
+import * as crypto from 'crypto-js';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +16,15 @@ import { Router } from '@angular/router';
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
+  key = 'TUc0emRqRXpkdw==';
+  text = 'ciao'
 
   constructor(private http: HttpClient, private router: Router,) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(this.decryptUserData(localStorage.getItem('currentUser'))));
     this.currentUser = this.currentUserSubject.asObservable();
+    
+   
+
   }
 
   public get currentUserValue(): User {
@@ -36,8 +43,10 @@ export class AuthenticationService {
     const grant_type = 'password';
     return this.http.post<any>(url, { username, password, client_id, client_secret, grant_type })
       .pipe(map(user => {
+        //console.log("loginUser", user.token)
+        //localStorage.setItem('tokenuser', JSON.stringify(user.token));
         // store user details and jwt token in local storage to keep user logged in between page refreshes
-        localStorage.setItem('currentUser', JSON.stringify(user));
+        localStorage.setItem('currentUser',this.cryptUserData( JSON.stringify(user)));
         this.currentUserSubject.next(user);
         return user;
       }));
@@ -49,5 +58,31 @@ export class AuthenticationService {
     return this.http.post( url, {});
   }
 
+  /**
+   * questa funzione cripta le informazioni dello user
+   */
+  cryptUserData(user : any){
+    const cryptoTest = crypto.AES.encrypt(user, this.key).toString()
+    
+    console.log("md5Crypt: " , cryptoTest );
+    
+    return cryptoTest;
+  }
+
+  /**
+   * questa funzione decripta quello che è stato cryptato in precedenza
+   */
+  decryptUserData(userCrypted : any){
+    if(userCrypted != null){
+      const decCryptoTest = crypto.AES.decrypt(userCrypted, this.key);
+
+      console.log("md5Decrypt: " , decCryptoTest.toString(crypto.enc.Utf8));
+
+      return decCryptoTest.toString(crypto.enc.Utf8);
+    }
+    else{
+      return null;
+    }
+  }
 
 }
