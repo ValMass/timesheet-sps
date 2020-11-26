@@ -25,6 +25,9 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   canageddiariavalue = 0;
   disableSave = false;
   changed = false;
+  quotaStraordinari = '0';
+  quotaDovuta = '0';
+  quotaAvanzo = '0';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -59,7 +62,8 @@ export class TimesheetTrasferteModalComponent implements OnInit {
     //arrotondo alla seconda cifra decimale
     this.rimborsoproposto = (Number(this.currentTimesheet.rimborsotrasferte)).toFixed(2);
     this.rimborsodovuto = (Number(this.currentTimesheet.rimborsotarget)).toFixed(2);
-
+    this.quotaStraordinari = (Number(this.currentTimesheet.variousexpanse)).toFixed(2);
+    this.quotaDovuta = (Number(this.currentTimesheet.variousexpanse)).toFixed(2);
     let tmp: any = {};
     try {
       tmp = await this.timesheetService.getUserOffice(this.currentUserData.anad.sededilavoro).toPromise();
