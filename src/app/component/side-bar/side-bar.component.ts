@@ -22,8 +22,9 @@ export class SideBarComponent implements OnInit {
   }
 
   ngOnInit() {
-    let currentU = JSON.parse(localStorage.getItem('currentUser'));
-    console.log(currentU);
+    //let currentU = JSON.parse(localStorage.getItem('currentUser'));
+    let currentU = this.authServ.currentUserValue;
+    console.log("currentU" ,currentU);
     this.destinationTimesheet = currentU.id;
     console.log(this.destinationTimesheet);
     // tslint:disable-next-line: triple-equals
