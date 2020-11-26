@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CalendarEvent } from 'angular-calendar';
@@ -27,7 +27,10 @@ export class TimesheetAddEventComponent implements OnInit {
   insertMalattia = false;
   insertNumeroOre = false;
   insertSmartWorking = true;
-  allComplete : boolean = true;
+  allComplete: boolean = true;
+
+  //emetto il nome del customer
+  @Output() customerName= new EventEmitter<string>();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -37,7 +40,7 @@ export class TimesheetAddEventComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log("data" , this.data)
+    console.log("data", this.data)
     this.profileForm = this.formBuilder.group({
       numeroOre: ['8', [Validators.required]],
       contractCode: ['LAVORO', [Validators.required]],
@@ -89,40 +92,48 @@ export class TimesheetAddEventComponent implements OnInit {
       const tmp = { smartWorking: 1 };
       this.profileForm.patchValue(tmp);
     }*/
-    console.log('invalid :' + this.profileForm.invalid);
-    console.log("caso 0" ,this.profileForm.value);
-   // if (this.profileForm.invalid) {
+    //console.log('invalid :' + this.profileForm.invalid);
+    //console.log("caso 0" ,this.profileForm.value);
+    // if (this.profileForm.invalid) {
 
     //  return;
     //}
-    if(this.profileForm.value.contractCode != null && this.profileForm.value.eventDate != null)
-    {
-      if(this.profileForm.value.contractCode == 'MALATT'){
+
+    //Lista dei customer(sps,nnt,lottomatica ecc..)
+    console.log("CUSTOMERLIST", this.customerList);
+
+    //trovo la posizione nell'array dei customer list che corrisponde all'id del customer di ProfileForm
+    let pos = this.customerList.map(function(e) { return e.id; }).indexOf(this.profileForm.value.customerId);
+    
+    console.log("POS" ,pos)
+    console.log("CUSTOMERLISTName", this.customerList[pos].name);
+    this.customerName.emit(this.customerList[pos].name);
+
+    if (this.profileForm.value.contractCode != null && this.profileForm.value.eventDate != null) {
+      if (this.profileForm.value.contractCode == 'MALATT') {
         if (this.profileForm.value.numProtocollo != '00') {
-           console.log("caso1" , this.profileForm.value);
-           this.dialogRef.close({ data: this.profileForm.value });
+          console.log("caso1", this.profileForm.value);
+          this.dialogRef.close({ data: this.profileForm.value });
         }
       }
-      else{
-        if(this.profileForm.value.contractCode != 'LAVORO'
-            && this.profileForm.value.contractCode != 'SEDE'
-            && this.profileForm.value.contractCode != 'PARTIME'
-            && (this.profileForm.value.numeroOre > 0)
-            && (this.profileForm.value.numeroOre != null))
-          {
-          console.log("caso2" , this.profileForm.value);
+      else {
+        if (this.profileForm.value.contractCode != 'LAVORO'
+          && this.profileForm.value.contractCode != 'SEDE'
+          && this.profileForm.value.contractCode != 'PARTIME'
+          && (this.profileForm.value.numeroOre > 0)
+          && (this.profileForm.value.numeroOre != null)) {
+          console.log("caso2", this.profileForm.value);
           this.dialogRef.close({ data: this.profileForm.value });
-          }
-        else{
-          if(
-              (this.profileForm.value.codiceFatturazione != '00')
-              && (this.profileForm.value.activityId != 0 )
-              && (this.profileForm.value.activityId != null )
-              && (this.profileForm.value.customerId != 0)
-              && (this.profileForm.value.customerId != null)
-            )
-            {
-            console.log("caso3" , this.profileForm.value);
+        }
+        else {
+          if (
+            (this.profileForm.value.codiceFatturazione != '00')
+            && (this.profileForm.value.activityId != 0)
+            && (this.profileForm.value.activityId != null)
+            && (this.profileForm.value.customerId != 0)
+            && (this.profileForm.value.customerId != null)
+          ) {
+            console.log("caso3", this.profileForm.value);
             this.dialogRef.close({ data: this.profileForm.value });
           }
         }
@@ -131,7 +142,7 @@ export class TimesheetAddEventComponent implements OnInit {
   }
 
   close() {
-    this.dialogRef.close({ data: 'close'});
+    this.dialogRef.close({ data: 'close' });
   }
 
   onDateChange(event) {
@@ -142,15 +153,15 @@ export class TimesheetAddEventComponent implements OnInit {
   }
 
   //Ho diviso "onChangeSelect" con questa funzione prende il value dell'Evento che poi passera a onChangeSelect
-  onChangeSelectIfEvent($event){
-    console.log('$event',$event)
+  onChangeSelectIfEvent($event) {
+    console.log('$event', $event)
     const value = $event.target.value;
-    console.log("value" , value)
+    console.log("value", value)
     this.onChangeSelect(value);
   }
-  
-  onChangeSelect(value){
-    
+
+  onChangeSelect(value) {
+
     switch (value) {
       case 'LAVORO':
       case 'PARTIME':
@@ -203,7 +214,7 @@ export class TimesheetAddEventComponent implements OnInit {
 
         this.profileForm.patchValue(patch3);
         break;
-      
+
 
       default:
         this.insertLavoro = false;
@@ -237,25 +248,25 @@ export class TimesheetAddEventComponent implements OnInit {
         break;
     }
   }
-  oneEventThisDay(){
+  oneEventThisDay() {
     const event = this.eventsSelected.pop();
     console.log(event.title);
-    if ( event.title === 'MALATT') {
+    if (event.title === 'MALATT') {
       //this.aggiungiButtonDisabled = true;
       this.errorMessage = 'Giorno di malattia';
     }
-    if ( event.title === 'MATRIMO') {
+    if (event.title === 'MATRIMO') {
       //this.aggiungiButtonDisabled = true;
       this.errorMessage = 'Giorno di Matrimonio';
     }
   }
 
-  getEventsForDate(selectedDate){
+  getEventsForDate(selectedDate) {
     this.eventsPassed.forEach(event => {
       console.log(event.start.getDate());
       const eventDay = event.start.getDate();
       const selectedDay = selectedDate.getDate();
-      if (eventDay === selectedDay ) {
+      if (eventDay === selectedDay) {
         console.log("event " + eventDay);
         console.log("selectedDate " + selectedDay);
         this.eventsSelected.push(event);
@@ -264,11 +275,11 @@ export class TimesheetAddEventComponent implements OnInit {
     console.log(this.eventsSelected);
   }
 
-  onChangeFattSelect($event){
+  onChangeFattSelect($event) {
 
   }
   valueChanged(e) {
-    if ((e.target.value > 8) || (e.target.value < 0) ){
+    if ((e.target.value > 8) || (e.target.value < 0)) {
       const tmp = { numeroOre: 0 };
       this.profileForm.patchValue(tmp);
       this.toastrService.error("inserisci da 1 a 8 ore");
