@@ -16,15 +16,11 @@ import * as crypto from 'crypto-js';
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
-  key = 'TUc0emRqRXpkdw==';
-  text = 'ciao'
+  
 
   constructor(private http: HttpClient, private router: Router,) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(this.decryptUserData(localStorage.getItem('currentUser'))));
     this.currentUser = this.currentUserSubject.asObservable();
-    
-   
-
   }
 
   public get currentUserValue(): User {
@@ -43,8 +39,6 @@ export class AuthenticationService {
     const grant_type = 'password';
     return this.http.post<any>(url, { username, password, client_id, client_secret, grant_type })
       .pipe(map(user => {
-        //console.log("loginUser", user.token)
-        //localStorage.setItem('tokenuser', JSON.stringify(user.token));
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('currentUser',this.cryptUserData( JSON.stringify(user)));
         this.currentUserSubject.next(user);
@@ -62,9 +56,7 @@ export class AuthenticationService {
    * questa funzione cripta le informazioni dello user
    */
   cryptUserData(user : any){
-    const cryptoTest = crypto.AES.encrypt(user, this.key).toString()
-    
-    console.log("md5Crypt: " , cryptoTest );
+    const cryptoTest = crypto.AES.encrypt(user, environment.key).toString()
     
     return cryptoTest;
   }
@@ -74,10 +66,8 @@ export class AuthenticationService {
    */
   decryptUserData(userCrypted : any){
     if(userCrypted != null){
-      const decCryptoTest = crypto.AES.decrypt(userCrypted, this.key);
-
-      console.log("md5Decrypt: " , decCryptoTest.toString(crypto.enc.Utf8));
-
+      const decCryptoTest = crypto.AES.decrypt(userCrypted, environment.key);
+     
       return decCryptoTest.toString(crypto.enc.Utf8);
     }
     else{

@@ -9,42 +9,53 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
   }
   private tradMap: Map<string, string> =
     new Map([
-        ['LAVORO', 'Lavoro ordinario' ],
-        ['SEDE', 'Attività interna'],
-        ['PERMNON', 'Permesso non retribuito' ],
-        ['PERMESS', 'Permesso generico'],
-        ['MALATT', 'Malattia' ],
-        ['LUTTO', 'Lutto parente'],
-        ['AVIS', 'Donazione sangue' ],
-        ['FERIE', 'Ferie'],
-        ['MATALA', 'Allattamento' ],
-        ['ASPETT', 'Aspettativa'],
-        ['ELETTO', 'Permesso elettorale' ],
-        ['FESTSOP', 'Festivita soppresse'],
-        ['MATERN', 'Maternita' ],
-        ['MATFAC', 'Maternita facoltativa'],
-        ['MALFIG', 'Malattia figlio' ],
-        ['MATRIMO', 'Matrimonio'],
-        ['PARTIME', 'Tempo parziale' ],
-        ['PATRONO', 'Patrono'],
-        ['UNIVERS', 'Assenza esami universitari' ],
+      ['LAVORO', 'Lavoro ordinario'],
+      ['SEDE', 'Attività interna'],
+      ['PERMNON', 'Permesso non retribuito'],
+      ['PERMESS', 'Permesso generico'],
+      ['MALATT', 'Malattia'],
+      ['LUTTO', 'Lutto parente'],
+      ['AVIS', 'Donazione sangue'],
+      ['FERIE', 'Ferie'],
+      ['MATALA', 'Allattamento'],
+      ['ASPETT', 'Aspettativa'],
+      ['ELETTO', 'Permesso elettorale'],
+      ['FESTSOP', 'Festivita soppresse'],
+      ['MATERN', 'Maternita'],
+      ['MATFAC', 'Maternita facoltativa'],
+      ['MALFIG', 'Malattia figlio'],
+      ['MATRIMO', 'Matrimonio'],
+      ['PARTIME', 'Tempo parziale'],
+      ['PATRONO', 'Patrono'],
+      ['UNIVERS', 'Assenza esami universitari'],
     ]);
 
-    private tradMapFat: Map<string, string> =
+  private tradMapFat: Map<string, string> =
     new Map([
-        ['01', 'Ordinare fatturabili' ],
-        ['02', 'Straordinare fatturabili'],
-        ['03', 'Straordinare festive ' ],
-        ['04', 'Straordinare notturne'],
-        ['NF', 'Non fatturabili' ],
-        ['RP', 'Reperibilità'],
-        ['IN', 'Intervento' ],
-        ['TR', 'Trasferta'],
+      ['01', 'Ordinare fatturabili'],
+      ['02', 'Straordinare fatturabili'],
+      ['03', 'Straordinare festive '],
+      ['04', 'Straordinare notturne'],
+      ['NF', 'Non fatturabili'],
+      ['RP', 'Reperibilità'],
+      ['IN', 'Intervento'],
+      ['TR', 'Trasferta'],
     ]);
   // you can override any of the methods defined in the parent class
 
   month(event: any): string {
-    return `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']} ${this.tradMapFat.get(event.codiceFatt)}`;
+    let res = '';
+
+    if (event.title === 'MALATT') {
+      res = `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']} ${event.nProtocollo}`;
+    } else {
+      if (this.tradMapFat.get(event.codiceFatt)) {
+        res = `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']} ${this.tradMapFat.get(event.codiceFatt)}`;
+      } else {
+        res = `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']}`;
+      }
+    }
+    return res;
   }
 
   week(event: CalendarEvent): string {
