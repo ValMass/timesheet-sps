@@ -118,6 +118,8 @@ export class TimesheetEditComponent implements OnInit {
   disableAccettaComeFinally = false; // gestisce la visibilità
   veroDisableFinally = false; // gestisce il disable
 
+  //nome del customer
+  customerName : string = '';
 
   constructor(
     public dialog: MatDialog,
@@ -247,7 +249,10 @@ export class TimesheetEditComponent implements OnInit {
     this.checkIfCanModify();
   }
 
+  //TODO
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    console.log("EVENTI" , events )
+    console.log("customerName" , this.customerName)
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
