@@ -6,9 +6,10 @@ export interface NewCalendarEvent extends CalendarEvent  {
     nOre: string;
     actions: CalendarEventAction[];
     codiceFatt: string;
-    nProtocollo: string;
+    numProtocollo: string;
     activityId: string;
     smartWorking: number;
     contractCode: string;
     customerId: string;
+    customerList?: Array<any>;
 }

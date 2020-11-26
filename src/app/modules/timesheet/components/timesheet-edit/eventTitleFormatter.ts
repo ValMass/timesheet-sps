@@ -32,26 +32,29 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
 
   private tradMapFat: Map<string, string> =
     new Map([
-      ['01', 'Ordinare fatturabili'],
-      ['02', 'Straordinare fatturabili'],
-      ['03', 'Straordinare festive '],
-      ['04', 'Straordinare notturne'],
+      ['01', 'Ordinarie fatturabili'],
+      ['02', 'Straordinarie fatturabili'],
+      ['03', 'Straordinarie festive '],
+      ['04', 'Straordinarie notturne'],
       ['NF', 'Non fatturabili'],
       ['RP', 'Reperibilità'],
       ['IN', 'Intervento'],
       ['TR', 'Trasferta'],
     ]);
   // you can override any of the methods defined in the parent class
-  
+
+  private findCustomerName(event) {
+    return event.customerList.filter((res: Object) => res['id'] == event['customerId'])[0]['name'];
+  }
+
   //TODO
   month(event: any): string {
     let res = '';
-
     if (event.title === 'MALATT') {
-      res = `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']} ${event.nProtocollo}`;
+      res = `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']} - protocollo: ${event.numProtocollo}`;
     } else {
       if (this.tradMapFat.get(event.codiceFatt)) {
-        res = `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']} ${this.tradMapFat.get(event.codiceFatt)}`;
+        res = `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']} ${this.tradMapFat.get(event.codiceFatt)} per ${this.findCustomerName(event)}`;
       } else {
         res = `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']}`;
       }
