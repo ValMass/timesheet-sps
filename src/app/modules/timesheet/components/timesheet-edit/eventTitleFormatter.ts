@@ -29,10 +29,22 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
         ['PATRONO', 'Patrono'],
         ['UNIVERS', 'Assenza esami universitari' ],
     ]);
+
+    private tradMapFat: Map<string, string> =
+    new Map([
+        ['01', 'Ordinare fatturabili' ],
+        ['02', 'Straordinare fatturabili'],
+        ['03', 'Straordinare festive ' ],
+        ['04', 'Straordinare notturne'],
+        ['NF', 'Non fatturabili' ],
+        ['RP', 'Reperibilità'],
+        ['IN', 'Intervento' ],
+        ['TR', 'Trasferta'],
+    ]);
   // you can override any of the methods defined in the parent class
 
-  month(event: CalendarEvent): string {
-    return `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']}`;
+  month(event: any): string {
+    return `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']} ${this.tradMapFat.get(event.codiceFatt)}`;
   }
 
   week(event: CalendarEvent): string {

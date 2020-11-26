@@ -15,7 +15,7 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   trasferteListTemp: Array<any> = [];
   trasferteListchanged: Array<any> = [];
   trasferteListTempchanged: Array<any> = [];
-  currentTimesheet: Timesheet = null;
+  currentTimesheet: any = null;   //TODO verificare che quezsto e' veramente quello che volevo
   currentUserData = null;
   acivalue = 0.54;
   diariavalue = 20;
@@ -106,9 +106,10 @@ export class TimesheetTrasferteModalComponent implements OnInit {
           if (res.status === "done") {
 
             this.trasferteListchanged = res.data.trasferte;
-            //arrotondo alla seconda cifra decimale
+
             this.rimborsoproposto = (res.data.rimborsotrasferte).toFixed(2);
             this.rimborsodovuto = (res.data.rimborsotarget).toFixed(2);
+
 
             this.trasferteListTemp = this.trasferteListchanged.map((x) => {
               x["calcoli"] = this.calcolaPesoTrasferte(
