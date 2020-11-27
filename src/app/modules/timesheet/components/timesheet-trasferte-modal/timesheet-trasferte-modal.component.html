@@ -1,38 +1,22 @@
 <div mat-dialog-content>
   <h2>Lista trasferte del mese</h2>
-  <form (ngSubmit)="ricalcolaTrasferte(paramForm)" #paramForm="ngForm" style="display: flex; justify-content: space-between;">
+  <form (ngSubmit)="ricalcolaTrasferte(paramForm)" #paramForm="ngForm"
+    style="display: flex; justify-content: space-between;">
     <div style="display: flex; flex-direction: column;">
       <div style="display: flex;">
         <div style="display: flex; flex-direction: column; align-items: baseline; margin-right: 50px;">
           <label for="acivalue">Aci</label>
-          <input
-            type="text"
-            id="acivalue"
-            name="acivalue"
-            #acivalueinput
-            [ngModel]="acivalue"
-            (ngModelChange)="modelChanged($event)"
-            [disabled]="ricalcolaDisabled"
-          />
+          <input type="text" id="acivalue" name="acivalue" #acivalueinput [ngModel]="acivalue"
+            (ngModelChange)="modelChanged($event)" [disabled]="ricalcolaDisabled" />
         </div>
         <div style="display: flex; flex-direction: column; align-items: baseline;">
           <label for="diaria">Diaria</label>
-          <input
-            type="text"
-            id="diaria"
-            name="diaria"
-            #diariainput
-            [ngModel]="diariavalue"
-            [disabled]="ricalcolaDisabled"
-          />
+          <input type="text" id="diaria" name="diaria" #diariainput [ngModel]="diariavalue"
+            [disabled]="ricalcolaDisabled" />
         </div>
       </div>
       <div class="mt-2 mb-2">
-        <button
-          class="btn btn-primary"
-          type="submit"
-          [disabled]="ricalcolaDisabled"
-        >
+        <button class="btn btn-primary" type="submit" [disabled]="ricalcolaDisabled">
           Ricalcola
         </button>
       </div>
@@ -42,88 +26,64 @@
   <div style="display: flex;">
     <div style="display: flex; flex-direction: column; margin-right: 50px;">
       <label for="rimborsodovuto">Rimborso dovuto</label>
-      <input
-        type="text"
-        id="rimborsodovuto"
-        name="rimborsodovuto"
-        #diariainput
-        [ngModel]="rimborsodovuto"
-        [disabled]="true"
-      />
+      <input type="text" id="rimborsodovuto" name="rimborsodovuto" #diariainput [ngModel]="rimborsodovuto"
+        [disabled]="true" />
     </div>
     <div style="display: flex; flex-direction: column;">
       <label for="rimborsoproposto">Rimboso proposto</label>
-      <input
-        type="text"
-        id="rimborsoproposto"
-        name="rimborsoproposto"
-        #diariainput
-        [ngModel]="rimborsoproposto"
-        [disabled]="true"
-      />
+      <input type="text" id="rimborsoproposto" name="rimborsoproposto" #diariainput [ngModel]="rimborsoproposto"
+        [disabled]="true" />
     </div>
   </div>
   <div style="display: flex;">
     <div style="display: flex; flex-direction: column; margin-right: 50px;">
       <label for="avanzoRimborso">Avanzo Rimborso</label>
-      <input
-        type="text"
-        id="avanzoRimborso"
-        name="avanzoRimborso"
-        [ngModel]="avanzoRimborso"
-        [disabled]="true"
-      />
+      <input type="text" id="avanzoRimborso" name="avanzoRimborso" [ngModel]="avanzoRimborso" [disabled]="true" />
     </div>
     <div style="display: flex; flex-direction: column;">
       <label for="quotaStraordinari">Quota straordinari</label>
-      <input
-        type="text"
-        id="quotaStraordinari"
-        name="quotaStraordinari"
-        [ngModel]="quotaStraordinari"
-        [disabled]="true"
-      />
+      <input type="text" id="quotaStraordinari" name="quotaStraordinari" [ngModel]="quotaStraordinari"
+        [disabled]="true" />
     </div>
   </div>
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">Stringa</th>
-        <th scope="col">Distanza</th>
-        <th scope="col">Rimborso</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!--trackBy: trackById;-->
-      <tr
-        *ngFor="
+  <div id="table-wrapper">
+    <div id="table-scroll">
+      <table class="table table-striped ">
+        <thead>
+          <tr>
+            <th scope="col">Stringa</th>
+            <th scope="col">Distanza</th>
+            <th scope="col">Rimborso</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!--trackBy: trackById;-->
+          <tr *ngFor="
           let trasferta of trasferteListTemp;
           trackBy: trackById;
           let i = index
-        "
-        role="presentation"
-      >
-        <td>
-          <div>
-            {{sededipartenza.address}} <span> - </span>
-          {{
+        " role="presentation">
+            <td>
+              <div>
+                {{sededipartenza.address}} <span> - </span>
+                {{
             trasferta.coff.address
               ? trasferta.coff.address
               : trasferta.off.address
           }}
-          </div>
-          <div>
-          {{
+              </div>
+              <div>
+                {{
             trasferta.coff.address
               ? trasferta.coff.address
               : trasferta.off.address
           }} <span> - </span> {{sededipartenza.address}}
-          </div>
-        </td>
-        <td>{{ trasferta.matr.distance }}</td>
-        <td>{{ trasferta.calcoli }}</td>
-        <!-- <td>{{ useradmin.name }} {{ useradmin.surname }} </td>
+              </div>
+            </td>
+            <td>{{ trasferta.matr.distance }}</td>
+            <td>{{ trasferta.calcoli }}</td>
+            <!-- <td>{{ useradmin.name }} {{ useradmin.surname }} </td>
         <td>{{ useradmin.username }} </td>
         <td>{{ useradmin.email }}</td>
         <td>{{ useradmin.phonenumber1 }}</td>
@@ -138,16 +98,14 @@
           <app-button-footer class="card-footer-item" [className]="'edit-item'" [iconClasses]="'fas fa-edit mr-2'"
             (clicked)="selectCustomer($event)" label="Edit" [item]="useradmin"></app-button-footer>
         -->
-      </tr>
-    </tbody>
-  </table>
-  <div class="d-flex justify-content-between" mat-dialog-actions>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="d-flex justify-content-between" mat-dialog-actions style="margin-top: 20px;">
     <button class="btn btn-primary w-25" (click)="closeModal()">Chiudi</button>
-    <button
-      class="btn btn-primary w-25"
-      (click)="saveList()"
-      [disabled]="disableSave"
-    >
+    <button class="btn btn-primary w-25" (click)="saveList()" [disabled]="disableSave">
       Salva
     </button>
   </div>
