@@ -1,4 +1,4 @@
-::ng-deep .mat-dialog-container {
+::ng-deep .custom-dialog-container .mat-dialog-container {
         overflow: visible !important;
 }
 
