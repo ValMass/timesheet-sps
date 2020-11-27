@@ -26,7 +26,7 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   disableSave = false;
   changed = false;
   quotaStraordinari = '0';
-  quotaDovuta = '0';
+  avanzoRimborso = '0';
   quotaAvanzo = '0';
 
   constructor(
@@ -36,7 +36,7 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    console.log(this.data.timesheet);
+    //console.log("DATAPADRE" , this.data.timesheet);
     this.currentTimesheet = this.data.timesheet;
     const userId = this.currentTimesheet.userid;
     if ( this.currentTimesheet.state === '4' ){
@@ -55,7 +55,7 @@ export class TimesheetTrasferteModalComponent implements OnInit {
       console.log(e);
     }
     this.currentUserData = res["data"][0];
-    console.log(this.currentUserData);
+    //console.log("this.currentUserData" , this.currentUserData);
     this.acivalue = +this.currentTimesheet.montlyacivalue;
     this.diariavalue = +this.currentTimesheet.montlydiaria;
 
@@ -63,7 +63,7 @@ export class TimesheetTrasferteModalComponent implements OnInit {
     this.rimborsoproposto = (Number(this.currentTimesheet.rimborsotrasferte)).toFixed(2);
     this.rimborsodovuto = (Number(this.currentTimesheet.rimborsotarget)).toFixed(2);
     this.quotaStraordinari = (Number(this.currentTimesheet.variousexpanse)).toFixed(2);
-    this.quotaDovuta = (Number(this.currentTimesheet.variousexpanse)).toFixed(2);
+    this.avanzoRimborso = (Number(this.currentTimesheet.montlyavanzorimborso)).toFixed(2);
     let tmp: any = {};
     try {
       tmp = await this.timesheetService.getUserOffice(this.currentUserData.anad.sededilavoro).toPromise();
