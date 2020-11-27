@@ -109,11 +109,10 @@ export class TimesheetTrasferteModalComponent implements OnInit {
           console.log("entro 3");
           if (res.status === "done") {
 
-            this.trasferteListchanged = res.data.trasferte;
+            this.trasferteListchanged = JSON.parse(res.data.trasferte);
 
             this.rimborsoproposto = (res.data.rimborsotrasferte).toFixed(2);
             this.rimborsodovuto = (res.data.rimborsotarget).toFixed(2);
-
 
             this.trasferteListTemp = this.trasferteListchanged.map((x) => {
               x["calcoli"] = this.calcolaPesoTrasferte(
