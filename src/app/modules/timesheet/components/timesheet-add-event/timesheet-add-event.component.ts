@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CalendarEvent } from 'angular-calendar';
@@ -28,9 +28,6 @@ export class TimesheetAddEventComponent implements OnInit {
   insertNumeroOre = false;
   insertSmartWorking = true;
   allComplete: boolean = true;
-
-  //emetto il nome del customer
-  @Output() customerName= new EventEmitter<string>();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -69,7 +66,7 @@ export class TimesheetAddEventComponent implements OnInit {
         {
           smartWorking: +this.data.event.smartWorking,
           codiceFatturazione: this.data.event.codiceFatt,
-          numeroProtocollo: this.data.event.nProtocollo,
+          numProtocollo: this.data.event.numProtocollo,
           numeroOre: this.data.event.nOre,
           activityId: this.data.event.activityId,
           customerId: this.data.event.customerId,
@@ -99,20 +96,9 @@ export class TimesheetAddEventComponent implements OnInit {
     //  return;
     //}
 
-    //Lista dei customer(sps,nnt,lottomatica ecc..)
-    console.log("CUSTOMERLIST", this.customerList);
-
-    //trovo la posizione nell'array dei customer list che corrisponde all'id del customer di ProfileForm
-    let pos = this.customerList.map(function(e) { return e.id; }).indexOf(this.profileForm.value.customerId);
-    
-    console.log("POS" ,pos)
-    console.log("CUSTOMERLISTName", this.customerList[pos].name);
-    this.customerName.emit(this.customerList[pos].name);
-
     if (this.profileForm.value.contractCode != null && this.profileForm.value.eventDate != null) {
       if (this.profileForm.value.contractCode == 'MALATT') {
         if (this.profileForm.value.numProtocollo != '00') {
-          console.log("caso1", this.profileForm.value);
           this.dialogRef.close({ data: this.profileForm.value });
         }
       }
@@ -122,7 +108,6 @@ export class TimesheetAddEventComponent implements OnInit {
           && this.profileForm.value.contractCode != 'PARTIME'
           && (this.profileForm.value.numeroOre > 0)
           && (this.profileForm.value.numeroOre != null)) {
-          console.log("caso2", this.profileForm.value);
           this.dialogRef.close({ data: this.profileForm.value });
         }
         else {
@@ -133,7 +118,6 @@ export class TimesheetAddEventComponent implements OnInit {
             && (this.profileForm.value.customerId != 0)
             && (this.profileForm.value.customerId != null)
           ) {
-            console.log("caso3", this.profileForm.value);
             this.dialogRef.close({ data: this.profileForm.value });
           }
         }

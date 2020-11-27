@@ -99,6 +99,7 @@ export class UserAdminComponent implements OnInit {
       width: '800px',
       height: '900px',
       autoFocus: false,
+      panelClass: ['custom-dialog-container-creation'],
       data: {}
     });
     dialogRef.afterClosed().subscribe(

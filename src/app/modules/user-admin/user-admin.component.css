@@ -1,0 +1,4 @@
+::ng-deep .custom-dialog-container-creation .mat-dialog-container {
+    overflow: auto !important;
+}
+

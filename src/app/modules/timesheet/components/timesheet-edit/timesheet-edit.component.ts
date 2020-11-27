@@ -118,9 +118,6 @@ export class TimesheetEditComponent implements OnInit {
   disableAccettaComeFinally = false; // gestisce la visibilità
   veroDisableFinally = false; // gestisce il disable
 
-  //nome del customer
-  customerName : string = '';
-
   constructor(
     public dialog: MatDialog,
     private toastrService: ToastrService,
@@ -251,8 +248,6 @@ export class TimesheetEditComponent implements OnInit {
 
   //TODO
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    console.log("EVENTI" , events )
-    console.log("customerName" , this.customerName)
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -264,7 +259,8 @@ export class TimesheetEditComponent implements OnInit {
       }
       this.viewDate = date;
     }
-    console.log(JSON.stringify(events));
+    // console.log(events);
+    // console.log(JSON.stringify(events));
   }
 
   closeOpenMonthViewDay() {
@@ -312,11 +308,12 @@ export class TimesheetEditComponent implements OnInit {
               nOre: res.data.numeroOre,
               actions: this.actions,
               codiceFatt: res.data.codiceFatturazione,
-              nProtocollo: res.data.numProtocollo,
+              numProtocollo: res.data.numProtocollo,
               activityId: res.data.activityId,
               smartWorking: +res.data.smartWorking,
               contractCode: res.data.title,
               customerId: res.data.customerId,
+              customerList: this.assignedActivities.map(cus => cus['cus']),
             };
             const targetEvent = this.events.findIndex(item => item.start === res.data.eventDate);
             this.events[targetEvent] = event;
@@ -368,11 +365,12 @@ export class TimesheetEditComponent implements OnInit {
             nOre: res.data.numeroOre,
             actions: this.actions,
             codiceFatt: res.data.codiceFatturazione,
-            nProtocollo: res.data.numProtocollo,
+            numProtocollo: res.data.numProtocollo,
             activityId: res.data.activityId,
             customerId: res.data.customerId,
             smartWorking: +res.data.smartWorking,
             contractCode: res.data.contractCode,
+            customerList: this.assignedActivities.map(cus => cus['cus']),
           };
 
           this.events = [...this.events, event];
@@ -448,11 +446,12 @@ export class TimesheetEditComponent implements OnInit {
         nOre: element.nOre,
         actions: this.actions,
         codiceFatt: element.codiceFatt,
-        nProtocollo: element.numProtocollo,
+        numProtocollo: element.numProtocollo,
         activityId: element.activityId,
         customerId: element.customerId,
         smartWorking: +element.smartWorking,
         ticketnumber: element.ticketnumber,
+        customerList: this.assignedActivities.map(res => res['cus']),
       };
       this.currentTimesheet.dayjson = [
         ...this.currentTimesheet.dayjson,

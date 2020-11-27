@@ -229,7 +229,7 @@
     <div class="form-group row">
       <label for="paga-giorno" class="col-sm-4 col-form-label">Paga mensile</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="paga-giorno" placeholder="Inserisci la paga giorno" [ngModel]
+        <input type="text" class="form-control" id="paga-giorno" placeholder="Inserisci la paga mensile" [ngModel]
           name="pagamensile" required pattern="[0-9]+([,.][0-9]+)?$" #pagamensile="ngModel"
           [ngClass]="{'is-invalid':profileForm.submitted && pagamensile.invalid}" />
         <div *ngIf="profileForm.submitted && pagamensile.invalid" class="invalid-feedback">
