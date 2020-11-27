@@ -458,7 +458,7 @@ export class TimesheetEditComponent implements OnInit {
         newEvent,
       ];
     });
-    this.currentTimesheet.trasferte = JSON.parse(recivedTimesheet.trasferte);
+    this.currentTimesheet.trasferte = JSON.parse(recivedTimesheet.trasferte);  //TODO attenzione a questo jsonparse potrebbe dover cambiare
     this.updateStateLabel();
   }
 
@@ -561,7 +561,7 @@ export class TimesheetEditComponent implements OnInit {
           this.disableAzeraStato = true;
         }*/
         this.timeshetStatus = 'Pagato';
-        
+
         //BOTTONE SALVA
         //se Admin(1) o User(2) non deve vedere salva(caso 4)
         if((this.getRoleFromLocalStorage() === '1') || (this.getRoleFromLocalStorage() === '2')){
@@ -585,7 +585,7 @@ export class TimesheetEditComponent implements OnInit {
         }else{
           this.disableAzeraStato = false;
         }
-        
+
 
         break;
 
