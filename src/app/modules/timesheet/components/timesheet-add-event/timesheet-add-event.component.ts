@@ -96,7 +96,8 @@ export class TimesheetAddEventComponent implements OnInit {
     //  return;
     //}
 
-    if (this.profileForm.value.contractCode != null && this.profileForm.value.eventDate != null) {
+    if ((this.profileForm.value.contractCode != null && this.profileForm.value.eventDate != null)
+      && (this.profileForm.value.numeroOre > "0" || this.profileForm.value.numeroOre > 0)) {
       if (this.profileForm.value.contractCode == 'MALATT') {
         if (this.profileForm.value.numProtocollo != '00') {
           this.dialogRef.close({ data: this.profileForm.value });
@@ -111,14 +112,22 @@ export class TimesheetAddEventComponent implements OnInit {
           this.dialogRef.close({ data: this.profileForm.value });
         }
         else {
-          if (
-            (this.profileForm.value.codiceFatturazione != '00')
-            && (this.profileForm.value.activityId != 0)
-            && (this.profileForm.value.activityId != null)
-            && (this.profileForm.value.customerId != 0)
-            && (this.profileForm.value.customerId != null)
+          if ((this.profileForm.value.contractCode == 'SEDE')
+            && (this.profileForm.value.activityId == 1)
+            && (this.profileForm.value.codiceFatturazione == '01')
+            && (this.profileForm.value.customerId == 1)
           ) {
             this.dialogRef.close({ data: this.profileForm.value });
+          } else {
+            if (
+              (this.profileForm.value.codiceFatturazione != '00')
+              && (this.profileForm.value.activityId > 1)
+              && (this.profileForm.value.activityId != null)
+              && (this.profileForm.value.customerId > 1)
+              && (this.profileForm.value.customerId != null)
+            ) {
+              this.dialogRef.close({ data: this.profileForm.value });
+            }
           }
         }
       }
@@ -263,10 +272,11 @@ export class TimesheetAddEventComponent implements OnInit {
 
   }
   valueChanged(e) {
-    if ((e.target.value > 8) || (e.target.value < 0)) {
+    //cambio da 8 a 24 ore 
+    if ((e.target.value > 24) || (e.target.value < 0)) {
       const tmp = { numeroOre: 0 };
       this.profileForm.patchValue(tmp);
-      this.toastrService.error("inserisci da 1 a 8 ore");
+      this.toastrService.error("inserisci da 1 a 24 ore");
     }
     this.value = e.target.value;
   }
