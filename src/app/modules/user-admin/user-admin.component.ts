@@ -215,8 +215,8 @@ export class UserAdminComponent implements OnInit {
   //aggiorno la table con i dati aggiornati
   clearUpdTable(evento){
     //log
-    console.log("evento :" ,evento)
-    console.log("evento selected before:" ,this.selected)
+    //console.log("evento :" ,evento)
+    //log("evento selected before:" ,this.selected)
 
     //cambio i dati anagrafici della tabella a seconda di cosa arriva
     if(evento != null){
@@ -245,9 +245,13 @@ export class UserAdminComponent implements OnInit {
         this.selected.phonenumber2 = evento.phonenumber2
       }
 
+      if (evento.role != null) {
+        this.selected.role = evento.role
+      }
+
     }
     //log
-    console.log("evento selected after:" ,this.selected)
+    //console.log("evento selected after:" ,this.selected)
     this.selected = null;
 
   }
