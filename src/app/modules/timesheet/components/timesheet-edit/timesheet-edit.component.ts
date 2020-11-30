@@ -117,6 +117,7 @@ export class TimesheetEditComponent implements OnInit {
   // variabili per gestire la visibilita del bottone aaccetta come finally
   disableAccettaComeFinally = false; // gestisce la visibilità
   veroDisableFinally = false; // gestisce il disable
+  currentUserInfo: any;
 
   constructor(
     public dialog: MatDialog,
@@ -186,6 +187,16 @@ export class TimesheetEditComponent implements OnInit {
         }
       },
       (error) => {}
+    );
+    this.timesheetService.getUserData(this.currentTimesheetUserId).subscribe(
+      result => {
+        if (result.status === 'done') {
+          this.currentUserInfo = result.data;
+          console.log(result);
+          console.log(this.currentUserInfo);
+        } else {
+        }
+      }
     );
     console.log(this.currentTimesheetUserId);
   }
@@ -393,8 +404,7 @@ export class TimesheetEditComponent implements OnInit {
       this.router.navigate(['/home-page']);
       return null;
     }
-
-    console.log(user);
+    //console.log(user);
     return user.id;
   }
 
@@ -466,7 +476,7 @@ export class TimesheetEditComponent implements OnInit {
 
 
     this.currentTimesheet.state = String(this.currentTimesheet.state);
-    console.log(this.currentTimesheet.state);
+    //console.log(this.currentTimesheet.state);
     this.currentTimesheet.state = this.currentTimesheet.state;
     switch (this.currentTimesheet.state) {
       case '0':
@@ -599,7 +609,9 @@ export class TimesheetEditComponent implements OnInit {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
     const userid = this.currentTimesheetUserId;
-    const nomefile = 'TimesheetExport' + '_' + month + '_' + year + '.Xlsx';
+    console.log(this.currentUserInfo);
+    const cognome = this.currentUserInfo[0]["anad"]["surname"]; //TODO togliere lo zero da tutte ste chioamate
+    const nomefile = 'Timesheet' + '_' + cognome + '_' + month + '_' + year + '.Xlsx';
     this.fileservice
       .downloadSingleTimesheetFile(month, year, userid)
       .subscribe((response) => {
@@ -636,8 +648,8 @@ export class TimesheetEditComponent implements OnInit {
           this.toastrService.info('Nessna Operazione effettuata');
         } else {
           this.currentTimesheet.trasferte = res.data;
-          console.log("acivalue to change", res.acivalue);
-          console.log("diaria to change", res.diaria);
+          //console.log("acivalue to change", res.acivalue);
+          //console.log("diaria to change", res.diaria);
           this.currentTimesheet.montlydiaria = res.diaria;
           this.currentTimesheet.montlyacivalue = res.acivalue;
           this.currentTimesheet.rimborsotrasferte = res.rimborsotrasferte;
