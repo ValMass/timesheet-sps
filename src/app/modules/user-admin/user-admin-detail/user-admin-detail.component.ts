@@ -225,6 +225,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       buonipastobool: ['', [Validators.required]],
       phonenumber1: ['', [Validators.required]],
       phonenumber2: ['', [Validators.required]],
+      address: ['', [Validators.required]],
     });
     return anagForm;
   }
