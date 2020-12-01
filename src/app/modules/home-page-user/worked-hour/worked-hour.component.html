@@ -6,12 +6,31 @@
     <div class="card-body">
       <div class="my-2 row">
         <p class="d-inline col-4">Ore Lavorate</p>
-        <p class="d-inline px-4" >{{ workedThisMonth }}</p>
+        <p class="d-inline px-4">{{ workedThisMonth }}</p>
+      </div>
+
+      <div class="my-2 row">
+        <p class="d-inline col-4">Ore straordinarie</p>
+        <p class="d-inline px-4">{{ oreStraordinarie }}</p>
+      </div>
+
+      <div *ngIf="oreNottStraordinarie > 0">
+        <div class="my-2 row">
+          <p class="d-inline col-4">Ore straordinarie notturne</p>
+          <p class="d-inline px-4">{{ oreNottStraordinarie }}</p>
+        </div>
+      </div>
+
+      <div *ngIf="oreFestStraordinarie > 0">
+        <div class="my-2 row">
+          <p class="d-inline col-4">Ore straordinarie festive</p>
+          <p class="d-inline px-4">{{ oreFestStraordinarie }}</p>
+        </div>
       </div>
 
       <div class="my-2 row">
         <p class="d-inline col-4">Giorni Lavorati</p>
-        <p class="d-inline px-4" >{{ dayWorkedThisMonth }}</p>
+        <p class="d-inline px-4">{{ dayWorkedThisMonth }}</p>
       </div>
 
       <div class="my-2 row">

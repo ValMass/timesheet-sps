@@ -17,6 +17,12 @@ export class WorkedHourComponent implements OnInit {
   @Input() deseaseThisMonth;
   @Input() permessiThisMonth;
 
+  //Straordinari 
+  @Input() oreStraordinarie;
+  @Input() oreNottStraordinarie;
+  @Input() oreFestStraordinarie;
+  
+
   monthLabel = "";
   monthsName = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
    'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
