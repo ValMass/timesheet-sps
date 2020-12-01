@@ -2,8 +2,8 @@ import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, NgForm } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { OfficesService } from '../services/offices.service';
 
 export const MY_FORMATS = {
@@ -31,7 +31,7 @@ export const MY_FORMATS = {
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
     },
 
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
 export class UserAdminCreationComponent implements OnInit {
@@ -41,17 +41,17 @@ export class UserAdminCreationComponent implements OnInit {
   datepicker: any;
 
   //password
-  psw : string = "password";
+  psw: string = "password";
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: string,
-              private fb: FormBuilder,
-              private dialogRef: MatDialogRef<UserAdminCreationComponent>,
-              private officesService: OfficesService
-              ) { }
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<UserAdminCreationComponent>,
+    private officesService: OfficesService
+  ) { }
 
   ngOnInit(): void {
     //this.profileForm = this.buildProfileForm();
-    this.datepicker= new Date();
+    this.datepicker = new Date();
     let tmp = new Date();
     let newyear = tmp.getFullYear() - 18;
     let date = new Date(newyear, tmp.getMonth(), 1);
@@ -63,26 +63,27 @@ export class UserAdminCreationComponent implements OnInit {
 
   //get f() { return this.profileForm.controls; }
 
-  submit(form : NgForm) {
-    
+  submit(form: NgForm) {
 
     //se ce una virgola lo converte in punto
     //console.log("form" , form.value.acivalue);
     //let commaDotAciValue : string = form.value.acivalue.replace(/,/g, '.')
     form.value.acivalue = this.commaToDot(form.value.acivalue);
-    
+
     form.value.pagamensile = this.commaToDot(form.value.pagamensile);
 
-    const obj = {...form.value, 'birthdate': this.datepicker };
+    if (form.value.buonipastobool == null) {
+      form.value.buonipastobool = 0;
+    } else {
+      form.value.buonipastobool = 1;
+    }
 
-    //console.log("form + commaDot" ,  form.value.acivalue)
-    //console.log("form dopo modifche" ,  form.value)
+    const obj = { ...form.value, 'birthdate': this.datepicker };
 
     //chiudo il modale
     this.dialogRef.close({ data: obj });
-   
+
     //console.log('obj:', obj);
-    //console.log("datepicker" ,this.datepicker)
   }
 
   /*buildProfileForm() {
@@ -115,17 +116,17 @@ export class UserAdminCreationComponent implements OnInit {
   }
 
   //mostro o nascondo la password a seconda dei casi
-  pswHideShow(){
-    if (this.psw === "password"){
+  pswHideShow() {
+    if (this.psw === "password") {
       this.psw = "text";
-    }else{
+    } else {
       this.psw = "password";
     }
   }
 
-  commaToDot(value){
+  commaToDot(value) {
     let commaDotvalue: string = value.replace(/,/g, '.')
-    return(commaDotvalue);
+    return (commaDotvalue);
   }
 
 }

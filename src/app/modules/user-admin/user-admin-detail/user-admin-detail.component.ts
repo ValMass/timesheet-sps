@@ -37,15 +37,15 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   contractForm: FormGroup;
   activityForm: FormGroup;
 
-  anagFormValue : any
-  userFormValue : any
+  anagFormValue: any
+  userFormValue: any
 
   //flag boolean
-  anagFlag : boolean = false;
-  userFlag : boolean = false;
+  anagFlag: boolean = false;
+  userFlag: boolean = false;
 
   //password
-  psw : string = "password";
+  psw: string = "password";
 
   constructor(
     private anagService: AnagraphicService,
@@ -80,7 +80,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
 
     this.officesService.listAllOffices()
       .subscribe(result => {
-        this.officesList = result.data ;
+        this.officesList = result.data;
       }, error => {
         console.log(error);
       });
@@ -105,13 +105,18 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   async ngAfterViewInit() {
     const userInfo = await this.userAdminService.getUserInfoById(this.userAdmin.id).toPromise();
     const anagInfo = await this.anagService.getAnagraphic(this.userAdmin.id).toPromise();
-    console.log("anagInfo" , anagInfo);
+    console.log("anagInfo", anagInfo);
+    if (anagInfo['data'].buonipastobool != 0) {
+      anagInfo['data'].buonipastobool = true;
+    } else {
+      anagInfo['data'].buonipastobool = false;
+    }
     const economicInfo = await this.economicService.getEconomic(anagInfo['data']['economicdataid']).toPromise();
-    console.log("economicInfo" , economicInfo);
+    console.log("economicInfo", economicInfo);
     this.userForm.patchValue(userInfo['data'][0].uset);
     this.anagForm.patchValue(anagInfo['data']);
     this.econForm.patchValue(economicInfo['data']);
-    this.contractForm.patchValue({contractid: anagInfo['data'].contractid});
+    this.contractForm.patchValue({ contractid: anagInfo['data'].contractid });
   }
 
   createListForcontract(contracts) {
@@ -123,7 +128,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   }
 
   submitUser() {
-    this.userAdminService.updateUser({id: this.userAdmin.id, ...this.userForm.value})
+    this.userAdminService.updateUser({ id: this.userAdmin.id, ...this.userForm.value })
       .subscribe(result => {
         if (result['status'] === 'done') {
           this.toastrService.success('Utente aggiornato');
@@ -136,16 +141,23 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
           this.toastrService.error('Errore: utente non salvato');
         }
       },
-      error => {
-        this.toastrService.error('Errore utente non salvato : ' + error);
-      }
-    );
+        error => {
+          this.toastrService.error('Errore utente non salvato : ' + error);
+        }
+      );
   }
 
   submitAnag() {
-    console.log("this.anagForm.value" , this.anagForm.value)
-    this.anagService.updateAnagraphicForUser({id: this.userAdmin.id, ...this.anagForm.value})
-      .subscribe(res => { console.log("Anagrafica" , res)
+
+    if (this.anagForm.value.buonipastobool != false) {
+      this.anagForm.value.buonipastobool = 1;
+    } else {
+      this.anagForm.value.buonipastobool = 0;
+    }
+    console.log("this.anagForm.value", this.anagForm.value)
+    this.anagService.updateAnagraphicForUser({ id: this.userAdmin.id, ...this.anagForm.value })
+      .subscribe(res => {
+        console.log("Anagrafica", res)
         if (res['status'] === 'done') {
           this.toastrService.success('Anagrafica utente aggiornata');
 
@@ -176,16 +188,16 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   submitEconomic() {
     console.log(this.econForm.value);
     this.economicService.updateEconomicData(this.econForm.value).subscribe(
-      res =>{
+      res => {
         if (res['status'] === 'done') {
-        this.toastrService.success('Economic data aggiornato correttamente');
-      } else {
-        this.toastrService.error('Errore nell\'aggiornamento del contratto');
+          this.toastrService.success('Economic data aggiornato correttamente');
+        } else {
+          this.toastrService.error('Errore nell\'aggiornamento del contratto');
+        }
+      },
+      error => {
+        this.toastrService.error('Errore http: ' + error);
       }
-    },
-    error => {
-      this.toastrService.error('Errore http: ' + error);
-    }
     );
   }
 
@@ -251,8 +263,8 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
 
   createActivityForm() {
     const activityForm = this.fb.group({
-      id: ['', [Validators.required, ]],
-      name: ['', [Validators.required, ]],
+      id: ['', [Validators.required,]],
+      name: ['', [Validators.required,]],
     });
     return activityForm;
   }
@@ -261,50 +273,50 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   clear() {
 
     //log
-    console.log("anagForm:" ,this.anagFormValue );
-    console.log("userForm:" ,this.userFormValue );
+    //console.log("anagForm:", this.anagFormValue);
+    //console.log("userForm:", this.userFormValue);
 
     //a seconda dei casi viene emesso un dato diverso
-    switch(true){
+    switch (true) {
 
-      case (this.userFlag  && this.anagFlag ):
+      case (this.userFlag && this.anagFlag):
         //log
-        console.log("case1: " , "this.userFlag : ", this.userFlag , "this.anagFlag : ", this.anagFlag  );
+        //console.log("case1: ", "this.userFlag : ", this.userFlag, "this.anagFlag : ", this.anagFlag);
 
         //unisco
-        const  merged = Object.assign(this.anagFormValue, this.userFormValue);
+        const merged = Object.assign(this.anagFormValue, this.userFormValue);
 
         //emetto
         this.unselect.emit(merged);
 
         break;
-      case (this.userFlag  && !this.anagFlag ):
+      case (this.userFlag && !this.anagFlag):
         //log
-        console.log("case2: " , "this.userFlag : ", this.userFlag , "this.anagFlag : ", this.anagFlag  );
+        //console.log("case2: ", "this.userFlag : ", this.userFlag, "this.anagFlag : ", this.anagFlag);
 
         //emetto
         this.unselect.emit(this.userFormValue);
 
         break;
 
-      case (!this.userFlag  && this.anagFlag ):
-         //log
-         console.log("case3: " , "this.userFlag : ", this.userFlag , "this.anagFlag : ", this.anagFlag  );
+      case (!this.userFlag && this.anagFlag):
+        //log
+        //console.log("case3: ", "this.userFlag : ", this.userFlag, "this.anagFlag : ", this.anagFlag);
 
-         //emetto
-         this.unselect.emit(this.anagFormValue);
+        //emetto
+        this.unselect.emit(this.anagFormValue);
 
         break;
-      case (!this.userFlag && !this.anagFlag ):
+      case (!this.userFlag && !this.anagFlag):
         //log
-        console.log("case4: " , "this.userFlag : ", this.userFlag , "this.anagFlag : ", this.anagFlag  );
+        //console.log("case4: ", "this.userFlag : ", this.userFlag, "this.anagFlag : ", this.anagFlag);
 
         //emetto
         this.unselect.emit(null);
 
         break;
     }
-    console.log("exit")
+    //console.log("exit")
 
     //showButton
     this.showButton.emit(true);
@@ -339,10 +351,10 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   }
 
   //mostro o nascondo la password a seconda dei casi
-  pswHideShow(){
-    if (this.psw === "password"){
+  pswHideShow() {
+    if (this.psw === "password") {
       this.psw = "text";
-    }else{
+    } else {
       this.psw = "password";
     }
   }
