@@ -121,6 +121,8 @@ export class UserAdminComponent implements OnInit {
                   this.toastrService.error(res.toString());
                 } else {
                   myObj.usertoadd.anagraphicid = next['data'].id;
+                  console.log("myObj.usertoadd" , myObj.usertoadd);
+                 // myObj.usertoadd.role = val.isadmin;
                   this.userAdminService.createNewUser(myObj.usertoadd).subscribe(
                     result => {
                       if (result['status'] === 'error') {

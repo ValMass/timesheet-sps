@@ -45,16 +45,9 @@ export class UserAdminService implements Resolve<UserAdmin[]> {
   }
 
   createNewUser(userData) {
-    let user = userData;
-    console.log(user);
-    if (user.role === true) {
-      user.role = 1;
-    } else {
-      user.role = 2;
-    }
-    delete user.isadmin;
+   
     const url = environment.apiUrl + '/user/createUser.php';
-    return this.http.post(url, user ); /*.pipe(catchError(error => {
+    return this.http.post(url, userData ); /*.pipe(catchError(error => {
       return EMPTY;
     }), mergeMap(something => {
       if (something["data"]) {

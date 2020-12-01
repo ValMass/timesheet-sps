@@ -13,7 +13,7 @@ export class SpanTooltipComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.userRole);
+    //console.log(this.userRole);
   }
 
   tooltip(state){
