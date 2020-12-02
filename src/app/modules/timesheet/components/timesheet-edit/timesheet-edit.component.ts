@@ -324,7 +324,7 @@ export class TimesheetEditComponent implements OnInit {
               smartWorking: +res.data.smartWorking,
               contractCode: res.data.title,
               customerId: res.data.customerId,
-              customerList: this.assignedActivities.map(cus => cus['cus']),
+              customerName: res.data.contractCode === 'LAVORO' ||  res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
             };
             const targetEvent = this.events.findIndex(item => item.start === res.data.eventDate);
             this.events[targetEvent] = event;
@@ -359,6 +359,7 @@ export class TimesheetEditComponent implements OnInit {
   }
 
   openAddEventDialog() {
+    this.assignedActivities.map(cus => cus['cus'])
     if (this.checkIfCanModify()) {
       const dialogRef = this.dialog.open(TimesheetAddEventComponent, {
         width: '600px',
@@ -381,7 +382,7 @@ export class TimesheetEditComponent implements OnInit {
             customerId: res.data.customerId,
             smartWorking: +res.data.smartWorking,
             contractCode: res.data.contractCode,
-            customerList: this.assignedActivities.map(cus => cus['cus']),
+            customerName: res.data.contractCode === 'LAVORO' ||  res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
           };
 
           this.events = [...this.events, event];
@@ -461,7 +462,7 @@ export class TimesheetEditComponent implements OnInit {
         customerId: element.customerId,
         smartWorking: +element.smartWorking,
         ticketnumber: element.ticketnumber,
-        customerList: this.assignedActivities.map(res => res['cus']),
+        customerName: element.customerName,
       };
       this.currentTimesheet.dayjson = [
         ...this.currentTimesheet.dayjson,

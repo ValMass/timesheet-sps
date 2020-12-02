@@ -24,6 +24,11 @@ export class HomePageUserComponent implements OnInit {
   public anag: Anag;
   public workedForCustomerList = new Map<any, any>();
 
+  //Straordinari 
+  public oreStraordinarie : number = 0;
+  public oreNottStraordinarie : number = 0;
+  public oreFestStraordinarie : number = 0;
+  
 
   constructor(
     private statsUserService: StatsUserService,
@@ -62,14 +67,17 @@ export class HomePageUserComponent implements OnInit {
 
             if ( Number(element['month']) === this.getCurrentMonth() ) {
               const eventlist = JSON.parse(element['dayjson']);
-              console.log('element' , element)
-              console.log('element' , element.workedhours)
+              //console.log('element' , element)
+              //console.log('element' , element.workedhours)
               this.workedThisMonth = element["workedhours"];
               this.permessiThisMonth = element["permessihours"];
               this.deseaseThisMonth = element["deseaseday"];
               this.dayWorkedThisMonth = element["workeddays"];
               this.daySmartWorkThisMonth = element["smartworkday"];
-
+              this.oreStraordinarie = element["overtime"];
+              this.oreNottStraordinarie = element["nightovertime"];
+              this.oreFestStraordinarie = element["festalovertime"];
+              
               eventlist.forEach(element => {
                 if ( element.activityId ){
                   const newore = this.workedForCustomerList.get(element.activityId);

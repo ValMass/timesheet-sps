@@ -42,11 +42,6 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
       ['TR', 'Trasferta'],
     ]);
   // you can override any of the methods defined in the parent class
-
-  private findCustomerName(event) {
-    return event.customerList.filter((res: Object) => res['id'] == event['customerId'])[0]['name'];
-  }
-
   //TODO
   month(event: any): string {
     let res = '';
@@ -54,7 +49,7 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
       res = `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']} - protocollo: ${event.numProtocollo}`;
     } else {
       if (this.tradMapFat.get(event.codiceFatt) && (event.title != 'SEDE')) {
-        res = `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']} ${this.tradMapFat.get(event.codiceFatt)} per ${this.findCustomerName(event)}`;
+        res = `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']} ${this.tradMapFat.get(event.codiceFatt)} per ${event['customerName']}`;
       } else {
         res = `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']}`;
       }

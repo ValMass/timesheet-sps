@@ -12,4 +12,5 @@ export interface NewCalendarEvent extends CalendarEvent  {
     contractCode: string;
     customerId: string;
     customerList?: Array<any>;
+    customerName?: string;
 }

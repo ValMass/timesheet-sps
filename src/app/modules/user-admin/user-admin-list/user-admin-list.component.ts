@@ -75,8 +75,8 @@ export class UserAdminListComponent implements OnInit, OnChanges {
   }
 
   choseRoleString(role){
-    console.log(role)
-    let rol = "";
+    //console.log(role)
+    /*let rol = "";
     switch (role){
       case '0':
         rol =  "Super amministratore";
@@ -88,7 +88,17 @@ export class UserAdminListComponent implements OnInit, OnChanges {
         rol =  "Utente ordinario";
         break;
     }
-    return rol;
-
+    return rol;*/
+    let res = '';
+    if(role == '0'){
+      res = 'Super amministratore';
+    }
+    if(role == '1'){
+      res = 'Amministratore';
+    }
+    if(role == '2'){
+      res = 'Utente ordinario'
+    }
+    return res;
   }
 }
