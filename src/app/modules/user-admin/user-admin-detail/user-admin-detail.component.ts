@@ -128,23 +128,40 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   }
 
   submitUser() {
-    this.userAdminService.updateUser({ id: this.userAdmin.id, ...this.userForm.value })
-      .subscribe(result => {
-        if (result['status'] === 'done') {
-          this.toastrService.success('Utente aggiornato');
+    //console.log("userform :", this.userForm.value)
 
-          //aggiorno il flag
-          this.userFlag = true;
-          this.userFormValue = this.userForm.value
+    //variabili ceh contengono i pattern che devono essere rispettati
+    let patternEmail = new RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$');
+    let patternRegNum = new RegExp('[0-9 ]+$');
 
-        } else {
-          this.toastrService.error('Errore: utente non salvato');
-        }
-      },
-        error => {
-          this.toastrService.error('Errore utente non salvato : ' + error);
-        }
-      );
+    if ((patternEmail.test(this.userForm.value.email)) &&
+      (this.userForm.value.password.length >= 6) &&
+      (patternRegNum.test(this.userForm.value.regNumInps)) &&
+      (patternRegNum.test(this.userForm.value.regNumSps)) &&
+      (this.userForm.value.role != null) &&
+      (this.userForm.value.username.length >= 4)) {
+      this.userAdminService.updateUser({ id: this.userAdmin.id, ...this.userForm.value })
+        .subscribe(result => {
+          if (result['status'] === 'done') {
+            this.toastrService.success('Utente aggiornato');
+
+            //aggiorno il flag
+            this.userFlag = true;
+            this.userFormValue = this.userForm.value
+
+          } else {
+            this.toastrService.error('Errore: utente non salvato');
+          }
+        },
+          error => {
+            this.toastrService.error('Errore utente non salvato : ' + error);
+          }
+        );
+    } else {
+      this.toastrService.error('Errore inserire i dati account correttamente');
+    }
+
+
   }
 
   submitAnag() {
@@ -154,21 +171,36 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     } else {
       this.anagForm.value.buonipastobool = 0;
     }
-    console.log("this.anagForm.value", this.anagForm.value)
-    this.anagService.updateAnagraphicForUser({ id: this.userAdmin.id, ...this.anagForm.value })
-      .subscribe(res => {
-        console.log("Anagrafica", res)
-        if (res['status'] === 'done') {
-          this.toastrService.success('Anagrafica utente aggiornata');
 
-          //aggiorno il flag
-          this.anagFlag = true;
-          this.anagFormValue = this.anagForm.value
+    let patternPhoneNumber = new RegExp('[0-9 ]+$');
 
-        } else {
-          this.toastrService.error('Errore nell\'aggiornamento dell\'anagrafica utente');
-        }
-      });
+    if ((this.anagForm.value.address.length >= 4) &&
+      (this.anagForm.value.birthplace.length >= 2) &&
+      (this.anagForm.value.name.length >= 2) &&
+      (patternPhoneNumber.test(this.anagForm.value.phonenumber1)) &&
+      (patternPhoneNumber.test(this.anagForm.value.phonenumber2) || this.anagForm.value.phonenumber2.length == 0) &&
+      (this.anagForm.value.surname.length >= 2)) {
+
+      //console.log("this.anagForm.value", this.anagForm.value)
+      this.anagService.updateAnagraphicForUser({ id: this.userAdmin.id, ...this.anagForm.value })
+        .subscribe(res => {
+          console.log("Anagrafica", res)
+          if (res['status'] === 'done') {
+            this.toastrService.success('Anagrafica utente aggiornata');
+
+            //aggiorno il flag
+            this.anagFlag = true;
+            this.anagFormValue = this.anagForm.value
+
+          } else {
+            this.toastrService.error('Errore nell\'aggiornamento dell\'anagrafica utente');
+          }
+        });
+    } else {
+      this.toastrService.error('Errore inserire i dati anagrafici correttamente');
+    }
+
+
   }
 
   async submitContract() {
@@ -186,19 +218,31 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   }
 
   submitEconomic() {
-    console.log(this.econForm.value);
-    this.economicService.updateEconomicData(this.econForm.value).subscribe(
-      res => {
-        if (res['status'] === 'done') {
-          this.toastrService.success('Economic data aggiornato correttamente');
-        } else {
-          this.toastrService.error('Errore nell\'aggiornamento del contratto');
+    //console.log("econForm", this.econForm.value);
+    let patternCifra = new RegExp("[0-9 ]+$");
+    let patternDecimale = new RegExp("[0-9]+([,.][0-9]+)?$");
+    if ((patternDecimale.test(this.econForm.value.acivalue)) &&
+      (patternDecimale.test(this.econForm.value.pagamensile)) &&
+      (patternCifra.test(this.econForm.value.ral)) &&
+      (patternCifra.test(this.econForm.value.rimborsomensile)) &&
+      (patternCifra.test(this.econForm.value.diaria))) {
+
+      this.economicService.updateEconomicData(this.econForm.value).subscribe(
+        res => {
+          if (res['status'] === 'done') {
+            this.toastrService.success('Economic data aggiornato correttamente');
+          } else {
+            this.toastrService.error('Errore nell\'aggiornamento del contratto');
+          }
+        },
+        error => {
+          this.toastrService.error('Errore http: ' + error);
         }
-      },
-      error => {
-        this.toastrService.error('Errore http: ' + error);
-      }
-    );
+      );
+    } else {
+      this.toastrService.error('Errore inserire i dati economici correttamente');
+    }
+
   }
 
   deleteActivity(activity) {
