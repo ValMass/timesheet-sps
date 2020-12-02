@@ -2,7 +2,6 @@
     <table class="table table-striped no-margin">
     <thead>
       <tr>
-        <th scope="col">id</th>
         <th scope="col">Via</th>
         <th scope="col">Città </th>
         <th scope="col">CAP</th>
@@ -13,7 +12,6 @@
     <tbody>
       <tr *ngFor="let office of offices; trackBy: trackById; let i = index"
       role="presentation">
-        <td>{{ office.id }} </td>
         <td>{{ office.address }} </td>
         <td>{{ office.city }}</td>
         <td>{{ office.cap }}</td>

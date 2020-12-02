@@ -3,7 +3,6 @@
 <table class="table table-striped no-margin">
     <thead>
       <tr>
-        <th scope="col">id</th>
         <th scope="col">Tipo Contratto</th>
         <th scope="col">Livello </th>
         <th scope="col">C.C.N.L</th>
@@ -15,7 +14,6 @@
     <tbody>
       <tr *ngFor="let contract of contracts; trackBy: trackById; let i = index"
       role="presentation" >
-        <td>{{ contract.id }} </td>
         <td>{{ contract.contracttype }} </td>
         <td>{{ contract.level }}</td>
         <td>{{ contract.ccnl }}</td>

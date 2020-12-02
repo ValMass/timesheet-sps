@@ -226,7 +226,10 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       (patternCifra.test(this.econForm.value.ral)) &&
       (patternCifra.test(this.econForm.value.rimborsomensile)) &&
       (patternCifra.test(this.econForm.value.diaria))) {
-
+      
+      this.econForm.value.acivalue = this.commaToDot(this.econForm.value.acivalue);
+      this.econForm.value.pagamensile = this.commaToDot(this.econForm.value.pagamensile);
+      
       this.economicService.updateEconomicData(this.econForm.value).subscribe(
         res => {
           if (res['status'] === 'done') {
@@ -401,6 +404,11 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     } else {
       this.psw = "password";
     }
+  }
+
+  commaToDot(value) {
+    let commaDotvalue: string = value.replace(/,/g, '.')
+    return (commaDotvalue);
   }
 
 }

@@ -2,7 +2,6 @@
   <table class="table table-striped no-margin">
     <thead>
       <tr>
-        <th scope="col">id</th>
         <th scope="col">Nome</th>
         <th scope="col">Indirizzo legale </th>
         <th scope="col">P. iva</th>
@@ -12,7 +11,6 @@
     </thead>
     <tbody>
       <tr *ngFor="let customer of customers; trackBy: trackById; let i = index" role="presentation">
-        <td>{{ customer.id }}</td>
         <td>{{ customer.name }}</td>
         <td>{{ customer.legaladdress }}</td>
         <td>{{ customer.pivacodicefiscale }}</td>
