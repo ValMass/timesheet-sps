@@ -27,7 +27,12 @@
       <div class="form-group row">
         <label for="address" class="col-sm-4 col-form-label">Residenza</label>
         <div class="col-sm-8">
-          <input type="email" class="form-control" id="address" placeholder="Luogo di Residenza" formControlName="address">
+          <input type="text" class="form-control" id="address" placeholder="Luogo di Residenza" formControlName="address"
+          [ngClass]="{'is-invalid':(anagForm.value.address.length < 2) && submitted}">
+          <div *ngIf="(anagForm.value.address.length == '') && submitted" style="color: red;">
+            Campo obbligatorio</div>
+            <div *ngIf="(anagForm.value.address.length < 2 && anagForm.value.address.length != '') && submitted" style="color: red;">
+              lunghezza minima 2</div>
         </div>
       </div>
       
@@ -51,7 +56,12 @@
       <div class="form-group row">
         <label for="birthplace" class="col-sm-4 col-form-label">Luogo di nascita</label>
         <div class="col-sm-8">
-          <input type="text" class="form-control" id="birthplace" placeholder="Luogo di nascita" formControlName="birthplace">
+          <input type="text" class="form-control" id="birthplace" placeholder="Luogo di nascita" formControlName="birthplace"
+          [ngClass]="{'is-invalid':(anagForm.value.birthplace.length < 2) && submitted}">
+          <div *ngIf="(anagForm.value.birthplace.length == '') && submitted" style="color: red;">
+            Campo obbligatorio</div>
+            <div *ngIf="(anagForm.value.birthplace.length < 2 && anagForm.value.birthplace.length != '') && submitted" style="color: red;">
+              lunghezza minima 2</div>
         </div>
       </div>
 

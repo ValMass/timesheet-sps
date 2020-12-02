@@ -174,7 +174,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
 
     let patternPhoneNumber = new RegExp('[0-9 ]+$');
 
-    if ((this.anagForm.value.address.length >= 4) &&
+    if ((this.anagForm.value.address.length >= 2) &&
       (this.anagForm.value.birthplace.length >= 2) &&
       (this.anagForm.value.name.length >= 2) &&
       (patternPhoneNumber.test(this.anagForm.value.phonenumber1)) &&
@@ -229,7 +229,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       
       this.econForm.value.acivalue = this.commaToDot(this.econForm.value.acivalue);
       this.econForm.value.pagamensile = this.commaToDot(this.econForm.value.pagamensile);
-      
+
       this.economicService.updateEconomicData(this.econForm.value).subscribe(
         res => {
           if (res['status'] === 'done') {

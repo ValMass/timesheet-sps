@@ -22,6 +22,8 @@ export class UserAnagComponent implements OnInit {
   data: any;
   contratto: any;
 
+  submitted : boolean = false;
+  
   constructor(
     private route: ActivatedRoute,
     public fb: FormBuilder,
@@ -153,8 +155,8 @@ export class UserAnagComponent implements OnInit {
   }
 
   submit() {
-
-    if ((this.anagForm.get('birthplace').value != "") && (this.anagForm.get('address').value != "")) {
+    this.submitted = true;
+    if ((this.anagForm.get('birthplace').value.length > 1 ) && (this.anagForm.get('address').value.length > 1 ) ) {
       let newanag = {
         id: this.dbAnag.id,
         name: this.dbAnag.name,
@@ -176,13 +178,11 @@ export class UserAnagComponent implements OnInit {
         economicdataid: this.dbAnag.economicdataid,
       }
 
-      console.log("data da aggiornare", newanag)
+      //console.log("data da aggiornare", newanag)
 
-      /*this.userAnag.updateAnagraphicForUser(newanag).subscribe(res => {
+      this.userAnag.updateAnagraphicForUser(newanag).subscribe(res => {
         //console.log("res submit post" , res)
-      });*/
-    }else{
-      console.log("Inserire i dati luogo di nascita e residenza")
+      });
     }
   }
 
