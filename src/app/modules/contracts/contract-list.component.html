@@ -14,7 +14,7 @@
     <tbody>
       <tr *ngFor="let contract of contracts; trackBy: trackById; let i = index"
       role="presentation" >
-        <td>{{ contract.contracttype }} </td>
+        <td>{{  mapTipoContratto(contract.contracttype) }} </td>
         <td>{{ contract.level }}</td>
         <td>{{ contract.ccnl }}</td>
         <td>{{ contract.title }}</td>

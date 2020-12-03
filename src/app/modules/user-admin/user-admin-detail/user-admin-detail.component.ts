@@ -109,7 +109,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
         if (result.status === 'done') {
           this.activityList = result.data;
         } else {
-          this.toastrService.error('Errore nella lista delle attività : ' + result.message);
+          this.toastrService.warning("Nessuna attività associata all\'utente");
         }
       });
   }
@@ -125,6 +125,10 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     }
     const economicInfo = await this.economicService.getEconomic(anagInfo['data']['economicdataid']).toPromise();
     console.log("economicInfo", economicInfo);
+    
+    //arrotondo alla seconda cifra decimale avanzo rimborso 
+    economicInfo['data'].avanzorimborso = parseFloat(economicInfo['data'].avanzorimborso).toFixed(2)
+
     this.userForm.patchValue(userInfo['data'][0].uset);
     this.anagForm.patchValue(anagInfo['data']);
     this.econForm.patchValue(economicInfo['data']);
