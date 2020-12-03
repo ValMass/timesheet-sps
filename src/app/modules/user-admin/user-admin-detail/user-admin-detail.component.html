@@ -10,37 +10,69 @@
         <label for="username" class="col-sm-2 col-form-label">Nome utente</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="username" placeholder="Nome utente" formControlName="username"
-            required />
+            required [ngClass]="{'is-invalid' : (
+              ((userForm.value.username == '') || userForm.value.username.length < 3 ) && submittedUser)}" />
+          <div *ngIf="(userForm.value.username == '') && submittedUser" style="color: red;">
+            Campo obbligatorio</div>
+          <div *ngIf="(userForm.value.username.length > 0 && userForm.value.username.length < 3) && submittedUser"
+            style="color: red;">
+            Lunghezza minima 4</div>
         </div>
       </div>
       <div class="form-group row">
         <label for="password" class="col-sm-2 col-form-label">Password</label>
         <div class="col-sm-10">
-
           <input type="{{psw}}" class="form-control" id="password" placeholder="Password" formControlName="password"
-
-            required />
-            <p style="display:inline; color: grey; cursor: pointer;" (click)="pswHideShow()">{{psw == "password" ? 'Show' : 'Hide'}} Password </p> 
+            required [ngClass]="{'is-invalid' : (
+              ((userForm.value.password == '' || userForm.value.password.length < 6)) && submittedUser )}" />
+          <div *ngIf="(userForm.value.password == '') && submittedUser" style="color: red;">
+            Campo obbligatorio
+          </div>
+          <div *ngIf="((userForm.value.password.length > 0 && userForm.value.password.length < 6) && submittedUser)"
+            style="color: red;">
+            Lunghezza minima 6
+          </div>
+          <p style="display:inline; color: grey; cursor: pointer;" (click)="pswHideShow()">
+            {{psw == "password" ? 'Show' : 'Hide'}} Password </p>
         </div>
       </div>
       <div class="form-group row">
         <label for="regNumInps" class="col-sm-2 col-form-label">Numero inps</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="regNumInps" placeholder="Numero inps" formControlName="regNumInps"
-            required />
+            required
+            [ngClass]="{'is-invalid' : 
+            ( (!patternCifra.test(userForm.value.regNumInps) || userForm.value.regNumInps == '' ) && submittedUser)}" />
+          <div *ngIf="((userForm.value.regNumInps.length < 1 ) && submittedUser)" style="color: red;">
+            Campo obbligatorio</div>
+          <div *ngIf="(!patternCifra.test(userForm.value.regNumInps) && userForm.value.regNumInps.length > 0)"
+            style="color: red;">
+            Sono accetate solo cifre</div>
         </div>
       </div>
       <div class="form-group row">
         <label for="regNumSps" class="col-sm-2 col-form-label">Numero S.P.S.</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="regNumSps" placeholder="Numero S.P.S." formControlName="regNumSps"
-            required />
+            required [ngClass]="{'is-invalid' : 
+            ( (!patternCifra.test(userForm.value.regNumSps) || userForm.value.regNumSps == '' ) && submittedUser)}" />
+          <div *ngIf="((userForm.value.regNumSps.length < 1 ) && submittedUser)" style="color: red;">
+            Campo obbligatorio</div>
+          <div *ngIf="(!patternCifra.test(userForm.value.regNumSps) && userForm.value.regNumSps.length > 0)"
+            style="color: red;">
+            Sono accetate solo cifre</div>
         </div>
       </div>
       <div class="form-group row">
         <label for="email" class="col-sm-2 col-form-label">E-mail</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="email" placeholder="E-mail" formControlName="email" required />
+          <input type="text" class="form-control" id="email" placeholder="E-mail" formControlName="email" required
+            [ngClass]="{'is-invalid' :((!patternEmail.test(userForm.value.email) || userForm.value.email == '' ) && submittedUser)}" />
+          <div *ngIf="((userForm.value.email < 1 ) && submittedUser)" style="color: red;">
+            Campo obbligatorio</div>
+          <div *ngIf="(!patternEmail.test(userForm.value.email) && userForm.value.email.length > 0)"
+            style="color: red;">
+            Non rappresenta il formato email</div>
         </div>
       </div>
       <div class="form-group row">
@@ -64,37 +96,74 @@
     </mat-expansion-panel-header>
     <form class="p-5" id="anag" [formGroup]="anagForm" (ngSubmit)="submitAnag()">
       <div class="form-group row">
+
         <label for="name" class="col-sm-2 col-form-label">Nome</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="name" placeholder="Nome" formControlName="name" required />
+          <input type="text" class="form-control" id="name" placeholder="Nome" formControlName="name" required
+            [ngClass]="{'is-invalid' : (
+            ((anagForm.value.name == '') || anagForm.value.name.length < 2 ) && submittedAnag)}" />
+          <div *ngIf="(anagForm.value.name == '') && submittedAnag" style="color: red;">
+            Campo obbligatorio</div>
+          <div *ngIf="(anagForm.value.name.length > 0 && anagForm.value.name.length < 2) && submittedAnag"
+            style="color: red;">
+            Lunghezza minima 2</div>
         </div>
+
       </div>
       <div class="form-group row">
         <label for="surname" class="col-sm-2 col-form-label">Cognome</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="surname" placeholder="Cognome" formControlName="surname"
-            required />
+          <input type="text" class="form-control" id="surname" placeholder="Cognome" formControlName="surname" required
+            [ngClass]="{'is-invalid' : (
+              ((anagForm.value.surname == '') || anagForm.value.surname.length < 2 ) && submittedAnag)}" />
+          <div *ngIf="(anagForm.value.surname == '') && submittedAnag" style="color: red;">
+            Campo obbligatorio</div>
+          <div *ngIf="(anagForm.value.surname.length > 0 && anagForm.value.surname.length < 2) && submittedAnag"
+            style="color: red;">
+            Lunghezza minima 2</div>
         </div>
       </div>
 
       <div class="form-group row">
         <label for="phonenumber1" class="col-sm-2 col-form-label">Numero di telefono</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="phonenumber1" placeholder="Numero di telefono" formControlName="phonenumber1">
+          <input type="text" class="form-control" id="phonenumber1" placeholder="Numero di telefono"
+            formControlName="phonenumber1" [ngClass]="{'is-invalid':(
+              (anagForm.value.phonenumber1.length > 0) &&(!patternCifra.test(anagForm.value.phonenumber1)) || 
+              (anagForm.value.phonenumber1.length < 2)) && submittedAnag}">
+          <div *ngIf="(anagForm.value.phonenumber1.length == '') && submittedAnag" style="color: red;">
+            Campo obbligatorio</div>
+          <div
+            *ngIf="((anagForm.value.phonenumber1.length > 0) &&(!patternCifra.test(anagForm.value.phonenumber1))) && submittedAnag"
+            style="color: red;">
+            Sono accetate solo cifre</div>
         </div>
       </div>
 
       <div class="form-group row">
         <label for="phonenumber2" class="col-sm-2 col-form-label">Numero di telefono alternativo</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="phonenumber2" placeholder="Numero di telefono" formControlName="phonenumber2">
+          <input type="text" class="form-control" id="phonenumber2" placeholder="Numero di telefono"
+            formControlName="phonenumber2"
+            [ngClass]="{'is-invalid':
+              ((anagForm.value.phonenumber2.length > 0) &&(!patternCifra.test(anagForm.value.phonenumber2)) && submittedAnag)}">
+          <div
+            *ngIf="((anagForm.value.phonenumber2.length > 0) &&(!patternCifra.test(anagForm.value.phonenumber2))) && submittedAnag"
+            style="color: red;">
+            Sono accetate solo cifre</div>
         </div>
       </div>
 
       <div class="form-group row">
         <label for="address" class="col-sm-2 col-form-label">Residenza</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="address" placeholder="Luogo di Residenza" formControlName="address">
+          <input type="text" class="form-control" id="address" placeholder="Luogo di Residenza"
+            formControlName="address" [ngClass]="{'is-invalid':(anagForm.value.address.length < 2) && submittedAnag}">
+          <div *ngIf="(anagForm.value.address.length == '') && submittedAnag" style="color: red;">
+            Campo obbligatorio</div>
+          <div *ngIf="(anagForm.value.address.length < 2 && anagForm.value.address.length != '') && submittedAnag"
+            style="color: red;">
+            lunghezza minima 2</div>
         </div>
       </div>
 
@@ -106,19 +175,24 @@
           <mat-datepicker #picker disabled="false"></mat-datepicker>
         </div>
       </div>
-      
+
       <div class="form-group row">
         <label for="birthplace" class="col-sm-2 col-form-label">Luogo di nascita</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="birthplace" placeholder="Luogo di nascita"
-            formControlName="birthplace" required />
+            formControlName="birthplace" required
+            [ngClass]="{'is-invalid':(anagForm.value.birthplace.length < 2) && submittedAnag}">
+          <div *ngIf="(anagForm.value.birthplace.length == '') && submittedAnag" style="color: red;">
+            Campo obbligatorio</div>
+          <div *ngIf="(anagForm.value.birthplace.length < 2 && anagForm.value.birthplace.length != '') && submittedAnag"
+            style="color: red;">
+            lunghezza minima 2</div>
         </div>
       </div>
       <div class="form-group row">
         <label for="sededilavoro" class="col-sm-2 col-form-label">Sede di assunzione</label>
         <div class="col-sm-10">
-          <ng-select [items]="officesList"  bindLabel="address" bindValue="id"
-            formControlName="sededilavoro">
+          <ng-select [items]="officesList" bindLabel="address" bindValue="id" formControlName="sededilavoro">
           </ng-select>
         </div>
       </div>
@@ -126,11 +200,12 @@
       <div class="form-group row">
         <label for="buonipastobool" class="col-sm-2 col-form-label">Buoni Pasto</label>
         <div class="col-sm-10">
-          <mat-checkbox class="example-margin" name="buonipastobool" formControlName="buonipastobool" labelPosition="before">
+          <mat-checkbox class="example-margin" name="buonipastobool" formControlName="buonipastobool"
+            labelPosition="before">
           </mat-checkbox>
         </div>
       </div>
-      
+
 
       <button type="submit" class="btn btn-primary btn-block mt-5">Salva</button>
     </form>
@@ -163,36 +238,78 @@
       <div class="form-group row">
         <label for="ral" class="col-sm-2 col-form-label">Ral</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="ral" placeholder="Rendimento annuo lordo"
-            formControlName="ral" required />
+          <input type="text" class="form-control" id="ral" placeholder="Rendimento annuo lordo" formControlName="ral"
+            required [ngClass]="{'is-invalid':(
+              (econForm.value.ral.length > 0) &&(!patternCifra.test(econForm.value.ral)) || 
+              (econForm.value.ral.length < 2)) && submittedEconomic}">
+          <div *ngIf="(econForm.value.ral.length == '') && submittedEconomic" style="color: red;">
+            Campo obbligatorio</div>
+          <div
+            *ngIf="((econForm.value.ral.length > 0) &&(!patternCifra.test(econForm.value.ral))) && submittedEconomic"
+            style="color: red;">
+            Sono accetate solo cifre</div>
         </div>
       </div>
       <div class="form-group row">
         <label for="diaria" class="col-sm-2 col-form-label">Diaria</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="diaria" placeholder="Diaria in caso di trasferta"
-            formControlName="diaria" required />
+            formControlName="diaria" required 
+            [ngClass]="{'is-invalid':(
+              (econForm.value.diaria.length > 0) &&(!patternCifra.test(econForm.value.diaria)) || 
+              (econForm.value.diaria.length < 2)) && submittedEconomic}">
+          <div *ngIf="(econForm.value.diaria.length == '') && submittedEconomic" style="color: red;">
+            Campo obbligatorio</div>
+          <div
+            *ngIf="((econForm.value.diaria.length > 0) &&(!patternCifra.test(econForm.value.diaria))) && submittedEconomic"
+            style="color: red;">
+            Sono accetate solo cifre</div>
         </div>
       </div>
       <div class="form-group row">
         <label for="acivalue" class="col-sm-2 col-form-label">Valore tabella Aci</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="acivalue" placeholder="Valore tabella Aci"
-            formControlName="acivalue" required />
+            formControlName="acivalue" required  [ngClass]="{'is-invalid':(
+              (econForm.value.acivalue.length > 0) &&(!patternDecimale.test(econForm.value.acivalue)) || 
+              (econForm.value.acivalue.length < 2)) && submittedEconomic}">
+          <div *ngIf="(econForm.value.acivalue.length == '') && submittedEconomic" style="color: red;">
+            Campo obbligatorio</div>
+          <div
+            *ngIf="((econForm.value.acivalue.length > 0) &&(!patternDecimale.test(econForm.value.acivalue))) && submittedEconomic"
+            style="color: red;">
+            Sono accetate solo cifre e cifre decimali</div>
         </div>
       </div>
       <div class="form-group row">
         <label for="pagamensile" class="col-sm-2 col-form-label">Paga mensile</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="pagamensile" placeholder="Paga Mensile"
-            formControlName="pagamensile" required />
+            formControlName="pagamensile" required  [ngClass]="{'is-invalid':(
+              (econForm.value.pagamensile.length > 0) &&(!patternDecimale.test(econForm.value.pagamensile)) || 
+              (econForm.value.pagamensile.length < 2)) && submittedEconomic}">
+          <div *ngIf="(econForm.value.pagamensile.length == '') && submittedEconomic" style="color: red;">
+            Campo obbligatorio</div>
+          <div
+            *ngIf="((econForm.value.pagamensile.length > 0) &&(!patternDecimale.test(econForm.value.pagamensile))) && submittedEconomic"
+            style="color: red;">
+            Sono accetate solo cifre e cifre decimali</div>
         </div>
       </div>
       <div class="form-group row">
         <label for="rimborsomensile" class="col-sm-2 col-form-label">Rimborso mensile</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="rimborsomensile" placeholder="Rimborso mensile"
-            formControlName="rimborsomensile" required />
+            formControlName="rimborsomensile" required 
+            [ngClass]="{'is-invalid':(
+              (econForm.value.rimborsomensile.length > 0) &&(!patternCifra.test(econForm.value.rimborsomensile)) || 
+              (econForm.value.rimborsomensile.length < 2)) && submittedEconomic}">
+          <div *ngIf="(econForm.value.rimborsomensile.length == '') && submittedEconomic" style="color: red;">
+            Campo obbligatorio</div>
+          <div
+            *ngIf="((econForm.value.rimborsomensile.length > 0) &&(!patternCifra.test(econForm.value.rimborsomensile))) && submittedEconomic"
+            style="color: red;">
+            Sono accetate solo cifre</div>
         </div>
       </div>
       <div class="form-group row">
@@ -224,7 +341,8 @@
           <td>{{ activityCus.act.name }} </td>
           <td>{{ activityCus.cus.name }} </td>
           <td>
-            <span style="width: 20px; height: 20px; display: block; cursor: pointer;" class="card-footer-item fas fa-trash mr-2" (click)="deleteActivity(activityCus)"></span>
+            <span style="width: 20px; height: 20px; display: block; cursor: pointer;"
+              class="card-footer-item fas fa-trash mr-2" (click)="deleteActivity(activityCus)"></span>
           </td>
         </tr>
       </tbody>

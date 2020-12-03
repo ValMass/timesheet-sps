@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -22,9 +23,10 @@ export class UserAnagComponent implements OnInit {
   data: any;
   contratto: any;
 
-  submitted : boolean = false;
-  
+  submitted: boolean = false;
+
   constructor(
+    private toastrService: ToastrService,
     private route: ActivatedRoute,
     public fb: FormBuilder,
     private userAnag: UserAnagService,
@@ -156,7 +158,7 @@ export class UserAnagComponent implements OnInit {
 
   submit() {
     this.submitted = true;
-    if ((this.anagForm.get('birthplace').value.length > 1 ) && (this.anagForm.get('address').value.length > 1 ) ) {
+    if ((this.anagForm.get('birthplace').value.length > 1) && (this.anagForm.get('address').value.length > 1)) {
       let newanag = {
         id: this.dbAnag.id,
         name: this.dbAnag.name,
@@ -178,11 +180,10 @@ export class UserAnagComponent implements OnInit {
         economicdataid: this.dbAnag.economicdataid,
       }
 
-      //console.log("data da aggiornare", newanag)
 
-      this.userAnag.updateAnagraphicForUser(newanag).subscribe(res => {
-        //console.log("res submit post" , res)
-      });
+      this.userAnag.updateAnagraphicForUser(newanag).subscribe( () => this.toastrService.success('Utente aggiornato'));
+    }else{
+      this.toastrService.error('Inserire i campi obbligatori')
     }
   }
 

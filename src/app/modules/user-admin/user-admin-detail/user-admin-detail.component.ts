@@ -47,6 +47,18 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   //password
   psw: string = "password";
 
+  //variabili che contengono  pattern che devono essere rispettati
+  patternEmail = new RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$");
+  patternCifra = new RegExp("[0-9 ]+$");
+  patternDecimale = new RegExp("[0-9]+([,.][0-9]+)?$");
+
+
+
+  //submited Boolean
+  submittedUser : boolean = false;
+  submittedAnag : boolean = false;
+  submittedEconomic : boolean = false;
+
   constructor(
     private anagService: AnagraphicService,
     private contractService: ContractService,
@@ -128,16 +140,13 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   }
 
   submitUser() {
+    this.submittedUser = true
     //console.log("userform :", this.userForm.value)
-
-    //variabili ceh contengono i pattern che devono essere rispettati
-    let patternEmail = new RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$');
-    let patternRegNum = new RegExp('[0-9 ]+$');
-
-    if ((patternEmail.test(this.userForm.value.email)) &&
+    
+    if ((this.patternEmail.test(this.userForm.value.email)) &&
       (this.userForm.value.password.length >= 6) &&
-      (patternRegNum.test(this.userForm.value.regNumInps)) &&
-      (patternRegNum.test(this.userForm.value.regNumSps)) &&
+      (this.patternCifra.test(this.userForm.value.regNumInps)) &&
+      (this.patternCifra.test(this.userForm.value.regNumSps)) &&
       (this.userForm.value.role != null) &&
       (this.userForm.value.username.length >= 4)) {
       this.userAdminService.updateUser({ id: this.userAdmin.id, ...this.userForm.value })
@@ -158,13 +167,14 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
           }
         );
     } else {
-      this.toastrService.error('Errore inserire i dati account correttamente');
+      this.toastrService.error('Inserire i dati obbligatori');
     }
 
 
   }
 
   submitAnag() {
+    this.submittedAnag = true
 
     if (this.anagForm.value.buonipastobool != false) {
       this.anagForm.value.buonipastobool = 1;
@@ -172,19 +182,19 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       this.anagForm.value.buonipastobool = 0;
     }
 
-    let patternPhoneNumber = new RegExp('[0-9 ]+$');
 
     if ((this.anagForm.value.address.length >= 2) &&
       (this.anagForm.value.birthplace.length >= 2) &&
       (this.anagForm.value.name.length >= 2) &&
-      (patternPhoneNumber.test(this.anagForm.value.phonenumber1)) &&
-      (patternPhoneNumber.test(this.anagForm.value.phonenumber2) || this.anagForm.value.phonenumber2.length == 0) &&
-      (this.anagForm.value.surname.length >= 2)) {
+      (this.patternCifra.test(this.anagForm.value.phonenumber1)) &&
+      (this.patternCifra.test(this.anagForm.value.phonenumber2) || this.anagForm.value.phonenumber2.length == 0) &&
+      (this.anagForm.value.surname.length >= 2) &&
+      (this.anagForm.value.sededilavoro != null)) {
 
-      //console.log("this.anagForm.value", this.anagForm.value)
+      console.log("this.anagForm.value", this.anagForm.value)
       this.anagService.updateAnagraphicForUser({ id: this.userAdmin.id, ...this.anagForm.value })
         .subscribe(res => {
-          console.log("Anagrafica", res)
+          //console.log("Anagrafica", res)
           if (res['status'] === 'done') {
             this.toastrService.success('Anagrafica utente aggiornata');
 
@@ -197,7 +207,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
           }
         });
     } else {
-      this.toastrService.error('Errore inserire i dati anagrafici correttamente');
+      this.toastrService.error('Inserire i dati obbligatori');
     }
 
 
@@ -218,14 +228,13 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   }
 
   submitEconomic() {
-    //console.log("econForm", this.econForm.value);
-    let patternCifra = new RegExp("[0-9 ]+$");
-    let patternDecimale = new RegExp("[0-9]+([,.][0-9]+)?$");
-    if ((patternDecimale.test(this.econForm.value.acivalue)) &&
-      (patternDecimale.test(this.econForm.value.pagamensile)) &&
-      (patternCifra.test(this.econForm.value.ral)) &&
-      (patternCifra.test(this.econForm.value.rimborsomensile)) &&
-      (patternCifra.test(this.econForm.value.diaria))) {
+    this.submittedEconomic = true;
+    
+    if ((this.patternDecimale.test(this.econForm.value.acivalue)) &&
+      (this.patternDecimale.test(this.econForm.value.pagamensile)) &&
+      (this.patternCifra.test(this.econForm.value.ral)) &&
+      (this.patternCifra.test(this.econForm.value.rimborsomensile)) &&
+      (this.patternCifra.test(this.econForm.value.diaria))) {
       
       this.econForm.value.acivalue = this.commaToDot(this.econForm.value.acivalue);
       this.econForm.value.pagamensile = this.commaToDot(this.econForm.value.pagamensile);
@@ -233,9 +242,9 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       this.economicService.updateEconomicData(this.econForm.value).subscribe(
         res => {
           if (res['status'] === 'done') {
-            this.toastrService.success('Economic data aggiornato correttamente');
+            this.toastrService.success('Dati economici aggiornati');
           } else {
-            this.toastrService.error('Errore nell\'aggiornamento del contratto');
+            this.toastrService.error('Errore nell\'aggiornamento dei dati economici');
           }
         },
         error => {
@@ -243,7 +252,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
         }
       );
     } else {
-      this.toastrService.error('Errore inserire i dati economici correttamente');
+      this.toastrService.error('Inserire i dati obbligatori');
     }
 
   }
