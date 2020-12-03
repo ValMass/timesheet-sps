@@ -149,8 +149,8 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     
     if ((this.patternEmail.test(this.userForm.value.email)) &&
       (this.userForm.value.password.length >= 6) &&
-      (this.patternCifra.test(this.userForm.value.regNumInps)) &&
-      (this.patternCifra.test(this.userForm.value.regNumSps)) &&
+      (this.patternCifra.test(this.userForm.value.regnuminps)) &&
+      (this.patternCifra.test(this.userForm.value.regnumsps)) &&
       (this.userForm.value.role != null) &&
       (this.userForm.value.username.length >= 4)) {
       this.userAdminService.updateUser({ id: this.userAdmin.id, ...this.userForm.value })
@@ -279,8 +279,8 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     const userForm = this.fb.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]],
-      regNumInps: ['', [Validators.required]],
-      regNumSps: ['', [Validators.required]],
+      regnuminps: ['', [Validators.required]],
+      regnumsps: ['', [Validators.required]],
       email: ['', [Validators.required]],
       role: ['', [Validators.required]],
     });

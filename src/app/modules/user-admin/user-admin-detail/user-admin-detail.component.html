@@ -37,28 +37,28 @@
         </div>
       </div>
       <div class="form-group row">
-        <label for="regNumInps" class="col-sm-2 col-form-label">Numero inps</label>
+        <label for="regnuminps" class="col-sm-2 col-form-label">Numero inps</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="regNumInps" placeholder="Numero inps" formControlName="regNumInps"
+          <input type="text" class="form-control" id="regnuminps" placeholder="Numero inps" formControlName="regnuminps"
             required
             [ngClass]="{'is-invalid' : 
-            ( (!patternCifra.test(userForm.value.regNumInps) || userForm.value.regNumInps == '' ) && submittedUser)}" />
-          <div *ngIf="((userForm.value.regNumInps.length < 1 ) && submittedUser)" style="color: red;">
+            ( (!patternCifra.test(userForm.value.regnuminps) || userForm.value.regnuminps == '' ) && submittedUser)}" />
+          <div *ngIf="((userForm.value.regnuminps.length < 1 ) && submittedUser)" style="color: red;">
             Campo obbligatorio</div>
-          <div *ngIf="(!patternCifra.test(userForm.value.regNumInps) && userForm.value.regNumInps.length > 0)"
+          <div *ngIf="(!patternCifra.test(userForm.value.regnuminps) && userForm.value.regnuminps.length > 0)"
             style="color: red;">
             Sono accetate solo cifre</div>
         </div>
       </div>
       <div class="form-group row">
-        <label for="regNumSps" class="col-sm-2 col-form-label">Numero S.P.S.</label>
+        <label for="regnumsps" class="col-sm-2 col-form-label">Numero S.P.S.</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="regNumSps" placeholder="Numero S.P.S." formControlName="regNumSps"
+          <input type="text" class="form-control" id="regnumsps" placeholder="Numero S.P.S." formControlName="regnumsps"
             required [ngClass]="{'is-invalid' : 
-            ( (!patternCifra.test(userForm.value.regNumSps) || userForm.value.regNumSps == '' ) && submittedUser)}" />
-          <div *ngIf="((userForm.value.regNumSps.length < 1 ) && submittedUser)" style="color: red;">
+            ( (!patternCifra.test(userForm.value.regnumsps) || userForm.value.regnumsps == '' ) && submittedUser)}" />
+          <div *ngIf="((userForm.value.regnumsps.length < 1 ) && submittedUser)" style="color: red;">
             Campo obbligatorio</div>
-          <div *ngIf="(!patternCifra.test(userForm.value.regNumSps) && userForm.value.regNumSps.length > 0)"
+          <div *ngIf="(!patternCifra.test(userForm.value.regnumsps) && userForm.value.regnumsps.length > 0)"
             style="color: red;">
             Sono accetate solo cifre</div>
         </div>
