@@ -28,7 +28,7 @@
         <td><button class="button-custom" mat-button color="accent" (click)="modifyTimesheet(useradmin)" [disabled]="useradmin.role === '1' || useradmin.role === '0'">Modifica
             Timesheet</button></td>
         <td>
-          <app-button-footer class="card-footer-item" [className]="'delete-item'" [iconClasses]="'fas fa-trash mr-2'"
+          <app-button-footer class="card-footer-item" [disabledButton]="getRoleFromLocalStorage(useradmin.role)" [className]="'delete-item'" [iconClasses]="'fas fa-trash mr-2'"
             (clicked)="deleteUserAdmin($event)" label="Delete" [item]="useradmin"></app-button-footer>
           <app-button-footer class="card-footer-item" [className]="'edit-item'" [iconClasses]="'fas fa-edit mr-2'"
             (clicked)="selectCustomer($event)" label="Edit" [item]="useradmin"></app-button-footer>

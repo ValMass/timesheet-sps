@@ -8,6 +8,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
       [ngClass]="className"
       [attr.aria-label]="label"
       tabindex="0"
+      [disabled]=disabledButton  
       [attr.data-id]="item.id"
       (click)="handleClick()"
     >
@@ -22,10 +23,12 @@ export class ButtonFooterComponent implements OnInit {
   @Input() iconClasses;
   @Input() item;
   @Input() dataId;
+  @Input() disabledButton;
 
   @Output() clicked = new EventEmitter<any>();
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   handleClick() {
     this.clicked.emit(this.item);

@@ -1,3 +1,5 @@
+import { AuthenticationService } from './../../../services/authentication.service';
+import { User } from './../../../models/user';
 import { Component, OnInit, EventEmitter, Output, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { UserAdmin } from '../models/User-admin';
 import { Router } from '@angular/router';
@@ -19,16 +21,17 @@ export class UserAdminListComponent implements OnInit, OnChanges {
 
   //showbutton
   @Output() showButton = new EventEmitter<Boolean>();
-
+  
   constructor(
     private fileservice: FileService,
     private router: Router,
     private userAdminService: UserAdminService,
     public dialog: MatDialog,
+    private authenticationService : AuthenticationService
   ) { }
 
   ngOnInit(): void {
-    console.log( "useradmins: " ,this.useradmins);
+    //console.log( "useradmins: " ,this.useradmins);
   }
   ngOnChanges(changes: SimpleChanges) {
     console.log('changes: ', changes);
@@ -100,5 +103,14 @@ export class UserAdminListComponent implements OnInit, OnChanges {
       res = 'Utente ordinario'
     }
     return res;
+  }
+
+  getRoleFromLocalStorage(ruoloUtente) {
+    console.log("RuoloUtente: ", ruoloUtente);
+
+    const user: User = this.authenticationService.currentUserValue;
+
+    console.log("user.role: ", user.role)
+    return user.role >= ruoloUtente;
   }
 }
