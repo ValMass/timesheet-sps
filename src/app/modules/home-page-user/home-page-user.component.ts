@@ -29,6 +29,8 @@ export class HomePageUserComponent implements OnInit {
   public oreNottStraordinarie : number = 0;
   public oreFestStraordinarie : number = 0;
   
+  //TODO il dato che arriva dal backend si chiama "holydaysday"
+  public holydayhours : number = 0;
 
   constructor(
     private statsUserService: StatsUserService,
@@ -77,7 +79,8 @@ export class HomePageUserComponent implements OnInit {
               this.oreStraordinarie = element["overtime"];
               this.oreNottStraordinarie = element["nightovertime"];
               this.oreFestStraordinarie = element["festalovertime"];
-              
+              this.holydayhours = element["holiydaysday"];
+
               eventlist.forEach(element => {
                 if ( element.activityId ){
                   const newore = this.workedForCustomerList.get(element.activityId);

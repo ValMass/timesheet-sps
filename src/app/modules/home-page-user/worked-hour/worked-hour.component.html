@@ -5,46 +5,51 @@
     </div>
     <div class="card-body">
       <div class="my-2 row">
-        <p class="d-inline col-4">Ore Ordinarie Lavorate</p>
+        <p class="d-inline col-4">Ore ordinarie lavorate</p>
         <p class="d-inline px-4">{{ workedThisMonth }}</p>
       </div>
 
       <div class="my-2 row">
-        <p class="d-inline col-4">Ore Straordinarie</p>
+        <p class="d-inline col-4">Ore straordinarie</p>
         <p class="d-inline px-4">{{ oreStraordinarie }}</p>
       </div>
 
       <div *ngIf="oreNottStraordinarie > 0">
         <div class="my-2 row">
-          <p class="d-inline col-4">Ore Straordinarie Notturne</p>
+          <p class="d-inline col-4">Ore straordinarie notturne</p>
           <p class="d-inline px-4">{{ oreNottStraordinarie }}</p>
         </div>
       </div>
 
       <div *ngIf="oreFestStraordinarie > 0">
         <div class="my-2 row">
-          <p class="d-inline col-4">Ore Straordinarie Festive</p>
+          <p class="d-inline col-4">Ore straordinarie festive</p>
           <p class="d-inline px-4">{{ oreFestStraordinarie }}</p>
         </div>
       </div>
 
       <div class="my-2 row">
-        <p class="d-inline col-4">Giorni Lavorati</p>
+        <p class="d-inline col-4">Giorni lavorati</p>
         <p class="d-inline px-4">{{ dayWorkedThisMonth }}</p>
       </div>
 
       <div class="my-2 row">
-        <p class="d-inline col-4">Giorni Di Smart Working</p>
+        <p class="d-inline col-4">Giorni di smart working</p>
         <p class="d-inline px-4">{{ daySmartWorkedThisMonth }}</p>
       </div>
 
       <div class="my-2 row">
-        <p class="d-inline col-4">Ore Permesso</p>
+        <p class="d-inline col-4">Ore permesso</p>
         <p class="d-inline px-4">{{ permessiThisMonth }}</p>
       </div>
 
       <div class="my-2 row">
-        <p class="d-inline col-4 ">Giorni Malattia</p>
+        <p class="d-inline col-4 ">Ore di ferie</p>
+        <p class="d-inline px-4">{{ holydayhours }}</p>
+      </div>
+
+      <div class="my-2 row">
+        <p class="d-inline col-4 ">Giorni malattia</p>
         <p class="d-inline px-4">{{ deseaseThisMonth }}</p>
       </div>
     </div>
