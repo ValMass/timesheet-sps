@@ -106,11 +106,11 @@ export class UserAdminListComponent implements OnInit, OnChanges {
   }
 
   getRoleFromLocalStorage(ruoloUtente) {
-    console.log("RuoloUtente: ", ruoloUtente);
+    //console.log("RuoloUtente: ", ruoloUtente);
 
     const user: User = this.authenticationService.currentUserValue;
 
-    console.log("user.role: ", user.role)
+    //console.log("user.role: ", user.role)
     return user.role >= ruoloUtente;
   }
 }
