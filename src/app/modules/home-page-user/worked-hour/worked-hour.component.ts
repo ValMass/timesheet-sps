@@ -16,7 +16,7 @@ export class WorkedHourComponent implements OnInit {
   @Input() daySmartWorkedThisMonth;
   @Input() deseaseThisMonth;
   @Input() permessiThisMonth;
-  @Input() holydayhours;
+  @Input() holidayhours;
 
   //Straordinari 
   @Input() oreStraordinarie;
