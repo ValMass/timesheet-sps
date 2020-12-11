@@ -72,3 +72,9 @@ body {
 .toast-message {
   font-size: 1.1rem;
 }
+.cal-event.macchinina{
+  background: url('./assets/icon/001-car.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

@@ -28,3 +28,14 @@
 .button-container > button {
   width: 25%;
 }
+
+.macchinina span {
+  width: 200px !important;
+  font-size: 40px !important;
+}/*{
+  background: url('../../../../../assets/icon/001-car.png');
+  background-position: left center;;
+  background-repeat: no-repeat;
+  background-size: 35px 35px;
+  background-color: black;
+}*/
