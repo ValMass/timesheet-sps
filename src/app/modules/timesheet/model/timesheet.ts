@@ -21,7 +21,7 @@ export interface Timesheet {
   pemessiextra?: string;
   smartworkday?: string;
   parentalleave?: string;
-  holiydaysday?: string;
+  holidaysday?: string;
   overtime?: string;
   nightovertime?: string;
   festalovertime?: string;

@@ -104,33 +104,38 @@ export class UserAdminComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(
       res => {
-        console.log(" 1 res: ", res.data);
+        //console.log(" 1 res: ", res.data);
         const val = res.data
         if (res) {
           let myObj = this.parseDialogFormRes(res['data']);
           this.anagraphicService.addEconomicData(myObj.economictoadd).subscribe(res => {
-            console.log('2 economicData:', res);
+            //console.log('2 economicData:', res);
             if (res['status'] === 'error') {
-              this.toastrService.error(res.toString());
+              this.toastrService.error("Errore nella creazione dell'utente");
+              console.log(res['message']);
+              return;
             }
             myObj.anagtoadd.economicdataid = res['data'].id;
             this.anagraphicService.addAnagraphicForUser(myObj.anagtoadd).subscribe(
               next => {
-                console.log('3 anag next:'  , next);
+                //console.log('3 anag next:'  , next);
                 if (next['status'] === 'error') {
-                  this.toastrService.error(res.toString());
+                  this.toastrService.error("Errore nella creazione dell'utente");
+                  console.log(res['message']);
+                  return;
                 } else {
                   myObj.usertoadd.anagraphicid = next['data'].id;
-                  console.log("myObj.usertoadd" , myObj.usertoadd);
-                 // myObj.usertoadd.role = val.isadmin;
+                  //console.log("myObj.usertoadd" , myObj.usertoadd);
+                  //myObj.usertoadd.role = val.isadmin;
                   this.userAdminService.createNewUser(myObj.usertoadd).subscribe(
                     result => {
                       if (result['status'] === 'error') {
-                        this.toastrService.error(result['message']);
+                        this.toastrService.error("Errore nella creazione dell'utente");
+                        console.log(result['message']);
                         return;
                       } else {
                         let user = result['data'];
-                        console.log('user ', user)
+                        //console.log('user ', user)
                         const newUser = new UserAdmin();
                         newUser.id = user['id'];
                         newUser.username = user['username'];
@@ -147,7 +152,7 @@ export class UserAdminComponent implements OnInit {
                         newUser.phonenumber2 = next['data'].phonenumber2;
                         this.users = [...this.users, newUser];
                         //console.log("user: ", user);
-                        console.log( "users: " ,this.users)
+                        //console.log( "users: " ,this.users)
                       }
                     });
                 }

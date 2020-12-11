@@ -29,6 +29,8 @@ export class HomePageUserComponent implements OnInit {
   public oreNottStraordinarie : number = 0;
   public oreFestStraordinarie : number = 0;
   
+  //TODO il dato che arriva dal backend si chiama "holidaysday"
+  public holidayhours : any;
 
   constructor(
     private statsUserService: StatsUserService,
@@ -48,7 +50,7 @@ export class HomePageUserComponent implements OnInit {
           this.name = this.anag.name ;
           this.surname = this.anag.surname;
         } else {
-          console.log(result['message']);
+          //console.log(result['message']);
         }
       },
       error => {
@@ -60,10 +62,10 @@ export class HomePageUserComponent implements OnInit {
     this.statsUserService.loadAllEventForThisYear( this.userid, this.year ).subscribe(
       result => { console.log("result data ", result)
         if ( result['status'] === "done" ){
-          console.log(result['data']);
+          //console.log(result['data']);
           result['data'].forEach(element => {
-            console.log(element['month']);
-            console.log(this.getCurrentMonth());
+            //console.log(element['month']);
+            //console.log(this.getCurrentMonth());
 
             if ( Number(element['month']) === this.getCurrentMonth() ) {
               const eventlist = JSON.parse(element['dayjson']);
@@ -77,7 +79,8 @@ export class HomePageUserComponent implements OnInit {
               this.oreStraordinarie = element["overtime"];
               this.oreNottStraordinarie = element["nightovertime"];
               this.oreFestStraordinarie = element["festalovertime"];
-              
+              this.holidayhours = element["holidaysday"];
+
               eventlist.forEach(element => {
                 if ( element.activityId ){
                   const newore = this.workedForCustomerList.get(element.activityId);
@@ -89,11 +92,11 @@ export class HomePageUserComponent implements OnInit {
             }
           });
         } else {
-          console.log(result['message']);
+          //console.log(result['message']);
         }
       },
       error => {
-        console.log("result['message']");
+        //console.log("result['message']");
       }
 
     );
@@ -101,8 +104,8 @@ export class HomePageUserComponent implements OnInit {
   }
 
   getIdFromLocalStorage() {
-    console.log("IDAUTH" , this.authenticationService.currentUserValue.id)
-    console.log("AUTH" , this.authenticationService.currentUserValue)
+    //console.log("IDAUTH" , this.authenticationService.currentUserValue.id)
+    //console.log("AUTH" , this.authenticationService.currentUserValue)
     //const tmp = localStorage.getItem('currentUser');
     //const tmpArray = JSON.parse(tmp);
     //return tmpArray.id;
@@ -110,8 +113,8 @@ export class HomePageUserComponent implements OnInit {
   }
 
   getAnagIdFromLocalStorage() {
-    console.log("ANAGIDAUTH" , this.authenticationService.currentUserValue.anagraphicid)
-    console.log("ANAGAUTH" , this.authenticationService.currentUserValue)
+    //console.log("ANAGIDAUTH" , this.authenticationService.currentUserValue.anagraphicid)
+    //console.log("ANAGAUTH" , this.authenticationService.currentUserValue)
     //const tmp = localStorage.getItem('currentUser');
     //const tmpArray = JSON.parse(tmp);
     //return tmpArray.anagraphicid;
