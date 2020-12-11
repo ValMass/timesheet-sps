@@ -126,6 +126,8 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'internal-activities', loadChildren: () => import('./modules/internal-activities/internal-activities.module').then(m => m.InternalActivitiesModule) },
+  {
     path: '**',
     component: NotFoundComponent,
 

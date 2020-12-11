@@ -383,6 +383,8 @@ export class TimesheetEditComponent implements OnInit {
             smartWorking: +res.data.smartWorking,
             contractCode: res.data.contractCode,
             customerName: res.data.contractCode === 'LAVORO' ||  res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
+            cssClass:'macchinina',
+            draggable: true,
           };
 
           this.events = [...this.events, event];
@@ -396,7 +398,16 @@ export class TimesheetEditComponent implements OnInit {
     }
   }
 
-  eventTimesChanged($event) {}
+
+  eventTimesChanged({
+    event,
+    newStart,
+    newEnd,
+  }: CalendarEventTimesChangedEvent): void {
+    event.start = newStart;
+    event.end = newEnd;
+    this.refresh.next();
+  }
 
   getIdFromLocalStorage() {
     const user: User = this.authenticationService.currentUserValue;
@@ -463,6 +474,8 @@ export class TimesheetEditComponent implements OnInit {
         smartWorking: +element.smartWorking,
         ticketnumber: element.ticketnumber,
         customerName: element.customerName,
+        cssClass:'macchinina',
+        draggable: true,
       };
       this.currentTimesheet.dayjson = [
         ...this.currentTimesheet.dayjson,
@@ -831,4 +844,5 @@ export class TimesheetEditComponent implements OnInit {
     this.showAcceptAsFinally = false;
     this.showResetStatus = false;
   }
+
 }
