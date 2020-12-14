@@ -46,7 +46,6 @@
         [disabled]="true" />
     </div>
   </div>
-
   <div id="table-wrapper">
     <div id="table-scroll">
       <table class="table table-striped ">
@@ -55,6 +54,7 @@
             <th scope="col">Stringa</th>
             <th scope="col">Distanza</th>
             <th scope="col">Rimborso</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
@@ -98,10 +98,39 @@
           <app-button-footer class="card-footer-item" [className]="'edit-item'" [iconClasses]="'fas fa-edit mr-2'"
             (clicked)="selectCustomer($event)" label="Edit" [item]="useradmin"></app-button-footer>
         -->
+            <td><i class="fa fa-trash" aria-hidden="true" (click)="deleteTrasferta(trasferta)" style="cursor: pointer"></i></td>
           </tr>
         </tbody>
       </table>
     </div>
+    <div>
+      <button style="width: 100% !important" class="btn btn-primary w-25" (click)="newTrasFlag = !newTrasFlag">{{newTrasFlag === false ? 'Nuova trasferta' : 'Chiudi' }}</button>
+      <hr *ngIf="newTrasFlag">
+      
+      <form (ngSubmit)="addTrasf(f)" #f="ngForm">
+        <div style="display: flex;" *ngIf="newTrasFlag">
+
+          <div style="display: flex; flex-direction: column; margin-right: 50px;">
+            <label for="part">Partenza</label>
+            <input type="text" id="part" name="part" #part [ngModel]="sededipartenza.address" readonly style="background-color: #F0F0F0"
+                  >
+          </div>
+
+          <div style="display: flex; flex-direction: column; margin-right: 50px;">
+            <label for="dest">Destinazione</label>
+            <input type="text" name="dest" id="dest" #dest [ngModel]="">
+          </div>
+
+          <div style="margin-top: 25px;">
+            <button  type="submit" style="background: transparent; border: none !important; font-size:0;">
+              <i class="fa fa-plus"  style="font-size:24px; cursor: pointer;"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+    <hr *ngIf="newTrasFlag">
   </div>
   <div class="d-flex justify-content-between" mat-dialog-actions style="margin-top: 20px;">
     <button class="btn btn-primary w-25" (click)="closeModal()">Chiudi</button>

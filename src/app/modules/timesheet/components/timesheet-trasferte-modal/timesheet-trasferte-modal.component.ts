@@ -29,6 +29,8 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   avanzoRimborso = '0';
   quotaAvanzo = '0';
 
+  newTrasFlag : Boolean = false;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<TimesheetTrasferteModalComponent>,
@@ -179,5 +181,20 @@ export class TimesheetTrasferteModalComponent implements OnInit {
 
   buttonVisibilityControlByStatus(){
 
+  }
+
+  deleteTrasferta(toDelete){
+    //console.log("trasferteList Before:" , this.trasferteList)
+    //console.log("trasferteListTemp Before:" , this.trasferteListTemp)
+    
+    this.trasferteListTemp = this.trasferteListTemp.filter(res => res !== toDelete);
+    this.trasferteList = this.trasferteList.filter(res => res !== toDelete)
+    
+    //console.log("trasferteList After:" , this.trasferteList)
+    //console.log("trasferteListTemp After:" , this.trasferteListTemp)
+  }
+
+  addTrasf(trasferta){
+    console.log(trasferta.value);
   }
 }
