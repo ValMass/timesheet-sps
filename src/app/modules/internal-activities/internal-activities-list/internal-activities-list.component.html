@@ -1,1 +1,43 @@
-<p>internal-activities-list works!</p>
+<div class="card margin-card ">
+    <table class="table table-striped no-margin">
+    <thead>
+      <tr>
+        <th scope="col">Nome attività</th>
+        <th scope="col">Sede riferimento</th>
+        <th scope="col">Data inizio</th>
+        <th scope="col">Data fine</th>
+        <th scope="col">&nbsp;</th>
+        <th scope="col">&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let InternalActivity of InternalActivities; 
+                trackBy: trackById; let i = index"  
+           role="presentation">
+       <td></td>
+       <td></td>
+       <td></td>
+       <td></td>
+       <td>
+        <app-button-footer
+            class="card-footer-item"
+            [className]="'delete-item'"
+            [iconClasses]="'fas fa-trash mr-3'"
+            (clicked)="deleteInternalActivity($event)"
+            label="Elimina"
+            [item]="InternalActivity"
+        ></app-button-footer>
+        <td>
+        <app-button-footer
+              class="card-footer-item"
+              [className]="'edit-item'"
+              [iconClasses]="'fas fa-edit mr-3'"
+              (clicked)="selectInternalActivity($event)"
+              label="Modifica"
+              [item]="InternalActivity"
+        ></app-button-footer>
+       </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

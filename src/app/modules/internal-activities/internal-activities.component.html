@@ -1,2 +1,28 @@
-<p>internal-activities works!</p>
-<app-internal-activities-list></app-internal-activities-list>
+<div class="tab-user container">
+    <list-header 
+        title="Aggiungi attività" 
+        (add)="enableAddMode()" 
+        [selected]="selected" 
+        *ngIf="showButton">
+    </list-header>
+    
+    <app-internal-activities-list 
+        class="table table-striped"
+        [InternalActivities] = "InternalActivities"
+        *ngIf="!selected "
+        (selected)="select($event)"
+        (deleted)="askToDelete($event)"
+        (showButton)="changeShowButton($event)">
+    </app-internal-activities-list>
+
+    <app-internal-activities-detail>
+    </app-internal-activities-detail>
+
+    <app-modal 
+        class="modal-customer" 
+        [message]="message" 
+        [isOpen]="showModal" 
+        (handleNo)="closeModal()"
+        (handleYes)="deleteOffice()">
+    </app-modal>
+</div>

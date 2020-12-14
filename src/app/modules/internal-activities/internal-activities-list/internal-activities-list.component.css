@@ -1,0 +1,8 @@
+@media(max-width:700px) {
+    .card {
+        overflow-inline: scroll;
+        }
+    }
+.table>tbody>tr>td {
+        vertical-align: middle;
+    }
