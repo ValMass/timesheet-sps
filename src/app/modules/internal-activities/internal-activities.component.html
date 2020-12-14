@@ -8,7 +8,7 @@
     
     <app-internal-activities-list 
         class="table table-striped"
-        [InternalActivities] = "InternalActivities"
+        [internalActivities] = "internalActivities"
         *ngIf="!selected "
         (selected)="select($event)"
         (deleted)="askToDelete($event)"

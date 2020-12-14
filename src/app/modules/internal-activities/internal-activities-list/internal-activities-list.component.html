@@ -11,13 +11,13 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let InternalActivity of InternalActivities; 
+      <tr *ngFor="let internalActivity of internalActivities; 
                 trackBy: trackById; let i = index"  
            role="presentation">
-       <td></td>
-       <td></td>
-       <td></td>
-       <td></td>
+       <td>{{internalActivity.inat.name}}</td>
+       <td>SPS - {{internalActivity.offi.address}}, {{internalActivity.offi.city}}</td>
+       <td>{{internalActivity.inat.startdate | date:'shortDate'}}</td>
+       <td>{{internalActivity.inat.enddate | date:'shortDate'}}</td>
        <td>
         <app-button-footer
             class="card-footer-item"
@@ -25,7 +25,7 @@
             [iconClasses]="'fas fa-trash mr-3'"
             (clicked)="deleteInternalActivity($event)"
             label="Elimina"
-            [item]="InternalActivity"
+            [item]="internalActivity"
         ></app-button-footer>
         <td>
         <app-button-footer
@@ -34,7 +34,7 @@
               [iconClasses]="'fas fa-edit mr-3'"
               (clicked)="selectInternalActivity($event)"
               label="Modifica"
-              [item]="InternalActivity"
+              [item]="internalActivity"
         ></app-button-footer>
        </td>
       </tr>
