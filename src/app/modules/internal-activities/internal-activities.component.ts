@@ -25,6 +25,7 @@ export class InternalActivitiesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.addActivity();
     this.getActivities();
   }
 
@@ -71,13 +72,13 @@ export class InternalActivitiesComponent implements OnInit {
   
   //FIXME
   addActivity() {
-    /*let data1 = new Date();
+    let data1 = new Date();
     let data2 = new Date();
     this.InternalActivityService.createInternalActivities("1", "ciccio", data1, data2, 1).subscribe(
       res => {
         console.log("create", res);
       }
-    );*/
+    );
   }
 
   //TODO
