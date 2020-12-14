@@ -12,7 +12,7 @@ export class InternalActivitiesComponent implements OnInit {
 
   internalActivitiesList: InternalActivity[];
   selected: InternalActivity = undefined;
-  InternalActivity: InternalActivity;
+  InternalActivities: InternalActivity[];
   InternalActivityToDelete: InternalActivity
   showModal = false;
   message: string = '';
@@ -56,7 +56,7 @@ export class InternalActivitiesComponent implements OnInit {
     this.InternalActivityToDelete = InternalActivity;
     this.showModal = true;
     if (this.InternalActivityToDelete.id) {
-      this.message = `Would you like to delete customer with id:${this.InternalActivity.id}?`;
+      this.message = `Would you like to delete customer with id:${this.InternalActivityToDelete.id}?`;
     }
   }
 
