@@ -1,5 +1,5 @@
 import { NgForm } from "@angular/forms";
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, Inject, OnInit, ViewChild } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { TimesheethttpService } from "../../services/timesheethttp.service";
 import { Timesheet } from "../../model/timesheet";
@@ -209,9 +209,30 @@ export class TimesheetTrasferteModalComponent implements OnInit {
     }
   }
 
+
   addTrasf(trasferta){
     //console.log("dest" , trasferta.value.selectDest);
     this.trasferteListTemp.push(trasferta.value.selectDest);
     this.trasferteList.push(trasferta.value.selectDest);
+
+    this.aggiungi()
+  }
+
+  aggiungi(){
+    console.log(this.data.timesheet.id);
+    console.log(this.acivalue);
+    console.log(this.diariavalue);
+    console.log(this.trasferteListTemp);
+
+    this.timesheetService.addTrasferta(
+      this.data.timesheet.id,
+      this.acivalue,
+      this.diariavalue,
+      this.trasferteListTemp
+    ).subscribe(
+      res => {
+        console.log(res);
+      }
+    );
   }
 }
