@@ -186,14 +186,24 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   deleteTrasferta(toDelete){
     //console.log("trasferteList Before:" , this.trasferteList)
     //console.log("trasferteListTemp Before:" , this.trasferteListTemp)
-    
+
     this.trasferteListTemp = this.trasferteListTemp.filter(res => res !== toDelete);
     this.trasferteList = this.trasferteList.filter(res => res !== toDelete)
-    
+
     //console.log("trasferteList After:" , this.trasferteList)
     //console.log("trasferteListTemp After:" , this.trasferteListTemp)
   }
 
+  openAddTrasferta(){
+    this.newTrasFlag = !this.newTrasFlag;
+    if(this.newTrasFlag){
+      this.timesheetService.getPossibleDestination(this.currentTimesheet.id).subscribe(
+        res => {
+          console.log(res);
+        }
+      );
+    }
+  }
   addTrasf(trasferta){
     console.log(trasferta.value);
   }

@@ -183,4 +183,18 @@ export class TimesheethttpService implements Resolve<any> {
     );
   }
 
+  getPossibleDestination( timesheetId ){
+    const url = environment.apiUrl + 'timesheets/getPossibleDestination.php';
+    return this.http.post<any>(url, { timesheetId }).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+        return of(something);
+      } else {
+        return EMPTY;
+      }
+    })
+    );
+  }
+
 }

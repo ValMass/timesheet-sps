@@ -104,9 +104,9 @@
       </table>
     </div>
     <div>
-      <button style="width: 100% !important" class="btn btn-primary w-25" (click)="newTrasFlag = !newTrasFlag">{{newTrasFlag === false ? 'Nuova trasferta' : 'Chiudi' }}</button>
+      <button style="width: 100% !important" class="btn btn-primary w-25" (click)="openAddTrasferta()">{{newTrasFlag === false ? 'Nuova trasferta' : 'Chiudi' }}</button>
       <hr *ngIf="newTrasFlag">
-      
+
       <form (ngSubmit)="addTrasf(f)" #f="ngForm">
         <div style="display: flex;" *ngIf="newTrasFlag">
 
