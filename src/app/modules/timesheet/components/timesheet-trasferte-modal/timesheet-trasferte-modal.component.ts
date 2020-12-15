@@ -163,7 +163,6 @@ export class TimesheetTrasferteModalComponent implements OnInit {
         rimborsotrasferte: this.rimborsoproposto,
         rimborsotarget: this.rimborsodovuto});
     }
-
   }
 
   trackById(index: number, user: any): number {
@@ -186,14 +185,12 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   }
 
   deleteTrasferta(toDelete){
-    //console.log("trasferteList Before:" , this.trasferteList)
-    //console.log("trasferteListTemp Before:" , this.trasferteListTemp)
-
-    this.trasferteListTemp = this.trasferteListTemp.filter(res => res !== toDelete);
-    this.trasferteList = this.trasferteList.filter(res => res !== toDelete)
-
-    //console.log("trasferteList After:" , this.trasferteList)
-    //console.log("trasferteListTemp After:" , this.trasferteListTemp)
+    if(toDelete){
+      console.log(this.trasferteListTemp)
+      this.trasferteListTemp = this.trasferteListTemp.filter(res => res !== toDelete);
+      this.changed = true;
+      this.trasferteListchanged = this.trasferteListTemp;
+    }
   }
 
   openAddTrasferta(){
@@ -213,7 +210,14 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   addTrasf(trasferta){
     //console.log("dest" , trasferta.value.selectDest);
     this.trasferteListTemp.push(trasferta.value.selectDest);
-    this.trasferteList.push(trasferta.value.selectDest);
+    this.trasferteListTemp.map((x) => {
+      x["calcoli"] = this.calcolaPesoTrasferte(
+        x.matr.distance,
+        this.acivalue,
+        this.diariavalue,
+    )});
+    //console.log("dest" , trasferta.value.selectDest);
+    this.changed = true;
 
     this.aggiungi()
   }
@@ -232,6 +236,10 @@ export class TimesheetTrasferteModalComponent implements OnInit {
     ).subscribe(
       res => {
         console.log(res);
+        this.rimborsoproposto = res.data.rimborso;
+        console.log( "rimborso ", this.rimborsoproposto);
+        this.trasferteListchanged = res.data.trasferte;
+        this.trasferteListTemp = res.data.trasferte;
       }
     );
   }
