@@ -1,1 +1,18 @@
-<p>internal-activities-detail works!</p>
+<div class="card margin-card">
+    <header class="card-header">
+      <p class="card-header-title">
+        {{editingInternalActivity.id}}
+        &nbsp;
+      </p>
+    </header>
+    <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && onSubmit()" novalidate>
+    <div>
+        <footer class="card-footer ">
+          <app-button-footer class="card-footer-item" [className]="'cancel-button'" [iconClasses]="'fas fa-undo mr-2'"
+            (clicked)="clear()" label="Annulla" [item]="editingInternalActivity"></app-button-footer>
+          <app-button-footer class="card-footer-item" [className]="'save-button'" [iconClasses]="'fas fa-save mr-2'"
+            label="Salva" [item]="editingInternalActivity"></app-button-footer>
+        </footer>
+      </div>
+    </form>
+    </div>

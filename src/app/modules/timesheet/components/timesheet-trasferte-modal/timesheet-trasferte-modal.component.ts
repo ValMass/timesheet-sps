@@ -189,7 +189,7 @@ export class TimesheetTrasferteModalComponent implements OnInit {
       console.log(this.trasferteListTemp)
       this.trasferteListTemp = this.trasferteListTemp.filter(res => res !== toDelete);
       this.changed = true;
-      this.trasferteListchanged = this.trasferteListTemp;
+      this.ricalcoloRimborso();
     }
   }
 
@@ -219,15 +219,10 @@ export class TimesheetTrasferteModalComponent implements OnInit {
     //console.log("dest" , trasferta.value.selectDest);
     this.changed = true;
 
-    this.aggiungi()
+    this.ricalcoloRimborso();
   }
 
-  aggiungi(){
-    console.log(this.data.timesheet.id);
-    console.log(this.acivalue);
-    console.log(this.diariavalue);
-    console.log(this.trasferteListTemp);
-
+  ricalcoloRimborso(){
     this.timesheetService.addTrasferta(
       this.data.timesheet.id,
       this.acivalue,
@@ -236,10 +231,9 @@ export class TimesheetTrasferteModalComponent implements OnInit {
     ).subscribe(
       res => {
         console.log(res);
-        this.rimborsoproposto = res.data.rimborso;
+        this.rimborsoproposto =  (Number(res.data.rimborso)).toFixed(2);
         console.log( "rimborso ", this.rimborsoproposto);
         this.trasferteListchanged = res.data.trasferte;
-        this.trasferteListTemp = res.data.trasferte;
       }
     );
   }

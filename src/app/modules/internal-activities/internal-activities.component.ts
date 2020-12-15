@@ -72,6 +72,16 @@ export class InternalActivitiesComponent implements OnInit {
   deleteActivity() {
 
   }
+
+  save(internalActivity: InternalActivity) {
+    console.log(internalActivity);
+
+    if (this.selected && this.selected.id) {
+      //this.update(office, this.selected);
+    } else {
+      //this.addOffice(office);
+    }
+  }
   
   //FIXME
   addActivity() {

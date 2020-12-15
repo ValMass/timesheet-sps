@@ -15,7 +15,13 @@
         (showButton)="changeShowButton($event)">
     </app-internal-activities-list>
 
-    <app-internal-activities-detail>
+    <app-internal-activities-detail
+        *ngIf="selected"
+        [internalActivity]="selected"
+        (unselect)="clear()"
+        (save)="save($event)"
+        (showButton)="changeShowButton($event)"
+    >
     </app-internal-activities-detail>
 
     <app-modal 
