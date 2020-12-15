@@ -7,7 +7,7 @@ import { InternalActivity } from '../model/internal-activities';
   styleUrls: ['./internal-activities-list.component.css']
 })
 export class InternalActivitiesListComponent implements OnInit {
-  @Input() InternalActivities: InternalActivity[];
+  @Input() internalActivities: InternalActivity[];
   @Output() deleted = new EventEmitter<InternalActivity>();
   @Output() selected = new EventEmitter<InternalActivity>();
   @Output() associate = new EventEmitter<InternalActivity>();
@@ -20,24 +20,25 @@ export class InternalActivitiesListComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  selectInternalActivity(InternalActivity: InternalActivity) {
+  selectInternalActivity(internalActivity: InternalActivity) {
     this.showButton.emit(false);
-    this.selected.emit(InternalActivity);
+    this.selected.emit(internalActivity);
   }
 
-  deleteInternalActivity(InternalActivity: InternalActivity) {
+  deleteInternalActivity(internalActivity: InternalActivity) {
     //console.log('emit');
 
-    this.deleted.emit(InternalActivity);
+    this.deleted.emit(internalActivity);
   }
 
-  chooseInternalActivity(InternalActivity: InternalActivity) {
+  chooseInternalActivity(internalActivity: InternalActivity) {
     //here you should pass office down
     //console.log('associate InternalActivity');
-    this.associate.emit(InternalActivity);
+    this.associate.emit(internalActivity);
   }
 
-  trackById(index: number, InternalActivity: InternalActivity): number {
-    return InternalActivity.id;
+  trackById(index: number, internalActivity: InternalActivity): number {
+    return internalActivity.id;
   }
+  
 }

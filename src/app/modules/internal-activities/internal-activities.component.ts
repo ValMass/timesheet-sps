@@ -12,8 +12,8 @@ export class InternalActivitiesComponent implements OnInit {
 
   internalActivitiesList: InternalActivity[];
   selected: InternalActivity = undefined;
-  InternalActivities: InternalActivity[];
-  InternalActivityToDelete: InternalActivity
+  internalActivities: InternalActivity[];
+  internalActivityToDelete: InternalActivity
   showModal = false;
   message: string = '';
   addMode: boolean = false;
@@ -21,11 +21,11 @@ export class InternalActivitiesComponent implements OnInit {
   showButton: boolean = true;
 
   constructor(
-    private InternalActivityService: InternalActivitiesService
+    private internalActivityService: InternalActivitiesService
   ) { }
 
   ngOnInit(): void {
-    this.addActivity();
+    //this.addActivity();
     this.getActivities();
   }
 
@@ -49,15 +49,18 @@ export class InternalActivitiesComponent implements OnInit {
 
   //FIXME
   getActivities() {
-    this.InternalActivityService.getInternalActivitiesList("1").subscribe(
-      res => console.log("GET", res));
+    this.internalActivityService.getInternalActivitiesList("1").subscribe(
+      res => { 
+        this.internalActivities = res["data"];
+        console.log("GET", res);
+      });
   }
 
   askToDelete(InternalActivity: InternalActivity) {
-    this.InternalActivityToDelete = InternalActivity;
+    this.internalActivityToDelete = InternalActivity;
     this.showModal = true;
-    if (this.InternalActivityToDelete.id) {
-      this.message = `Would you like to delete customer with id:${this.InternalActivityToDelete.id}?`;
+    if (this.internalActivityToDelete.id) {
+      this.message = `Would you like to delete customer with id:${this.internalActivityToDelete.id}?`;
     }
   }
 
@@ -74,7 +77,7 @@ export class InternalActivitiesComponent implements OnInit {
   addActivity() {
     let data1 = new Date();
     let data2 = new Date();
-    this.InternalActivityService.createInternalActivities("1", "ciccio", data1, data2, 1).subscribe(
+    this.internalActivityService.createInternalActivities("1", "ciccio", data1, data2, 1).subscribe(
       res => {
         console.log("create", res);
       }
