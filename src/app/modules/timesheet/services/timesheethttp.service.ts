@@ -196,5 +196,18 @@ export class TimesheethttpService implements Resolve<any> {
     })
     );
   }
-
+  
+  addTrasferta( timesheetId, aciValue, diaria, destination ){
+    const url = environment.apiUrl + 'timesheets/getPossibleDestination.php';
+    return this.http.post<any>(url, { timesheetId, aciValue, diaria, destination  }).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+        return of(something);
+      } else {
+        return EMPTY;
+      }
+    })
+    );
+  }
 }
