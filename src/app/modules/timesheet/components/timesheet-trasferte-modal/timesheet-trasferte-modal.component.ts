@@ -31,6 +31,8 @@ export class TimesheetTrasferteModalComponent implements OnInit {
 
   newTrasFlag : Boolean = false;
 
+  destinations :any;
+  selectDest : any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<TimesheetTrasferteModalComponent>,
@@ -171,9 +173,9 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   calcolaPesoTrasferte(distanza, acivalue, diaria) {
     const kanderit = distanza * 2;
     const extras = kanderit * acivalue;
-    console.log("euro x trasf : ", extras);
+    //console.log("euro x trasf : ", extras);
     const tot = extras * 1 + diaria * 1;
-    console.log("tot : ", tot);
+    //console.log("tot : ", tot);
 
     //arrotondo alla seconda cifra decimale
     return tot.toFixed(2);
@@ -199,12 +201,17 @@ export class TimesheetTrasferteModalComponent implements OnInit {
     if(this.newTrasFlag){
       this.timesheetService.getPossibleDestination(this.currentTimesheet.id).subscribe(
         res => {
-          console.log(res);
+          //console.log(res);
+          this.destinations = res["data"];
+          //console.log(this.destinations);
         }
       );
     }
   }
+
   addTrasf(trasferta){
-    console.log(trasferta.value);
+    //console.log("dest" , trasferta.value.selectDest);
+    this.trasferteListTemp.push(trasferta.value.selectDest);
+    this.trasferteList.push(trasferta.value.selectDest);
   }
 }
