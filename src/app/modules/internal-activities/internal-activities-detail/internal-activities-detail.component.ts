@@ -1,3 +1,6 @@
+import { FormControl } from '@angular/forms';
+import { Office } from './../../offices/models/office';
+import { InternalActivitiesService } from './../services/internal-activities.service';
 import { InternalActivity } from './../model/internal-activities';
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
 
@@ -18,13 +21,17 @@ export class InternalActivitiesDetailComponent implements OnInit, OnChanges {
   submitted:boolean;
   addMode = false;
   editingInternalActivity: InternalActivity;
-
-  constructor() { 
+  sedi: Office[];
+  startdate : any;
+  enddate : any;
+  
+  constructor(private internalActivityService: InternalActivitiesService) { 
     
   }
 
   ngOnInit(): void {
-    console.log(this.internalActivity)
+    this.getSedi();
+    this.setDates();
   }
 
   ngOnChanges() {
@@ -32,15 +39,13 @@ export class InternalActivitiesDetailComponent implements OnInit, OnChanges {
       this.editingInternalActivity = { ...this.internalActivity };
       this.addMode = false;
     } else {
-      this.editingInternalActivity = { id: undefined, nomeattivita: '', startDate: '', endDate: '' };
+      this.editingInternalActivity = { id: undefined, name: '', startdate: '', enddate: '' };
       this.addMode = true;
     }
   }
 
   onSubmit() {
-    console.log('ok');
     this.submitted = true;
-    console.log(this.editingInternalActivity);
     this.save.emit(this.editingInternalActivity);
     this.clear();
   };
@@ -50,4 +55,29 @@ export class InternalActivitiesDetailComponent implements OnInit, OnChanges {
     this.unselect.emit();
   }
 
+  getSedi(){
+    this.internalActivityService.getAllOffices().subscribe(data => {
+       this.sedi = data['data'];
+    });
+  }
+
+  setDatestart(data){
+    this.editingInternalActivity.startdate = data.value;
+  }
+
+  setDateend(data){
+    this.editingInternalActivity.enddate = data.value;
+  }
+
+  setDates(){
+    if(this.internalActivity != undefined){
+      this.startdate = new FormControl(this.editingInternalActivity.startdate);
+      this.enddate = new FormControl(this.editingInternalActivity.enddate);  
+    }else{
+      this.startdate = new FormControl(new Date());
+      this.enddate = new FormControl(new Date());
+      this.editingInternalActivity.startdate = this.startdate.value;
+      this.editingInternalActivity.enddate = this.enddate.value;
+    }
+  }
 }

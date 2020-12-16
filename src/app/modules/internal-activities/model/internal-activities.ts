@@ -1,8 +1,9 @@
 
 export class InternalActivity {
   id?: number;
-  nomeattivita?:string;
+  name?:string;
   officesid?:string;
-  startDate?;
-  endDate?;
+  startdate?;
+  enddate?;
+  referente? : number;
 }

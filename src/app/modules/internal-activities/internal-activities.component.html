@@ -17,7 +17,7 @@
 
     <app-internal-activities-detail
         *ngIf="selected"
-        [internalActivity]="selected"
+        [internalActivity]="selected.inat"
         (unselect)="clear()"
         (save)="save($event)"
         (showButton)="changeShowButton($event)"

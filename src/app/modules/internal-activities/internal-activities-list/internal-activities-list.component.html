@@ -16,8 +16,8 @@
            role="presentation">
        <td>{{internalActivity.inat.name}}</td>
        <td>SPS - {{internalActivity.offi.address}}, {{internalActivity.offi.city}}</td>
-       <td>{{internalActivity.inat.startdate | date:'shortDate'}}</td>
-       <td>{{internalActivity.inat.enddate | date:'shortDate'}}</td>
+       <td>{{internalActivity.inat.startdate | date:'d/M/yy'}}</td>
+       <td>{{internalActivity.inat.enddate | date:'d/M/yy'}}</td>
        <td>
         <app-button-footer
             class="card-footer-item"

@@ -5,4 +5,12 @@
     border-left: 2px;
     border-right: 2px;
 }
-  
+
+.error-select{
+    border-color: #dc3545;
+}
+
+.invalid-select {
+    font-size: 80%;
+    color: #dc3545;
+}
