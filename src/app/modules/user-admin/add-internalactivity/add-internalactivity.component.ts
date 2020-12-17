@@ -10,7 +10,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 export class AddInternalactivityComponent implements OnInit {
   public internalActivitiesList : any[] = [];
   public submitted = false;
-
+  public internalAct: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef <AddInternalactivityComponent>,
@@ -19,7 +19,6 @@ export class AddInternalactivityComponent implements OnInit {
 
   ngOnInit(): void {
     this.internalActivitiesList = this.data.internalActivitiesList;
-    console.log("dataListinternal" ,this.internalActivitiesList)
   }
 
   submit(f){
