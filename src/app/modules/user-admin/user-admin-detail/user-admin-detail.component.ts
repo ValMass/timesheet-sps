@@ -1,3 +1,4 @@
+import { AddInternalactivityComponent } from './../add-internalactivity/add-internalactivity.component';
 import { InternalactivityService } from './../services/internalactivity.service';
 import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit } from '@angular/core';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
@@ -31,7 +32,9 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   officesList: any[]; // Offices[]
   customersList: any[]; // Customer[]
   activityList: any[]; // activities
-  internalActivityList: any[]; // activities
+  internalActivitiesList: any[];
+  internalActivitiesAssigned: any[]; // activities
+  
 
   userForm: FormGroup;
   anagForm: FormGroup;
@@ -82,9 +85,11 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.contractForm = this.createContractForm();
     this.activityForm = this.createActivityForm();
 
-    this.getActivityList();
     this.getInternalActivities();
 
+    this.getActivityList();
+    this.getInternalActivitiesAssigned();
+    
     this.customerService.listAllCustomer()
       .subscribe(result => {
         if (result.status === 'done') {
@@ -415,11 +420,17 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   }
 
   getInternalActivities(){
+    this.internalActivityService.getInternalActivitiesList("1").subscribe(
+      res => this.internalActivitiesList = res["data"] 
+    );
+  }
+
+  getInternalActivitiesAssigned(){
     this.internalActivityService.getInternalActivities(this.userAdmin.id)
       .subscribe(result => {
         if (result.status === 'done') {
           console.log("result.data" , result.data)
-          this.internalActivityList = result.data;
+          this.internalActivitiesAssigned = result.data;
         } else {
           this.toastrService.warning("Nessuna attività associata all\'utente");
         }
@@ -427,11 +438,37 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   }
 
   assignInternalActivity(){
-
+    const dialogRef = this.dialog.open(AddInternalactivityComponent, {
+      width: '600px',
+      panelClass: ['custom-dialog-container'],
+      data: {
+        userid: this.userAdmin.id,
+        internalActivitiesList: this.internalActivitiesList,
+      }
+    });
+    dialogRef.addPanelClass(['custom-dialog-container']);
+    dialogRef.afterClosed().subscribe(res => {
+      console.log("resAssignInternalActivity" , res["data"].internalAct);
+      let internalActToadd =  res["data"].internalAct;
+      if (res) {
+        this.internalActivityService.assignInternalActivity(internalActToadd.inat.id , this.userAdmin.id)
+          .subscribe(result => {
+            if (result.status === 'done') {
+              this.toastrService.success('Attività aggiunta correttamente');
+              this.getInternalActivitiesAssigned();
+            } else {
+              this.toastrService.error('Errore nel salvare l\'attività: ' + result.message);
+            }
+          });
+      }
+    });
   }
 
-  removeInternalActivity(){
-    
+  removeInternalActivity(internalActivity){
+    console.log( "internalActivity", internalActivity)
+    this.internalActivityService.removeInternalActivity(internalActivity.rela.internalactivitiesid , internalActivity.rela.userid ).subscribe(
+      res => console.log(res)
+    )
   }
 
   //mostro o nascondo la password a seconda dei casi

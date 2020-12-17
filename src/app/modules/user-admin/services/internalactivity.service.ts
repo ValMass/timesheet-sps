@@ -14,12 +14,18 @@ export class InternalactivityService {
     return this.http.post<any>(url, { userid });
   }
 
-  assignInternalActivity(internalActivityId){
+  assignInternalActivity(internalactivityid , userid){
     const url = environment.apiUrl + 'internalActivities/assignInternalActivityToUser.php';
-    return this.http.post<any>(url, {internalActivityId});
+    return this.http.post<any>(url, { userid , internalactivityid });
   }
 
-  removeInternalActivity(userid){
-    const url = environment.apiUrl + '';
+  removeInternalActivity(internalactivitiesid , userid){
+    const url = environment.apiUrl + 'internalActivities/deassignInternalActivitiesToUser.php';
+    return this.http.post<any>(url, {internalactivitiesid , userid});
+  }
+
+  getInternalActivitiesList(id){
+    const url = environment.apiUrl + '/internalActivities/listInternalActivitiesAndOffice.php';
+    return this.http.post(url, id);
   }
 }

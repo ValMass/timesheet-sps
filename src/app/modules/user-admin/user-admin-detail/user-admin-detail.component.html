@@ -353,7 +353,7 @@
     <button class="btn btn-primary btn-block mt-3" (click)="openAddActivityDialog()">Aggiungi attività</button>
     <hr>
 
-    <label for="interne">Assegna Attivita interne</label>
+    <label style="font-weight: normal !important;" for="interne">Assegna Attivita interne</label>
     <table class="table table-striped no-margin">
       <thead>
         <tr>
@@ -365,19 +365,19 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+        <tr *ngFor="let internalActivityAssigned of internalActivitiesAssigned; let i = index"  role="presentation">
+          <td>{{internalActivityAssigned.inat.name}}</td>
+          <td>{{internalActivityAssigned.offi.address}}, {{internalActivityAssigned.offi.city}}</td>
+          <td>{{internalActivityAssigned.inat.startdate | date:'d/M/yy' }}</td>
+          <td>{{internalActivityAssigned.inat.enddate | date:'d/M/yy'}}</td>
           <td>
             <span style="width: 20px; height: 20px; display: block; cursor: pointer;"
-              class="card-footer-item fas fa-trash mr-2" ></span>
+              class="card-footer-item fas fa-trash mr-2" (click)="removeInternalActivity(internalActivityAssigned)" ></span>
           </td>
         </tr>
       </tbody>
     </table>
-    <button class="btn btn-primary btn-block mt-3" >Aggiungi attività interna</button>
+    <button class="btn btn-primary btn-block mt-3" (click)="assignInternalActivity()" >Aggiungi attività interna</button>
   </mat-expansion-panel>
 </mat-accordion>
 <footer class="card-footer">
