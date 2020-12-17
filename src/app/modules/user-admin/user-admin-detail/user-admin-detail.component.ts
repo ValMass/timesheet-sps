@@ -1,3 +1,4 @@
+import { InternalactivityService } from './../services/internalactivity.service';
 import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit } from '@angular/core';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
 import { AnagraphicService } from '../services/anagraphic.service';
@@ -30,6 +31,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   officesList: any[]; // Offices[]
   customersList: any[]; // Customer[]
   activityList: any[]; // activities
+  internalActivityList: any[]; // activities
 
   userForm: FormGroup;
   anagForm: FormGroup;
@@ -70,6 +72,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     private economicService: EconomicService,
     public dialog: MatDialog,
     private fb: FormBuilder,
+    private internalActivityService : InternalactivityService
   ) { }
 
   ngOnInit(): void {
@@ -80,6 +83,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.activityForm = this.createActivityForm();
 
     this.getActivityList();
+    this.getInternalActivities();
 
     this.customerService.listAllCustomer()
       .subscribe(result => {
@@ -408,6 +412,26 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
           });
       }
     });
+  }
+
+  getInternalActivities(){
+    this.internalActivityService.getInternalActivities(this.userAdmin.id)
+      .subscribe(result => {
+        if (result.status === 'done') {
+          console.log("result.data" , result.data)
+          this.internalActivityList = result.data;
+        } else {
+          this.toastrService.warning("Nessuna attività associata all\'utente");
+        }
+      });
+  }
+
+  assignInternalActivity(){
+
+  }
+
+  removeInternalActivity(){
+    
   }
 
   //mostro o nascondo la password a seconda dei casi
