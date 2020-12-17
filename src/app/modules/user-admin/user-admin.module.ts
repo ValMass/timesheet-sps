@@ -12,6 +12,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { AddActivityComponent } from './add-activity/add-activity.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AddInternalactivityComponent } from './add-internalactivity/add-internalactivity.component';
 
 
 
@@ -21,7 +22,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     UserAdminListComponent,
     UserAdminDetailComponent,
     UserAdminCreationComponent,
-    AddActivityComponent
+    AddActivityComponent,
+    AddInternalactivityComponent
   ],
   imports: [
     CommonModule,

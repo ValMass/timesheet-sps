@@ -1,3 +1,4 @@
+import { AddInternalactivityComponent } from './modules/user-admin/add-internalactivity/add-internalactivity.component';
 import { MY_DATE_FORMATS } from '@app/shared/my-date-formats';
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import {DateAdapter as DateAdapterIT , MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
@@ -98,6 +99,7 @@ import { LoaderInterceptor } from './_helper/loader.interceptor';
     AddUserDialogComponent,
     AddOfficeDialogComponent,
     AddActivityComponent,
+    AddInternalactivityComponent,
     UserAdminCreationComponent,
     AddCustomerOfficeComponent,
     TimesheetAddEventComponent,

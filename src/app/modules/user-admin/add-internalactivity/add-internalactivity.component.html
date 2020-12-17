@@ -1,0 +1,19 @@
+<div class="modal-container">
+    <form id='activityform' class="p-1" (ngSubmit)="submit(paramForm)" #paramForm="ngForm">
+        <div class="form-group row">
+            <label for="internalActList" class="col-sm-4 col-form-label">Attività interna</label>
+            <div class="col-sm-8 scrollable-box">
+                <select name="internalAct" id="internalAct" class="form-control" [(ngModel)]="internalAct"
+                    placeholder="Selezione un attività">
+                    <option *ngFor="let internal of internalActivitiesList" [ngValue]="internal">
+                        {{composeStringInternal(internal)}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between" mat-dialog-actions>
+            <button type="button" mat-button mat-dialog-close class="btn btn-secondary w-25"
+                (click)="close()">Close</button>
+            <button type="submit" class="btn btn-primary w-25">Aggiungi</button>
+        </div>
+    </form>
+</div>
