@@ -467,7 +467,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   removeInternalActivity(internalActivity){
     console.log( "internalActivity", internalActivity)
     this.internalActivityService.removeInternalActivity(internalActivity.rela.internalactivitiesid , internalActivity.rela.userid ).subscribe(
-      res => console.log(res)
+      res => this.getInternalActivitiesAssigned()
     )
   }
 
