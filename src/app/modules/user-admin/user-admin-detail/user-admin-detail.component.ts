@@ -465,10 +465,17 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   }
 
   removeInternalActivity(internalActivity){
-    console.log( "internalActivity", internalActivity)
-    this.internalActivityService.removeInternalActivity(internalActivity.rela.internalactivitiesid , internalActivity.rela.userid ).subscribe(
-      res => this.getInternalActivitiesAssigned()
-    )
+    if (confirm(`Sei sicuro di voler eliminare l'attività: ${internalActivity.inat.name}?`)) {
+      console.log( "internalActivity", internalActivity)
+      this.internalActivityService.removeInternalActivity(internalActivity.rela.internalactivitiesid , internalActivity.rela.userid ).subscribe( res =>{
+        if (res['status'] === 'done') {
+          this.toastrService.success('Attività eliminata correttamente');
+          this.getInternalActivitiesAssigned();
+        }else{
+          this.toastrService.error('Errore nell\'eliminazione dell\'attività');
+        }
+      })
+    }
   }
 
   //mostro o nascondo la password a seconda dei casi
