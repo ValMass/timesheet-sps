@@ -37,8 +37,18 @@
           <div *ngIf="piva.errors.required">Campo obbligatorio</div>
         </div>
       </div>
-      
+
+
+      <div class="form-group">
+        <label for="defaultacttype" class="cod-contratto">Tipo di arrività di default</label>
+        <select id="defaultacttype" name="defaultacttype" class="custom-select sel-text" [(ngModel)]="editingCustomer.defaultactivitytype">
+          <option value="TM">Attività Time-material</option>
+          <option value="TASK">Attività a task</option>
+          <option value="BRNM">Attività body rentall no material</option>
+        </select>
+      </div>
     </div>
+
     <div>
       <footer class="card-footer ">
         <app-button-footer class="card-footer-item" [className]="'cancel-button'" [iconClasses]="'fas fa-undo mr-2'"

@@ -22,6 +22,7 @@ export class CustomerDetailComponent implements OnChanges {
   addMode = false;
   editingCustomer: Customer;
   officeslist: any[] = [];
+  defaultType:any = "";
 
     //flag showButton
     @Output() showButton = new EventEmitter<Boolean>();

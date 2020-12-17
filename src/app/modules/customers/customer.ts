@@ -6,5 +6,5 @@ export class Customer {
     rea?: string;
     postacertificata?: string;
     referente?:string;
+    defaultactivitytype?: string;
   }
-  
