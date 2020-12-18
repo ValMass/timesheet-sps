@@ -17,4 +17,7 @@ export class Anagraphic {
   phonenumber1: string;
   phonenumber2: string;
   economicdataid: string;
+  distaccatostarttime?: string;
+  distaccatofinishtime?: string;
+  distaccatopresso?:string;
 }

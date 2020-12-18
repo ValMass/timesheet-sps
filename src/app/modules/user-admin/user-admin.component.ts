@@ -83,7 +83,10 @@ export class UserAdminComponent implements OnInit {
     tmpanag.phonenumber2 = dialogRes['phonenumber2'];
     tmpanag.sededilavoro = dialogRes['sededilavoro'];
     tmpanag.birthplace = dialogRes['birthplace'];
-    tmpanag.buonipastobool = dialogRes['buonipastobool']
+    tmpanag.buonipastobool = dialogRes['buonipastobool'];
+    tmpanag.distaccatopresso = dialogRes['distaccatopresso'];
+    tmpanag.distaccatostarttime = dialogRes['distaccatostarttime'];
+    tmpanag.distaccatofinishtime = dialogRes['distaccatofinishtime'];
     const tmpeco = new EconomicData();
     tmpeco.ral = dialogRes['ral'];
     tmpeco.pagamensile = dialogRes['pagamensile'];

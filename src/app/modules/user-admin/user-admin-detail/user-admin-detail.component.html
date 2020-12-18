@@ -379,7 +379,7 @@
     <hr>
 
     <label style="font-weight: normal !important;" for="interne">Assegna Attivita interne</label>
-    <table class="table table-striped no-margin">
+    <table class="table table-striped no-margin" *ngIf="internalActivitiesAssigned.length > 0">
       <thead>
         <tr>
           <th scope="col">Nome attivita interna</th>
@@ -402,6 +402,9 @@
         </tr>
       </tbody>
     </table>
+    <div *ngIf="internalActivitiesAssigned.length == 0">
+      <p>Non ci sono attività interne inserite per questo utente</p>
+    </div>
     <button class="btn btn-primary btn-block mt-3" (click)="assignInternalActivity()" >Aggiungi attività interna</button>
   </mat-expansion-panel>
 </mat-accordion>

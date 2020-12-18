@@ -39,6 +39,8 @@ export class UserAdminCreationComponent implements OnInit {
   public officesList: any[];
   //profileForm: FormGroup;
   datepicker: any;
+  datepickerSD : Date;
+  datepickerED : Date;
 
   //password
   psw: string = "password";
@@ -78,7 +80,7 @@ export class UserAdminCreationComponent implements OnInit {
       form.value.buonipastobool = 1;
     }
 
-    const obj = { ...form.value, 'birthdate': this.datepicker };
+    const obj = { ...form.value, 'birthdate': this.datepicker , 'distaccatostarttime' : this.datepickerSD['_d'] ,'distaccatofinishtime' : this.datepickerED['_d'] };
 
     //chiudo il modale
     this.dialogRef.close({ data: obj });

@@ -6,8 +6,9 @@
     <div class="form-group row">
       <label for="username" class="col-sm-4 col-form-label">Nome Utente</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="username" placeholder="Nome Utente" [ngModel] name="username" required
-          minlength="4" #username="ngModel" [ngClass]="{'is-invalid':profileForm.submitted && username.invalid}" />
+        <input type="text" class="form-control" id="username" placeholder="Nome Utente" [ngModel] name="username"
+          required minlength="4" #username="ngModel"
+          [ngClass]="{'is-invalid':profileForm.submitted && username.invalid}" />
         <div *ngIf="profileForm.submitted && username.invalid" class="invalid-feedback">
           <div *ngIf="profileForm.submitted && username.invalid && !username.errors.minlength">Campo obbligatorio</div>
           <div *ngIf="profileForm.submitted && username.invalid && username.errors.minlength">Lunghezza minima 4</div>
@@ -18,16 +19,17 @@
     <div class="form-group row">
       <label for="password" class="col-sm-4 col-form-label">Password</label>
       <div class="col-sm-8">
-        <input type="{{psw}}" class="form-control" id="password" placeholder="Password" [ngModel] name="password" required
-          minlength="6" #password="ngModel" [ngClass]="{'is-invalid':profileForm.submitted && password.invalid}" />
-          
+        <input type="{{psw}}" class="form-control" id="password" placeholder="Password" [ngModel] name="password"
+          required minlength="6" #password="ngModel"
+          [ngClass]="{'is-invalid':profileForm.submitted && password.invalid}" />
+
         <div *ngIf="profileForm.submitted && password.invalid" class="invalid-feedback">
           <div *ngIf="profileForm.submitted && password.invalid && !password.errors.minlength">Campo obbligatorio</div>
           <div *ngIf="profileForm.submitted && password.invalid && password.errors.minlength">Lunghezza minima 6</div>
         </div>
         <p style="display:inline; color: grey; cursor: pointer;" (click)="pswHideShow()">
-          {{psw == "password" ? 'Show' : 'Hide'}} Password 
-        </p> 
+          {{psw == "password" ? 'Show' : 'Hide'}} Password
+        </p>
       </div>
     </div>
 
@@ -117,8 +119,9 @@
     <div class="form-group row">
       <label for="address" class="col-sm-4 col-form-label">Residenza</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="address" placeholder="Luogo di Residenza" [ngModel] name="address" required
-          minlength="2" #address="ngModel" [ngClass]="{'is-invalid':profileForm.submitted && address.invalid}" />
+        <input type="text" class="form-control" id="address" placeholder="Luogo di Residenza" [ngModel] name="address"
+          required minlength="2" #address="ngModel"
+          [ngClass]="{'is-invalid':profileForm.submitted && address.invalid}" />
         <div *ngIf="profileForm.submitted && address.invalid" class="invalid-feedback">
           <div *ngIf="profileForm.submitted && address.invalid && !address.errors.minlength">Campo obbligatorio</div>
           <div *ngIf="profileForm.submitted && address.invalid && address.errors.minlength">Lunghezza minima </div>
@@ -144,15 +147,48 @@
     <div class="form-group row">
       <label for="birthplace" class="col-sm-4 col-form-label">Luogo di nascita</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" id="birthplace" placeholder="Luogo di nascita" [ngModel] name="birthplace" required
-          minlength="2" #birthplace="ngModel" [ngClass]="{'is-invalid':profileForm.submitted && birthplace.invalid}" />
-          <div *ngIf="profileForm.submitted && birthplace.invalid" class="invalid-feedback">
-            <div *ngIf="profileForm.submitted && birthplace.invalid && !birthplace.errors.minlength">Campo obbligatorio</div>
-            <div *ngIf="profileForm.submitted && birthplace.invalid && birthplace.errors.minlength">Lunghezza minima 2</div>
+        <input type="text" class="form-control" id="birthplace" placeholder="Luogo di nascita" [ngModel]
+          name="birthplace" required minlength="2" #birthplace="ngModel"
+          [ngClass]="{'is-invalid':profileForm.submitted && birthplace.invalid}" />
+        <div *ngIf="profileForm.submitted && birthplace.invalid" class="invalid-feedback">
+          <div *ngIf="profileForm.submitted && birthplace.invalid && !birthplace.errors.minlength">Campo obbligatorio
           </div>
+          <div *ngIf="profileForm.submitted && birthplace.invalid && birthplace.errors.minlength">Lunghezza minima 2
+          </div>
+        </div>
       </div>
     </div>
 
+    <div class="form-group row">
+      <label for="distaccatopresso" class="col-sm-4 col-form-label">Distaccato presso</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" id="distaccatopresso" placeholder="Distaccato presso" [ngModel]
+          name="distaccatopresso" required #distaccatopresso="ngModel">
+      </div>
+    </div>
+
+    <div *ngIf="(profileForm.form.value.distaccatopresso != '') && (profileForm.form.value.distaccatopresso != null) ">
+      <div class="form-group row">
+        <label for="distaccatostarttime" class="col-sm-4 col-form-label">Inizio distaccato</label>
+        <div class="col-sm-8">
+          <input matInput [matDatepicker]="picker1" disabled style="width: 200px" name="distaccatostarttime"
+            class="form-control" id="distaccatostarttime" [(ngModel)]="datepickerSD" #distaccatostarttime="ngModel">
+          <mat-datepicker-toggle matSuffix [for]="picker1" class="bottone-data"></mat-datepicker-toggle>
+          <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="sededilavoro" class="col-sm-4 col-form-label">Fine distaccato</label>
+        <div class="col-sm-8">
+          <input matInput [matDatepicker]="picker2" disabled style="width: 200px" name="distaccatofinishtime"
+            class="form-control" id="distaccatofinishtime" [(ngModel)]="datepickerED" #distaccatofinishtime="ngModel">
+          <mat-datepicker-toggle matSuffix [for]="picker2" class="bottone-data"></mat-datepicker-toggle>
+          <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+        </div>
+      </div>
+    </div>
+    
     <div class="form-group row">
       <label for="phonenumber1" class="col-sm-4 col-form-label">Numero di telefono</label>
       <div class="col-sm-8">
@@ -202,7 +238,7 @@
         </div>
       </div>
     </div>
-
+    
     <div class="form-group row">
       <label for="ral" class="col-sm-4 col-form-label">Buoni Pasto</label>
       <div class="col-sm-8">
