@@ -307,6 +307,9 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       phonenumber1: ['', [Validators.required]],
       phonenumber2: ['', [Validators.required]],
       address: ['', [Validators.required]],
+      distaccatofinishtime: ['', [Validators.required]],
+      distaccatopresso: ['', [Validators.required]],
+      distaccatostarttime: ['', [Validators.required]],
     });
     return anagForm;
   }
