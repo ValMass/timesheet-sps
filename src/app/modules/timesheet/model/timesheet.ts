@@ -28,7 +28,7 @@ export interface Timesheet {
   maternitydays?: string;
   weddingdays?: string;
   diaria?: string;
-  trasferte?: string;
+  trasferte?: any;
   ticket?: string;
   ticketnumber?: string;
   distaccato?: string;

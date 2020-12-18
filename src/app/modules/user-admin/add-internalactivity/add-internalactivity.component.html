@@ -1,5 +1,5 @@
 <div class="modal-container">
-    <form id='activityform' class="p-1" (ngSubmit)="submit(paramForm)" #paramForm="ngForm">
+    <form id='activityform' class="p-1" (ngSubmit)="(internalAct != null) && submit(paramForm)" #paramForm="ngForm">
         <div class="form-group row">
             <label for="internalActList" class="col-sm-4 col-form-label">Attività interna</label>
             <div class="col-sm-8 scrollable-box">

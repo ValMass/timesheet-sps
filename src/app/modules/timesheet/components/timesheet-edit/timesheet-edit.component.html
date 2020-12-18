@@ -92,7 +92,7 @@
   (handleYes)="acceptAsUser()">
 </app-modal>
 
-<app-modal class="modal-customer" [message]="confirmationMessage" [isOpen]="showAcceptAsAdmin" (handleNo)="closeConfirmationModal()"
+<app-modal class="modal-customer" [message]="confirmationMessage" [hasFooter]="alertFlag" [isOpen]="showAcceptAsAdmin" (handleNo)="closeConfirmationModal()"
   (handleYes)="acceptAsAdmin()">
 </app-modal>
 

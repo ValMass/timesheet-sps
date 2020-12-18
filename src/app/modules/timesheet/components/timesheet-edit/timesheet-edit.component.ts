@@ -119,6 +119,8 @@ export class TimesheetEditComponent implements OnInit {
   veroDisableFinally = false; // gestisce il disable
   currentUserInfo: any;
 
+  alertFlag : boolean = true;
+
   constructor(
     public dialog: MatDialog,
     private toastrService: ToastrService,
@@ -746,9 +748,16 @@ export class TimesheetEditComponent implements OnInit {
   askToAcceptAsAdmin() {
     this.showAcceptAsAdmin = true;
     console.log(this.currentTimesheet);
-    this.confirmationMessage =
+    if(this.currentTimesheet.workeddays < this.currentTimesheet.trasferte.length ){
+      this.alertFlag = false;
+      this.confirmationMessage =
+      'I giorni lavorati sono minori delle trasferte';
+    }else{
+      this.alertFlag = true;
+      this.confirmationMessage =
       'Vuoi confermare il timesheet ? Una volta accettato non sara piu possibile cambiarlo.';
-    console.log('askToAcceptAsAdmin');
+      console.log('askToAcceptAsAdmin');
+    }
   }
 
   acceptAsAdmin() {

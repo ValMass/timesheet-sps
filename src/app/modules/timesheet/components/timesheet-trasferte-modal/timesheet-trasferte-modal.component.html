@@ -118,7 +118,7 @@
 
           <div style="display: flex; flex-direction: column; margin-right: 50px;">
             <label for="dest">Destinazione</label>
-             <select name="selectDest" id="dest" class="form-control" [(ngModel)]="selectDest">
+             <select name="selectDest" id="dest" [(ngModel)]="selectDest" style="height: 26px !important;">
                 <option *ngFor="let destination of destinations" [ngValue]="destination" >{{destination.off.address != null ? destination.off.address : destination.coff.address }}</option>
              </select>
           </div>
