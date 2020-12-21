@@ -29,11 +29,9 @@ export class InternalActivitiesService {
   getInternalActivitiesList(id){
     const url = environment.apiUrl + '/internalActivities/listInternalActivitiesAndOffice.php';
     return this.http.post(url, id);
-
   }
 
   deleteInternalActivitiesList(id){
-    console.log("serviceID" , id)
     const url = environment.apiUrl + '/internalActivities/deleteInternalActivitiesById.php';
     return this.http.post(url, {id});
   }
@@ -41,6 +39,11 @@ export class InternalActivitiesService {
   getAllOffices():Observable<Office[]>{
     const url = environment.apiUrl + '/offices/listAllOffices.php';
     return this.http.get<Office[]>(url);
-
   }
+
+  listAllUserByInternalActivity(internalactivitiesid){
+    const url = environment.apiUrl + 'internalActivities/listAllUserByInternalActivity.php';
+    return this.http.post(url, {internalactivitiesid});
+  }
+
 }

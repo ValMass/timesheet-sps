@@ -27,7 +27,10 @@ export class TimesheetAddEventComponent implements OnInit {
   insertMalattia = false;
   insertNumeroOre = false;
   insertSmartWorking = true;
+  insertSede = false;
   allComplete: boolean = true;
+  internalsActivitiesList : any ;
+
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -47,12 +50,17 @@ export class TimesheetAddEventComponent implements OnInit {
       activityId: ['0', [Validators.required]],
       smartWorking: [this.isChecked(), [Validators.required]],
       customerId: ['', [Validators.required]],
+      internal:['', [Validators.required]],
+      internalName:['', [Validators.required]],
+      internalRuolo:['', [Validators.required]],
     });
 
     const check = new Set();
     this.customerList = this.data.activityList
       .map((el: Object) => el['cus'])
       .filter(item => !check.has(item['id']) && check.add(item['id']));
+
+    this.internalsActivitiesList = this.data.internalsActivitiesList;
 
     this.profileForm.get('customerId').valueChanges
       .subscribe(customerId => {
@@ -89,13 +97,12 @@ export class TimesheetAddEventComponent implements OnInit {
       const tmp = { smartWorking: 1 };
       this.profileForm.patchValue(tmp);
     }*/
-    //console.log('invalid :' + this.profileForm.invalid);
+    
     //console.log("caso 0" ,this.profileForm.value);
     // if (this.profileForm.invalid) {
 
     //  return;
     //}
-
     if ((this.profileForm.value.contractCode != null && this.profileForm.value.eventDate != null)
       && (this.profileForm.value.numeroOre > "0" || this.profileForm.value.numeroOre > 0)) {
       if (this.profileForm.value.contractCode == 'MALATT') {
@@ -158,6 +165,7 @@ export class TimesheetAddEventComponent implements OnInit {
     switch (value) {
       case 'LAVORO':
       case 'PARTIME':
+        this.insertSede = false;
         this.insertLavoro = true;
         this.insertNumeroOre = false;
         this.insertMalattia = false;
@@ -165,6 +173,7 @@ export class TimesheetAddEventComponent implements OnInit {
         break;
 
       case 'SEDE':
+        this.insertSede = true;
         this.insertLavoro = false;
         this.insertNumeroOre = true;
         this.insertMalattia = false;
@@ -179,6 +188,7 @@ export class TimesheetAddEventComponent implements OnInit {
         break;
 
       case 'MALATT':
+        this.insertSede = false;
         this.insertLavoro = false;
         this.insertNumeroOre = false;
         this.insertMalattia = true;
@@ -195,7 +205,7 @@ export class TimesheetAddEventComponent implements OnInit {
       case 'PERMESS':
       case 'MATALA':
       case 'FERIE':
-
+        this.insertSede = false;
         this.insertLavoro = false;
         this.insertNumeroOre = true;
         this.insertMalattia = false;
@@ -210,6 +220,7 @@ export class TimesheetAddEventComponent implements OnInit {
 
 
       default:
+        this.insertSede = false;
         this.insertLavoro = false;
         this.insertNumeroOre = false;
         this.insertMalattia = false;
@@ -288,5 +299,10 @@ export class TimesheetAddEventComponent implements OnInit {
       this.allComplete = true;
     }*/
     return (this.allComplete == true ? false : true);
+  }
+
+  selectedInternal($event){
+    this.profileForm.value.internalName = $event.inat.name;
+    this.profileForm.value.internalRuolo = $event.rela.ruolo;
   }
 }

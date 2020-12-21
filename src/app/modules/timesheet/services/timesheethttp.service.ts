@@ -210,4 +210,9 @@ export class TimesheethttpService implements Resolve<any> {
     })
     );
   }
+
+  getInternalActivities(userid){
+    const url = environment.apiUrl + 'internalActivities/listInternalActivitiesByUserId.php';
+    return this.http.post<any>(url, { userid });
+  }
 }

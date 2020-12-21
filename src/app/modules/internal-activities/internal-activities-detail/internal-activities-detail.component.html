@@ -53,3 +53,30 @@
     </div>
   </form>
 </div>
+
+<div class="card margin-card " *ngIf="listUser.length > 0">
+  <header class="card-header">
+    <h1 class="card-header-title">
+      Utenti assegnati a questa attività
+    </h1>
+  </header>
+  <table class="table table-striped no-margin">
+  <thead>
+    <tr>
+      <th scope="col">Utente assegnato</th>
+      <th scope="col">Ruolo</th>
+      <th scope="col">Email</th>
+      <th scope="col">Numero telefono</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of listUser"  
+         role="presentation">
+      <td>{{user.user.username}}</td>
+      <td>{{user.rela.ruolo}}</td>
+      <td>{{user.user.email}}</td>
+      <td>{{user.anag.phonenumber1}}</td>
+    </tr>
+  </tbody>
+</table>
+</div>

@@ -24,7 +24,8 @@ export class InternalActivitiesDetailComponent implements OnInit, OnChanges {
   sedi: Office[];
   startdate : any;
   enddate : any;
-  
+  listUser : any;
+
   constructor(private internalActivityService: InternalActivitiesService) { 
     
   }
@@ -32,6 +33,10 @@ export class InternalActivitiesDetailComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.getSedi();
     this.setDates();
+    
+    if(this.internalActivity.id > 0){
+      this.getUserAssignedActivity(this.internalActivity.id);
+    }
   }
 
   ngOnChanges() {
@@ -79,5 +84,11 @@ export class InternalActivitiesDetailComponent implements OnInit, OnChanges {
       this.editingInternalActivity.startdate = this.startdate.value;
       this.editingInternalActivity.enddate = this.enddate.value;
     }
+  }
+
+  getUserAssignedActivity(id){
+    this.internalActivityService.listAllUserByInternalActivity(id).subscribe( res => {
+      this.listUser  = res['data'];
+    })
   }
 }

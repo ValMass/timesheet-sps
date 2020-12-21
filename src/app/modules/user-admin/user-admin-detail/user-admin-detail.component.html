@@ -383,6 +383,7 @@
       <thead>
         <tr>
           <th scope="col">Nome attivita interna</th>
+          <th scope="col">Ruolo</th>
           <th scope="col">Sede</th>
           <th scope="col">Data inizio</th>
           <th scope="col">Data fine</th>
@@ -392,6 +393,7 @@
       <tbody>
         <tr *ngFor="let internalActivityAssigned of internalActivitiesAssigned; let i = index"  role="presentation">
           <td>{{internalActivityAssigned.inat.name}}</td>
+          <td>{{internalActivityAssigned.rela.ruolo}}</td>
           <td>{{internalActivityAssigned.offi.address}}, {{internalActivityAssigned.offi.city}}</td>
           <td>{{internalActivityAssigned.inat.startdate | date:'d/M/yy' }}</td>
           <td>{{internalActivityAssigned.inat.enddate | date:'d/M/yy'}}</td>

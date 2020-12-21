@@ -77,6 +77,7 @@ export class TimesheetEditComponent implements OnInit {
 
   // lista delle attività assegnate all utente
   assignedActivities = [];
+  assignedInternalsActivities = [];
 
   // action definite per gli eventi
   actions: CalendarEventAction[] = [
@@ -185,6 +186,18 @@ export class TimesheetEditComponent implements OnInit {
           this.assignedActivities = result.data;
           console.log(result);
           console.log(this.assignedActivities);
+        } else {
+        }
+      },
+      (error) => {}
+    );
+
+    this.timesheetService.getInternalActivities(this.currentTimesheetUserId).subscribe(
+      (result) => {
+        if (result.status === 'done') {
+          this.assignedInternalsActivities = result.data;
+          //console.log(result);
+          //console.log(this.assignedInternalsActivities);
         } else {
         }
       },
@@ -309,12 +322,14 @@ export class TimesheetEditComponent implements OnInit {
           event: eventToUpdate,
           date: eventToUpdate.start,
           activityList: this.assignedActivities,
+          internalsActivitiesList : this.assignedInternalsActivities,
           type: 'edit',
         },
       });
       dialogRef.afterClosed().subscribe((res) => {
         if (res) {
           if (res.data !== 'close') {
+            //console.log("reshandleEvent" , res)
             const event: NewCalendarEvent = {
               title: res.data.contractCode,
               start: new Date(res.data.eventDate),
@@ -326,8 +341,11 @@ export class TimesheetEditComponent implements OnInit {
               smartWorking: +res.data.smartWorking,
               contractCode: res.data.title,
               customerId: res.data.customerId,
+              internalName: res.data["internal"].internalName,
+              internalRuolo: res.data["internal"].internalRuolo,
               customerName: res.data.contractCode === 'LAVORO' ||  res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
             };
+            //console.log("event" , event)
             const targetEvent = this.events.findIndex(item => item.start === res.data.eventDate);
             this.events[targetEvent] = event;
             this.events = [...this.events];
@@ -369,9 +387,11 @@ export class TimesheetEditComponent implements OnInit {
           date: this.viewDate,
           eventsList: this.events,
           activityList: this.assignedActivities,
+          internalsActivitiesList : this.assignedInternalsActivities,
         },
       });
       dialogRef.afterClosed().subscribe((res) => {
+        //console.log("resopenAddEventDialog" , res)
         if (res.data !== 'close') {
           const event: NewCalendarEvent = {
             title: res.data.contractCode,
@@ -384,11 +404,13 @@ export class TimesheetEditComponent implements OnInit {
             customerId: res.data.customerId,
             smartWorking: +res.data.smartWorking,
             contractCode: res.data.contractCode,
+            internalName: res.data.internalName,
+            internalRuolo: res.data.internalRuolo,
             customerName: res.data.contractCode === 'LAVORO' ||  res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
             cssClass:'macchinina',
             draggable: true,
           };
-
+          //console.log("event" , event)
           this.events = [...this.events, event];
           this.toastrService.success('Evento aggiunto temporaneamente. Salvare il timesheet per applicare le modifiche');
         } else {
@@ -476,6 +498,8 @@ export class TimesheetEditComponent implements OnInit {
         smartWorking: +element.smartWorking,
         ticketnumber: element.ticketnumber,
         customerName: element.customerName,
+        internalName: element.internalName,
+        internalRuolo: element.internalRuolo,
         cssClass:'macchinina',
         draggable: true,
       };

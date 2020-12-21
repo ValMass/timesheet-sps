@@ -14,9 +14,9 @@ export class InternalactivityService {
     return this.http.post<any>(url, { userid });
   }
 
-  assignInternalActivity(internalactivityid , userid){
+  assignInternalActivity(internalactivityid , userid , ruolo){
     const url = environment.apiUrl + 'internalActivities/assignInternalActivityToUser.php';
-    return this.http.post<any>(url, { userid , internalactivityid });
+    return this.http.post<any>(url, { userid , internalactivityid , ruolo });
   }
 
   removeInternalActivity(internalactivitiesid , userid){
