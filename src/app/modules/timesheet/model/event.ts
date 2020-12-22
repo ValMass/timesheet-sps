@@ -15,4 +15,5 @@ export interface NewCalendarEvent extends CalendarEvent  {
     customerName?: string;
     internalName?: string;
     internalRuolo?: string;
+    internalId?: string;
 }

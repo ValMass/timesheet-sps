@@ -316,6 +316,7 @@ export class TimesheetEditComponent implements OnInit {
   }
 
   handleEvent(action: string, eventToUpdate: CalendarEvent): void {
+    //console.log("edit" , eventToUpdate)
     if (action === 'Edited' && this.checkIfCanEditOrDelete()) {
       const dialogRef = this.dialog.open(TimesheetAddEventComponent, {
         width: '600px',
@@ -330,7 +331,7 @@ export class TimesheetEditComponent implements OnInit {
       dialogRef.afterClosed().subscribe((res) => {
         if (res) {
           if (res.data !== 'close') {
-            //console.log("reshandleEvent" , res)
+            console.log("reshandleEvent" , res)
             const event: NewCalendarEvent = {
               title: res.data.contractCode,
               start: new Date(res.data.eventDate),
@@ -342,8 +343,9 @@ export class TimesheetEditComponent implements OnInit {
               smartWorking: +res.data.smartWorking,
               contractCode: res.data.title,
               customerId: res.data.customerId,
-              internalName: res.data["internal"].internalName,
-              internalRuolo: res.data["internal"].internalRuolo,
+              internalId: res.data.internalId,
+              internalName: res.data.internalName,
+              internalRuolo: res.data.internalRuolo,
               customerName: res.data.contractCode === 'LAVORO' ||  res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
             };
             //console.log("event" , event)
@@ -406,6 +408,7 @@ export class TimesheetEditComponent implements OnInit {
             customerId: res.data.customerId,
             smartWorking: +res.data.smartWorking,
             contractCode: res.data.contractCode,
+            internalId: res.data.internalId ,
             internalName: res.data.internalName,
             internalRuolo: res.data.internalRuolo,
             customerName: res.data.contractCode === 'LAVORO' ||  res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
@@ -500,6 +503,7 @@ export class TimesheetEditComponent implements OnInit {
         smartWorking: +element.smartWorking,
         ticketnumber: element.ticketnumber,
         customerName: element.customerName,
+        internalId: element.internalId,
         internalName: element.internalName,
         internalRuolo: element.internalRuolo,
         cssClass:'macchinina',
