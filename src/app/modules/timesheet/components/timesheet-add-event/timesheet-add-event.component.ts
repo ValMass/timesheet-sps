@@ -29,7 +29,9 @@ export class TimesheetAddEventComponent implements OnInit {
   insertSmartWorking = true;
   insertSede = false;
   allComplete: boolean = true;
-  internalsActivitiesList : any ;
+  internalsActivitiesList : any;
+  ruoloInternal : string = '';
+  nomeInternal : string = '';
 
 
   constructor(
@@ -48,11 +50,11 @@ export class TimesheetAddEventComponent implements OnInit {
       codiceFatturazione: ['01', [Validators.required]],
       numProtocollo: ['00', [Validators.required]],
       activityId: ['0', [Validators.required]],
-      smartWorking: [this.isChecked(), [Validators.required]],
       customerId: ['', [Validators.required]],
-      internal:['', [Validators.required]],
+      internalId:['0', [Validators.required]],
       internalName:['', [Validators.required]],
       internalRuolo:['', [Validators.required]],
+      smartWorking: [this.isChecked(), [Validators.required]],
     });
 
     const check = new Set();
@@ -79,6 +81,9 @@ export class TimesheetAddEventComponent implements OnInit {
           activityId: this.data.event.activityId,
           customerId: this.data.event.customerId,
           contractCode: this.data.event.title,
+          internalId: this.data.event.internalId,
+          internalName: this.data.event.internalName,
+          internalRuolo: this.data.event.internalRuolo,
         },
       );
       //passo il valore del title a onChangeSelect
@@ -97,6 +102,16 @@ export class TimesheetAddEventComponent implements OnInit {
       const tmp = { smartWorking: 1 };
       this.profileForm.patchValue(tmp);
     }*/
+
+    // la mat-checkbox smartworking resetta i dati internalName e Internalruolo a "" per rivalorizzare
+    // questi campi ho valorizzato una variabile di appoggio e se nel caso l'id è valorizzato 
+    // ma i suddetti campi sono vuoti gli riassegna i valori che avevano
+    if((this.profileForm.value.internalName == "") && 
+       (this.profileForm.value.internalRuolo == "") && 
+       (this.profileForm.value.internalId > 0)){
+      this.profileForm.value.internalName = this.nomeInternal;
+      this.profileForm.value.internalRuolo = this.ruoloInternal;
+    }
     
     //console.log("caso 0" ,this.profileForm.value);
     // if (this.profileForm.invalid) {
@@ -124,7 +139,9 @@ export class TimesheetAddEventComponent implements OnInit {
             && (this.profileForm.value.codiceFatturazione == '01')
             && (this.profileForm.value.customerId == 1)
           ) {
-            this.dialogRef.close({ data: this.profileForm.value });
+              if(this.profileForm.value.internalId > 0 &&  this.profileForm.value.internalId != null && this.profileForm.value.internalId != ""){
+                this.dialogRef.close({ data: this.profileForm.value });
+              }
           } else {
             if (
               (this.profileForm.value.codiceFatturazione != '00')
@@ -302,7 +319,14 @@ export class TimesheetAddEventComponent implements OnInit {
   }
 
   selectedInternal($event){
-    this.profileForm.value.internalName = $event.inat.name;
-    this.profileForm.value.internalRuolo = $event.rela.ruolo;
+    if($event != undefined){
+      this.profileForm.value.internalName = $event.inat.name;
+      this.profileForm.value.internalRuolo = $event.rela.ruolo;
+      this.nomeInternal = $event.inat.name;
+      this.ruoloInternal = $event.rela.ruolo;
+    }else{
+      this.profileForm.value.internalName = '';
+      this.profileForm.value.internalRuolo = '';
+    }
   }
 }
