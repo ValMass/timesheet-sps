@@ -213,6 +213,9 @@ export class TimesheetAddEventComponent implements OnInit {
         const patch2 = {
           codiceFatturazione: '00',
           numeroOre: 8,
+          internalName: '',
+          internalRuolo: '',
+          internalId: '',
         };
 
         this.profileForm.patchValue(patch2);
@@ -230,6 +233,9 @@ export class TimesheetAddEventComponent implements OnInit {
         const patch3 = {
           codiceFatturazione: '00',
           numProtocollo: '00',
+          internalName: '',
+          internalRuolo: '',
+          internalId: '',
         };
 
         this.profileForm.patchValue(patch3);
@@ -245,7 +251,10 @@ export class TimesheetAddEventComponent implements OnInit {
         const patch4 = {
           codiceFatturazione: '00',
           numProtocollo: '00',
-          numeroOre: 8
+          numeroOre: 8,
+          internalName: '',
+          internalRuolo: '',
+          internalId: '',
         };
         this.profileForm.patchValue(patch4);
 
@@ -327,6 +336,8 @@ export class TimesheetAddEventComponent implements OnInit {
     }else{
       this.profileForm.value.internalName = '';
       this.profileForm.value.internalRuolo = '';
+      this.nomeInternal = '';
+      this.ruoloInternal = '';
     }
   }
 }
