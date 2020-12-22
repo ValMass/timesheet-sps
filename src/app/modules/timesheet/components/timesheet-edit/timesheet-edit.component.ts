@@ -77,6 +77,7 @@ export class TimesheetEditComponent implements OnInit {
 
   // lista delle attività assegnate all utente
   assignedActivities = [];
+  DistaccatoPresso:string = "";
 
   // action definite per gli eventi
   actions: CalendarEventAction[] = [
