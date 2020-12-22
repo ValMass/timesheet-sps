@@ -510,6 +510,7 @@ export class TimesheetEditComponent implements OnInit {
         newEvent,
       ];
     });
+    console.log(this.currentTimesheet.dayjson);
     this.currentTimesheet.trasferte = JSON.parse(recivedTimesheet.trasferte);  //TODO attenzione a questo jsonparse potrebbe dover cambiare
     this.updateStateLabel();
   }
@@ -639,10 +640,7 @@ export class TimesheetEditComponent implements OnInit {
         }
 
 
-        break;
-
-      default:
-        break;
+        break;13
     }
     this.checkIfCanModify();
   }
@@ -757,8 +755,11 @@ export class TimesheetEditComponent implements OnInit {
     this.timesheetService.acceptAsUser(month, year, userid).subscribe(
       (result) => {
         if (result.status === 'done') {
+          console.log(result.data);
           this.loadCurrentMonthTimesheet(result.data);
           this.toastrService.success('Timesheet accettato dall utente ');
+          console.log(this.currentTimesheet);
+          this.events = this.currentTimesheet.dayjson;
           this.updateStateLabel();
         } else {
           this.toastrService.error(result.message);
