@@ -51,7 +51,11 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
       if (this.tradMapFat.get(event.codiceFatt) && (event.title != 'SEDE')) {
         res = `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']} ${this.tradMapFat.get(event.codiceFatt)} per ${event['customerName']}`;
       } else {
-        res = `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']}`;
+        if (event.title != 'SEDE') {
+          res = `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']}`;
+        }else{
+          res = `</b> ${this.tradMap.get(event.title)} ${event.internalName}  ${event.internalRuolo} numero ore ${event['nOre']}`;
+        }
       }
     }
     return res;

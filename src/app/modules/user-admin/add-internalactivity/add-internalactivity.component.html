@@ -1,13 +1,40 @@
 <div class="modal-container">
-    <form id='activityform' class="p-1" (ngSubmit)="submit(paramForm)" #paramForm="ngForm">
+    <form id='activityform' class="p-1" (ngSubmit)="((internalAct != null) && (paramForm.value.ruolo != null) ) && submit(paramForm)" #paramForm="ngForm">
+        <div class="form-group row">
+            <label for="activityName" class="col-sm-4 col-form-label">Ruolo</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="Ruolo" placeholder="Ruolo" [ngModel] name="ruolo" />
+            </div>
+        </div>
         <div class="form-group row">
             <label for="internalActList" class="col-sm-4 col-form-label">Attività interna</label>
             <div class="col-sm-8 scrollable-box">
                 <select name="internalAct" id="internalAct" class="form-control" [(ngModel)]="internalAct"
                     placeholder="Selezione un attività">
                     <option *ngFor="let internal of internalActivitiesList" [ngValue]="internal">
-                        {{composeStringInternal(internal)}}</option>
+                        {{internal.inat.name}}</option>
                 </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="activityName" class="col-sm-4 col-form-label">Sede riferimento:</label>
+            <div class="col-sm-8">
+                <label for="" style="font-weight: normal !important;" class="row-sm-4 col-form-label">
+                    {{internalAct == null ? "Nessuna attività interna selezionata"  : internalAct.offi.address  }}</label>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="activityName" class="col-sm-4 col-form-label">Inizio attività</label>
+            <div class="col-sm-8">
+                <label for="" style="font-weight: normal !important;" class="row-sm-4 col-form-label">
+                    {{internalAct == null ? "Nessuna attività interna selezionata"  : internalAct.inat.startdate  | date:'d/M/yy'}}</label>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="activityName" class="col-sm-4 col-form-label">Fine attività</label>
+            <div class="col-sm-8">
+                <label for="" style="font-weight: normal !important;" class="row-sm-4 col-form-label">
+                    {{internalAct == null ? "Nessuna attività interna selezionata"  : internalAct.inat.enddate  | date:'d/M/yy'  }}</label>
             </div>
         </div>
         <div class="d-flex justify-content-between" mat-dialog-actions>

@@ -10,7 +10,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 export class AddInternalactivityComponent implements OnInit {
   public internalActivitiesList : any[] = [];
   public submitted = false;
-  public internalAct: any;
+  public internalAct: any = null;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef <AddInternalactivityComponent>,
@@ -29,8 +30,4 @@ export class AddInternalactivityComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  composeStringInternal(internal){
-    const res : String = internal.inat.name + " SPS-" + internal.offi.address + ", " + internal.offi.city
-    return res
-  }
 }

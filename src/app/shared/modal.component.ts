@@ -7,14 +7,14 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
     <div class="modal-dialog modal-dialog-centered" >    
       <div class="modal-content">
       <header class="modal-header">
-        <p class="modal-title">Confirm</p>
+        <p class="modal-title">{{(hasFooter == true) ? 'Confirm' : 'Alert' }}</p>
       </header>
       <section class="modal-body">
         {{message}}
       </section>
       <footer class="modal-footer">
-        <button class="btn" (click)="onNo()">No</button>
-        <button class="btn" (click)="onYes()">Yes</button>
+        <button class="btn" (click)="onNo()">{{(hasFooter == true) ? 'No' : 'Close' }}</button>
+        <button class="btn" *ngIf="hasFooter" (click)="onYes()">Yes</button>
       </footer>
   </div>
 </div>
@@ -32,6 +32,8 @@ export class ModalComponent {
   @Input() isOpen = false;
   @Output() handleYes = new EventEmitter();
   @Output() handleNo = new EventEmitter();
+  @Input() hasFooter = true;
+
   constructor() { }
 
 

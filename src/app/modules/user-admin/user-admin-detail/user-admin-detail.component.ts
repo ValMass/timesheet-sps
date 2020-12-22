@@ -307,6 +307,9 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       phonenumber1: ['', [Validators.required]],
       phonenumber2: ['', [Validators.required]],
       address: ['', [Validators.required]],
+      distaccatofinishtime: ['', [Validators.required]],
+      distaccatopresso: ['', [Validators.required]],
+      distaccatostarttime: ['', [Validators.required]],
     });
     return anagForm;
   }
@@ -450,8 +453,9 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(res => {
       console.log("resAssignInternalActivity" , res["data"].internalAct);
       let internalActToadd =  res["data"].internalAct;
+      let ruoloToadd = res["data"].ruolo;
       if (res) {
-        this.internalActivityService.assignInternalActivity(internalActToadd.inat.id , this.userAdmin.id)
+        this.internalActivityService.assignInternalActivity(internalActToadd.inat.id , this.userAdmin.id , ruoloToadd)
           .subscribe(result => {
             if (result.status === 'done') {
               this.toastrService.success('Attività aggiunta correttamente');
@@ -465,10 +469,17 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   }
 
   removeInternalActivity(internalActivity){
-    console.log( "internalActivity", internalActivity)
-    this.internalActivityService.removeInternalActivity(internalActivity.rela.internalactivitiesid , internalActivity.rela.userid ).subscribe(
-      res => this.getInternalActivitiesAssigned()
-    )
+    if (confirm(`Sei sicuro di voler eliminare l'attività: ${internalActivity.inat.name}?`)) {
+      console.log( "internalActivity", internalActivity)
+      this.internalActivityService.removeInternalActivity(internalActivity.rela.internalactivitiesid , internalActivity.rela.userid ).subscribe( res =>{
+        if (res['status'] === 'done') {
+          this.toastrService.success('Attività eliminata correttamente');
+          this.getInternalActivitiesAssigned();
+        }else{
+          this.toastrService.error('Errore nell\'eliminazione dell\'attività');
+        }
+      })
+    }
   }
 
   //mostro o nascondo la password a seconda dei casi
