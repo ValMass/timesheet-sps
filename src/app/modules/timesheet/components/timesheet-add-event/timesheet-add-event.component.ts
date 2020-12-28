@@ -72,6 +72,7 @@ export class TimesheetAddEventComponent implements OnInit {
       });
 
     if (this.data.type === 'edit') {
+      this.ruoloInternal =  this.data.event.internalRuolo;
       this.profileForm.patchValue(
         {
           smartWorking: +this.data.event.smartWorking,

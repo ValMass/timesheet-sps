@@ -412,7 +412,7 @@ export class TimesheetEditComponent implements OnInit {
             internalName: res.data.internalName,
             internalRuolo: res.data.internalRuolo,
             customerName: res.data.contractCode === 'LAVORO' ||  res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
-            cssClass:'macchinina',
+            cssClass: this.selectCssIcon(res.data.contractCode),
             draggable: true,
           };
           //console.log("event" , event)
@@ -506,7 +506,7 @@ export class TimesheetEditComponent implements OnInit {
         internalId: element.internalId,
         internalName: element.internalName,
         internalRuolo: element.internalRuolo,
-        cssClass:'macchinina',
+        cssClass: this.selectCssIcon(element.title),
         draggable: true,
       };
       this.currentTimesheet.dayjson = [
@@ -883,6 +883,17 @@ export class TimesheetEditComponent implements OnInit {
     this.showAcceptAsAdmin = false;
     this.showAcceptAsFinally = false;
     this.showResetStatus = false;
+  }
+
+  selectCssIcon(tipo){
+    let res = "macchinina";
+    if(tipo === "MALATT"){
+      res = "malattia";
+    }
+    if(tipo === "TRASFRIMB"){
+      res = "macchinina2";
+    }
+    return(res)
   }
 
 }
