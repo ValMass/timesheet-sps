@@ -77,7 +77,7 @@ export class TimesheetEditComponent implements OnInit {
 
   // lista delle attività assegnate all utente
   assignedActivities = [];
-  DistaccatoPresso:string = "";
+  distaccatoPresso:string = "";
   assignedInternalsActivities = [];
 
   // action definite per gli eventi
@@ -166,6 +166,7 @@ export class TimesheetEditComponent implements OnInit {
       .subscribe(
         (result) => {
           if (result.status === 'done') {
+            this.distaccatoPresso = result.data.distaccato;
             const recivedTimesheet = result.data as Timesheet;
             this.loadCurrentMonthTimesheet(recivedTimesheet);
             console.log(this.currentTimesheet);
@@ -226,6 +227,7 @@ export class TimesheetEditComponent implements OnInit {
       (timesheet) => {
         if (timesheet.status === 'done') {
           console.log(timesheet);
+          this.distaccatoPresso = timesheet.data.distaccato;
           const recivedTimesheet = timesheet.data as Timesheet;
           this.loadCurrentMonthTimesheet(recivedTimesheet);
           console.log(this.currentTimesheet.dayjson);
@@ -256,6 +258,7 @@ export class TimesheetEditComponent implements OnInit {
     this.timesheetService.getTimesheet(month, year, userid).subscribe(
       (timesheet) => {
         if (timesheet.status === 'done') {
+          this.distaccatoPresso = timesheet.data.distaccato;
           const recivedTimesheet = timesheet.data as Timesheet;
           this.loadCurrentMonthTimesheet(recivedTimesheet);
           console.log(this.currentTimesheet.dayjson);
@@ -413,7 +416,7 @@ export class TimesheetEditComponent implements OnInit {
             internalRuolo: res.data.internalRuolo,
             customerName: res.data.contractCode === 'LAVORO' ||  res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
             cssClass: this.selectCssIcon(res.data.contractCode),
-            draggable: true,
+            draggable: this.isDraggable(),
           };
           //console.log("event" , event)
           this.events = [...this.events, event];
@@ -507,7 +510,7 @@ export class TimesheetEditComponent implements OnInit {
         internalName: element.internalName,
         internalRuolo: element.internalRuolo,
         cssClass: this.selectCssIcon(element.title),
-        draggable: true,
+        draggable: this.isDraggable(),
       };
       this.currentTimesheet.dayjson = [
         ...this.currentTimesheet.dayjson,
@@ -886,14 +889,25 @@ export class TimesheetEditComponent implements OnInit {
   }
 
   selectCssIcon(tipo){
-    let res = "macchinina";
-    if(tipo === "MALATT"){
-      res = "malattia";
-    }
-    if(tipo === "TRASFRIMB"){
-      res = "macchinina2";
+    let res ="";
+    if(this.authenticationService.currentUserValue.isadmin != "2"){
+      res = "macchinina";
+      if(tipo === "MALATT"){
+        res = "malattia";
+      }
+      if(tipo === "TRASFRIMB"){
+        res = "macchinina2";
+      }
     }
     return(res)
+  }
+
+  isDraggable(){
+    let res = false;
+    if(this.authenticationService.currentUserValue.isadmin != "2"){
+      res = true
+    }
+    return res;
   }
 
 }

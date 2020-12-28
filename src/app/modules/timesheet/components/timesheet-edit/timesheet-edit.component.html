@@ -35,7 +35,7 @@
     </div>
     <div class="col-md-4">
       <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
-      <h3>{{ DistaccatoPresso }}</h3>
+      <h3>{{ distaccatoPresso != null ? "Distacco : " +  distaccatoPresso : "Nessun distacco" }}</h3>
     </div>
 
     <div class="col-md-4">
