@@ -49,4 +49,9 @@ export class ActivityService {
     const url = environment.apiUrl + 'activities/deleteActivitiesById.php';
     return this.http.post(url, {id: activityId});
   }
+
+  getAllActivityType(){
+    const url = environment.apiUrl + '/activityType/listAllActivityType.php';
+    return this.http.post(url , {});
+  }
 }

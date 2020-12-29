@@ -21,6 +21,7 @@
         <customer-detail
             *ngIf="selected"
             [customer]="selected"
+            [activities]="activitiesType"
             (unselect)="clear()"
             (save)="save($event)"
             (showButton)="changeShowButton($event)"

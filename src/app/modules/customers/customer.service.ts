@@ -73,4 +73,9 @@ export class CustomerService implements Resolve<any>  {
       return of(result as T)
     }
   }
+
+  getAllActivityType(){
+    const url = environment.apiUrl + '/activityType/listAllActivityType.php';
+    return this.http.post(url , {});
+  }
 }

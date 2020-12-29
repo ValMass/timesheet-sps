@@ -40,12 +40,15 @@
 
 
       <div class="form-group">
-        <label for="defaultacttype" class="cod-contratto">Tipo di arrività di default</label>
-        <select id="defaultacttype" name="defaultacttype" class="custom-select sel-text" [(ngModel)]="editingCustomer.defaultactivitytype">
-          <option value="TM">Attività Time-material</option>
-          <option value="TASK">Attività a task</option>
-          <option value="BRNM">Attività body rentall no material</option>
+        <label for="defaultacttype" class="cod-contratto">Tipo di Attività di default</label>
+        <select id="defaultacttype" name="defaultacttype" class="custom-select sel-text"
+                [(ngModel)]="editingCustomer.defaultactivitytype" #defaultactivitytype="ngModel"
+                [ngClass]="{'is-invalid':f.submitted && defaultactivitytype.invalid}" required>
+          <option *ngFor = "let activity of activities" [value]="activity.id" >{{activity.descrizione}}</option>
         </select>
+        <div *ngIf="f.submitted  && defaultactivitytype.invalid" class="invalid-feedback">
+          <div *ngIf="defaultactivitytype.errors.required">Campo obbligatorio</div>
+        </div>
       </div>
     </div>
 

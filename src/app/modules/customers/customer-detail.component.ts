@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 export class CustomerDetailComponent implements OnChanges {
 
+  @Input() activities : any;
   @Input() customer: Customer;
   @Output() unselect = new EventEmitter<string>();
   @Output() save = new EventEmitter<Customer>();

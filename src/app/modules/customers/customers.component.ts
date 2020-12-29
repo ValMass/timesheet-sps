@@ -31,6 +31,8 @@ export class CustomersComponent implements OnInit {
     this.showButton = flag;
   }
 
+  activitiesType : any;
+
   constructor(
     private customerService: CustomerService,
     private toastrService: ToastrService,
@@ -44,6 +46,7 @@ export class CustomersComponent implements OnInit {
     // console.log(this.customers);
     this.getCustomers();
     //this.getOffices();
+    this.getAllActivityType();
   }
 
   //used in save()
@@ -161,5 +164,10 @@ export class CustomersComponent implements OnInit {
     this.showAcModal = true;
     this.customerToAssociate=customer;
   }
-
+  
+  getAllActivityType(){
+    this.customerService.getAllActivityType().subscribe(res =>{
+      this.activitiesType = res["data"];
+    })
+  }
 }

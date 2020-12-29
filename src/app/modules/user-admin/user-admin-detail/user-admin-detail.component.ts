@@ -35,7 +35,6 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   internalActivitiesList: any[];
   internalActivitiesAssigned: any[]; // activities
   
-
   userForm: FormGroup;
   anagForm: FormGroup;
   econForm: FormGroup;
@@ -44,6 +43,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
 
   anagFormValue: any
   userFormValue: any
+  activitiesType : any;
 
   //flag boolean
   anagFlag: boolean = false;
@@ -89,6 +89,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
 
     this.getActivityList();
     this.getInternalActivitiesAssigned();
+    this.getAllActivityType()
     
     this.customerService.listAllCustomer()
       .subscribe(result => {
@@ -121,6 +122,13 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
           this.toastrService.warning("Nessuna attività associata all\'utente");
         }
       });
+  }
+
+  getAllActivityType(){
+    this.activityService.getAllActivityType().subscribe(res =>{
+      this.activitiesType = res["data"];
+      console.log("activitiesType" , this.activitiesType);
+    })
   }
 
   async ngAfterViewInit() {
@@ -496,4 +504,8 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     return (commaDotvalue);
   }
 
+  tipoAttivita(tipo){
+    let res  = this.activitiesType.find(x => x.id === tipo);
+    return(res.descrizione);
+  }
 }

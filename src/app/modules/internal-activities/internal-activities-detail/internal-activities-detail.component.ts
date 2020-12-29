@@ -34,17 +34,17 @@ export class InternalActivitiesDetailComponent implements OnInit, OnChanges {
     this.getSedi();
     this.setDates();
     
-    if(this.internalActivity.id > 0){
+    if(this.internalActivity && (this.internalActivity.id > 0)){
       this.getUserAssignedActivity(this.internalActivity.id);
     }
   }
 
   ngOnChanges() {
-    if (this.internalActivity && this.internalActivity.id) {
+    if (this.internalActivity && this.internalActivity.id > 0) {
       this.editingInternalActivity = { ...this.internalActivity };
       this.addMode = false;
     } else {
-      this.editingInternalActivity = { id: undefined, name: '', startdate: '', enddate: '' };
+      this.editingInternalActivity = { id: 0 , name: '', startdate: '', enddate: '' };
       this.addMode = true;
     }
   }
