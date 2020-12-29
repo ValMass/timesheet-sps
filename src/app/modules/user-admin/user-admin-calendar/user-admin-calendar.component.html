@@ -1,0 +1,7 @@
+<div>
+    <input matInput [matDatepicker]="picker" (dateChange)="changeData($event)">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker startView="year">
+    </mat-datepicker>
+    <button class="button-custom" mat-button color="accent" (click)="loadDate()">Carica data</button>
+</div>

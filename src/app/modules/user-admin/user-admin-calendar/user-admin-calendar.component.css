@@ -1,0 +1,7 @@
+.button-custom{
+    border: none;
+    background-color:#962d37;
+    color: white;
+    border-radius: 5px;
+    padding: 0.3em;
+}

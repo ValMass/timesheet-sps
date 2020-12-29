@@ -9,13 +9,12 @@
       (deleted)="askToDelete($event)"
       (showButton)="changeShowButton($event)">
     </app-user-admin-list>
-
     <app-user-admin-detail *ngIf="selected" [userAdmin]="selected" (showButton)="changeShowButton($event)" (unselect)="clearUpdTable($event)" (save)="save($event)">
     </app-user-admin-detail>
   </div>
-
   <app-modal class="modal-customer" [message]="message" [isOpen]="showModal" (handleNo)="closeModal()"
     (handleYes)="deleteUserAdmin()">
   </app-modal>
+  <app-user-admin-calendar (dateToLoad)="getUserListLoadData($event)"></app-user-admin-calendar>
 </div>
 

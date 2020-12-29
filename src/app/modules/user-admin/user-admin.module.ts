@@ -13,6 +13,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { AddActivityComponent } from './add-activity/add-activity.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AddInternalactivityComponent } from './add-internalactivity/add-internalactivity.component';
+import { UserAdminCalendarComponent } from './user-admin-calendar/user-admin-calendar.component';
 
 
 
@@ -23,7 +24,8 @@ import { AddInternalactivityComponent } from './add-internalactivity/add-interna
     UserAdminDetailComponent,
     UserAdminCreationComponent,
     AddActivityComponent,
-    AddInternalactivityComponent
+    AddInternalactivityComponent,
+    UserAdminCalendarComponent
   ],
   imports: [
     CommonModule,

@@ -185,6 +185,19 @@ export class UserAdminComponent implements OnInit {
     );
   }
 
+  getUserListLoadData(data : any){
+    const month = data.month - 1;
+    const year = data.year;
+    const loggeduser = this.authenticationService.currentUserValue;
+    this.userAdminService.getListForUserList(month, year, loggeduser.role).subscribe(
+      res => {
+        if (res.status === "done") {
+          this.users = res.data;
+        }
+      }
+    );
+  }
+
   addCustomer(user: UserAdmin) {
     // this.userservice.createNewUser(user);
   }
