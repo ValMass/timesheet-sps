@@ -21,7 +21,7 @@
   <div class="form-group row">
     <label for="defaultactivitytype" class="col-sm-4 col-form-label">Tipo Attività</label>
     <div class="col-sm-8 scrollable-box">
-      <select name="customerid" id="customerid" formControlName="defaultactivitytype" class="form-control">
+      <select name="customerid" id="customerid" formControlName="defaultactivitytype" class="form-control" >
         <option *ngFor="let item of activitiesType" [value]="item.id" [selected]="item.id === type">{{item.descrizione}}</option>
       </select>
     </div>

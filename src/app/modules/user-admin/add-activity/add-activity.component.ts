@@ -13,7 +13,8 @@ export class AddActivityComponent implements OnInit {
   public activityForm: FormGroup;
   public submitted = false;
   public activitiesType : any;
-  public type : string;
+  public type : any ;
+  
  
 
   constructor(
@@ -26,19 +27,20 @@ export class AddActivityComponent implements OnInit {
     this.activityForm = this.formBuilder.group({
       activityName: ['', [Validators.required]],
       customerId:   ['', [Validators.required]],
-      defaultactivitytype:[null],
+      defaultactivitytype: [],
     });
     this.customerlist = this.data.customerList;
     this.activitiesType = this.data.activitiesType;
   }
 
   submit() {
-    console.log('is invalid ?: ' + this.activityForm.invalid);
+    
+    /*console.log('is invalid ?: ' + this.activityForm.invalid);
     if (this.activityForm.invalid) {
       console.log('invalid form is: ' + JSON.stringify(this.activityForm.value) );
       return;
     }
-    console.log('valid form is: ' + JSON.stringify(this.activityForm.value) );
+    console.log('valid form is: ' + JSON.stringify(this.activityForm.value) );*/
     this.dialogRef.close({ data: this.activityForm.value });
   }
 
@@ -49,5 +51,6 @@ export class AddActivityComponent implements OnInit {
   assignTypeActivity(evento){
     let customer  = this.customerlist.find(x => x.id === evento);
     this.type = customer.defaultactivitytype;
+    this.activityForm.value.defaultactivitytype= this.type;
   }
 }

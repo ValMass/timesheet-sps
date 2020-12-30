@@ -366,7 +366,7 @@
         <tr *ngFor="let activityCus of activityList; let i = index" role="presentation">
           <td>{{ activityCus.act.name }} </td>
           <td>{{ activityCus.cus.name }} </td>
-          <td>{{activityCus.act.type != null ? tipoAttivita(activityCus.act.type) : tipoAttivita(activityCus.cus.defaultactivitytype)}}</td>
+          <td>{{tipoAttivita(activityCus.act.type)}}</td>
           <td>
             <span style="width: 20px; height: 20px; display: block; cursor: pointer;"
               class="card-footer-item fas fa-trash mr-2" (click)="deleteActivity(activityCus)"></span>
