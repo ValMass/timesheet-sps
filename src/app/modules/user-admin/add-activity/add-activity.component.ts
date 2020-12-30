@@ -12,7 +12,10 @@ export class AddActivityComponent implements OnInit {
   public customerlist: any[] = [];
   public activityForm: FormGroup;
   public submitted = false;
-  
+  public activitiesType : any;
+  public type : string;
+ 
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef < AddActivityComponent >,
@@ -23,9 +26,10 @@ export class AddActivityComponent implements OnInit {
     this.activityForm = this.formBuilder.group({
       activityName: ['', [Validators.required]],
       customerId:   ['', [Validators.required]],
+      defaultactivitytype:[null],
     });
     this.customerlist = this.data.customerList;
-    console.log(this.data.customerList);
+    this.activitiesType = this.data.activitiesType;
   }
 
   submit() {
@@ -40,5 +44,10 @@ export class AddActivityComponent implements OnInit {
 
   close() {
     this.dialogRef.close();
+  }
+
+  assignTypeActivity(evento){
+    let customer  = this.customerlist.find(x => x.id === evento);
+    this.type = customer.defaultactivitytype;
   }
 }

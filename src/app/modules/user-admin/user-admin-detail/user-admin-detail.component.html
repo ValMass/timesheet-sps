@@ -356,9 +356,9 @@
     <table class="table table-striped no-margin" *ngIf="activityList; else noActivity">
       <thead>
         <tr>
-          <th scope="col">Nome Attività</th>
+          <th scope="col">Nome attività</th>
           <th scope="col">Cliente</th>
-          <th scope="col">Tipo Attività</th>
+          <th scope="col">Tipo attività</th>
           <th></th>
         </tr>
       </thead>
@@ -366,7 +366,7 @@
         <tr *ngFor="let activityCus of activityList; let i = index" role="presentation">
           <td>{{ activityCus.act.name }} </td>
           <td>{{ activityCus.cus.name }} </td>
-          <td>{{ tipoAttivita(activityCus.cus.defaultactivitytype)}}</td>
+          <td>{{activityCus.act.type != null ? tipoAttivita(activityCus.act.type) : tipoAttivita(activityCus.cus.defaultactivitytype)}}</td>
           <td>
             <span style="width: 20px; height: 20px; display: block; cursor: pointer;"
               class="card-footer-item fas fa-trash mr-2" (click)="deleteActivity(activityCus)"></span>

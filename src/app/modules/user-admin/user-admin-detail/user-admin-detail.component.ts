@@ -412,12 +412,13 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       data: {
         userid: this.userAdmin.id,
         customerList: this.customersList,
+        activitiesType : this.activitiesType,
       }
     });
     dialogRef.addPanelClass(['custom-dialog-container']);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.activityService.createActivity(res.data.activityName, this.userAdmin.id, res.data.customerId)
+        this.activityService.createActivity(res.data.activityName, this.userAdmin.id, res.data.customerId , res.data.defaultactivitytype)
           .subscribe(result => {
             if (result.status === 'done') {
               this.toastrService.success('Attività aggiunta correttamente');
