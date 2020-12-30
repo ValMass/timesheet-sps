@@ -15,6 +15,6 @@
   <app-modal class="modal-customer" [message]="message" [isOpen]="showModal" (handleNo)="closeModal()"
     (handleYes)="deleteUserAdmin()">
   </app-modal>
-  <app-user-admin-calendar (dateToLoad)="getUserListLoadData($event)"></app-user-admin-calendar>
+  <app-user-admin-calendar *ngIf= "showButton" (dateToLoad)="getUserListLoadData($event)"></app-user-admin-calendar>
 </div>
 
