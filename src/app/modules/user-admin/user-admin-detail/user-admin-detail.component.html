@@ -146,9 +146,9 @@
           <input type="text" class="form-control" id="phonenumber2" placeholder="Numero di telefono"
             formControlName="phonenumber2"
             [ngClass]="{'is-invalid':
-              ((anagForm.value.phonenumber2.length > 0) &&(!patternCifra.test(anagForm.value.phonenumber2)) && submittedAnag)}">
+              ((anagForm.value.phonenumber2 != null && anagForm.value.phonenumber2.length > 0) &&(!patternCifra.test(anagForm.value.phonenumber2)) && submittedAnag)}">
           <div
-            *ngIf="((anagForm.value.phonenumber2.length > 0) &&(!patternCifra.test(anagForm.value.phonenumber2))) && submittedAnag"
+            *ngIf="(( anagForm.value.phonenumber2 != null && anagForm.value.phonenumber2.length > 0) &&(!patternCifra.test(anagForm.value.phonenumber2))) && submittedAnag"
             style="color: red;">
             Sono accetate solo cifre</div>
         </div>
