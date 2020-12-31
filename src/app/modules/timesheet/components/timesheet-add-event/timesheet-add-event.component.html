@@ -63,7 +63,7 @@
           <label for="cod-fatturazione" class="cod-fatturazione">Codice Fatturazione</label>
           <select id="cod-fatturazione" name="cod-fatturazione" class="custom-select sel-text"
             [ngClass]="{'is-invalid':f.codiceFatturazione.value === '00' && submitted}"
-            formControlName="codiceFatturazione" (change)="onChangeFattSelect($event)" required>
+            formControlName="codiceFatturazione" (change)="onChangeFattSelect($event.target.value)" required>
             <option value="01">Ore ordinarie fatturabili</option>
             <option value="02">Ore straordinarie fatturabili</option>
             <option value="03">Ore straordinarie festive fatturabili</option>
@@ -71,7 +71,7 @@
             <!--<option value="NF">Non fatturabili</option>-->
             <option value="RP">Ore di reperibilità</option>
             <option value="IN">Ore di intervento</option>
-            <!--<option value="TR">Trasferta</option>-->
+            <option value="TR">Trasferta</option>-->
           </select>
           <div *ngIf="f.codiceFatturazione.value === '00' && submitted" style="color: red;">Campo obbligatorio</div>
         </div>
@@ -79,7 +79,8 @@
         <div class="mb-2">
           <label for="customerId" class="col-form-label">Cliente</label>
           <div>
-            <ng-select [items]="customerList" bindLabel="name" formControlName="customerId" bindValue="id"
+            <ng-select [items]="customerList" bindLabel="name" formControlName="customerId" bindValue="id" 
+              (change)="customerListActions($event)"
               [ngClass]="{'error': (f.customerId.value === 1 || f.customerId.value === 0 || f.customerId.value === null || f.customerId.errors )  && submitted}">
             </ng-select>
           </div>
@@ -91,14 +92,24 @@
         <div class="mb-2">
           <label for="activityId" class="col-form-label">Attività</label>
           <div>
-            <ng-select [readonly]="!assignedact" [items]="assignedact" bindLabel="name" formControlName="activityId"
+            <ng-select [readonly]="flagShowAttDest" [items]="assignedact" bindLabel="name" formControlName="activityId"
               bindValue="id"
-              [ngClass]="{'error':(f.activityId.value === 1 || f.activityId.value === '0' || f.activityId.value === null ) && submitted}">
+              [ngClass]="{'error':(f.activityId.value === 1 || f.activityId.value === '0' || f.activityId.value === null || f.activityId.value === '' ) && submitted}">
             </ng-select>
           </div>
           <div
-            *ngIf="( f.activityId.value === 1 || f.activityId.value === '0'  || f.activityId.value === null) && submitted"
+            *ngIf="( f.activityId.value === 1 || f.activityId.value === '0'  || f.activityId.value === null || f.activityId.value === '') && submitted"
             style="color: red;">Campo obbligatorio</div>
+        </div>
+      </div>
+      
+      <div *ngIf="f.codiceFatturazione.value == 'TR'">
+        <div class="mb-2">
+          <label for="numeroprotocollo" class="col-form-label">Destinazione</label>
+          <ng-select [readonly]="flagShowAttDest" [items]="officeslist" bindLabel="address" formControlName="destinazione" bindValue="id"
+              [ngClass]="{'error': (f.destinazione.value === null || f.destinazione.value === '') && submitted}">
+            </ng-select>
+          <div *ngIf="(f.destinazione.value === null || f.destinazione.value === '') && submitted" style="color: red;">Campo obbligatorio</div>
         </div>
       </div>
 

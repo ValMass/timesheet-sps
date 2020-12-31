@@ -349,6 +349,9 @@ export class TimesheetEditComponent implements OnInit {
               internalId: res.data.internalId,
               internalName: res.data.internalName,
               internalRuolo: res.data.internalRuolo,
+              destinazione: res.data.destinazione,
+              cssClass: this.selectCssIcon(res.data),
+              draggable: this.isDraggable(res.data),
               customerName: res.data.contractCode === 'LAVORO' ||  res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
             };
             //console.log("event" , event)
@@ -414,9 +417,10 @@ export class TimesheetEditComponent implements OnInit {
             internalId: res.data.internalId ,
             internalName: res.data.internalName,
             internalRuolo: res.data.internalRuolo,
+            destinazione: res.data.destinazione,
             customerName: res.data.contractCode === 'LAVORO' ||  res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
-            cssClass: this.selectCssIcon(res.data.contractCode),
-            draggable: this.isDraggable(),
+            cssClass: this.selectCssIcon(res.data),
+            draggable: this.isDraggable(res.data),
           };
           //console.log("event" , event)
           this.events = [...this.events, event];
@@ -509,8 +513,9 @@ export class TimesheetEditComponent implements OnInit {
         internalId: element.internalId,
         internalName: element.internalName,
         internalRuolo: element.internalRuolo,
-        cssClass: this.selectCssIcon(element.title),
-        draggable: this.isDraggable(),
+        destinazione: element.destinazione,
+        cssClass: this.selectCssIcon(element),
+        draggable: this.isDraggable(element),
       };
       this.currentTimesheet.dayjson = [
         ...this.currentTimesheet.dayjson,
@@ -888,24 +893,30 @@ export class TimesheetEditComponent implements OnInit {
     this.showResetStatus = false;
   }
 
-  selectCssIcon(tipo){
+  selectCssIcon(event){
     let res ="";
     if(this.authenticationService.currentUserValue.isadmin != "2"){
-      res = "macchinina";
-      if(tipo === "MALATT"){
+      if(event.contractCode === "MALATT" || event.title === "MALATT"){
         res = "malattia";
       }
-      if(tipo === "TRASFRIMB"){
-        res = "macchinina2";
+      if((event.contractCode === "LAVORO" || event.contractCode === "SEDE" || event.contractCode === "PARTIME") ||
+        (event.title === "LAVORO" || event.title === "SEDE" || event.title === "PARTIME")){
+        if(event.codiceFatturazione === "TR" || event.codiceFatt === "TR"){
+          res = "macchinina2";
+        }else{
+          res = "macchinina";
+        }
       }
     }
     return(res)
   }
 
-  isDraggable(){
+  isDraggable(event){
     let res = false;
     if(this.authenticationService.currentUserValue.isadmin != "2"){
-      res = true
+      if(event.codiceFatturazione === "TR" || event.codiceFatt === "TR"){
+        res = true;
+      }
     }
     return res;
   }

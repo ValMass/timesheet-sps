@@ -506,7 +506,11 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   }
 
   tipoAttivita(tipo){
-    let res  = this.activitiesType.find(x => x.id === tipo);
-    return(res.descrizione);
+    if(tipo > 0){
+      let res  = this.activitiesType.find(x => x.id === tipo);
+      return(res.descrizione);
+    }else{
+      return('');
+    }
   }
 }

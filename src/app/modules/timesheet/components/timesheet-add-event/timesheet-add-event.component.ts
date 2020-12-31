@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CalendarEvent } from 'angular-calendar';
 import { ToastrService } from 'ngx-toastr';
+import { TimesheetaddeventService } from '../../services/timesheetaddevent.service';
 
 @Component({
   selector: 'app-timesheet-add-event',
@@ -29,16 +30,19 @@ export class TimesheetAddEventComponent implements OnInit {
   insertSmartWorking = true;
   insertSede = false;
   allComplete: boolean = true;
-  internalsActivitiesList : any;
-  ruoloInternal : string = '';
-  nomeInternal : string = '';
-
+  internalsActivitiesList: any;
+  ruoloInternal: string = '';
+  nomeInternal: string = '';
+  officeslist: any[] = [];
+  loadOffice: boolean = false;
+  flagShowAttDest: boolean = true;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<TimesheetAddEventComponent>,
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
+    private service: TimesheetaddeventService,
   ) { }
 
   ngOnInit(): void {
@@ -49,11 +53,12 @@ export class TimesheetAddEventComponent implements OnInit {
       eventDate: [this.data.date, [Validators.required]],
       codiceFatturazione: ['01', [Validators.required]],
       numProtocollo: ['00', [Validators.required]],
+      destinazione: ['', [Validators.required]],
       activityId: ['0', [Validators.required]],
       customerId: ['', [Validators.required]],
-      internalId:['0', [Validators.required]],
-      internalName:['', [Validators.required]],
-      internalRuolo:['', [Validators.required]],
+      internalId: ['0', [Validators.required]],
+      internalName: ['', [Validators.required]],
+      internalRuolo: ['', [Validators.required]],
       smartWorking: [this.isChecked(), [Validators.required]],
     });
 
@@ -72,7 +77,14 @@ export class TimesheetAddEventComponent implements OnInit {
       });
 
     if (this.data.type === 'edit') {
-      this.ruoloInternal =  this.data.event.internalRuolo;
+      if (this.data.event.codiceFatt === "TR") {
+        this.loadOffice = true;
+      }
+      if (this.data.event.title === 'LAVORO' || this.data.event.title === 'SEDE' ||this.data.event.title === 'PARTIME') {
+        this.flagShowAttDest = false;
+      }
+      this.getoffices(this.data.event.customerId);
+      this.ruoloInternal = this.data.event.internalRuolo;
       this.profileForm.patchValue(
         {
           smartWorking: +this.data.event.smartWorking,
@@ -85,6 +97,7 @@ export class TimesheetAddEventComponent implements OnInit {
           internalId: this.data.event.internalId,
           internalName: this.data.event.internalName,
           internalRuolo: this.data.event.internalRuolo,
+          destinazione: this.data.event.destinazione,
         },
       );
       //passo il valore del title a onChangeSelect
@@ -107,14 +120,14 @@ export class TimesheetAddEventComponent implements OnInit {
     // la mat-checkbox smartworking resetta i dati internalName e Internalruolo a "" per rivalorizzare
     // questi campi ho valorizzato una variabile di appoggio e se nel caso l'id è valorizzato 
     // ma i suddetti campi sono vuoti gli riassegna i valori che avevano
-    if((this.profileForm.value.internalName == "") && 
-       (this.profileForm.value.internalRuolo == "") && 
-       (this.profileForm.value.internalId > 0)){
+    if ((this.profileForm.value.internalName == "") &&
+      (this.profileForm.value.internalRuolo == "") &&
+      (this.profileForm.value.internalId > 0)) {
       this.profileForm.value.internalName = this.nomeInternal;
       this.profileForm.value.internalRuolo = this.ruoloInternal;
     }
-    
-    //console.log("caso 0" ,this.profileForm.value);
+
+    //console.log("caso 0", this.profileForm.value);
     // if (this.profileForm.invalid) {
 
     //  return;
@@ -140,9 +153,9 @@ export class TimesheetAddEventComponent implements OnInit {
             && (this.profileForm.value.codiceFatturazione == '01')
             && (this.profileForm.value.customerId == 1)
           ) {
-              if(this.profileForm.value.internalId > 0 &&  this.profileForm.value.internalId != null && this.profileForm.value.internalId != ""){
-                this.dialogRef.close({ data: this.profileForm.value });
-              }
+            if (this.profileForm.value.internalId > 0 && this.profileForm.value.internalId != null && this.profileForm.value.internalId != "") {
+              this.dialogRef.close({ data: this.profileForm.value });
+            }
           } else {
             if (
               (this.profileForm.value.codiceFatturazione != '00')
@@ -151,7 +164,15 @@ export class TimesheetAddEventComponent implements OnInit {
               && (this.profileForm.value.customerId > 1)
               && (this.profileForm.value.customerId != null)
             ) {
-              this.dialogRef.close({ data: this.profileForm.value });
+              if (this.profileForm.value.codiceFatturazione == "TR") {
+                if (this.profileForm.value.destinazione != null && this.profileForm.value.destinazione != "") {
+                  this.dialogRef.close({ data: this.profileForm.value });
+                }
+              } else {
+                if (this.profileForm.value.codiceFatturazione != "TR") {
+                  this.dialogRef.close({ data: this.profileForm.value });
+                }
+              }
             }
           }
         }
@@ -200,6 +221,7 @@ export class TimesheetAddEventComponent implements OnInit {
           activityId: 1,
           codiceFatturazione: '01',
           customerId: 1,
+          destinazione: '',
         };
 
         this.profileForm.patchValue(patch1);
@@ -217,6 +239,7 @@ export class TimesheetAddEventComponent implements OnInit {
           internalName: '',
           internalRuolo: '',
           internalId: '',
+          destinazione: '',
         };
 
         this.profileForm.patchValue(patch2);
@@ -237,11 +260,11 @@ export class TimesheetAddEventComponent implements OnInit {
           internalName: '',
           internalRuolo: '',
           internalId: '',
+          destinazione: '',
         };
 
         this.profileForm.patchValue(patch3);
         break;
-
 
       default:
         this.insertSede = false;
@@ -256,6 +279,7 @@ export class TimesheetAddEventComponent implements OnInit {
           internalName: '',
           internalRuolo: '',
           internalId: '',
+          destinazione: '',
         };
         this.profileForm.patchValue(patch4);
 
@@ -306,8 +330,46 @@ export class TimesheetAddEventComponent implements OnInit {
     console.log(this.eventsSelected);
   }
 
-  onChangeFattSelect($event) {
+  getoffices(id) {
+    this.service.getOfficesByCustomer(id).subscribe(
+      result => {
+        if (result['status'] === 'error') {
+          this.officeslist = [];
+        } else {
+          this.officeslist = result['data'].map(x => x);
+        }
+      }, error => {
+        this.officeslist = [];
+      }
+    );
+  }
 
+  customerListActions(customer) {
+    const patch = {
+      destinazione: '',
+      activityId: '',
+    };
+    this.profileForm.patchValue(patch);
+    if ((this.loadOffice) && (customer != undefined)) {
+      this.getoffices(customer.id)
+    } else {
+      this.officeslist = [];
+    }
+
+    if (customer != undefined) {
+      this.flagShowAttDest = false;
+    } else {
+      this.flagShowAttDest = true;
+    }
+
+  }
+
+  onChangeFattSelect($event) {
+    if ($event == "TR") {
+      this.loadOffice = true;
+    } else {
+      this.loadOffice = false;
+    }
   }
   valueChanged(e) {
     //cambio da 8 a 24 ore 
@@ -328,13 +390,13 @@ export class TimesheetAddEventComponent implements OnInit {
     return (this.allComplete == true ? false : true);
   }
 
-  selectedInternal($event){
-    if($event != undefined){
+  selectedInternal($event) {
+    if ($event != undefined) {
       this.profileForm.value.internalName = $event.inat.name;
       this.profileForm.value.internalRuolo = $event.rela.ruolo;
       this.nomeInternal = $event.inat.name;
       this.ruoloInternal = $event.rela.ruolo;
-    }else{
+    } else {
       this.profileForm.value.internalName = '';
       this.profileForm.value.internalRuolo = '';
       this.nomeInternal = '';
