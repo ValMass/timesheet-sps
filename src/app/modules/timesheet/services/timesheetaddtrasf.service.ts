@@ -11,9 +11,9 @@ export class TimesheetaddtrasfService {
 
   constructor(private http: HttpClient) { }
 
-  getPossibleDestination(customerId, userId, officesId) {
+  getPossibleDestination(customerId, userId) {
     const url = environment.apiUrl + 'timesheets/getPossibleDestinationV2.php';
-    return this.http.post(url, { customerId, userId, officesId }).pipe(catchError(error => {
+    return this.http.post(url, { customerId, userId }).pipe(catchError(error => {
       return EMPTY;
     }), mergeMap(something => {
       if (something) {

@@ -73,11 +73,14 @@ export class TimesheetAddTrasfComponent implements OnInit {
       this.attivita =  this.clientiList[0].internalName + " - " +  this.clientiList[0].internalRuolo;
       this.profileForm.patchValue({
         customerId :  this.clientiList[0],
-        activityId :  0,
+        activityId :  "0",
       })
     }
     //lista delle destinazioni
     //this.getoffices(this.data.currentValueDay[0].customerId);
+    console.log("this.clientiList[0]" , this.clientiList[0].customerId);
+    console.log("this.data.timesheet.userid" , this.data.timesheet.userid);
+    this.getPossibleDestination( 2 , 3)
   }
 
   fillArray(array) {
@@ -158,8 +161,8 @@ export class TimesheetAddTrasfComponent implements OnInit {
   }
 
   //TODO
-  getPossibleDestination(customerId, userId, officesId) {
-    this.timesheetaddtrasfService.getPossibleDestination(customerId, userId, officesId).subscribe(
+  getPossibleDestination(customerId, userId) {
+    this.timesheetaddtrasfService.getPossibleDestination(customerId, userId).subscribe(
       res => {
         console.log(res);
       }
