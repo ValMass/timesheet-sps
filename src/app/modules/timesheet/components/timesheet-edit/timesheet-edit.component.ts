@@ -739,7 +739,7 @@ export class TimesheetEditComponent implements OnInit {
       (res) => {
         console.log(this.currentTimesheet);
         if ( res === undefined ) {
-          this.toastrService.info('Nessna Operazione effettuata');
+          this.toastrService.info('Nessuna Operazione effettuata');
         } else {
           this.currentTimesheet.trasferte = res.data;
           //console.log("acivalue to change", res.acivalue);

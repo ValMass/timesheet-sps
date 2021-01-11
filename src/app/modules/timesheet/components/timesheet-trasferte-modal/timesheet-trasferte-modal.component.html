@@ -54,7 +54,7 @@
             <th scope="col">Stringa</th>
             <th scope="col">Distanza</th>
             <th scope="col">Rimborso</th>
-            <th scope="col"></th>
+            <!--<th scope="col"></th>-->
           </tr>
         </thead>
         <tbody>
@@ -98,12 +98,12 @@
           <app-button-footer class="card-footer-item" [className]="'edit-item'" [iconClasses]="'fas fa-edit mr-2'"
             (clicked)="selectCustomer($event)" label="Edit" [item]="useradmin"></app-button-footer>
         -->
-            <td><i class="fa fa-trash" aria-hidden="true" (click)="deleteTrasferta(trasferta)" style="cursor: pointer"></i></td>
+            <!--<td><i class="fa fa-trash" aria-hidden="true" (click)="deleteTrasferta(trasferta)" style="cursor: pointer"></i></td>-->
           </tr>
         </tbody>
       </table>
     </div>
-    <div>
+    <!--<div>
       <button style="width: 100% !important" class="btn btn-primary w-25" (click)="openAddTrasferta()">{{newTrasFlag === false ? 'Nuova trasferta' : 'Chiudi' }}</button>
       <hr *ngIf="newTrasFlag">
 
@@ -131,7 +131,7 @@
         </div>
       </form>
 
-    </div>
+    </div>-->
     <hr *ngIf="newTrasFlag">
   </div>
   <div class="d-flex justify-content-between" mat-dialog-actions style="margin-top: 20px;">

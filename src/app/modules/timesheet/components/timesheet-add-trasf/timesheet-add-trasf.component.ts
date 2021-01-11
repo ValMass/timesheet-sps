@@ -5,6 +5,7 @@ import { TimesheetAddEventComponent } from './../timesheet-add-event/timesheet-a
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TimesheetaddtrasfService } from '../../services/timesheetaddtrasf.service';
 
 @Component({
   selector: 'app-timesheet-add-trasf',
@@ -23,18 +24,21 @@ export class TimesheetAddTrasfComponent implements OnInit {
   aggiungiButtonDisabled: boolean = false;
   errorMessage = "";
   clientiList: any;
+  clientiListTemp: any[];
   officeslist: any;
-  activityList: any;
-  destinationlist : any; //temp
+  activityList: any = [];
+  destinationlist: any; //temp
   currentUserData: any = {};
   sede: any = {};
   attivita = "";
+
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<TimesheetAddEventComponent>,
     private formBuilder: FormBuilder,
     private timesheetaddeventService: TimesheetaddeventService,
+    private timesheetaddtrasfService: TimesheetaddtrasfService,
     private timesheetService: TimesheethttpService,
 
   ) { }
@@ -44,19 +48,157 @@ export class TimesheetAddTrasfComponent implements OnInit {
     this.profileForm = this.formBuilder.group({
       customerId: ['', [Validators.required]],
       activityId: ['', [Validators.required]],
-      sedeId :      ['' ,  [Validators.required]],
-      destTrasf:  ['', [Validators.required]],
-      eventDate:  [this.data.date, [Validators.required]],
+      sedeId: ['', [Validators.required]],
+      destTrasf: ['', [Validators.required]],
+      eventDate: [this.data.date, [Validators.required]],
     });
-    this.activityList = this.data.activityList;
-    this.clientiList = this.data.currentValueDay;
-    this.profileForm.patchValue({
-      customerId :  this.data.currentValueDay[0].customerId,
-      activityId :  this.data.currentValueDay[0].activityId,
-    })
-    this.attivita = this.findactivity( this.data.currentValueDay[0].activityId , this.data.currentValueDay[0].customerId,);
+
+    //prendo la sede di lavoro
     this.getSedeDiLavoro(this.data.timesheet.userid);
-    this.getoffices(this.data.currentValueDay[0].customerId);
+
+    //creo la lista dei clienti
+    this.clientiList = this.fillArray(this.data.currentValueDay)
+
+    //lista attivita esterne
+    this.activityList = this.data.activityList;
+
+    //valorizzio il form alla prima posizione
+    if (this.clientiList[0].title != "SEDE") {
+      this.attivita = this.findactivity(this.data.currentValueDay[0].activityId, this.data.currentValueDay[0].customerId,);
+      this.profileForm.patchValue({
+        customerId :  this.clientiList[0],
+        activityId :  this.clientiList[0].activityId,
+      })
+    }else{
+      this.attivita =  this.clientiList[0].internalName + " - " +  this.clientiList[0].internalRuolo;
+      this.profileForm.patchValue({
+        customerId :  this.clientiList[0],
+        activityId :  0,
+      })
+    }
+    //lista delle destinazioni
+    //this.getoffices(this.data.currentValueDay[0].customerId);
+  }
+
+  fillArray(array) {
+    //console.log("custValueDay", custValueDay)
+    let mappedArray = array
+      .map(x => ({
+        title: x.title,
+        name: x.customerName != "" ? x.customerName : "Interno - SPS",
+        activityId: x.activityId ? x.activityId : "0",
+        customerId: x.customerId ? x.customerId : "0",
+        internalId: x.InternalId ? x.InternalId : "0",
+        internalName: x.internalName ? x.internalName : "",
+        internalRuolo: x.internalRuolo ? x.internalRuolo : "",
+      })
+      )
+    //console.log("mappedArray", mappedArray)
+    return (mappedArray);
+  }
+
+  findactivity(activityId, customerId) {
+    let res = ""
+    let index = this.activityList.findIndex(
+      element => (element.act.id === activityId && element.cus.id === customerId)
+    )
+    res = this.activityList[index].act.name;
+    return (res)
+  }
+
+  customerListActions(customer) {
+    //console.log("customer", customer)
+    if (customer.title != "SEDE") {
+      this.fillNotInternal(customer);
+    }else{
+      this.fillInternal(customer);
+    }
+  }
+
+  fillNotInternal(customer){
+    const patch = {
+      destTrasf: '',
+      activityId: customer.activityId,
+    };
+    this.profileForm.patchValue(patch);
+
+    this.attivita = this.findactivity(customer.activityId, customer.customerId);
+
+    if ((customer != undefined)) {
+      //this.getoffices(customer.customerId)
+    } else {
+      this.officeslist = [];
+    }
+  }
+
+  fillInternal(customer){
+    const patch = {
+      destTrasf: '',
+      activityId: "0",
+    };
+
+    this.attivita = customer.internalName + " - " + customer.internalRuolo;
+
+    this.profileForm.patchValue(patch);
+  }
+  
+  //TODO
+  getoffices(id) {
+    this.timesheetaddeventService.getOfficesByCustomer(id).subscribe(
+      result => {
+        if (result['status'] === 'error') {
+          this.officeslist = [];
+        } else {
+          this.officeslist = result['data'].map(x => x);
+        }
+      }, error => {
+        this.officeslist = [];
+      }
+    );
+  }
+
+  //TODO
+  getPossibleDestination(customerId, userId, officesId) {
+    this.timesheetaddtrasfService.getPossibleDestination(customerId, userId, officesId).subscribe(
+      res => {
+        console.log(res);
+      }
+    );
+  }
+
+  //TODO
+  addTrasferte(timesheetId, trasferta, data){
+    this.timesheetaddtrasfService.addTrasferta(timesheetId, trasferta, data).subscribe(
+      res => {
+        console.log(res);
+      }
+    );
+  }
+
+  getSedeDiLavoro(userid) {
+    this.timesheetService.getUserData(userid)
+      .subscribe(
+        userData => {
+          this.timesheetService.getUserOffice(userData["data"][0].anad.sededilavoro)
+            .subscribe(
+              res => {
+                this.sede = res["data"]
+                this.profileForm.patchValue({
+                  sedeId: this.sede.id,
+                })
+              }
+            )
+        }
+      );
+  }
+
+  submit() {
+    this.submitted = true
+    console.log("submit", this.profileForm.value);
+  }
+
+  close() {
+    this.dialogRef.close({ data: 'close' });
   }
 
   onDateChange(event) {
@@ -107,82 +249,5 @@ export class TimesheetAddTrasfComponent implements OnInit {
       }
     });
     console.log(this.eventsSelected);
-  }
-
-  getoffices(id) {
-    this.timesheetaddeventService.getOfficesByCustomer(id).subscribe(
-      result => {
-        if (result['status'] === 'error') {
-          this.officeslist = [];
-        } else {
-          this.officeslist = result['data'].map(x => x);
-        }
-      }, error => {
-        this.officeslist = [];
-      }
-    );
-  }
-
-  getPossibleDestination(id){
-      this.timesheetService.getPossibleDestination(id).subscribe(
-        res => {
-          //console.log(res);
-          this.destinationlist = res["data"];
-          //console.log(this.destinations);
-        }
-      );
-  }
-
-  getSedeDiLavoro(userid) {
-    this.timesheetService.getUserData(userid)
-      .subscribe(
-        userData => {
-          this.timesheetService.getUserOffice(userData["data"][0].anad.sededilavoro)
-            .subscribe(
-              res => {
-                this.sede = res["data"]
-                this.profileForm.patchValue({
-                  sedeId : this.sede.id,
-                })
-              }
-            )
-        }
-      );
-  }
-
-   
-  findactivity(activityId , customerId){
-    let res = ""
-    let index = this.activityList.findIndex(
-      element => (element.act.id === activityId && element.cus.id === customerId)
-    )
-    res =this.activityList[index].act.name;
-    return(res)
-  }
-
-  customerListActions(customer) {
-    
-    const patch = {
-      destTrasf: '',
-      activityId: customer.activityId,
-    };
-
-    this.attivita = this.findactivity(customer.activityId , customer.customerId);
-    
-    this.profileForm.patchValue(patch);
-    if ((customer != undefined)) {
-      this.getoffices(customer.customerId)
-    } else {
-      this.officeslist = [];
-    }
-  }
- 
-  submit() {
-    this.submitted = true
-    console.log("submit", this.profileForm.value);
-  }
-
-  close() {
-    this.dialogRef.close({ data: 'close' });
   }
 }

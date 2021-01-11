@@ -15,7 +15,7 @@
             <div class="mb-2">
                 <div>
                     <label for="cliente" class="col-form-label">Cliente</label>
-                    <ng-select  [items]="clientiList" bindLabel="customerName" formControlName="customerId" bindValue="customerId"
+                    <ng-select  [items]="clientiList" bindLabel="name" formControlName="customerId"
                         (change)="customerListActions($event)">
                     </ng-select>
                 </div>

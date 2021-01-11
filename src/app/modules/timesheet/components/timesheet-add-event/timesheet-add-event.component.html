@@ -71,7 +71,7 @@
             <!--<option value="NF">Non fatturabili</option>-->
             <option value="RP">Ore di reperibilità</option>
             <option value="IN">Ore di intervento</option>
-            <option value="TR">Trasferta</option>-->
+            <option value="TR">Trasferta</option>
           </select>
           <div *ngIf="f.codiceFatturazione.value === '00' && submitted" style="color: red;">Campo obbligatorio</div>
         </div>
@@ -129,7 +129,7 @@
         </div>
       </div>
 
-      <div class="mb-2" *ngIf="insertSmartWorking">
+      <div class="mb-2" *ngIf="insertSmartWorking && f.codiceFatturazione.value != 'TR'">
         <mat-checkbox class="example-margin" formControlName="smartWorking" labelPosition="before">
           Smart Working
         </mat-checkbox>

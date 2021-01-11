@@ -127,7 +127,7 @@ export class TimesheetAddEventComponent implements OnInit {
       this.profileForm.value.internalRuolo = this.ruoloInternal;
     }
 
-    console.log("caso 0", this.profileForm.value);
+    //console.log("caso 0", this.profileForm.value);
     // if (this.profileForm.invalid) {
 
     //  return;
@@ -152,7 +152,8 @@ export class TimesheetAddEventComponent implements OnInit {
             && (this.profileForm.value.codiceFatturazione == '01')
             && (this.profileForm.value.customerId == 1)
           ) {
-            if (this.profileForm.value.internalId > 0 && this.profileForm.value.internalId != null && this.profileForm.value.internalId != "") {
+            if (this.profileForm.value.internalId > 0 && this.profileForm.value.internalId != null 
+              && this.profileForm.value.internalId != "") {
               this.dialogRef.close({ data: this.profileForm.value });
             }
           } else {
@@ -372,6 +373,13 @@ export class TimesheetAddEventComponent implements OnInit {
   onChangeFattSelect($event) {
     if ($event == "TR") {
       this.loadOffice = true;
+      //se il customer è valorizzato prendo le destinazioni 
+      if(this.profileForm.value.customerId != null){
+        this.getoffices(this.profileForm.value.customerId)
+      }
+      this.profileForm.patchValue({
+        smartWorking: false,
+      })
     } else {
       this.loadOffice = false;
     }
