@@ -12,12 +12,13 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TimesheetTrasferteModalComponent } from './components/timesheet-trasferte-modal/timesheet-trasferte-modal.component';
+import { TimesheetAddTrasfComponent } from './components/timesheet-add-trasf/timesheet-add-trasf.component';
 
 
 
 
 @NgModule({
-  declarations: [TimesheetEditComponent, TimesheetAddEventComponent, TimesheetTrasferteModalComponent,],
+  declarations: [TimesheetEditComponent, TimesheetAddEventComponent, TimesheetTrasferteModalComponent, TimesheetAddTrasfComponent,],
   imports: [
     CommonModule,
     TimesheetRoutingModule,

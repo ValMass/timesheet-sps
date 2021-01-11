@@ -105,7 +105,7 @@
       
       <div *ngIf="f.codiceFatturazione.value == 'TR'">
         <div class="mb-2">
-          <label for="numeroprotocollo" class="col-form-label">Destinazione</label>
+          <label for="numeroprotocollo" class="col-form-label">Destinazione trasferta</label>
           <ng-select [readonly]="flagShowAttDest" [items]="officeslist" bindLabel="address" formControlName="destinazione" bindValue="id"
               [ngClass]="{'error': (f.destinazione.value === null || f.destinazione.value === '') && submitted}">
             </ng-select>

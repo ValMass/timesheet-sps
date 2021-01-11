@@ -1,3 +1,4 @@
+import { TimesheetAddTrasfComponent } from './../timesheet-add-trasf/timesheet-add-trasf.component';
 import { Trasferta } from './../../model/trasferta';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -122,6 +123,8 @@ export class TimesheetEditComponent implements OnInit {
   currentUserInfo: any;
 
   alertFlag : boolean = true;
+  currentValueDay : any = [];
+  disableAddTrasf : boolean = true;
 
   constructor(
     public dialog: MatDialog,
@@ -160,7 +163,6 @@ export class TimesheetEditComponent implements OnInit {
 
     // per prima cosa cerchiamo di prendere dal db il timesheet di questo mese se esiste altrimenti
     // dobbiamo creare un timesheet fittizio vuoto
-
     this.timesheetService
       .getTimesheet(month, year, this.currentTimesheetUserId)
       .subscribe(
@@ -278,6 +280,13 @@ export class TimesheetEditComponent implements OnInit {
 
   //TODO
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    if(this.checkIfCurrentValueDay(events) ){
+      this.currentValueDay = events;
+      console.log("currentValueDay" , this.currentValueDay)
+      this.disableAddTrasf = false;
+    }else{
+      this.disableAddTrasf = true;
+    }
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -291,6 +300,21 @@ export class TimesheetEditComponent implements OnInit {
     }
     // console.log(events);
     // console.log(JSON.stringify(events));
+  }
+
+  checkIfCurrentValueDay(valueDay){
+    let res : boolean = false
+    if(valueDay.length > 0){
+      for(let j : number = 0; j < valueDay.length; j ++){
+        if((valueDay[j].title == "LAVORO") ||
+            (valueDay[j].title == "SEDE") ||
+            (valueDay[j].title == "PARTIME")){
+              res = true;
+              break;
+            }
+        }
+    }
+    return(res);
   }
 
   closeOpenMonthViewDay() {
@@ -319,7 +343,7 @@ export class TimesheetEditComponent implements OnInit {
   }
 
   handleEvent(action: string, eventToUpdate: CalendarEvent): void {
-    //console.log("edit" , eventToUpdate)
+    console.log("edit" , eventToUpdate)
     if (action === 'Edited' && this.checkIfCanEditOrDelete()) {
       const dialogRef = this.dialog.open(TimesheetAddEventComponent, {
         width: '600px',
@@ -434,6 +458,25 @@ export class TimesheetEditComponent implements OnInit {
     }
   }
 
+  openAddTrasfDialog(){
+    this.assignedActivities.map(cus => cus['cus']);
+    console.log(this.assignedActivities);
+    if (this.checkIfCanModify()) {
+      const dialogRef = this.dialog.open(TimesheetAddTrasfComponent , {
+        width: '600px',
+        data: {
+         currentValueDay :this.currentValueDay,
+         date: this.viewDate,
+         activityList: this.assignedActivities,
+         timesheet: this.currentTimesheet,
+         loggeduserid: this.authenticationService.currentUserValue.id,
+        },
+      })
+    } else {
+      this.checkIfCanModifyErrorMsg();
+    }
+  }
+
 
   eventTimesChanged({
     event,
@@ -528,11 +571,10 @@ export class TimesheetEditComponent implements OnInit {
   }
 
   updateStateLabel() {
-
-
     this.currentTimesheet.state = String(this.currentTimesheet.state);
     //console.log(this.currentTimesheet.state);
     this.currentTimesheet.state = this.currentTimesheet.state;
+    console.log("currentTimesheetState" , this.currentTimesheet.state)
     switch (this.currentTimesheet.state) {
       case '0':
         this.disableAggiungiEvento = false;
@@ -893,31 +935,36 @@ export class TimesheetEditComponent implements OnInit {
     this.showResetStatus = false;
   }
 
+  //TODO icon
   selectCssIcon(event){
     let res ="";
     if(this.authenticationService.currentUserValue.isadmin != "2"){
       if(event.contractCode === "MALATT" || event.title === "MALATT"){
         res = "malattia";
       }
-      if((event.contractCode === "LAVORO" || event.contractCode === "SEDE" || event.contractCode === "PARTIME") ||
-        (event.title === "LAVORO" || event.title === "SEDE" || event.title === "PARTIME")){
+      if((event.contractCode === "LAVORO"  || event.contractCode === "PARTIME") ||
+        (event.title === "LAVORO"  || event.title === "PARTIME") || (event.contractCode === "SEDE" || event.title === "SEDE")){
         if(event.codiceFatturazione === "TR" || event.codiceFatt === "TR"){
-          res = "macchinina2";
-        }else{
           res = "macchinina";
+        }else{
+          res = "";
         }
+      }
+      if(false){
+        res ="macchinina3"
       }
     }
     return(res)
   }
 
+  //TODO draggable
   isDraggable(event){
     let res = false;
-    if(this.authenticationService.currentUserValue.isadmin != "2"){
+    /*if(this.authenticationService.currentUserValue.isadmin != "2"){
       if(event.codiceFatturazione === "TR" || event.codiceFatt === "TR"){
-        res = true;
+        res = false;
       }
-    }
+    }*/
     return res;
   }
 

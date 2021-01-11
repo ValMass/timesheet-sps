@@ -127,7 +127,7 @@ export class TimesheetAddEventComponent implements OnInit {
       this.profileForm.value.internalRuolo = this.ruoloInternal;
     }
 
-    //console.log("caso 0", this.profileForm.value);
+    console.log("caso 0", this.profileForm.value);
     // if (this.profileForm.invalid) {
 
     //  return;
@@ -149,7 +149,6 @@ export class TimesheetAddEventComponent implements OnInit {
         }
         else {
           if ((this.profileForm.value.contractCode == 'SEDE')
-            && (this.profileForm.value.activityId == 1)
             && (this.profileForm.value.codiceFatturazione == '01')
             && (this.profileForm.value.customerId == 1)
           ) {
@@ -209,6 +208,12 @@ export class TimesheetAddEventComponent implements OnInit {
         this.insertNumeroOre = false;
         this.insertMalattia = false;
         this.insertSmartWorking = true;
+        const patch = {
+          internalId : '',
+          internalRuolo: '',
+          internalName: '',
+        }
+        this.profileForm.patchValue(patch);
         break;
 
       case 'SEDE':
@@ -218,7 +223,7 @@ export class TimesheetAddEventComponent implements OnInit {
         this.insertMalattia = false;
         this.insertSmartWorking = true;
         const patch1 = {
-          activityId: 1,
+          activityId: '',
           codiceFatturazione: '01',
           customerId: 1,
           destinazione: '',

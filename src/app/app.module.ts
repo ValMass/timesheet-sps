@@ -1,3 +1,4 @@
+import { TimesheetAddTrasfComponent } from './modules/timesheet/components/timesheet-add-trasf/timesheet-add-trasf.component';
 import { AddInternalactivityComponent } from './modules/user-admin/add-internalactivity/add-internalactivity.component';
 import { MY_DATE_FORMATS } from '@app/shared/my-date-formats';
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
@@ -104,6 +105,7 @@ import { LoaderInterceptor } from './_helper/loader.interceptor';
     AddCustomerOfficeComponent,
     TimesheetAddEventComponent,
     TimesheetTrasferteModalComponent,
+    TimesheetAddTrasfComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
