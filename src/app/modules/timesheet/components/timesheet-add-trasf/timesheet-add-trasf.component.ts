@@ -24,7 +24,6 @@ export class TimesheetAddTrasfComponent implements OnInit {
   aggiungiButtonDisabled: boolean = false;
   errorMessage = "";
   clientiList: any;
-  clientiListTemp: any[];
   officeslist: any;
   activityList: any = [];
   destinationlist: any; //temp
@@ -69,18 +68,16 @@ export class TimesheetAddTrasfComponent implements OnInit {
         customerId :  this.clientiList[0],
         activityId :  this.clientiList[0].activityId,
       })
+      this.getPossibleDestination( this.clientiList[0].customerId , this.data.timesheet.userid)
+
     }else{
       this.attivita =  this.clientiList[0].internalName + " - " +  this.clientiList[0].internalRuolo;
       this.profileForm.patchValue({
         customerId :  this.clientiList[0],
         activityId :  "0",
       })
+      this.getPossibleDestination( "0" , this.data.timesheet.userid)
     }
-    //lista delle destinazioni
-    //this.getoffices(this.data.currentValueDay[0].customerId);
-    console.log("this.clientiList[0]" , this.clientiList[0].customerId);
-    console.log("this.data.timesheet.userid" , this.data.timesheet.userid);
-    this.getPossibleDestination( 2 , 3)
   }
 
   fillArray(array) {
@@ -126,7 +123,7 @@ export class TimesheetAddTrasfComponent implements OnInit {
     this.profileForm.patchValue(patch);
 
     this.attivita = this.findactivity(customer.activityId, customer.customerId);
-
+    this.getPossibleDestination(customer.customerId , this.data.timesheet.userid)
     if ((customer != undefined)) {
       //this.getoffices(customer.customerId)
     } else {
@@ -141,6 +138,7 @@ export class TimesheetAddTrasfComponent implements OnInit {
     };
 
     this.attivita = customer.internalName + " - " + customer.internalRuolo;
+    this.getPossibleDestination("0" , this.data.timesheet.userid)
 
     this.profileForm.patchValue(patch);
   }
@@ -164,7 +162,7 @@ export class TimesheetAddTrasfComponent implements OnInit {
   getPossibleDestination(customerId, userId) {
     this.timesheetaddtrasfService.getPossibleDestination(customerId, userId).subscribe(
       res => {
-        console.log(res);
+        this.destinationlist = res["data"]
       }
     );
   }
