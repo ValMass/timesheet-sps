@@ -27,7 +27,7 @@ export class TimesheetAddTrasfComponent implements OnInit {
   destinationlist: any = [];
   sede: any = {};
   attivita = "";
-  timesheetId : number;
+  timesheetId: number;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -62,19 +62,19 @@ export class TimesheetAddTrasfComponent implements OnInit {
       this.flagShowOff = false;
       this.attivita = this.findactivity(this.data.currentValueDay[0].activityId, this.data.currentValueDay[0].customerId,);
       this.profileForm.patchValue({
-        customerId :  this.clientiList[0],
-        activityId :  this.clientiList[0].activityId,
+        customerId: this.clientiList[0],
+        activityId: this.clientiList[0].activityId,
       })
-      this.getPossibleDestination( this.clientiList[0].customerId , this.data.timesheet.userid)
+      this.getPossibleDestination(this.clientiList[0].customerId, this.data.timesheet.userid)
 
-    }else{
+    } else {
       this.flagShowOff = true;
-      this.attivita =  this.clientiList[0].internalName + " - " +  this.clientiList[0].internalRuolo;
+      this.attivita = this.clientiList[0].internalName + " - " + this.clientiList[0].internalRuolo;
       this.profileForm.patchValue({
-        customerId :  this.clientiList[0],
-        activityId :  "0",
+        customerId: this.clientiList[0],
+        activityId: "0",
       })
-      this.getPossibleDestination( "0" , this.data.timesheet.userid)
+      this.getPossibleDestination("0", this.data.timesheet.userid)
     }
     this.timesheetId = this.data.timesheet.id;
   }
@@ -106,22 +106,25 @@ export class TimesheetAddTrasfComponent implements OnInit {
   }
 
   customerListActions(customer) {
-    
-    if(customer != undefined){
-      if(customer.title != "SEDE") {
+
+    if (customer != undefined) {
+      if (customer.title != "SEDE") {
         this.flagShowOff = false;
         this.fillNotInternal(customer);
-      }else{
+      } else {
         this.flagShowOff = true;
         this.fillInternal(customer);
       }
-    }else{
+    } else {
       this.attivita = "";
       this.destinationlist = [];
+      this.profileForm.patchValue({
+        destTrasf: '',
+      })
     }
   }
 
-  fillNotInternal(customer){
+  fillNotInternal(customer) {
     const patch = {
       destTrasf: '',
       activityId: customer.activityId,
@@ -130,10 +133,10 @@ export class TimesheetAddTrasfComponent implements OnInit {
 
     this.attivita = this.findactivity(customer.activityId, customer.customerId);
 
-    this.getPossibleDestination(customer.customerId , this.data.timesheet.userid)
+    this.getPossibleDestination(customer.customerId, this.data.timesheet.userid)
   }
 
-  fillInternal(customer){
+  fillInternal(customer) {
     const patch = {
       destTrasf: '',
       activityId: "0",
@@ -141,7 +144,7 @@ export class TimesheetAddTrasfComponent implements OnInit {
 
     this.attivita = customer.internalName + " - " + customer.internalRuolo;
 
-    this.getPossibleDestination("0" , this.data.timesheet.userid)
+    this.getPossibleDestination("0", this.data.timesheet.userid)
 
     this.profileForm.patchValue(patch);
   }
@@ -173,10 +176,14 @@ export class TimesheetAddTrasfComponent implements OnInit {
 
   submit() {
     this.submitted = true
-    this.dialogRef.close({ 
-      timesheetId: this.timesheetId ,
-      trasferta :  this.profileForm.value.destTrasf , 
-      data: this.profileForm.value.eventDate });
+    if ((this.profileForm.value.customerId != null && this.profileForm.value.customerId != undefined) &&
+      (this.profileForm.value.destTrasf != null && this.profileForm.value.destTrasf != "")) {
+      this.dialogRef.close({
+        timesheetId: this.timesheetId,
+        trasferta: this.profileForm.value.destTrasf,
+        data: this.profileForm.value.eventDate
+      });
+    }
   }
 
   close() {

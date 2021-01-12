@@ -961,11 +961,10 @@ export class TimesheetEditComponent implements OnInit {
         if(event.codiceFatturazione === "TR" || event.codiceFatt === "TR"){
           res = "macchinina";
         }else{
-          res = "";
+          if(event.title === "TRASFRIMB"  || event.contractCode === "TRASFRIMB"){
+            res ="macchinina3"
+          }
         }
-      }
-      if(event.title === "TRASFRIMB"  || event.contractCode === "TRASFRIMB"){
-        res ="macchinina3"
       }
     }
     return(res)
@@ -973,7 +972,7 @@ export class TimesheetEditComponent implements OnInit {
 
   isDraggable(event){
     let res = false;
-    if(this.authenticationService.currentUserValue.isadmin != "2"){
+    if(this.authenticationService.currentUserValue.isadmin == "0"){
       if(event.title === "TRASFRIMB"  || event.contractCode === "TRASFRIMB"){
         res = true;
       }
