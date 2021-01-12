@@ -1,4 +1,8 @@
 <div class="tab-user ">
+  <app-user-admin-calendar 
+    *ngIf= "showButton" 
+    (dateToLoad)="getUserListLoadData($event)">
+  </app-user-admin-calendar>
   <list-header title="Aggiungi Utenti" (add)="openDialog()"
    *ngIf= "showButton">
   </list-header>
@@ -15,6 +19,5 @@
   <app-modal class="modal-customer" [message]="message" [isOpen]="showModal" (handleNo)="closeModal()"
     (handleYes)="deleteUserAdmin()">
   </app-modal>
-  <app-user-admin-calendar *ngIf= "showButton" (dateToLoad)="getUserListLoadData($event)"></app-user-admin-calendar>
 </div>
 

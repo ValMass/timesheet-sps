@@ -1,7 +1,10 @@
 <div>
-    <input matInput [matDatepicker]="picker" (dateChange)="changeData($event)">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker startView="year">
-    </mat-datepicker>
-    <button class="button-custom" mat-button color="accent" (click)="loadDate()">Carica data</button>
+    <div class="row" style="width: 80% ; height: 20px;">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker startView="year" [startAt]="pickerDate" (monthSelected)="closeDatePicker($event)">
+        </mat-datepicker>
+        <input type="text" matInput [matDatepicker]="picker">
+        <input [(ngModel)]="pickerDate" placeholder="Choose a date">
+        <button class="button-custom" mat-button color="accent" (click)="loadDate()">Carica data</button>
+    </div>
 </div>
