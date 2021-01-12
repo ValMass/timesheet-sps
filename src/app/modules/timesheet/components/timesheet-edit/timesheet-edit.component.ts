@@ -427,31 +427,35 @@ export class TimesheetEditComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe(
         (res) => {
-        //console.log("resopenAddEventDialog" , res)
-        if (res.data !== 'close') {
-          const event: NewCalendarEvent = {
-            title: res.data.contractCode,
-            start: new Date(res.data.eventDate),
-            nOre: res.data.numeroOre,
-            actions: this.actions,
-            codiceFatt: res.data.codiceFatturazione,
-            numProtocollo: res.data.numProtocollo,
-            activityId: res.data.activityId,
-            customerId: res.data.customerId,
-            smartWorking: +res.data.smartWorking,
-            contractCode: res.data.contractCode,
-            internalId: res.data.internalId ,
-            internalName: res.data.internalName,
-            internalRuolo: res.data.internalRuolo,
-            destinazione: res.data.destinazione,
-            customerName: res.data.contractCode === 'LAVORO' ||  res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
-            cssClass: this.selectCssIcon(res.data),
-            draggable: this.isDraggable(res.data),
-          };
-          //console.log("event" , event)
-          this.events = [...this.events, event];
-          this.toastrService.success('Evento aggiunto temporaneamente. Salvare il timesheet per applicare le modifiche');
-        } else {
+        if(res){
+          //console.log("resopenAddEventDialog" , res)
+          if (res.data !== 'close') {
+            const event: NewCalendarEvent = {
+              title: res.data.contractCode,
+              start: new Date(res.data.eventDate),
+              nOre: res.data.numeroOre,
+              actions: this.actions,
+              codiceFatt: res.data.codiceFatturazione,
+              numProtocollo: res.data.numProtocollo,
+              activityId: res.data.activityId,
+              customerId: res.data.customerId,
+              smartWorking: +res.data.smartWorking,
+              contractCode: res.data.contractCode,
+              internalId: res.data.internalId ,
+              internalName: res.data.internalName,
+              internalRuolo: res.data.internalRuolo,
+              destinazione: res.data.destinazione,
+              customerName: res.data.contractCode === 'LAVORO' ||  res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
+              cssClass: this.selectCssIcon(res.data),
+              draggable: this.isDraggable(res.data),
+            };  
+            //console.log("event" , event)
+            this.events = [...this.events, event];
+            this.toastrService.success('Evento aggiunto temporaneamente. Salvare il timesheet per applicare le modifiche');
+          } else {
+            this.toastrService.error('Nessuna operazione effettuata');
+          }
+        }else{
           this.toastrService.error('Nessuna operazione effettuata');
         }
       });
@@ -475,7 +479,16 @@ export class TimesheetEditComponent implements OnInit {
         },
       })
       dialogRef.afterClosed().subscribe(res => {
-        this.addTrasfertaInTime(res.timesheetId, res.trasferta, res.data)
+        if(res){
+          if (res.data !== 'close') {
+            this.toastrService.success('Trasferta aggiunta. Salvare il timesheet per applicare le modifiche');
+            this.addTrasfertaInTime(res.timesheetId, res.trasferta, res.data)
+          }else{
+            this.toastrService.error('Nessuna operazione effettuata');
+          }
+        }else{
+          this.toastrService.error('Nessuna operazione effettuata');
+        }
       })
       
     } else {

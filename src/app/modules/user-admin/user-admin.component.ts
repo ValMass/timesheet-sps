@@ -108,8 +108,8 @@ export class UserAdminComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       res => {
         //console.log(" 1 res: ", res.data);
-        const val = res.data
         if (res) {
+          const val = res.data
           let myObj = this.parseDialogFormRes(res['data']);
           this.anagraphicService.addEconomicData(myObj.economictoadd).subscribe(res => {
             //console.log('2 economicData:', res);
