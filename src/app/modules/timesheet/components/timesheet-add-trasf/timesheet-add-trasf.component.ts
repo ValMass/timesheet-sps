@@ -39,7 +39,7 @@ export class TimesheetAddTrasfComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log("data ", this.data);
+    //console.log("data ", this.data);
     this.profileForm = this.formBuilder.group({
       customerId: ['', [Validators.required]],
       activityId: ['', [Validators.required]],
@@ -154,19 +154,6 @@ export class TimesheetAddTrasfComponent implements OnInit {
     );
   }
 
-  //TODO
-  addTrasferte(timesheetId, trasferta, data){
-    console.log("timesheetId : " ,timesheetId)
-    console.log("trasferta : " ,trasferta)
-    console.log("data : " , data)
-
-    this.timesheetaddtrasfService.addTrasferta(timesheetId, trasferta, data).subscribe(
-      res => {
-        console.log(res);
-      }
-    );
-  }
-
   getSedeDiLavoro(userid) {
     this.timesheetService.getUserData(userid)
       .subscribe(
@@ -186,7 +173,10 @@ export class TimesheetAddTrasfComponent implements OnInit {
 
   submit() {
     this.submitted = true
-    this.addTrasferte(this.timesheetId , this.profileForm.value.destTrasf ,  this.profileForm.value.eventDate);
+    this.dialogRef.close({ 
+      timesheetId: this.timesheetId ,
+      trasferta :  this.profileForm.value.destTrasf , 
+      data: this.profileForm.value.eventDate });
   }
 
   close() {
@@ -195,22 +185,22 @@ export class TimesheetAddTrasfComponent implements OnInit {
 
   onDateChange(event) {
     this.dateObj = new Date(event.value);
-    console.log(this.dateObj);
+    //console.log(this.dateObj);
     this.getEventsForDate(this.dateObj);
     this.checkIfThisDayIsBusy();
   }
 
   checkIfThisDayIsBusy() {
     const numberOfEventToday = this.eventsSelected.length;
-    console.log(this.eventsSelected);
+    //console.log(this.eventsSelected);
     switch (numberOfEventToday) {
       case 1:
-        console.log('case 1');
+        //console.log('case 1');
         this.oneEventThisDay();
         break;
 
       default:
-        console.log('case default');
+        //console.log('case default');
         this.aggiungiButtonDisabled = false;
         this.errorMessage = '';
         break;
@@ -218,7 +208,7 @@ export class TimesheetAddTrasfComponent implements OnInit {
   }
   oneEventThisDay() {
     const event = this.eventsSelected.pop();
-    console.log(event.title);
+    //console.log(event.title);
     if (event.title === 'MALATT') {
       //this.aggiungiButtonDisabled = true;
       this.errorMessage = 'Giorno di malattia';
@@ -231,15 +221,15 @@ export class TimesheetAddTrasfComponent implements OnInit {
 
   getEventsForDate(selectedDate) {
     this.eventsPassed.forEach(event => {
-      console.log(event.start.getDate());
+      //console.log(event.start.getDate());
       const eventDay = event.start.getDate();
       const selectedDay = selectedDate.getDate();
       if (eventDay === selectedDay) {
-        console.log("event " + eventDay);
-        console.log("selectedDate " + selectedDay);
+        //console.log("event " + eventDay);
+        //console.log("selectedDate " + selectedDay);
         this.eventsSelected.push(event);
       }
     });
-    console.log(this.eventsSelected);
+    //console.log(this.eventsSelected);
   }
 }

@@ -1,3 +1,4 @@
+import { TimesheetaddtrasfService } from './../../services/timesheetaddtrasf.service';
 import { TimesheetAddTrasfComponent } from './../timesheet-add-trasf/timesheet-add-trasf.component';
 import { Trasferta } from './../../model/trasferta';
 import { Component, OnInit } from '@angular/core';
@@ -132,6 +133,7 @@ export class TimesheetEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private timesheetService: TimesheethttpService,
+    private timesheetaddtrasfService: TimesheetaddtrasfService,
     private fileservice: FileService,
     private authenticationService: AuthenticationService
   ) {}
@@ -460,7 +462,7 @@ export class TimesheetEditComponent implements OnInit {
 
   openAddTrasfDialog(){
     this.assignedActivities.map(cus => cus['cus']);
-    console.log(this.assignedActivities);
+    //console.log(this.assignedActivities);
     if (this.checkIfCanModify()) {
       const dialogRef = this.dialog.open(TimesheetAddTrasfComponent , {
         width: '600px',
@@ -472,9 +474,22 @@ export class TimesheetEditComponent implements OnInit {
          loggeduserid: this.authenticationService.currentUserValue.id,
         },
       })
+      dialogRef.afterClosed().subscribe(res => {
+        this.addTrasfertaInTime(res.timesheetId, res.trasferta, res.data)
+      })
+      
     } else {
       this.checkIfCanModifyErrorMsg();
     }
+  }
+
+  addTrasfertaInTime(timesheetId, trasferta, data){
+    this.timesheetaddtrasfService.addTrasferta(timesheetId, trasferta, data).subscribe(
+      res => {
+        console.log("resdata" , res["data"]);
+        this.loadCurrentMonthTimesheet(res["data"]);
+      }
+    );
   }
 
 
@@ -935,7 +950,6 @@ export class TimesheetEditComponent implements OnInit {
     this.showResetStatus = false;
   }
 
-  //TODO icon
   selectCssIcon(event){
     let res ="";
     if(this.authenticationService.currentUserValue.isadmin != "2"){
@@ -950,21 +964,20 @@ export class TimesheetEditComponent implements OnInit {
           res = "";
         }
       }
-      if(false){
+      if(event.title === "TRASFRIMB"  || event.contractCode === "TRASFRIMB"){
         res ="macchinina3"
       }
     }
     return(res)
   }
 
-  //TODO draggable
   isDraggable(event){
     let res = false;
-    /*if(this.authenticationService.currentUserValue.isadmin != "2"){
-      if(event.codiceFatturazione === "TR" || event.codiceFatt === "TR"){
-        res = false;
+    if(this.authenticationService.currentUserValue.isadmin != "2"){
+      if(event.title === "TRASFRIMB"  || event.contractCode === "TRASFRIMB"){
+        res = true;
       }
-    }*/
+    }
     return res;
   }
 
