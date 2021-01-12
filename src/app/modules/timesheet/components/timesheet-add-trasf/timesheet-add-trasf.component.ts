@@ -1,6 +1,5 @@
 import { TimesheethttpService } from './../../services/timesheethttp.service';
 import { CalendarEvent } from 'angular-calendar';
-import { TimesheetaddeventService } from './../../services/timesheetaddevent.service';
 import { TimesheetAddEventComponent } from './../timesheet-add-event/timesheet-add-event.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
@@ -17,26 +16,23 @@ export class TimesheetAddTrasfComponent implements OnInit {
   profileForm: FormGroup;
   submitted: boolean = false;
   loadOffice: boolean = true;
-  flagShow: boolean = true;
+  flagShowOff: boolean = true;
   dateObj: any;
   eventsPassed: CalendarEvent[] = [];
   eventsSelected: CalendarEvent[] = [];
   aggiungiButtonDisabled: boolean = false;
   errorMessage = "";
-  clientiList: any;
-  officeslist: any;
+  clientiList: any = [];
   activityList: any = [];
-  destinationlist: any; //temp
-  currentUserData: any = {};
+  destinationlist: any = [];
   sede: any = {};
   attivita = "";
-
+  timesheetId : number;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<TimesheetAddEventComponent>,
     private formBuilder: FormBuilder,
-    private timesheetaddeventService: TimesheetaddeventService,
     private timesheetaddtrasfService: TimesheetaddtrasfService,
     private timesheetService: TimesheethttpService,
 
@@ -63,6 +59,7 @@ export class TimesheetAddTrasfComponent implements OnInit {
 
     //valorizzio il form alla prima posizione
     if (this.clientiList[0].title != "SEDE") {
+      this.flagShowOff = false;
       this.attivita = this.findactivity(this.data.currentValueDay[0].activityId, this.data.currentValueDay[0].customerId,);
       this.profileForm.patchValue({
         customerId :  this.clientiList[0],
@@ -71,6 +68,7 @@ export class TimesheetAddTrasfComponent implements OnInit {
       this.getPossibleDestination( this.clientiList[0].customerId , this.data.timesheet.userid)
 
     }else{
+      this.flagShowOff = true;
       this.attivita =  this.clientiList[0].internalName + " - " +  this.clientiList[0].internalRuolo;
       this.profileForm.patchValue({
         customerId :  this.clientiList[0],
@@ -78,6 +76,7 @@ export class TimesheetAddTrasfComponent implements OnInit {
       })
       this.getPossibleDestination( "0" , this.data.timesheet.userid)
     }
+    this.timesheetId = this.data.timesheet.id;
   }
 
   fillArray(array) {
@@ -107,11 +106,18 @@ export class TimesheetAddTrasfComponent implements OnInit {
   }
 
   customerListActions(customer) {
-    //console.log("customer", customer)
-    if (customer.title != "SEDE") {
-      this.fillNotInternal(customer);
+    
+    if(customer != undefined){
+      if(customer.title != "SEDE") {
+        this.flagShowOff = false;
+        this.fillNotInternal(customer);
+      }else{
+        this.flagShowOff = true;
+        this.fillInternal(customer);
+      }
     }else{
-      this.fillInternal(customer);
+      this.attivita = "";
+      this.destinationlist = [];
     }
   }
 
@@ -123,12 +129,8 @@ export class TimesheetAddTrasfComponent implements OnInit {
     this.profileForm.patchValue(patch);
 
     this.attivita = this.findactivity(customer.activityId, customer.customerId);
+
     this.getPossibleDestination(customer.customerId , this.data.timesheet.userid)
-    if ((customer != undefined)) {
-      //this.getoffices(customer.customerId)
-    } else {
-      this.officeslist = [];
-    }
   }
 
   fillInternal(customer){
@@ -138,27 +140,12 @@ export class TimesheetAddTrasfComponent implements OnInit {
     };
 
     this.attivita = customer.internalName + " - " + customer.internalRuolo;
+
     this.getPossibleDestination("0" , this.data.timesheet.userid)
 
     this.profileForm.patchValue(patch);
   }
-  
-  //TODO
-  getoffices(id) {
-    this.timesheetaddeventService.getOfficesByCustomer(id).subscribe(
-      result => {
-        if (result['status'] === 'error') {
-          this.officeslist = [];
-        } else {
-          this.officeslist = result['data'].map(x => x);
-        }
-      }, error => {
-        this.officeslist = [];
-      }
-    );
-  }
 
-  //TODO
   getPossibleDestination(customerId, userId) {
     this.timesheetaddtrasfService.getPossibleDestination(customerId, userId).subscribe(
       res => {
@@ -169,6 +156,10 @@ export class TimesheetAddTrasfComponent implements OnInit {
 
   //TODO
   addTrasferte(timesheetId, trasferta, data){
+    console.log("timesheetId : " ,timesheetId)
+    console.log("trasferta : " ,trasferta)
+    console.log("data : " , data)
+
     this.timesheetaddtrasfService.addTrasferta(timesheetId, trasferta, data).subscribe(
       res => {
         console.log(res);
@@ -195,7 +186,7 @@ export class TimesheetAddTrasfComponent implements OnInit {
 
   submit() {
     this.submitted = true
-    console.log("submit", this.profileForm.value);
+    this.addTrasferte(this.timesheetId , this.profileForm.value.destTrasf ,  this.profileForm.value.eventDate);
   }
 
   close() {
