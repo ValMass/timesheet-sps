@@ -37,6 +37,20 @@ export class TimesheetaddtrasfService {
       }
     })
     );
-
   }
+
+  deleteTrasferta(timesheetId, trasferta, data){
+    const url = environment.apiUrl + 'timesheets/deleteTrasfertaV2.php';
+    return this.http.post(url, { timesheetId, trasferta, data }).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+        return of(something);
+      } else {
+        return EMPTY;
+      }
+    })
+    );
+  }
+
 }

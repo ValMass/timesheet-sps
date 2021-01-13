@@ -404,7 +404,13 @@ export class TimesheetEditComponent implements OnInit {
       });
     } else if (action === 'Deleted' && this.checkIfCanEditOrDelete()) {
       this.events = this.events.filter((iEvent) => iEvent !== eventToUpdate);
-      //backend -> trasferta
+      if(eventToUpdate.title === "TRASFRIMB"){
+        console.log("DELETE TRASFRIMB")
+        //FIXME
+        this.timesheetaddtrasfService.deleteTrasferta( this.currentTimesheet.id , eventToUpdate , eventToUpdate.start).subscribe(
+          res => console.log(res)
+        );
+      }
     }
   }
 
