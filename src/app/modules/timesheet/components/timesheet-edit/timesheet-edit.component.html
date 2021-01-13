@@ -72,7 +72,7 @@
       <button class="btn btn-primary mt-5 mr-1" (click)="askToResetStatus()" [disabled]="disableAzeraStato">Azzera stato</button>
       <button class="btn btn-primary mt-5 mr-1" (click)="exportInExcel()">Esporta in .Xlsx</button>
       <button class="btn btn-primary mt-5 mr-1" (click)="calcTrasferte()" [disabled]="disableCalcolaTrasferte">Calcola Trasferte</button>
-      <button class="btn btn-primary mt-5 mr-1" (click)="openAddTrasfDialog()" [disabled]="disableAddTrasf">Aggiungi Trasferta</button>
+      <button class="btn btn-primary mt-5 mr-1" (click)="askToaddTrasfertaInTime()" [disabled]="disableAddTrasf">Aggiungi Trasferta</button>
 
     </div>
   </div>
@@ -105,6 +105,10 @@
 
 <app-modal class="modal-customer" [message]="confirmationMessage" [isOpen]="showResetStatus" (handleNo)="closeConfirmationModal()"
   (handleYes)="ResetStatus()">
+</app-modal>
+
+<app-modal class="modal-customer" [message]="confirmationMessage" [isOpen]="showModalAddTrasf" (handleNo)="closeConfirmationModal()"
+  (handleYes)="openAddTrasfDialog()">
 </app-modal>
 
 

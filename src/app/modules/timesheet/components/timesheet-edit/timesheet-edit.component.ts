@@ -100,6 +100,16 @@ export class TimesheetEditComponent implements OnInit {
     },
   ];
 
+  actionsOnlyDel: CalendarEventAction[] = [
+    {
+      label: '<i class="fas fa-fw fa-trash-alt"></i>',
+      a11yLabel: 'Delete',
+      onClick: ({ event }: { event: CalendarEvent }): void => {
+        this.handleEvent('Deleted', event);
+      },
+    },
+  ];
+
   // queste label governano l'apertura delle modali che chiedono conferma al click dei vari bottoni
   // variabili per le modali di conferma
   showModalSave = false;
@@ -107,6 +117,7 @@ export class TimesheetEditComponent implements OnInit {
   showAcceptAsAdmin = false;
   showAcceptAsFinally = false;
   showResetStatus = false;
+  showModalAddTrasf =  false;
   // questo e' il messaggio visualizzato dalle modali di conferma
   confirmationMessage = '';
 
@@ -126,6 +137,7 @@ export class TimesheetEditComponent implements OnInit {
   alertFlag : boolean = true;
   currentValueDay : any = [];
   disableAddTrasf : boolean = true;
+  eventAddedTrasf : any = [];
 
   constructor(
     public dialog: MatDialog,
@@ -284,7 +296,7 @@ export class TimesheetEditComponent implements OnInit {
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if(this.checkIfCurrentValueDay(events) ){
       this.currentValueDay = events;
-      console.log("currentValueDay" , this.currentValueDay)
+      //console.log("currentValueDay" , this.currentValueDay)
       this.disableAddTrasf = false;
     }else{
       this.disableAddTrasf = true;
@@ -392,6 +404,7 @@ export class TimesheetEditComponent implements OnInit {
       });
     } else if (action === 'Deleted' && this.checkIfCanEditOrDelete()) {
       this.events = this.events.filter((iEvent) => iEvent !== eventToUpdate);
+      //backend -> trasferta
     }
   }
 
@@ -428,7 +441,7 @@ export class TimesheetEditComponent implements OnInit {
       dialogRef.afterClosed().subscribe(
         (res) => {
         if(res){
-          //console.log("resopenAddEventDialog" , res)
+          console.log("resopenAddEventDialog" , res)
           if (res.data !== 'close') {
             const event: NewCalendarEvent = {
               title: res.data.contractCode,
@@ -449,8 +462,11 @@ export class TimesheetEditComponent implements OnInit {
               cssClass: this.selectCssIcon(res.data),
               draggable: this.isDraggable(res.data),
             };  
-            //console.log("event" , event)
+            console.log("event" , event)
             this.events = [...this.events, event];
+            this.currentTimesheet.dayjson = [...this.events , event]
+            console.log("this.events" , this.events)
+
             this.toastrService.success('Evento aggiunto temporaneamente. Salvare il timesheet per applicare le modifiche');
           } else {
             this.toastrService.error('Nessuna operazione effettuata');
@@ -468,6 +484,7 @@ export class TimesheetEditComponent implements OnInit {
     this.assignedActivities.map(cus => cus['cus']);
     //console.log(this.assignedActivities);
     if (this.checkIfCanModify()) {
+      this.saveCurrentTimesheet();
       const dialogRef = this.dialog.open(TimesheetAddTrasfComponent , {
         width: '600px',
         data: {
@@ -496,13 +513,21 @@ export class TimesheetEditComponent implements OnInit {
     }
   }
 
+  askToaddTrasfertaInTime() {
+    this.showModalAddTrasf = true;
+    console.log(this.currentTimesheet);
+    this.confirmationMessage =
+      'Per aggiungere una nuova trasferta, devi salvare il timesheet corrente, sei sicuro di voler salvare il timesheet ?';
+  }
+
   addTrasfertaInTime(timesheetId, trasferta, data){
     this.timesheetaddtrasfService.addTrasferta(timesheetId, trasferta, data).subscribe(
       res => {
-        console.log("resdata" , res["data"]);
-        this.loadCurrentMonthTimesheet(res["data"]);
-      }
-    );
+          //console.log("resdata" , res["data"]);
+          this.loadCurrentMonthTimesheet(res["data"]);
+          this.saveCurrentTimesheet();
+      });
+    this.closeConfirmationModal();
   }
 
 
@@ -567,13 +592,13 @@ export class TimesheetEditComponent implements OnInit {
     this.currentTimesheet = recivedTimesheet;
     const tmpEvents = JSON.parse(recivedTimesheet.dayjson);
     this.currentTimesheet.dayjson = []; // non e' sbagliato serve per eliminare le schifezze che potrebbero essere rimaste
-    console.log(this.currentTimesheet);
+    console.log("currentTimesheet" , this.currentTimesheet);
     tmpEvents.forEach((element) => {
       const newEvent = {
         title: element.title,
         start: new Date(element.start),
         nOre: element.nOre,
-        actions: this.actions,
+        actions: element.title != "TRASFRIMB" ? this.actions : this.actionsOnlyDel ,
         codiceFatt: element.codiceFatt,
         numProtocollo: element.numProtocollo,
         activityId: element.activityId,
@@ -592,8 +617,9 @@ export class TimesheetEditComponent implements OnInit {
         ...this.currentTimesheet.dayjson,
         newEvent,
       ];
+       this.events = this.currentTimesheet.dayjson
     });
-    console.log(this.currentTimesheet.dayjson);
+    console.log("dayjson" ,  this.currentTimesheet.dayjson);
     this.currentTimesheet.trasferte = JSON.parse(recivedTimesheet.trasferte);  //TODO attenzione a questo jsonparse potrebbe dover cambiare
     this.updateStateLabel();
   }
@@ -798,13 +824,12 @@ export class TimesheetEditComponent implements OnInit {
     const year = this.viewDate.getFullYear();
     this.currentTimesheet.dayjson = this.events;
     const logged = this.authenticationService.currentUserValue.id;
-    console.log(this.currentTimesheet.trasferte);
     //this.currentTimesheet.trasferte = JSON.parse(this.currentTimesheet.trasferte);
-    console.log(this.currentTimesheet.trasferte);
+    console.log("trasferte" ,this.currentTimesheet.trasferte);
     this.timesheetService.saveTimesheet(this.currentTimesheet, logged).subscribe(
       (result) => {
         if (result.status === 'done') {
-          console.log(this.currentTimesheet);
+          console.log("currentTimesheet" ,this.currentTimesheet);
           this.loadCurrentMonthTimesheet(result.data);
           this.toastrService.success('Timesheet salvato');
           this.updateStateLabel();
@@ -961,6 +986,7 @@ export class TimesheetEditComponent implements OnInit {
     this.showAcceptAsAdmin = false;
     this.showAcceptAsFinally = false;
     this.showResetStatus = false;
+    this.showModalAddTrasf = false;
   }
 
   selectCssIcon(event){
@@ -973,11 +999,10 @@ export class TimesheetEditComponent implements OnInit {
         (event.title === "LAVORO"  || event.title === "PARTIME") || (event.contractCode === "SEDE" || event.title === "SEDE")){
         if(event.codiceFatturazione === "TR" || event.codiceFatt === "TR"){
           res = "macchinina";
-        }else{
-          if(event.title === "TRASFRIMB"  || event.contractCode === "TRASFRIMB"){
-            res ="macchinina3"
-          }
         }
+      }
+      if(event.title === "TRASFRIMB"  || event.contractCode === "TRASFRIMB"){
+        res ="macchinina3"
       }
     }
     return(res)

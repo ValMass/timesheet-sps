@@ -460,10 +460,10 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     });
     dialogRef.addPanelClass(['custom-dialog-container']);
     dialogRef.afterClosed().subscribe(res => {
-      console.log("resAssignInternalActivity" , res["data"].internalAct);
-      let internalActToadd =  res["data"].internalAct;
-      let ruoloToadd = res["data"].ruolo;
       if (res) {
+        //console.log("resAssignInternalActivity" , res["data"].internalAct);
+        let internalActToadd =  res["data"].internalAct;
+        let ruoloToadd = res["data"].ruolo;
         this.internalActivityService.assignInternalActivity(internalActToadd.inat.id , this.userAdmin.id , ruoloToadd)
           .subscribe(result => {
             if (result.status === 'done') {
