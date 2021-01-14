@@ -8,7 +8,7 @@ export const environment = {
   apiUrl: 'http://localhost:8080/',
   openRouteServiceDirectionEndpoint: 'https://api.openrouteservice.org/v2/directions/driving-car?',
   openRouteServiceGeoEndpoint: 'https://api.openrouteservice.org/geocode/search?',
-  openRouteServiceKey: '5b3ce3597851110001cf6248299e335f9c49402b9e470a50a82662ba',
+  openRouteServiceKey: '5b3ce3597851110001cf6248c11857e9ef5d4f8a87a17e23ec030e1a',
   key : 'TUc0emRqRXpkdw==',
 }
 

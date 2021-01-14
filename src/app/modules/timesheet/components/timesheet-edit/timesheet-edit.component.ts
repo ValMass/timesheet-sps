@@ -408,7 +408,9 @@ export class TimesheetEditComponent implements OnInit {
         console.log("DELETE TRASFRIMB")
         //FIXME
         this.timesheetaddtrasfService.deleteTrasferta( this.currentTimesheet.id , eventToUpdate , eventToUpdate.start).subscribe(
-          res => console.log(res)
+          res =>{ 
+            //console.log(res)
+          }
         );
       }
     }

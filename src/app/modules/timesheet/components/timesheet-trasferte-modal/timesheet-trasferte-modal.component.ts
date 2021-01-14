@@ -51,7 +51,6 @@ export class TimesheetTrasferteModalComponent implements OnInit {
       this.ricalcolaDisabled = false;
     }
     this.trasferteList = this.currentTimesheet.trasferte;
-    console.log(this.trasferteList);
     let res = null;
     try {
       res = await this.timesheetService.getUserData(userId).toPromise();
@@ -76,15 +75,17 @@ export class TimesheetTrasferteModalComponent implements OnInit {
     }
     this.sededipartenza = tmp['data'];
     console.log(this.sededipartenza);
+    console.log("trasf" ,this.trasferteList);
 
     this.trasferteListTemp = this.trasferteList.map((x) => {
       x["calcoli"] = this.calcolaPesoTrasferte(
-        x.matr.distance,
+        x["trasferta"].matr.distance,
         this.acivalue,
         this.diariavalue
       );
       return x;
     });
+    console.log("trasf" ,this.trasferteListTemp);
   }
 
   modelChanged(event) {
@@ -120,7 +121,7 @@ export class TimesheetTrasferteModalComponent implements OnInit {
 
             this.trasferteListTemp = this.trasferteListchanged.map((x) => {
               x["calcoli"] = this.calcolaPesoTrasferte(
-                x.matr.distance,
+                x["trasferta"].matr.distance,
                 paramform.value.acivalue,
                 paramform.value.diaria
               );
@@ -184,16 +185,16 @@ export class TimesheetTrasferteModalComponent implements OnInit {
 
   }
 
-  deleteTrasferta(toDelete){
+  /*deleteTrasferta(toDelete){
     if(toDelete){
       console.log(this.trasferteListTemp)
       this.trasferteListTemp = this.trasferteListTemp.filter(res => res !== toDelete);
       this.changed = true;
       this.ricalcoloRimborso();
     }
-  }
+  }*/
 
-  openAddTrasferta(){
+  /*openAddTrasferta(){
     this.newTrasFlag = !this.newTrasFlag;
     if(this.newTrasFlag){
       this.timesheetService.getPossibleDestination(this.currentTimesheet.id).subscribe(
@@ -204,10 +205,10 @@ export class TimesheetTrasferteModalComponent implements OnInit {
         }
       );
     }
-  }
+  }*/
 
 
-  addTrasf(trasferta){
+  /*addTrasf(trasferta){
     //console.log("dest" , trasferta.value.selectDest);
     this.trasferteListTemp.push(trasferta.value.selectDest);
     this.trasferteListTemp.map((x) => {
@@ -236,5 +237,5 @@ export class TimesheetTrasferteModalComponent implements OnInit {
         this.trasferteListchanged = res.data.trasferte;
       }
     );
-  }
+  }*/
 }
