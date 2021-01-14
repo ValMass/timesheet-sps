@@ -40,7 +40,7 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    //console.log("DATAPADRE" , this.data.timesheet);
+    console.log("DATAPADRE" , this.data.timesheet);
     this.currentTimesheet = this.data.timesheet;
     const userId = this.currentTimesheet.userid;
     if ( this.currentTimesheet.state === '4' ){
