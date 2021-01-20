@@ -99,9 +99,9 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   }
 
   ricalcolaTrasferte(paramform: NgForm) {
-    console.log(paramform.value.acivalue);
-    console.log(paramform.value.diaria);
-    console.log(this.data.timesheet);
+    //console.log("acivalue" , paramform.value.acivalue);
+    //console.log("diaria" , paramform.value.diaria);
+    //console.log("timesheet" , this.data.timesheet);
     this.changed = true;
     this.timesheetService
       .calcTrasferte(

@@ -405,8 +405,6 @@ export class TimesheetEditComponent implements OnInit {
     } else if (action === 'Deleted' && this.checkIfCanEditOrDelete()) {
       
       if(eventToUpdate.title === "TRASFRIMB"){
-        console.log("DELETE TRASFRIMB")
-        //FIXME
         this.timesheetaddtrasfService.deleteTrasferta( this.currentTimesheet.id , eventToUpdate , eventToUpdate.start).subscribe(
           res =>{ 
             this.loadCurrentMonthTimesheet(res["data"]);
