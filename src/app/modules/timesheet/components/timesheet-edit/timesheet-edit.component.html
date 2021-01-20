@@ -62,18 +62,25 @@
 <div class="luce" *ngIf="ismodifiable;">
   <div *ngIf="adminStyle; else elsecondition" class="timesheet-controls">
     <div class="button-container">
-      <button class="btn btn-primary mt-5 mr-1" (click)="openAddEventDialog()" [disabled]="disableAggiungiEvento">Aggiungi evento</button>
-      <button class="btn btn-warning mt-5 mr-1" (click)="askTosaveCurrentTimesheet()" [disabled]="disableSalva">Salva</button>
-      <button class="btn btn-primary mt-5 mr-1" *ngIf="!disableAccettaComeUtente" (click)="askToAcceptAsUser()" >Accetta come utente</button>
-      <button class="btn btn-primary mt-5 mr-1" *ngIf="!disableAccettaComeAmministratore" (click)="askToAcceptAsAdmin()">Accetta come amministratore</button>
-      <button class="btn btn-success mt-5 mr-1" *ngIf="!disableAccettaComeFinally" (click)="askToAcceptAsFinally()" [disabled]="veroDisableFinally">Accetta definitivamente</button>
-    </div>
-    <div class="button-container">
-      <button class="btn btn-primary mt-5 mr-1" (click)="askToResetStatus()" [disabled]="disableAzeraStato">Azzera stato</button>
-      <button class="btn btn-primary mt-5 mr-1" (click)="exportInExcel()">Esporta in .Xlsx</button>
-      <button class="btn btn-primary mt-5 mr-1" (click)="calcTrasferte()" [disabled]="disableCalcolaTrasferte">Calcola Trasferte</button>
-      <button class="btn btn-primary mt-5 mr-1" (click)="askToaddTrasfertaInTime()" [disabled]="disableAddTrasf || disableCalcolaTrasferte">Aggiungi Trasferta</button>
-
+      <div class="row">
+        <div class="col">
+          <div class="button-container">
+            <button class="btn btn-primary mt-5 mr-1" (click)="openAddEventDialog()" [disabled]="disableAggiungiEvento">Aggiungi evento</button>
+            <button class="btn btn-warning mt-5 mr-1" (click)="askTosaveCurrentTimesheet()" [disabled]="disableSalva">Salva</button>
+            <button class="btn btn-primary mt-5 mr-1" *ngIf="!disableAccettaComeUtente" (click)="askToAcceptAsUser()" >Accetta come utente</button>
+            <button class="btn btn-primary mt-5 mr-1" *ngIf="!disableAccettaComeAmministratore" (click)="askToAcceptAsAdmin()">Accetta come amministratore</button>
+            <button class="btn btn-success mt-5 mr-1" *ngIf="!disableAccettaComeFinally" (click)="askToAcceptAsFinally()" [disabled]="veroDisableFinally">Accetta definitivamente</button>
+          </div>
+          <div class="button-container">
+            <button class="btn btn-primary mt-5 mr-1" (click)="askToResetStatus()" [disabled]="disableAzeraStato">Azzera stato</button>
+            <button class="btn btn-primary mt-5 mr-1" (click)="exportInExcel()">Esporta in .Xlsx</button>
+            <button class="btn btn-primary mt-5 mr-1" (click)="calcTrasferte()" [disabled]="disableCalcolaTrasferte">Calcola Trasferte</button>
+          </div>
+        </div>
+        <div class="row">
+          <button class="btn btn-primary mt-5 mr-1" (click)="askToaddTrasfertaInTime()" [disabled]="disableAddTrasf || disableCalcolaTrasferte">Aggiungi Trasferta</button>
+        </div>
+      </div>
     </div>
   </div>
   <ng-template #elsecondition>

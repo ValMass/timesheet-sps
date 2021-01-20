@@ -26,7 +26,11 @@
 }
 
 .button-container > button {
-  width: 25%;
+  width: 40%;
+}
+
+.button-container > div {
+  width: 80%;
 }
 
 .macchinina span {
