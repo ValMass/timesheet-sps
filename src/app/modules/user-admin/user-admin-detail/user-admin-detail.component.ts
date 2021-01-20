@@ -203,14 +203,13 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       this.anagForm.value.buonipastobool = 0;
     }
 
-
-    if ((this.anagForm.value.address.length >= 2) &&
+    if(this.patternCifra.test(this.anagForm.value.phonenumber2) || this.anagForm.value.phonenumber2 === null  || this.anagForm.value.phonenumber2 === ""){
+      if ((this.anagForm.value.address.length >= 2) &&
       (this.anagForm.value.birthplace.length >= 2) &&
       (this.anagForm.value.name.length >= 2) &&
       (this.patternCifra.test(this.anagForm.value.phonenumber1)) &&
-      (this.patternCifra.test(this.anagForm.value.phonenumber2) || this.anagForm.value.phonenumber2.length == 0) &&
-      (this.anagForm.value.surname.length >= 2) &&
-      (this.anagForm.value.sededilavoro != null)) {
+      (this.anagForm.value.surname.length >= 2) /*&&
+      (this.anagForm.value.sededilavoro != null)*/) {
 
       console.log("this.anagForm.value", this.anagForm.value)
       this.anagService.updateAnagraphicForUser({ id: this.userAdmin.id, ...this.anagForm.value })
@@ -227,7 +226,12 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
             this.toastrService.error('Errore nell\'aggiornamento dell\'anagrafica utente');
           }
         });
-    } else {
+      } else {
+        this.toastrService.error('Inserire i dati obbligatori');
+      }
+  
+    }
+     else {
       this.toastrService.error('Inserire i dati obbligatori');
     }
 
