@@ -138,6 +138,7 @@ export class TimesheetEditComponent implements OnInit {
   currentValueDay : any = [];
   disableAddTrasf : boolean = true;
   eventAddedTrasf : any = [];
+  trasferteStatus : boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -627,8 +628,22 @@ export class TimesheetEditComponent implements OnInit {
       ];
        this.events = this.currentTimesheet.dayjson
     });
+
     console.log("dayjson" ,  this.currentTimesheet.dayjson);
     this.currentTimesheet.trasferte = JSON.parse(recivedTimesheet.trasferte);  //TODO attenzione a questo jsonparse potrebbe dover cambiare
+    console.log("workeddays" , this.currentTimesheet.workeddays)
+    console.log("trasferteLength" , this.currentTimesheet.trasferte.length)
+
+    //aggiorno Distaccato
+    this.distaccatoPresso = this.currentTimesheet.distaccato;
+
+    //controllo se le trasferte sono maggiori dei giorni lavorati
+    if(this.currentTimesheet.workeddays < this.currentTimesheet.trasferte.length ){
+     this.trasferteStatus = true;
+    }
+    else{
+      this.trasferteStatus = false;
+    }
     this.updateStateLabel();
   }
 
@@ -748,8 +763,10 @@ export class TimesheetEditComponent implements OnInit {
         }
 
         //BOTTONE AZZERA STATO
+        //Se Admin(1) o User(2) no deve vedere azzera stato (caso 4)
         //se SuperAdmin(0), Admin(1) o User(2) no deve vedere azzera stato (caso 4)
-        if((this.getRoleFromLocalStorage() === '0') || (this.getRoleFromLocalStorage() === '1') || (this.getRoleFromLocalStorage() === '2')){
+        //if((this.getRoleFromLocalStorage() === '0') || (this.getRoleFromLocalStorage() === '1') || (this.getRoleFromLocalStorage() === '2')){
+        if((this.getRoleFromLocalStorage() === '1') || (this.getRoleFromLocalStorage() === '2')){
           this.disableAzeraStato = true;
         }else{
           this.disableAzeraStato = false;
