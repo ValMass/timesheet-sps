@@ -1,7 +1,7 @@
 <div class="card margin-card">
   <button class="button-custom " (click)="exportinXlsx()">Esporta in .Xlsx</button>
   <table class="table table-striped">
-    <thead>
+    <thead style="justify-content: center;">
       <tr>
         <th scope="col">Nome</th>
         <th scope="col">Nome utente</th>
@@ -26,7 +26,17 @@
         <td>
           <app-span-tooltip [state]="useradmin.state" [userRole]="useradmin.role"></app-span-tooltip>
         </td>
-        <td>{{ useradmin.distaccato != null ? useradmin.distaccato : "N"  }}</td>
+        <td>
+          <span tooltip="verificare aggiornamento del timesheet" tooltipPlacement="top"  
+                style="background: #C21F39" *ngIf="useradmin.distaccato != null ;else distaccatoN">
+            <div style="display: flex; justify-content: center;">
+              {{useradmin.distaccato}}</div>
+          </span>
+          <ng-template #distaccatoN>
+            <div style="display: flex; justify-content: center;">
+              N</div>
+          </ng-template>
+        </td>
         <td><button class="button-custom" mat-button color="accent" (click)="modifyTimesheet(useradmin)"
             [disabled]="useradmin.role === '1' || useradmin.role === '0'">Modifica
             Timesheet</button></td>
