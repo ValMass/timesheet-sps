@@ -122,7 +122,7 @@
   (handleYes)="ResetStatus()">
 </app-modal>
 
-<app-modal class="modal-customer" [message]="confirmationMessage" [isOpen]="showModalAddTrasf" (handleNo)="closeConfirmationModal()"
+<app-modal class="modal-customer" [message]="confirmationMessage" [hasFooter]="alertFlagTrasf" [isOpen]="showModalAddTrasf" (handleNo)="closeConfirmationModal()"
   (handleYes)="openAddTrasfDialog()">
 </app-modal>
 

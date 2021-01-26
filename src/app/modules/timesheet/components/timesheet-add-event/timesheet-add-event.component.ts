@@ -83,7 +83,7 @@ export class TimesheetAddEventComponent implements OnInit {
       if (this.data.event.title === 'LAVORO' || this.data.event.title === 'SEDE' ||this.data.event.title === 'PARTIME') {
         this.flagShowAttDest = false;
       }
-      this.getoffices(this.data.event.customerId);
+      this.getoffices(this.data.event.customerId , this.data.event.title);
       this.ruoloInternal = this.data.event.internalRuolo;
       this.profileForm.patchValue(
         {
@@ -149,12 +149,20 @@ export class TimesheetAddEventComponent implements OnInit {
         }
         else {
           if ((this.profileForm.value.contractCode == 'SEDE')
-            && (this.profileForm.value.codiceFatturazione == '01')
+            && (this.profileForm.value.codiceFatturazione != null)
             && (this.profileForm.value.customerId == 1)
           ) {
             if (this.profileForm.value.internalId > 0 && this.profileForm.value.internalId != null 
               && this.profileForm.value.internalId != "") {
-              this.dialogRef.close({ data: this.profileForm.value });
+                if (this.profileForm.value.codiceFatturazione == "TR") {
+                  if (this.profileForm.value.destinazione != null && this.profileForm.value.destinazione != "") {
+                    this.dialogRef.close({ data: this.profileForm.value });
+                  }
+                } else {
+                  if (this.profileForm.value.codiceFatturazione != "TR") {
+                    this.dialogRef.close({ data: this.profileForm.value });
+                  }
+                }
             }
           } else {
             if (
@@ -193,14 +201,19 @@ export class TimesheetAddEventComponent implements OnInit {
 
   //Ho diviso "onChangeSelect" con questa funzione prende il value dell'Evento che poi passera a onChangeSelect
   onChangeSelectIfEvent($event) {
-    console.log('$event', $event)
     const value = $event.target.value;
-    console.log("value", value)
+    
+    //pulisco la destinazione e codice fatturazione nel caso si passa da SEDE a LAVORO 
+    this.profileForm.patchValue({destinazione : '' ,  codiceFatturazione: '01',})
+
+    //aggiorno anche il flag che si occupa della visibilità di attivita 
+    this.flagShowAttDest = true;
+    this.ruoloInternal = '';
+    
     this.onChangeSelect(value);
   }
 
   onChangeSelect(value) {
-
     switch (value) {
       case 'LAVORO':
       case 'PARTIME':
@@ -225,9 +238,7 @@ export class TimesheetAddEventComponent implements OnInit {
         this.insertSmartWorking = true;
         const patch1 = {
           activityId: '',
-          codiceFatturazione: '01',
           customerId: 1,
-          destinazione: '',
         };
 
         this.profileForm.patchValue(patch1);
@@ -336,7 +347,30 @@ export class TimesheetAddEventComponent implements OnInit {
     console.log(this.eventsSelected);
   }
 
-  getoffices(id) {
+  getoffices(id , tipoContratto) {
+    if(tipoContratto != "SEDE"){
+      this.getCustomerOffices(id);
+    }else{
+      this.getInternalOffices();
+    }
+  }
+
+  getInternalOffices(){
+    this.service.getAllOffices().subscribe(
+      result => {
+        console.log("resultInternal" , result)
+        if (result['status'] === 'error') {
+          this.officeslist = [];
+        } else {
+          this.officeslist = result['data'].map(x => x);
+        }
+      }, error => {
+        this.officeslist = [];
+      }
+    );
+  }
+
+  getCustomerOffices(id){
     this.service.getOfficesByCustomer(id).subscribe(
       result => {
         if (result['status'] === 'error') {
@@ -357,7 +391,7 @@ export class TimesheetAddEventComponent implements OnInit {
     };
     this.profileForm.patchValue(patch);
     if ((this.loadOffice) && (customer != undefined)) {
-      this.getoffices(customer.id)
+      this.getoffices(customer.id , customer.contractCode)
     } else {
       this.officeslist = [];
     }
@@ -375,7 +409,7 @@ export class TimesheetAddEventComponent implements OnInit {
       this.loadOffice = true;
       //se il customer è valorizzato prendo le destinazioni 
       if(this.profileForm.value.customerId != null){
-        this.getoffices(this.profileForm.value.customerId)
+        this.getoffices(this.profileForm.value.customerId , this.profileForm.value.contractCode)
       }
       this.profileForm.patchValue({
         smartWorking: false,
@@ -409,11 +443,14 @@ export class TimesheetAddEventComponent implements OnInit {
       this.profileForm.value.internalRuolo = $event.rela.ruolo;
       this.nomeInternal = $event.inat.name;
       this.ruoloInternal = $event.rela.ruolo;
-    } else {
+      this.flagShowAttDest = false;
+  } else {
       this.profileForm.value.internalName = '';
       this.profileForm.value.internalRuolo = '';
       this.nomeInternal = '';
       this.ruoloInternal = '';
+      this.flagShowAttDest = true;
+      this.profileForm.patchValue({destinazione : ''})
     }
   }
 }

@@ -134,6 +134,7 @@ export class TimesheetEditComponent implements OnInit {
   veroDisableFinally = false; // gestisce il disable
   currentUserInfo: any;
 
+  alertFlagTrasf : boolean = true;
   alertFlagAdmin : boolean = true;
   alertFlagUser : boolean = true;
   currentValueDay : any = [];
@@ -299,7 +300,8 @@ export class TimesheetEditComponent implements OnInit {
 
   //TODO
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    if(this.checkIfCurrentValueDay(events) ){
+    if(this.checkIfCurrentValueDay(events) &&
+      !((this.getRoleFromLocalStorage() === '1') && (this.currentTimesheet.state === '4') )){
       this.currentValueDay = events;
       //console.log("currentValueDay" , this.currentValueDay)
       this.disableAddTrasf = false;
@@ -531,9 +533,30 @@ export class TimesheetEditComponent implements OnInit {
   askToaddTrasfertaInTime() {
     this.showModalAddTrasf = true;
     console.log(this.currentTimesheet);
-    this.confirmationMessage =
-      'Per aggiungere una nuova trasferta, devi salvare il timesheet corrente, sei sicuro di voler salvare il timesheet ?';
+    if(!this.checkIfCurrentValueHasTrasf(this.currentValueDay)){
+      this.alertFlagTrasf = true;
+      this.confirmationMessage =
+        'Per aggiungere una nuova trasferta, devi salvare il timesheet corrente, sei sicuro di voler salvare il timesheet ?';
+    }else{
+      this.alertFlagTrasf = false;
+      this.confirmationMessage =
+        'Trasferta gia presente nel giorno selezionato';
+    }
   }
+
+  checkIfCurrentValueHasTrasf(valueDay){
+    let res : boolean = false
+    if(valueDay.length > 0){
+      for(let j : number = 0; j < valueDay.length; j ++){
+        if((valueDay[j].title == "TRASFRIMB")){
+              res = true;
+              break;
+            }
+        }
+    }
+    return(res);
+  }
+
 
   addTrasfertaInTime(timesheetId, trasferta, data){
     this.timesheetaddtrasfService.addTrasferta(timesheetId, trasferta, data).subscribe(
