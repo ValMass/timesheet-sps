@@ -106,11 +106,11 @@
   (handleYes)="saveCurrentTimesheet()">
 </app-modal>
 
-<app-modal class="modal-customer" [message]="confirmationMessage" [isOpen]="showAcceptAsUser" (handleNo)="closeConfirmationModal()"
-  (handleYes)="acceptAsUser()">
+<app-modal class="modal-customer" [message]="confirmationMessage" [hasFooter]="alertFlagUser" [isOpen]="showAcceptAsUser" (handleNo)="closeConfirmationModal()"
+  (handleYes)="isTimesheetSave === true ? acceptAsUser() : saveCurrentTimesheet()">
 </app-modal>
 
-<app-modal class="modal-customer" [message]="confirmationMessage" [hasFooter]="alertFlag" [isOpen]="showAcceptAsAdmin" (handleNo)="closeConfirmationModal()"
+<app-modal class="modal-customer" [message]="confirmationMessage" [hasFooter]="alertFlagAdmin" [isOpen]="showAcceptAsAdmin" (handleNo)="closeConfirmationModal()"
   (handleYes)="acceptAsAdmin()">
 </app-modal>
 

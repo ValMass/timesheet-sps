@@ -134,11 +134,15 @@ export class TimesheetEditComponent implements OnInit {
   veroDisableFinally = false; // gestisce il disable
   currentUserInfo: any;
 
-  alertFlag : boolean = true;
+  alertFlagAdmin : boolean = true;
+  alertFlagUser : boolean = true;
   currentValueDay : any = [];
   disableAddTrasf : boolean = true;
   eventAddedTrasf : any = [];
   trasferteStatus : boolean = false;
+  //flag che controllano se il timesheet è salvato 
+  isTimesheetSave : boolean = false;
+  timesheetSaved : boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -398,6 +402,7 @@ export class TimesheetEditComponent implements OnInit {
             this.events[targetEvent] = event;
             this.events = [...this.events];
             this.toastrService.success('Evento aggiornato temporaneamente. Salvare il timesheet per applicare le modifiche');
+            this.isTimesheetSave = false;
           } else {
             this.toastrService.error('Nessuna operazione effettuata');
           }
@@ -414,6 +419,7 @@ export class TimesheetEditComponent implements OnInit {
       }else{
         this.events = this.events.filter((iEvent) => iEvent !== eventToUpdate);
       }
+      this.isTimesheetSave = false;
     }
   }
 
@@ -475,7 +481,7 @@ export class TimesheetEditComponent implements OnInit {
             this.events = [...this.events, event];
             this.currentTimesheet.dayjson = [...this.events , event]
             console.log("this.events" , this.events)
-
+            this.isTimesheetSave = false;
             this.toastrService.success('Evento aggiunto temporaneamente. Salvare il timesheet per applicare le modifiche');
           } else {
             this.toastrService.error('Nessuna operazione effettuata');
@@ -765,8 +771,7 @@ export class TimesheetEditComponent implements OnInit {
         //BOTTONE AZZERA STATO
         //Se Admin(1) o User(2) no deve vedere azzera stato (caso 4)
         //se SuperAdmin(0), Admin(1) o User(2) no deve vedere azzera stato (caso 4)
-        //if((this.getRoleFromLocalStorage() === '0') || (this.getRoleFromLocalStorage() === '1') || (this.getRoleFromLocalStorage() === '2')){
-        if((this.getRoleFromLocalStorage() === '1') || (this.getRoleFromLocalStorage() === '2')){
+        if((this.getRoleFromLocalStorage() === '0') || (this.getRoleFromLocalStorage() === '1') || (this.getRoleFromLocalStorage() === '2')){
           this.disableAzeraStato = true;
         }else{
           this.disableAzeraStato = false;
@@ -854,6 +859,7 @@ export class TimesheetEditComponent implements OnInit {
     this.timesheetService.saveTimesheet(this.currentTimesheet, logged).subscribe(
       (result) => {
         if (result.status === 'done') {
+          this.isTimesheetSave = true;
           console.log("currentTimesheet" ,this.currentTimesheet);
           this.loadCurrentMonthTimesheet(result.data);
           this.toastrService.success('Timesheet salvato');
@@ -871,13 +877,33 @@ export class TimesheetEditComponent implements OnInit {
       }
     );
     this.closeConfirmationModal();
+    
+    if(this.timesheetSaved){
+      this.isTimesheetSave = true;
+      this.askToAcceptAsUser()
+    }
+      
   }
 
   askToAcceptAsUser() {
     this.showAcceptAsUser = true;
     console.log(this.currentTimesheet);
-    this.confirmationMessage =
-      'Vuoi accettare il timesheet corrente e inviarlo all amministrazione? Una volta inviato non potrai piu modificarlo. '
+    if(this.currentTimesheet.dayjson.length > 0){
+      this.alertFlagUser = true;
+      if(this.isTimesheetSave != false){
+        this.timesheetSaved = false;
+        this.confirmationMessage =
+        'Vuoi accettare il timesheet corrente e inviarlo all amministrazione? Una volta inviato non potrai piu modificarlo. ';
+      }else{
+        this.timesheetSaved = true;
+        this.confirmationMessage =
+        'Il timesheet deve essere salvato prima di essere accetato, vuoi salvare ?';
+      }
+    }else{
+      this.alertFlagUser = false;
+      this.confirmationMessage =
+        'Il timesheet non può essere vuoto'
+    }
   }
 
   acceptAsUser() {
@@ -908,11 +934,11 @@ export class TimesheetEditComponent implements OnInit {
     this.showAcceptAsAdmin = true;
     console.log(this.currentTimesheet);
     if(this.currentTimesheet.workeddays < this.currentTimesheet.trasferte.length ){
-      this.alertFlag = false;
+      this.alertFlagAdmin = false;
       this.confirmationMessage =
       'I giorni lavorati sono minori delle trasferte';
     }else{
-      this.alertFlag = true;
+      this.alertFlagAdmin = true;
       this.confirmationMessage =
       'Vuoi confermare il timesheet ? Una volta accettato non sara piu possibile cambiarlo.';
       console.log('askToAcceptAsAdmin');
@@ -1021,7 +1047,8 @@ export class TimesheetEditComponent implements OnInit {
         res = "malattia";
       }
       if((event.contractCode === "LAVORO"  || event.contractCode === "PARTIME") ||
-        (event.title === "LAVORO"  || event.title === "PARTIME") || (event.contractCode === "SEDE" || event.title === "SEDE")){
+        (event.title === "LAVORO"  || event.title === "PARTIME") || 
+        (event.contractCode === "SEDE" || event.title === "SEDE")){
         if(event.codiceFatturazione === "TR" || event.codiceFatt === "TR"){
           res = "macchinina";
         }
