@@ -374,6 +374,7 @@ export class TimesheetEditComponent implements OnInit {
           activityList: this.assignedActivities,
           internalsActivitiesList : this.assignedInternalsActivities,
           type: 'edit',
+          readonlyEdit :( this.timeshetStatus === 'Pagato' && this.currentTimesheet.state === '4' &&  this.getRoleFromLocalStorage() !== '0' )? true : false,
         },
       });
       dialogRef.afterClosed().subscribe((res) => {
@@ -411,17 +412,20 @@ export class TimesheetEditComponent implements OnInit {
         }
       });
     } else if (action === 'Deleted' && this.checkIfCanEditOrDelete()) {
-      
-      if(eventToUpdate.title === "TRASFRIMB"){
-        this.timesheetaddtrasfService.deleteTrasferta( this.currentTimesheet.id , eventToUpdate , eventToUpdate.start).subscribe(
-          res =>{ 
-            this.loadCurrentMonthTimesheet(res["data"]);
-          }
-        );
+      if((this.timeshetStatus === 'Pagato' && this.currentTimesheet.state === '4' &&  this.getRoleFromLocalStorage() !== '0')){
+        this.toastrService.info('Impossibile eliminare');
       }else{
-        this.events = this.events.filter((iEvent) => iEvent !== eventToUpdate);
+        if(eventToUpdate.title === "TRASFRIMB"){
+          this.timesheetaddtrasfService.deleteTrasferta( this.currentTimesheet.id , eventToUpdate , eventToUpdate.start).subscribe(
+            res =>{ 
+              this.loadCurrentMonthTimesheet(res["data"]);
+            }
+          );
+        }else{
+          this.events = this.events.filter((iEvent) => iEvent !== eventToUpdate);
+        }
+        this.isTimesheetSave = false;
       }
-      this.isTimesheetSave = false;
     }
   }
 

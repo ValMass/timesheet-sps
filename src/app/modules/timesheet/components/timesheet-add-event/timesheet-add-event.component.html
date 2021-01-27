@@ -12,10 +12,11 @@
         <div>
           <input class="form-control input-number text-center mb-4" matInput [matDatepicker]="picker" #ref required
             (dateChange)="onDateChange($event)" formControlName="eventDate"
-            [ngClass]="{'is-invalid': f.eventDate.errors && submitted}" style="width: 200px;">
+            [ngClass]="{'is-invalid': f.eventDate.errors && submitted}" style="width: 200px;"
+            [readonly]="isPagato">
 
         </div>
-        <mat-datepicker-toggle matSuffix [for]="picker" class="bottone-data"></mat-datepicker-toggle>
+        <mat-datepicker-toggle matSuffix [for]="picker" class="bottone-data" [disabled]="isPagato"></mat-datepicker-toggle>
         <div *ngIf="f.eventDate.errors && submitted" style="color: red; position:relative; right:200px; ">Campo
           obbligatorio</div><br>
         <mat-datepicker #picker></mat-datepicker>
@@ -25,27 +26,28 @@
       <div class="mb-2">
         <label for="cars" class="cod-contratto">Codice contratto</label>
         <select id="cars" name="cars" class="custom-select sel-text" formControlName="contractCode"
-          [ngClass]="{'is-invalid':f.contractCode.errors && submitted}" (change)="onChangeSelectIfEvent($event)"
+          [ngClass]="{'is-invalid':f.contractCode.errors && submitted, 'is-readonly': isPagato}" 
+          (change)="onChangeSelectIfEvent($event)" 
           required>
-          <option value="LAVORO" selected="selected">Lavoro ordinario</option>
-          <option value="SEDE">Attività interna</option>
-          <option value="PERMNON">Permesso non retribuito</option>
-          <option value="PERMESS">Permesso generico</option>
-          <option value="MALATT">Malattia</option>
-          <option value="LUTTO">Lutto parente primo grado</option>
-          <option value="AVIS">Donazione sangue</option>
-          <option value="FERIE">Ferie</option>
-          <option value="MATALA">Allattamento</option>
-          <option value="ASPETT">Aspettativa</option>
-          <option value="ELETTO">Permesso elettorale</option>
-          <option value="FESTSOP">Festivita soppresse</option>
-          <option value="MATERN">Maternita</option>
-          <option value="MATFAC">Maternita facoltativa</option>
-          <option value="MALFIG">Malattia figlio</option>
-          <option value="MATRIMO">Matrimonio</option>
-          <option value="PARTIME">Tempo parziale</option>
-          <option value="PATRONO">Patrono</option>
-          <option value="UNIVERS">Assenza esami universitari</option>
+          <option [disabled]="isPagato" value="LAVORO" selected="selected">Lavoro ordinario</option>
+          <option [disabled]="isPagato" value="SEDE">Attività interna</option>
+          <option [disabled]="isPagato" value="PERMNON">Permesso non retribuito</option>
+          <option [disabled]="isPagato" value="PERMESS">Permesso generico</option>
+          <option [disabled]="isPagato" value="MALATT">Malattia</option>
+          <option [disabled]="isPagato" value="LUTTO">Lutto parente primo grado</option>
+          <option [disabled]="isPagato" value="AVIS">Donazione sangue</option>
+          <option [disabled]="isPagato" value="FERIE">Ferie</option>
+          <option [disabled]="isPagato" value="MATALA">Allattamento</option>
+          <option [disabled]="isPagato" value="ASPETT">Aspettativa</option>
+          <option [disabled]="isPagato" value="ELETTO">Permesso elettorale</option>
+          <option [disabled]="isPagato" value="FESTSOP">Festivita soppresse</option>
+          <option [disabled]="isPagato" value="MATERN">Maternita</option>
+          <option [disabled]="isPagato" value="MATFAC">Maternita facoltativa</option>
+          <option [disabled]="isPagato" value="MALFIG">Malattia figlio</option>
+          <option [disabled]="isPagato" value="MATRIMO">Matrimonio</option>
+          <option [disabled]="isPagato" value="PARTIME">Tempo parziale</option>
+          <option [disabled]="isPagato" value="PATRONO">Patrono</option>
+          <option [disabled]="isPagato" value="UNIVERS">Assenza esami universitari</option>
         </select>
         <div *ngIf="f.contractCode.errors && submitted" style="color: red;">Campo obbligatorio</div>
       </div>
@@ -54,16 +56,16 @@
         <div class="mb-2">
           <label for="cod-fatturazione" class="cod-fatturazione">Codice Fatturazione</label>
           <select id="cod-fatturazione" name="cod-fatturazione" class="custom-select sel-text"
-            [ngClass]="{'is-invalid':f.codiceFatturazione.value === '00' && submitted}"
+            [ngClass]="{'is-invalid':f.codiceFatturazione.value === '00' && submitted , 'is-readonly': isPagato}"
             formControlName="codiceFatturazione" (change)="onChangeFattSelect($event.target.value)" required>
-            <option value="01">Ore ordinarie fatturabili</option>
-            <option value="02">Ore straordinarie fatturabili</option>
-            <option value="03">Ore straordinarie festive fatturabili</option>
-            <option value="04">Ore straordinarie notturne fatturabili</option>
+            <option [disabled]="isPagato" value="01">Ore ordinarie fatturabili</option>
+            <option [disabled]="isPagato" value="02">Ore straordinarie fatturabili</option>
+            <option [disabled]="isPagato" value="03">Ore straordinarie festive fatturabili</option>
+            <option [disabled]="isPagato" value="04">Ore straordinarie notturne fatturabili</option>
             <!--<option value="NF">Non fatturabili</option>-->
-            <option value="RP">Ore di reperibilità</option>
-            <option value="IN">Ore di intervento</option>
-            <option value="TR">Trasferta</option>
+            <option [disabled]="isPagato" value="RP">Ore di reperibilità</option>
+            <option [disabled]="isPagato" value="IN">Ore di intervento</option>
+            <option [disabled]="isPagato" value="TR">Trasferta</option>
           </select>
           <div *ngIf="f.codiceFatturazione.value === '00' && submitted" style="color: red;">Campo obbligatorio</div>
         </div>
@@ -74,7 +76,8 @@
           <label for="customRange3" class="col-form-label">Numero ore</label> {{ value }}
           <input type="number" class="form-control input-number" value="8" min="0" max="24" step="1" id="customRange3"
             required formControlName="numeroOre" (input)="valueChanged($event)"
-            [ngClass]="{'is-invalid':(f.numeroOre.value == 0 || f.numeroOre.value == null) && submitted}">
+            [ngClass]="{'is-invalid':(f.numeroOre.value == 0 || f.numeroOre.value == null) && submitted}"
+            [readonly]="isPagato">
           <div *ngIf="(f.numeroOre.value == 0 || f.numeroOre.value == null) && submitted" style="color: red;">Campo
             obbligatorio</div>
         </div>
@@ -84,7 +87,7 @@
         <div class="mb-2">
           <label for="customerId" class="col-form-label">Cliente</label>
           <div>
-            <ng-select [items]="customerList" bindLabel="name" formControlName="customerId" bindValue="id" 
+            <ng-select [items]="customerList" bindLabel="name" formControlName="customerId" bindValue="id" [readonly]="isPagato"
               (change)="customerListActions($event)"
               [ngClass]="{'error': (f.customerId.value === 1 || f.customerId.value === 0 || f.customerId.value === null || f.customerId.errors )  && submitted}">
             </ng-select>
@@ -97,7 +100,7 @@
         <div class="mb-2">
           <label for="activityId" class="col-form-label">Attività</label>
           <div>
-            <ng-select [readonly]="flagShowAttDest" [items]="assignedact" bindLabel="name" formControlName="activityId"
+            <ng-select [readonly]="flagShowAttDest || isPagato" [items]="assignedact" bindLabel="name" formControlName="activityId"
               bindValue="id"
               [ngClass]="{'error':(f.activityId.value === 1 || f.activityId.value === '0' || f.activityId.value === null || f.activityId.value === '' ) && submitted}">
             </ng-select>
@@ -111,7 +114,7 @@
       <div class="mb-2" *ngIf="insertSede">
         <label for="internal" class="col-form-label">Attività interna</label>
         <div>
-          <ng-select [items]="internalsActivitiesList" bindLabel="inat.name" formControlName="internalId"
+          <ng-select [items]="internalsActivitiesList" bindLabel="inat.name" formControlName="internalId" [readonly]="isPagato"
             bindValue="inat.id" (change)="selectedInternal($event)"
             [ngClass]="{'error': (profileForm.value.internalId == 0 || profileForm.value.internalId == null )  && submitted}">
           </ng-select>
@@ -127,7 +130,7 @@
       <div *ngIf="f.codiceFatturazione.value == 'TR'">
         <div class="mb-2">
           <label for="numeroprotocollo" class="col-form-label">Destinazione trasferta</label>
-          <ng-select [readonly]="flagShowAttDest" [items]="officeslist" bindLabel="address" formControlName="destinazione" bindValue="id"
+          <ng-select [readonly]="flagShowAttDest || isPagato" [items]="officeslist" bindLabel="address" formControlName="destinazione" bindValue="id"
               [ngClass]="{'error': (f.destinazione.value === null || f.destinazione.value === '') && submitted}">
             </ng-select>
           <div *ngIf="(f.destinazione.value === null || f.destinazione.value === '') && submitted" style="color: red;">Campo obbligatorio</div>
@@ -135,7 +138,8 @@
       </div>
 
       <div class="mb-2" *ngIf="insertSmartWorking && f.codiceFatturazione.value != 'TR'">
-        <mat-checkbox class="example-margin" formControlName="smartWorking" labelPosition="before">
+        <mat-checkbox class="example-margin" formControlName="smartWorking" labelPosition="before" 
+            [disabled]="isPagato">
           Smart Working
         </mat-checkbox>
       </div>
@@ -144,7 +148,8 @@
         <div class="mb-2">
           <label for="numeroprotocollo" class="col-form-label">Numero protocollo</label>
           <input type="text" class="form-control input-number" id="numProtocollo" placeholder="Numero protocollo"
-            [ngClass]="{'is-invalid':f.numProtocollo.value === '00' && submitted}" formControlName="numProtocollo" />
+            [ngClass]="{'is-invalid':f.numProtocollo.value === '00' && submitted}" formControlName="numProtocollo" 
+            [readonly]="isPagato"/>
           <div *ngIf="f.numProtocollo.value === '00' && submitted" style="color: red;">Campo obbligatorio</div>
         </div>
       </div>
@@ -153,6 +158,6 @@
   </div>
   <div class="d-flex justify-content-between" mat-dialog-actions>
     <button type="button" mat-button mat-dialog-close class="btn btn-custom w-25" (click)="close()">Close</button>
-    <button form='myform' type="submit" class="btn btn-custom w-25">Aggiungi</button>
+    <button form='myform' type="submit" class="btn btn-custom w-25" [disabled]="isPagato">Aggiungi</button>
   </div>
 </div>

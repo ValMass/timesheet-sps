@@ -36,6 +36,7 @@ export class TimesheetAddEventComponent implements OnInit {
   officeslist: any[] = [];
   loadOffice: boolean = false;
   flagShowAttDest: boolean = true;
+  isPagato : boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -77,6 +78,7 @@ export class TimesheetAddEventComponent implements OnInit {
       });
 
     if (this.data.type === 'edit') {
+      this.isPagato = this.data.readonlyEdit;
       if (this.data.event.codiceFatt === "TR") {
         this.loadOffice = true;
       }
