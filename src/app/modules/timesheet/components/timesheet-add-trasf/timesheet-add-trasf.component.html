@@ -3,7 +3,7 @@
         <h1 mat-dialog-title>Aggiungi Trasferta</h1>
     </div>
     <div mat-dialog-content>
-        <form [formGroup]="profileForm" (ngSubmit)="submit()">
+        <form [formGroup]="profileForm">
             <div>
                 <label for="data">Data</label>
                 <div class="input-group">
@@ -54,7 +54,7 @@
             <div class="d-flex justify-content-between" mat-dialog-actions>
                 <button type="button" mat-button mat-dialog-close class="btn btn-custom w-25"
                     (click)="close()">Close</button>
-                <button form='myform' type="submit" class="btn btn-custom w-25">Aggiungi</button>
+                <button form='myform' (click)="submit()" class="btn btn-custom w-25">Aggiungi</button>
             </div>
         </form>
     </div>

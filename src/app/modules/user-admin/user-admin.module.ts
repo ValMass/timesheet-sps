@@ -1,3 +1,4 @@
+import { TooltipModule } from 'ngx-tooltip';
 import { NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CommonModule } from '@angular/common';
@@ -35,6 +36,7 @@ import { UserAdminCalendarComponent } from './user-admin-calendar/user-admin-cal
     MatDatepickerModule,
     NgSelectModule,
     MatCheckboxModule,
+    TooltipModule,
   ],
   entryComponents: [
     UserAdminCreationComponent,

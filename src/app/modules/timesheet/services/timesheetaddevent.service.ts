@@ -27,4 +27,18 @@ export class TimesheetaddeventService {
     );
   }
 
+  getAllOffices(){
+    const url = environment.apiUrl + 'offices/listAllOffices.php';
+    return this.http.post(url,  {}).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+        return of(something);
+      } else {
+        return EMPTY;
+      }
+    })
+    );
+  }
+
 }
