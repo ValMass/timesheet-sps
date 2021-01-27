@@ -50,7 +50,7 @@
         <div *ngIf="f.contractCode.errors && submitted" style="color: red;">Campo obbligatorio</div>
       </div>
 
-      <div *ngIf="insertNumeroOre || insertLavoro">
+      <div *ngIf="insertSede || insertLavoro">
         <div class="mb-2">
           <label for="cod-fatturazione" class="cod-fatturazione">Codice Fatturazione</label>
           <select id="cod-fatturazione" name="cod-fatturazione" class="custom-select sel-text"
@@ -69,7 +69,7 @@
         </div>
       </div>
 
-      <div *ngIf="insertSede || insertLavoro">
+      <div *ngIf="insertSede || insertLavoro || insertNumeroOre">
         <div class="mb-2">
           <label for="customRange3" class="col-form-label">Numero ore</label> {{ value }}
           <input type="number" class="form-control input-number" value="8" min="0" max="24" step="1" id="customRange3"
