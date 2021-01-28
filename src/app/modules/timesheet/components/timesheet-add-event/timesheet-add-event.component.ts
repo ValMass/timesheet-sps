@@ -206,7 +206,11 @@ export class TimesheetAddEventComponent implements OnInit {
     const value = $event.target.value;
     
     //pulisco la destinazione e codice fatturazione nel caso si passa da SEDE a LAVORO 
-    this.profileForm.patchValue({destinazione : '' ,  codiceFatturazione: '01',})
+    this.profileForm.patchValue({
+      destinazione : '' ,  
+      codiceFatturazione: '01', 
+      smartWorking: false,
+    });
 
     //aggiorno anche il flag che si occupa della visibilità di attivita 
     this.flagShowAttDest = true;

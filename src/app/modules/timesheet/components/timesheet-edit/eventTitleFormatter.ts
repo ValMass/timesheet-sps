@@ -57,6 +57,9 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
           res = `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']} ${this.tradMapFat.get(event.codiceFatt)} su ${event.internalName} come ${event.internalRuolo}`;
         }
       }
+      if(event.smartWorking == 1){
+        res = res + ' in Smart Working'
+      }
     }
     if(event.title === 'TRASFRIMB'){
       res=`</b> Trasferta ${event.customerName} a ${event.destinazione}`;
