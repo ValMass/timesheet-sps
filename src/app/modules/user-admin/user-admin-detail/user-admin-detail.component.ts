@@ -1,3 +1,5 @@
+import { NewGenaratePasswordService } from './../services/new-genarate-password.service';
+import { UserAdminNewPasswordComponent } from './../user-admin-new-password/user-admin-new-password.component';
 import { AddInternalactivityComponent } from './../add-internalactivity/add-internalactivity.component';
 import { InternalactivityService } from './../services/internalactivity.service';
 import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit } from '@angular/core';
@@ -50,7 +52,9 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   userFlag: boolean = false;
 
   //password
-  psw: string = "password";
+  //psw: string = "password";
+  password: string = '';
+  userId : string;
 
   //variabili che contengono  pattern che devono essere rispettati
   patternEmail = new RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$");
@@ -75,7 +79,8 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     private economicService: EconomicService,
     public dialog: MatDialog,
     private fb: FormBuilder,
-    private internalActivityService : InternalactivityService
+    private internalActivityService : InternalactivityService,
+    private newGenaratePasswordService : NewGenaratePasswordService
   ) { }
 
   ngOnInit(): void {
@@ -147,6 +152,8 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     economicInfo['data'].avanzorimborso = parseFloat(economicInfo['data'].avanzorimborso).toFixed(2)
 
     this.userForm.patchValue(userInfo['data'][0].uset);
+    this.password = userInfo['data'][0].uset.password;
+    this.userId = userInfo['data'][0].uset.id;
     this.anagForm.patchValue(anagInfo['data']);
     this.econForm.patchValue(economicInfo['data']);
     this.contractForm.patchValue({ contractid: anagInfo['data'].contractid });
@@ -165,7 +172,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     //console.log("userform :", this.userForm.value)
     
     if ((this.patternEmail.test(this.userForm.value.email)) &&
-      (this.userForm.value.password.length >= 6) &&
+      //(this.userForm.value.password.length >= 6) &&
       (this.patternCifra.test(this.userForm.value.regnuminps)) &&
       (this.patternCifra.test(this.userForm.value.regnumsps)) &&
       (this.userForm.value.role != null) &&
@@ -299,7 +306,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   createUserForm() {
     const userForm = this.fb.group({
       username: ['', [Validators.required]],
-      password: ['', [Validators.required]],
+      //password: ['', [Validators.required]],
       regnuminps: ['', [Validators.required]],
       regnumsps: ['', [Validators.required]],
       email: ['', [Validators.required]],
@@ -409,6 +416,24 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
 
   }
 
+  updatePassword(){
+    const dialogRef = this.dialog.open(UserAdminNewPasswordComponent, {
+      width: '600px',
+      data:{userid: this.userId}
+    })
+    dialogRef.afterClosed().subscribe(password =>{
+      if(password){
+        this.newGenaratePasswordService.changePassword(password["data"].userId , password["data"].newPassword)
+          .subscribe( res =>{
+            this.password = res['data'];
+            this.toastrService.success('Password salvata con successo');
+          });
+      }else{
+        this.toastrService.error('Errore nel salvare la password');
+      }
+    })
+  }
+
   openAddActivityDialog() {
     const dialogRef = this.dialog.open(AddActivityComponent, {
       width: '600px',
@@ -496,13 +521,13 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   }
 
   //mostro o nascondo la password a seconda dei casi
-  pswHideShow() {
+  /*pswHideShow() {
     if (this.psw === "password") {
       this.psw = "text";
     } else {
       this.psw = "password";
     }
-  }
+  }*/
 
   commaToDot(value) {
     let commaDotvalue: string = value.replace(/,/g, '.')
