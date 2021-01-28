@@ -291,7 +291,20 @@ export class UserAdminComponent implements OnInit {
     this.closeModal();
     if (this.userToDelete) {
       console.log(this.userToDelete);
-      this.anagraphicService.deleteAnagraphic(this.userToDelete.anagraphicid).subscribe(
+      this.userAdminService.deleteNewUser(this.userToDelete.id)
+            .subscribe(
+              res => {
+                this.users = this.users.filter(obj => obj !== this.userToDelete);
+                this.userToDelete = null;
+                this.toastrService.success(' Utente cancellato ');
+
+              },
+              error => {
+                console.log(error);
+                this.toastrService.error('Errore nella cancellazione');
+              });
+
+      /*this.anagraphicService.deleteAnagraphic(this.userToDelete.anagraphicid).subscribe(
         delres => {
           this.userAdminService.deleteNewUser(this.userToDelete.id)
             .subscribe(
@@ -321,7 +334,7 @@ export class UserAdminComponent implements OnInit {
               });
           this.toastrService.error('Errore http');
         }
-      );
+      );*/
 
     }
     this.clear();
