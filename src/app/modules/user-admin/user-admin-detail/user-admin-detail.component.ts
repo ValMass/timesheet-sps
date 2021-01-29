@@ -422,14 +422,18 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       data:{userid: this.userId}
     })
     dialogRef.afterClosed().subscribe(password =>{
-      if(password){
+      if(password && password != 'close'){
         this.newGenaratePasswordService.changePassword(password["data"].userId , password["data"].newPassword)
           .subscribe( res =>{
-            this.password = res['data'];
-            this.toastrService.success('Password salvata con successo');
+            if(res){
+              this.password = res['data'];
+              this.toastrService.success('Password salvata con successo');
+            }else{
+              this.toastrService.error('Errore nel salvare la password');
+            }
           });
       }else{
-        this.toastrService.error('Errore nel salvare la password');
+        this.toastrService.warning('nessuna modifica effettuata');
       }
     })
   }
