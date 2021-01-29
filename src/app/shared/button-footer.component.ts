@@ -15,7 +15,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
       <i [ngClass]="iconClasses"></i> <span>{{ label }}</span>
     </button>
   `,
-  styles:['.btn:hover{color:#962d37}']
+  styles:['.btn:hover{color:#962d37}; button:focus{outline: none !important}']
 })
 export class ButtonFooterComponent implements OnInit {
   @Input() label;

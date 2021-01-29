@@ -99,3 +99,7 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+*:focus,*:visited,*:active{
+  outline: none !important;
+}
