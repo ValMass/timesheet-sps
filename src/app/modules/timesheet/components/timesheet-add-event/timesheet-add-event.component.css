@@ -7,3 +7,8 @@ ng-select.error{
 .is-readonly{
     background-color: rgb(238, 238, 238);
 }
+
+::ng-deep .mat-dialog-container {
+    overflow: visible !important;
+}
+
