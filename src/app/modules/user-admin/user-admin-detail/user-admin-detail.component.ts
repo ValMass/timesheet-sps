@@ -56,6 +56,9 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   password: string = '';
   userId : string;
 
+  //ruolo dell utente o admin da modificare
+  roleEdited : string = '';
+
   //variabili che contengono  pattern che devono essere rispettati
   patternEmail = new RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$");
   patternCifra = new RegExp("[0-9 ]+$");
@@ -91,7 +94,6 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.activityForm = this.createActivityForm();
 
     this.getInternalActivities();
-
     this.getActivityList();
     this.getInternalActivitiesAssigned();
     this.getAllActivityType()
@@ -154,6 +156,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.userForm.patchValue(userInfo['data'][0].uset);
     this.password = userInfo['data'][0].uset.password;
     this.userId = userInfo['data'][0].uset.id;
+    this.roleEdited = userInfo['data'][0].uset.role;
     this.anagForm.patchValue(anagInfo['data']);
     this.econForm.patchValue(economicInfo['data']);
     this.contractForm.patchValue({ contractid: anagInfo['data'].contractid });
