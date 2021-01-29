@@ -85,9 +85,10 @@
       <div class="form-group row">
         <label for="role" class="col-sm-2 col-form-label">Ruolo</label>
         <div class="col-sm-10">
-          <select id="role" name="role" class="custom-select sel-text" formControlName="role" required>
+          <select disabled selected id="role" name="role" class="custom-select sel-text" formControlName="role" required>
             <option value="2" selected="selected">Utente Ordinario</option>
             <option value="1">Amministratore</option>
+            <option value="0">Super Amministratore</option>
           </select>
         </div>
       </div>
