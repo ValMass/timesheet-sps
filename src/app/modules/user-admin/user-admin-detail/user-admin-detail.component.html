@@ -361,7 +361,7 @@
         Assegna attività
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <table class="table table-striped no-margin" *ngIf="activityList; else noActivity">
+    <table class="table table-striped no-margin" *ngIf="activityList.length > 0; else noActivity">
       <thead>
         <tr>
           <th scope="col">Nome attività esterna</th>

@@ -126,7 +126,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
         if (result.status === 'done') {
           this.activityList = result.data;
         } else {
-          this.toastrService.warning("Nessuna attività associata all\'utente");
+          this.toastrService.warning("Nessuna attività esterna associata all\'utente");
         }
       });
   }
@@ -157,6 +157,12 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.password = userInfo['data'][0].uset.password;
     this.userId = userInfo['data'][0].uset.id;
     this.roleEdited = userInfo['data'][0].uset.role;
+    if((this.activityList.length === 0) && (this.roleEdited === '2')){
+      this.toastrService.warning("Nessuna attività esterna associata all\'utente");
+    }
+    if((this.internalActivitiesAssigned.length === 0) && (this.roleEdited === '2')){
+      this.toastrService.warning("Nessuna attività interna associata all\'utente");
+    }
     this.anagForm.patchValue(anagInfo['data']);
     this.econForm.patchValue(economicInfo['data']);
     this.contractForm.patchValue({ contractid: anagInfo['data'].contractid });
@@ -477,10 +483,10 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.internalActivityService.getInternalActivities(this.userAdmin.id)
       .subscribe(result => {
         if (result.status === 'done') {
-          console.log("result.data" , result.data)
+          //console.log("result.data" , result.data)
           this.internalActivitiesAssigned = result.data;
         } else {
-          this.toastrService.warning("Nessuna attività associata all\'utente");
+          this.toastrService.warning("Nessuna attività interna associata all\'utente");
         }
       });
   }

@@ -5,3 +5,8 @@
 ::ng-deep.scrollbar.mat-dialog-container {
     overflow: none !important;
 }
+
+.error{
+    border-color: red;
+    border-radius:  3.5px 3.5px 3.5px 3.5px;
+}
