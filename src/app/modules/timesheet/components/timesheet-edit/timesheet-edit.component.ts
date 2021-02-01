@@ -581,6 +581,11 @@ export class TimesheetEditComponent implements OnInit {
     event.start = newStart;
     event.end = newEnd;
     this.refresh.next();
+    //se sposta una trasferta salva
+    if(event && (event.title === 'TRASFRIMB' && event.draggable === true)){
+      //console.log("eventTimesChanged" , event);
+      this.saveCurrentTimesheet()
+    }
   }
 
   getIdFromLocalStorage() {
