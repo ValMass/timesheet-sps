@@ -1,40 +1,48 @@
 <div class="modal-container">
-    <form id='activityform' class="p-1" (ngSubmit)="((internalAct != null) && (paramForm.value.ruolo != null) ) && submit(paramForm)" #paramForm="ngForm">
+    <form id='activityform' class="p-1" [formGroup]="internalForm" (ngSubmit)="submit()">
         <div class="form-group row">
-            <label for="activityName" class="col-sm-4 col-form-label">Ruolo</label>
+            <label for="ruolo" class="col-sm-4 col-form-label">Ruolo</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="Ruolo" placeholder="Ruolo" [ngModel] name="ruolo" />
+                <input type="text" class="form-control" id="ruolo" placeholder="Ruolo" name="ruolo"
+                    formControlName="ruolo" required
+                    [ngClass]="{'is-invalid':(((internalForm.value.ruolo === '') || (internalForm.value.ruolo === null)) && submitted)}">
+                <div *ngIf="(((internalForm.value.ruolo === '') || (internalForm.value.ruolo === null)) && submitted)"
+                    style="color: red;">
+                    Campo obbligatorio
+                </div>
             </div>
         </div>
         <div class="form-group row">
             <label for="internalActList" class="col-sm-4 col-form-label">Attività interna</label>
             <div class="col-sm-8 scrollable-box">
-                <select name="internalAct" id="internalAct" class="form-control" [(ngModel)]="internalAct"
-                    placeholder="Selezione un attività">
+                <select name="internalAct" id="internalAct" class="form-control" formControlName="internalAct"
+                    placeholder="Selezione un attività" (ngModelChange)="setSedeAndTime($event)"
+                    [ngClass]="{'error':(((internalForm.value.internalAct === '') || (internalForm.value.internalAct === null)) && submitted)}">
                     <option *ngFor="let internal of internalActivitiesList" [ngValue]="internal">
                         {{internal.inat.name}}</option>
                 </select>
+                <div *ngIf="(((internalForm.value.internalAct === '') || (internalForm.value.internalAct === null)) && submitted)"
+                    style="color: red;">
+                    Campo obbligatorio
+                </div>
             </div>
         </div>
         <div class="form-group row">
             <label for="activityName" class="col-sm-4 col-form-label">Sede riferimento:</label>
             <div class="col-sm-8">
-                <label for="" style="font-weight: normal !important;" class="row-sm-4 col-form-label">
-                    {{internalAct == null ? "Nessuna attività interna selezionata"  : internalAct.offi.address  }}</label>
+                <input type="text" class="form-control" [value]="sede" readonly>
             </div>
         </div>
         <div class="form-group row">
             <label for="activityName" class="col-sm-4 col-form-label">Inizio attività</label>
             <div class="col-sm-8">
-                <label for="" style="font-weight: normal !important;" class="row-sm-4 col-form-label">
-                    {{internalAct == null ? "Nessuna attività interna selezionata"  : internalAct.inat.startdate  | date:'d/M/yy'}}</label>
+                <input type="text" class="form-control" [value]="startdate" readonly>
             </div>
         </div>
         <div class="form-group row">
             <label for="activityName" class="col-sm-4 col-form-label">Fine attività</label>
             <div class="col-sm-8">
-                <label for="" style="font-weight: normal !important;" class="row-sm-4 col-form-label">
-                    {{internalAct == null ? "Nessuna attività interna selezionata"  : internalAct.inat.enddate  | date:'d/M/yy'  }}</label>
+                <input type="text" class="form-control" [value]="enddate" readonly>
             </div>
         </div>
         <div class="d-flex justify-content-between" mat-dialog-actions>
