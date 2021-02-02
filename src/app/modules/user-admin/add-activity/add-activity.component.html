@@ -1,34 +1,52 @@
 <div class="modal-container">
   <form id='activityform' class="p-1" [formGroup]="activityForm" (ngSubmit)="submit()">
-  <div class="form-group row">
-    <label for="activityName" class="col-sm-4 col-form-label">Nome attività</label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control" id="activityName" placeholder="Nome attività" formControlName="activityName" />
+    <div class="form-group row">
+      <label for="activityName" class="col-sm-4 col-form-label">Nome attività</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" id="activityName" placeholder="Nome attività"
+          formControlName="activityName" required
+          [ngClass]="{'is-invalid':(((activityForm.value.activityName === '') || (activityForm.value.activityName === null)) && submitted)}">
+        <div
+          *ngIf="(((activityForm.value.activityName === '') || (activityForm.value.activityName === null)) && submitted) && submitted"
+          style="color: red;">
+          Campo obbligatorio
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="form-group row">
-    <label for="customerId" class="col-sm-4 col-form-label">Cliente</label>
-    <div class="col-sm-8 scrollable-box">
-     <select name="customerid" id="customerid" formControlName="customerId" class="form-control"
-       (change)="assignTypeActivity($event.target.value)">
-       <option *ngFor="let item of customerlist" [value]="item.id">{{item.name}}</option>
-     </select>
+    <div class="form-group row">
+      <label for="customerId" class="col-sm-4 col-form-label">Cliente</label>
+      <div class="col-sm-8 scrollable-box">
+        <select name="customerId" id="customerId" formControlName="customerId" class="form-control"
+          (change)="assignTypeActivity($event.target.value)" required
+          [ngClass]="{'error':(((activityForm.value.customerId === '') || (activityForm.value.customerId === null)) && submitted)}">
+          <option *ngFor="let item of customerlist" [value]="item.id">{{item.name}}</option>
+        </select>
+        <div *ngIf="(((activityForm.value.customerId === '') || (activityForm.value.customerId === null)) && submitted)"
+          style="color: red;">
+          Campo obbligatorio
+        </div>
+      </div>
+
     </div>
-    <div *ngIf="activityForm.invalid && submitted">
-      Campo necessario
+    <div class="form-group row">
+      <label for="defaultactivitytype" class="col-sm-4 col-form-label">Tipo Attività</label>
+      <div class="col-sm-8 scrollable-box">
+        <select name="defaultactivitytype" id="defaultactivitytype" formControlName="defaultactivitytype"
+          class="form-control" required
+          [ngClass]="{'error':(((activityForm.value.defaultactivitytype === '') || (activityForm.value.defaultactivitytype === null)) && submitted)}">
+          <option *ngFor="let item of activitiesType" [value]="item.id" [selected]="item.id === type">
+            {{item.descrizione}}</option>
+        </select>
+        <div
+          *ngIf="(((activityForm.value.defaultactivitytype === '') || (activityForm.value.defaultactivitytype === null)) && submitted)"
+          style="color: red;">
+          Campo obbligatorio
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="form-group row">
-    <label for="defaultactivitytype" class="col-sm-4 col-form-label">Tipo Attività</label>
-    <div class="col-sm-8 scrollable-box">
-      <select name="customerid" id="customerid" formControlName="defaultactivitytype" class="form-control" >
-        <option *ngFor="let item of activitiesType" [value]="item.id" [selected]="item.id === type">{{item.descrizione}}</option>
-      </select>
+    <div class="d-flex justify-content-between" mat-dialog-actions>
+      <button type="button" mat-button mat-dialog-close class="btn btn-secondary w-25" (click)="close()">Close</button>
+      <button type="submit" class="btn btn-primary w-25">Aggiungi</button>
     </div>
-  </div>
-  <div class="d-flex justify-content-between" mat-dialog-actions>
-    <button type="button" mat-button mat-dialog-close class="btn btn-secondary w-25" (click)="close()">Close</button>
-    <button type="submit" class="btn btn-primary w-25">Aggiungi</button>
-  </div>
-</form>
+  </form>
 </div>

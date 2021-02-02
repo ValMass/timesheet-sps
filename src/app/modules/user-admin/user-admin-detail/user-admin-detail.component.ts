@@ -56,6 +56,9 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   password: string = '';
   userId : string;
 
+  //ruolo dell utente o admin da modificare
+  roleEdited : string = '';
+
   //variabili che contengono  pattern che devono essere rispettati
   patternEmail = new RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$");
   patternCifra = new RegExp("[0-9 ]+$");
@@ -91,7 +94,6 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.activityForm = this.createActivityForm();
 
     this.getInternalActivities();
-
     this.getActivityList();
     this.getInternalActivitiesAssigned();
     this.getAllActivityType()
@@ -124,7 +126,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
         if (result.status === 'done') {
           this.activityList = result.data;
         } else {
-          this.toastrService.warning("Nessuna attività associata all\'utente");
+          this.toastrService.warning("Nessuna attività esterna associata all\'utente");
         }
       });
   }
@@ -154,6 +156,13 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.userForm.patchValue(userInfo['data'][0].uset);
     this.password = userInfo['data'][0].uset.password;
     this.userId = userInfo['data'][0].uset.id;
+    this.roleEdited = userInfo['data'][0].uset.role;
+    if((this.activityList.length === 0) && (this.roleEdited === '2')){
+      this.toastrService.warning("Nessuna attività esterna associata all\'utente");
+    }
+    if((this.internalActivitiesAssigned.length === 0) && (this.roleEdited === '2')){
+      this.toastrService.warning("Nessuna attività interna associata all\'utente");
+    }
     this.anagForm.patchValue(anagInfo['data']);
     this.econForm.patchValue(economicInfo['data']);
     this.contractForm.patchValue({ contractid: anagInfo['data'].contractid });
@@ -422,14 +431,18 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       data:{userid: this.userId}
     })
     dialogRef.afterClosed().subscribe(password =>{
-      if(password){
+      if(password && password != 'close'){
         this.newGenaratePasswordService.changePassword(password["data"].userId , password["data"].newPassword)
           .subscribe( res =>{
-            this.password = res['data'];
-            this.toastrService.success('Password salvata con successo');
+            if(res){
+              this.password = res['data'];
+              this.toastrService.success('Password salvata con successo');
+            }else{
+              this.toastrService.error('Errore nel salvare la password');
+            }
           });
       }else{
-        this.toastrService.error('Errore nel salvare la password');
+        this.toastrService.warning('nessuna modifica effettuata');
       }
     })
   }
@@ -470,10 +483,10 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.internalActivityService.getInternalActivities(this.userAdmin.id)
       .subscribe(result => {
         if (result.status === 'done') {
-          console.log("result.data" , result.data)
+          //console.log("result.data" , result.data)
           this.internalActivitiesAssigned = result.data;
         } else {
-          this.toastrService.warning("Nessuna attività associata all\'utente");
+          this.toastrService.warning("Nessuna attività interna associata all\'utente");
         }
       });
   }

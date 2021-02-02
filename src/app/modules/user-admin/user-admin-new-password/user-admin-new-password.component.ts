@@ -54,6 +54,6 @@ export class UserAdminNewPasswordComponent implements OnInit {
   }
 
   close() {
-    this.dialogRef.close();
+    this.dialogRef.close("close");
   }
 }

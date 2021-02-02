@@ -85,9 +85,10 @@
       <div class="form-group row">
         <label for="role" class="col-sm-2 col-form-label">Ruolo</label>
         <div class="col-sm-10">
-          <select id="role" name="role" class="custom-select sel-text" formControlName="role" required>
+          <select disabled selected id="role" name="role" class="custom-select sel-text" formControlName="role" required>
             <option value="2" selected="selected">Utente Ordinario</option>
             <option value="1">Amministratore</option>
+            <option value="0">Super Amministratore</option>
           </select>
         </div>
       </div>
@@ -243,7 +244,7 @@
     </form>
   </mat-expansion-panel>
 
-  <mat-expansion-panel hideToggle>
+  <mat-expansion-panel hideToggle *ngIf="roleEdited === '2'">
     <mat-expansion-panel-header>
       <mat-panel-title>
         Modifica contratto
@@ -260,7 +261,7 @@
       <button type="submit" class="btn btn-primary btn-block mt-5">Salva</button>
     </form>
   </mat-expansion-panel>
-  <mat-expansion-panel hideToggle>
+  <mat-expansion-panel hideToggle *ngIf="roleEdited === '2'">
     <mat-expansion-panel-header>
       <mat-panel-title>
         Modifica dati economici
@@ -354,16 +355,16 @@
       <button type="submit" class="btn btn-primary btn-block mt-5">Salva</button>
     </form>
   </mat-expansion-panel>
-  <mat-expansion-panel hideToggle>
+  <mat-expansion-panel hideToggle *ngIf="roleEdited === '2'">
     <mat-expansion-panel-header>
       <mat-panel-title>
         Assegna attività
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <table class="table table-striped no-margin" *ngIf="activityList; else noActivity">
+    <table class="table table-striped no-margin" *ngIf="activityList.length > 0; else noActivity">
       <thead>
         <tr>
-          <th scope="col">Nome attività</th>
+          <th scope="col">Nome attività esterna</th>
           <th scope="col">Cliente</th>
           <th scope="col">Tipo attività</th>
           <th></th>
@@ -382,12 +383,11 @@
       </tbody>
     </table>
     <ng-template #noActivity>
-      <p>Non ci sono attività inserite per questo utente</p>
+      <p>Non ci sono attività esterne inserite per questo utente</p>
     </ng-template>
-    <button class="btn btn-primary btn-block mt-3" (click)="openAddActivityDialog()">Aggiungi attività</button>
+    <button class="btn btn-primary btn-block mt-3" (click)="openAddActivityDialog()">Aggiungi attività esterna</button>
     <hr>
 
-    <label style="font-weight: normal !important;" for="interne">Assegna Attivita interne</label>
     <table class="table table-striped no-margin" *ngIf="internalActivitiesAssigned.length > 0">
       <thead>
         <tr>
