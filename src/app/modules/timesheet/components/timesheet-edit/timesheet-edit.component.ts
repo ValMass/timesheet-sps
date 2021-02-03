@@ -303,18 +303,12 @@ export class TimesheetEditComponent implements OnInit {
     this.checkIfCanModify();
   }
 
-  /**
-   * Se sono presenti Eventi in un giorno e l'utente rispecchia le condizioni per l'edit:  
-   *-Quando l'utente clicca un giorno in un array vengono salvati tutti gli eventi di quel giorno [vedi -> currentValueDayAllEvents] ,
-   *--questo servirà per ulteriori controlli in fase di accetazione dell'aggiunta di una nuova trasferta
-   *--per quanto riguarda la presenza di altre trasferte [vedi -> askToaddTrasfertaInTime()]
-   *-in un altro array vengono salvati solo gli eventi di tipo "SEDE", "LAVORO" e "PARTTIME" [vedi ->this.currentValueDay]
-   *--questo array servira come lista per la modale di aggiunta trasferte [vedi -> openAddTrasfDialog()] ,
-   *--l'array in questione prima di prendere nuovi eventi verrà svuotato
-   */
-  //FIXME
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    //pulisco il current value day dal precedente valore
     this.currentValueDay = [];
+    //controllo se l'utente ha trasferte
+    this.canEditTrasfDrag = this.checkIfTrasferte(events)  
+    
     if (this.checkIfCurrentValueDay(events) && !((this.getRoleFromLocalStorage() === '1') && (this.currentTimesheet.state === '4'))) {
       events.find(event =>{
         if((event.title == "LAVORO") ||
@@ -323,7 +317,6 @@ export class TimesheetEditComponent implements OnInit {
           this.currentValueDay.push(event);
         }
       });
-      this.currentValueDayAllEvents = events;
       this.disableAddTrasf = false;
     } else {
       this.disableAddTrasf = true;
@@ -343,6 +336,7 @@ export class TimesheetEditComponent implements OnInit {
     // console.log(JSON.stringify(events));
   }
 
+  //controlla se sono presenti negli eventi del giorno "LAVORO" , "SEDE" e "PARTIME"
   checkIfCurrentValueDay(valueDay) {
     let res: boolean = false
     if (valueDay.length > 0) {
@@ -356,6 +350,15 @@ export class TimesheetEditComponent implements OnInit {
       }
     }
     return (res);
+  }
+
+  checkIfTrasferte(events){
+    let res =events.find(event =>{
+      if(event.title === "TRASFRIMB"){
+        return event
+      }
+    })
+    return (res === undefined ? true : false)
   }
 
   closeOpenMonthViewDay() {
@@ -438,6 +441,7 @@ export class TimesheetEditComponent implements OnInit {
         if (eventToUpdate.title === "TRASFRIMB") {
           this.timesheetaddtrasfService.deleteTrasferta(this.currentTimesheet.id, eventToUpdate, eventToUpdate.start).subscribe(
             res => {
+              this.canEditTrasfDrag = true;
               this.loadCurrentMonthTimesheet(res["data"]);
             }
           );
@@ -467,7 +471,6 @@ export class TimesheetEditComponent implements OnInit {
     return timesheet;
   }
 
-  //FIXME
   openAddEventDialog() {
     this.assignedActivities.map(cus => cus['cus'])
     if (this.checkIfCanModify()) {
@@ -542,6 +545,7 @@ export class TimesheetEditComponent implements OnInit {
           if (res.data !== 'close') {
             this.toastrService.success('Trasferta aggiunta. Salvare il timesheet per applicare le modifiche');
             this.addTrasfertaInTime(res.timesheetId, res.trasferta, res.data)
+            this.canEditTrasfDrag = false;
           } else {
             this.toastrService.warning('Nessuna operazione effettuata');
           }
@@ -555,10 +559,9 @@ export class TimesheetEditComponent implements OnInit {
     }
   }
 
-  //FIXME
   askToaddTrasfertaInTime() {
     this.showModalAddTrasf = true;
-    if (!this.checkIfCurrentValueHasTrasf(this.currentValueDayAllEvents) || this.canEditTrasfDrag) {
+    if (this.canEditTrasfDrag) {
       this.alertFlagTrasf = true;
       this.confirmationMessage =
         'Per aggiungere una nuova trasferta, devi salvare il timesheet corrente, sei sicuro di voler salvare il timesheet ?';
@@ -620,7 +623,6 @@ export class TimesheetEditComponent implements OnInit {
    * -NON annula quando:
    * --non ci sono altre trasferte di tipo "TRASFIRMB" ed è di tipo LAVORO,SEDE,PARTTIME
    */
-  //FIXME
   checkDrag(newStart) {
     let res: boolean = false
     let newStartValue: Number = Number(this.datepipe.transform(newStart, "dd"));
