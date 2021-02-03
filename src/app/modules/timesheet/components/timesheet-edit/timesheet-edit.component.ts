@@ -603,11 +603,12 @@ export class TimesheetEditComponent implements OnInit {
     newEnd,
   }: CalendarEventTimesChangedEvent): void {
     if (this.checkDrag(newStart)) {
+      this.updateTrasfDrag(event , newStart)
       event.start = newStart;
       event.end = newEnd;
       this.canEditTrasfDrag = true;
       this.refresh.next();
-      this.saveCurrentTimesheet()
+      this.saveCurrentTimesheet();
     } else {
       this.refresh.next();
     }
@@ -666,6 +667,21 @@ export class TimesheetEditComponent implements OnInit {
     });
     return resArray;
   }
+  /**
+   * 
+   * @param event l'evento spostato con i suoi dati non modificati
+   * @param newStart la nuova data a seguito del drag 
+   * questa funzione cerca la trasferta da aggornare con la nuova data
+   */
+  updateTrasfDrag(event , newStart){
+    let eventDayValue: Number = Number(this.datepipe.transform(event.start, "dd"));
+    this.currentTimesheet.trasferte.find(trasferta =>{
+      let trasfDayValue: Number = Number(this.datepipe.transform(trasferta.date, "dd"));
+      if(trasfDayValue === eventDayValue){
+        trasferta.date = newStart.toISOString()
+      }
+    });
+  }
 
   getIdFromLocalStorage() {
     const user: User = this.authenticationService.currentUserValue;
@@ -718,7 +734,7 @@ export class TimesheetEditComponent implements OnInit {
     this.currentTimesheet = recivedTimesheet;
     const tmpEvents = JSON.parse(recivedTimesheet.dayjson);
     this.currentTimesheet.dayjson = []; // non e' sbagliato serve per eliminare le schifezze che potrebbero essere rimaste
-    console.log("currentTimesheet", this.currentTimesheet);
+    //console.log("currentTimesheet", this.currentTimesheet);
     tmpEvents.forEach((element) => {
       const newEvent = {
         title: element.title,
@@ -746,10 +762,10 @@ export class TimesheetEditComponent implements OnInit {
       this.events = this.currentTimesheet.dayjson
     });
 
-    console.log("dayjson", this.currentTimesheet.dayjson);
+    //console.log("dayjson", this.currentTimesheet.dayjson);
     this.currentTimesheet.trasferte = JSON.parse(recivedTimesheet.trasferte);  //TODO attenzione a questo jsonparse potrebbe dover cambiare
-    console.log("workeddays", this.currentTimesheet.workeddays)
-    console.log("trasferteLength", this.currentTimesheet.trasferte.length)
+    //console.log("workeddays", this.currentTimesheet.workeddays)
+    //console.log("trasferteLength", this.currentTimesheet.trasferte.length)
 
     //aggiorno Distaccato
     this.distaccatoPresso = this.currentTimesheet.distaccato;
@@ -966,7 +982,7 @@ export class TimesheetEditComponent implements OnInit {
     this.currentTimesheet.dayjson = this.events;
     const logged = this.authenticationService.currentUserValue.id;
     //this.currentTimesheet.trasferte = JSON.parse(this.currentTimesheet.trasferte);
-    console.log("trasferte", this.currentTimesheet.trasferte);
+    console.log("trasferteSAVE", this.currentTimesheet.trasferte);
     this.timesheetService.saveTimesheet(this.currentTimesheet, logged).subscribe(
       (result) => {
         if (result.status === 'done') {
@@ -975,9 +991,9 @@ export class TimesheetEditComponent implements OnInit {
           this.loadCurrentMonthTimesheet(result.data);
           this.toastrService.success('Timesheet salvato');
           this.updateStateLabel();
-          console.log('saved');
+          //console.log('saved');
         } else {
-          console.log('error');
+          //console.log('error');f
           this.toastrService.error(result.message);
           return false;
         }
