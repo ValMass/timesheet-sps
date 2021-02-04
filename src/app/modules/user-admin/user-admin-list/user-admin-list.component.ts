@@ -61,15 +61,18 @@ export class UserAdminListComponent implements OnInit, OnChanges {
     const viewDate = new Date();
     const month = viewDate.getMonth();
     const year = viewDate.getFullYear();
-    const nomefile = 'TimesheetExport' + '_' + month + '_' + year;
-    this.fileservice.downloadTimesheetSummaryFile( month, year ).subscribe(
-    response => {
-      
-      let blob: any = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8' });
-      const url = window.URL.createObjectURL(blob);
-      // window.open(url);
-      // window.location.href = response.url;
-      fileSaver.saveAs(blob, nomefile);
+
+    const nomefile = 'TimesheetExport' + '_' + this.assignMonth(month) + '_' + year;
+    this.fileservice.downloadTimesheetSummaryFile( month, year ).subscribe(response => {
+      if(response && !(response.status === 'error')){
+        let blob: any = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8' });
+        const url = window.URL.createObjectURL(blob);
+        // window.open(url);
+        // window.location.href = response.url;
+        fileSaver.saveAs(blob, nomefile);
+      }else{
+        console.log('Error downloading the file');
+      }
     }),
     error => {
       console.log('Error downloading the file' , error);
@@ -114,5 +117,46 @@ export class UserAdminListComponent implements OnInit, OnChanges {
 
     //console.log("user.role: ", user.role)
     return user.role >= ruoloUtente;
+  }
+
+  assignMonth(mese){
+    let res = '';
+    if(mese == 0){
+      res = "gen";
+    }
+    if(mese == 1){
+      res = "feb";
+    }
+    if(mese == 2){
+      res = "mar";
+    }
+    if(mese == 3){
+      res = "apr";
+    }
+    if(mese == 4){
+      res = "mag";
+    }
+    if(mese == 5){
+      res = "giu";
+    }
+    if(mese == 6){
+      res = "lug";
+    }
+    if(mese == 7){
+      res = "ago";
+    }
+    if(mese == 8){
+      res = "set";
+    }
+    if(mese == 9){
+      res = "ott";
+    }
+    if(mese == 10){
+      res = "nov";
+    }
+    if(mese == 11){
+      res = "dic";
+    }
+    return res;
   }
 }
