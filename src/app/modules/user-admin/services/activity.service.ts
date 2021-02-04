@@ -25,13 +25,14 @@ export class ActivityService {
     );
   }
 
-  createActivity(activityname, user, customer , type) {
+  createActivity(activityname, user, customer , type , defaulttype) {
     const url = environment.apiUrl + 'activities/createActivities.php';
     const topass = {
       name: activityname,
       customerid: customer,
       userid: user,
-      type : type
+      type : type,
+      defaulttype : defaulttype,
     };
     console.log(topass);
     return this.http.post<any>(url,  topass ).pipe(catchError(error => {

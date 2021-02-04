@@ -460,7 +460,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     dialogRef.addPanelClass(['custom-dialog-container']);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.activityService.createActivity(res.data.activityName, this.userAdmin.id, res.data.customerId , res.data.defaultactivitytype)
+        this.activityService.createActivity(res.data.activityName, this.userAdmin.id, res.data.customerId , res.data.defaultactivitytype , res.defaulttype)
           .subscribe(result => {
             if (result.status === 'done') {
               this.toastrService.success('Attività aggiunta correttamente');
@@ -548,11 +548,12 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   }
 
   tipoAttivita(tipo){
-    if(tipo > 0){
-      let res  = this.activitiesType.find(x => x.id === tipo);
-      return(res.descrizione);
-    }else{
-      return('');
+    let res : String = '';
+    let descrizioneAttivita  = this.activitiesType.find(act => act.id === tipo.act.type);
+    res = descrizioneAttivita.descrizione
+    if(tipo.act.defaulttype === "1" && tipo.act.type === tipo.cus.defaultactivitytype){
+      res = res + " (Default)" 
     }
+    return(res);
   }
 }

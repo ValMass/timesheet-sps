@@ -13,9 +13,8 @@ export class AddActivityComponent implements OnInit {
   public submitted = false;
   public activitiesType : any;
   public type : any ;
+  public defaulttype : boolean = true;
   
- 
-
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef < AddActivityComponent >,
@@ -41,7 +40,7 @@ export class AddActivityComponent implements OnInit {
     }
     console.log('valid form is: ' + JSON.stringify(this.activityForm.value) );*/
     if(!this.activityForm.invalid){
-        this.dialogRef.close({ data: this.activityForm.value });
+        this.dialogRef.close({ data: this.activityForm.value , defaulttype : this.defaulttype});
     }
   }
 
@@ -50,8 +49,18 @@ export class AddActivityComponent implements OnInit {
   }
 
   assignTypeActivity(evento){
+    //cerco il customer associato all'evento
     let customer  = this.customerlist.find(x => x.id === evento);
     this.type = customer.defaultactivitytype;
+    this.defaulttype = true;
     this.activityForm.patchValue({ defaultactivitytype : this.type})
+  }
+
+  changeDefaultType(newType){
+    if(newType === this.type){
+      this.defaulttype = true;
+    } else {
+      this.defaulttype = false;
+    }
   }
 }

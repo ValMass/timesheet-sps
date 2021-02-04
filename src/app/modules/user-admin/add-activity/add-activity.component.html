@@ -32,10 +32,10 @@
       <label for="defaultactivitytype" class="col-sm-4 col-form-label">Tipo Attività</label>
       <div class="col-sm-8 scrollable-box">
         <select name="defaultactivitytype" id="defaultactivitytype" formControlName="defaultactivitytype"
-          class="form-control" required
+          class="form-control" required (change)="changeDefaultType($event.target.value)"
           [ngClass]="{'error':(((activityForm.value.defaultactivitytype === '') || (activityForm.value.defaultactivitytype === null)) && submitted)}">
           <option *ngFor="let item of activitiesType" [value]="item.id" [selected]="item.id === type">
-            {{item.descrizione}}</option>
+          {{type === item.id ? item.descrizione + ' (Default)' : item.descrizione}}</option>
         </select>
         <div
           *ngIf="(((activityForm.value.defaultactivitytype === '') || (activityForm.value.defaultactivitytype === null)) && submitted)"
