@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://timesheet.api.spsistemi.net/www/timesheetApi/spstimesheet/',
-  //apiUrl: 'http://localhost:8080/',
+  //apiUrl: 'https://timesheet.api.spsistemi.net/www/timesheetApi/spstimesheet/',
+  apiUrl: 'http://localhost:8080/',
   openRouteServiceDirectionEndpoint: 'https://api.openrouteservice.org/v2/directions/driving-car?',
   openRouteServiceGeoEndpoint: 'https://api.openrouteservice.org/geocode/search?',
   openRouteServiceKey: '5b3ce3597851110001cf6248c11857e9ef5d4f8a87a17e23ec030e1a',

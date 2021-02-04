@@ -21,7 +21,7 @@ export class UserAdminListComponent implements OnInit, OnChanges {
 
   //showbutton
   @Output() showButton = new EventEmitter<Boolean>();
-  
+
   constructor(
     private fileservice: FileService,
     private router: Router,
@@ -61,6 +61,7 @@ export class UserAdminListComponent implements OnInit, OnChanges {
     const viewDate = new Date();
     const month = viewDate.getMonth();
     const year = viewDate.getFullYear();
+
     const nomefile = 'TimesheetExport' + '_' + this.assignMonth(month) + '_' + year;
     this.fileservice.downloadTimesheetSummaryFile( month, year ).subscribe(response => {
       if(response && !(response.status === 'error')){
@@ -117,7 +118,7 @@ export class UserAdminListComponent implements OnInit, OnChanges {
     //console.log("user.role: ", user.role)
     return user.role >= ruoloUtente;
   }
-  
+
   assignMonth(mese){
     let res = '';
     if(mese == 0){
