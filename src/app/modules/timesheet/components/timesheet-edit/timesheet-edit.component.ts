@@ -201,12 +201,12 @@ export class TimesheetEditComponent implements OnInit {
             console.log(this.events);
             this.updateStateLabel();
           } else {
-            console.log(result);
-            this.currentTimesheet = this.createEmptyTimesheet();
-            this.updateStateLabel();
+            if (result.status === 'error'){
+              this.currentTimesheet = this.createEmptyTimesheet();
+              this.updateStateLabel();
+            }
           }
         },
-        (error) => { }
       );
 
     this.timesheetService.listActivities(this.currentTimesheetUserId).subscribe(
@@ -307,16 +307,11 @@ export class TimesheetEditComponent implements OnInit {
     //pulisco il current value day dal precedente valore
     this.currentValueDay = [];
     //controllo se l'utente ha trasferte
-    this.canEditTrasfDrag = this.checkIfTrasferte(events)  
+    //se è vero che ci sono trasferte non aggiungere trasfertes
+    this.canEditTrasfDrag = !(this.checkIfTrasferte(events))
     
     if (this.checkIfCurrentValueDay(events) && !((this.getRoleFromLocalStorage() === '1') && (this.currentTimesheet.state === '4'))) {
-      events.find(event =>{
-        if((event.title == "LAVORO") ||
-          (event.title == "SEDE") ||
-          (event.title == "PARTIME")) {
-          this.currentValueDay.push(event);
-        }
-      });
+      this.currentValueDay = events.filter(event =>(event.title === "LAVORO") ||  (event.title === "SEDE") || (event.title === "PARTIME"));
       this.disableAddTrasf = false;
     } else {
       this.disableAddTrasf = true;
@@ -336,29 +331,16 @@ export class TimesheetEditComponent implements OnInit {
     // console.log(JSON.stringify(events));
   }
 
-  //controlla se sono presenti negli eventi del giorno "LAVORO" , "SEDE" e "PARTIME"
-  checkIfCurrentValueDay(valueDay) {
-    let res: boolean = false
-    if (valueDay.length > 0) {
-      for (let j: number = 0; j < valueDay.length; j++) {
-        if ((valueDay[j].title == "LAVORO") ||
-          (valueDay[j].title == "SEDE") ||
-          (valueDay[j].title == "PARTIME")) {
-          res = true;
-          break;
-        }
-      }
-    }
-    return (res);
+  //controlla se sono presente negli eventi del giorno "LAVORO" , "SEDE" e "PARTIME"
+  checkIfCurrentValueDay(events) {
+    return (events.some(event =>(event.title === "LAVORO") ||  (event.title === "SEDE") || (event.title === "PARTIME")));
   }
 
+  //funzione che cerca se è presente una trasferta fra gli eventi del giorno passato 
+  // se è vero la ha trovata 
+  //se è falso non l'ha trovata
   checkIfTrasferte(events){
-    let res =events.find(event =>{
-      if(event.title === "TRASFRIMB"){
-        return event
-      }
-    })
-    return (res === undefined ? true : false)
+    return (events.some(event =>(event.title === "TRASFRIMB")))
   }
 
   closeOpenMonthViewDay() {
@@ -627,7 +609,7 @@ export class TimesheetEditComponent implements OnInit {
   checkDrag(newStart) {
     let res: boolean = false
     let newStartValue: Number = Number(this.datepipe.transform(newStart, "dd"));
-    let eventDayValue: CalendarEvent[] = this.findDays(newStartValue);
+    let eventDayValue: any[] = this.findDays(newStartValue);
     let heDontWork: boolean = true
 
     if (eventDayValue.length !== 0 && eventDayValue !== undefined) {
@@ -637,8 +619,13 @@ export class TimesheetEditComponent implements OnInit {
             (eventDayValue[x].title === 'LAVORO') ||
             (eventDayValue[x].title === 'PARTIME')
           ) {
-            heDontWork = false;
-            res = true;
+            if(eventDayValue[x].codiceFatt !== "TR"){
+              heDontWork = false;
+              res = true;
+            } else {
+              res = false;
+              break;
+            }
           }
         } else {
           res = false
@@ -649,7 +636,7 @@ export class TimesheetEditComponent implements OnInit {
     }
     //se non ha lavorato in quel giorno uscira questo messaggio
     if (heDontWork) {
-      this.toastrService.warning("nel giorno selezionato non ci sono attività")
+      this.toastrService.warning("nel giorno selezionato non si possono assegnare trasferte")
     }
     return res;
   }
@@ -659,8 +646,8 @@ export class TimesheetEditComponent implements OnInit {
    */
   findDays(dayToFind) {
     let resArray: CalendarEvent[] = [];
-    this.events.find(event => {
-      let valueDay = Number(this.datepipe.transform(event.start, 'dd'))
+    this.events.forEach(event => {
+      const valueDay = Number(this.datepipe.transform(event.start, 'dd'))
       if (valueDay === dayToFind) {
         resArray.push(event)
       }
@@ -674,9 +661,9 @@ export class TimesheetEditComponent implements OnInit {
    * questa funzione cerca la trasferta da aggornare con la nuova data
    */
   updateTrasfDrag(event , newStart){
-    let eventDayValue: Number = Number(this.datepipe.transform(event.start, "dd"));
-    this.currentTimesheet.trasferte.find(trasferta =>{
-      let trasfDayValue: Number = Number(this.datepipe.transform(trasferta.date, "dd"));
+    const eventDayValue: Number = Number(this.datepipe.transform(event.start, "dd"));
+    this.currentTimesheet.trasferte.forEach(trasferta =>{
+      const trasfDayValue: Number = Number(this.datepipe.transform(trasferta.date, "dd"));
       if(trasfDayValue === eventDayValue){
         trasferta.date = newStart.toISOString()
       }
