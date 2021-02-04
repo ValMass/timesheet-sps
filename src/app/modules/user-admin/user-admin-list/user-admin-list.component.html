@@ -28,7 +28,7 @@
         </td>
         <td>
           <span tooltip="verificare aggiornamento del timesheet" tooltipPlacement="top"  
-                style="background: #C21F39" *ngIf="useradmin.distaccato != null ;else distaccatoN">
+                style="background: #C21F39" *ngIf="useradmin.distaccato != null && useradmin.distaccato != '' ;else distaccatoN">
             <div style="display: flex; justify-content: center;">
               {{useradmin.distaccato}}</div>
           </span>
