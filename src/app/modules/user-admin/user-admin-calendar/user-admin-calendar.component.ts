@@ -32,7 +32,6 @@ export class UserAdminCalendarComponent implements OnInit {
   changeData(date) {
     this.data.year = this.datepipe.transform(date, 'yyyy');
     this.data.month = this.datepipe.transform(date, 'MM');
-    console.log(this.data)
   }
 
   loadDate() {

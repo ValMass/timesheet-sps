@@ -29,6 +29,7 @@ export class UserAdminComponent implements OnInit {
   showModal = false;
   message = '';
   showButton: boolean = true;
+  globalTimesheetDate : any = {year : null , month : null};
 
   constructor(
     private route: ActivatedRoute,
@@ -42,6 +43,7 @@ export class UserAdminComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.generateTodayDate();
     const observer = {
       next: x => {
         console.log(x);
@@ -188,6 +190,9 @@ export class UserAdminComponent implements OnInit {
   getUserListLoadData(data : any){
     const month = data.month - 1;
     const year = data.year;
+    //aggiorno la data globale del timesheet
+    this.globalTimesheetDate.month =  Number(month);
+    this.globalTimesheetDate.year = Number(year);
     const loggeduser = this.authenticationService.currentUserValue;
     this.userAdminService.getListForUserList(month, year, loggeduser.role).subscribe(
       res => {
@@ -339,6 +344,15 @@ export class UserAdminComponent implements OnInit {
     }
     this.clear();
 
+  } 
+
+  /*
+   * genero la data di oggi che decidera quali dati vedro sulla lista utenti(Distaccato e stato del timesheet+-),quale mese in excel esportero e in che mese attererò all'Edit
+   */
+  generateTodayDate(){
+    let todayDate : Date = new Date;
+    this.globalTimesheetDate.year = todayDate.getFullYear();
+    this.globalTimesheetDate.month = todayDate.getMonth();
   }
 
 }

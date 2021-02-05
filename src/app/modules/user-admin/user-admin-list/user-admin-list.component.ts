@@ -16,6 +16,7 @@ import { strategy } from '@angular-devkit/core/src/experimental/jobs';
 })
 export class UserAdminListComponent implements OnInit, OnChanges {
   @Input() useradmins: UserAdmin[];
+  @Input() globalTimesheetDate : any;
   @Output() deleted = new EventEmitter<UserAdmin>();
   @Output() selected = new EventEmitter<UserAdmin>();
 
@@ -34,7 +35,8 @@ export class UserAdminListComponent implements OnInit, OnChanges {
     //console.log( "useradmins: " ,this.useradmins);
   }
   ngOnChanges(changes: SimpleChanges) {
-    console.log('changes: ', changes);
+    //console.log("globalTimesheetDate" , this.globalTimesheetDate)
+    //console.log('changes: ', changes);
   }
   selectCustomer(user: UserAdmin) {
     //showbutton
@@ -58,12 +60,12 @@ export class UserAdminListComponent implements OnInit, OnChanges {
   }
 
   exportinXlsx() {
-    const viewDate = new Date();
+    /*const viewDate = new Date();
     const month = viewDate.getMonth();
-    const year = viewDate.getFullYear();
+    const year = viewDate.getFullYear();*/
 
-    const nomefile = 'TimesheetExport' + '_' + this.assignMonth(month) + '_' + year;
-    this.fileservice.downloadTimesheetSummaryFile( month, year ).subscribe(response => {
+    let nomefile = 'TimesheetExport' + '_' + this.assignMonth(this.globalTimesheetDate.month) + '_' +  this.globalTimesheetDate.year;
+    this.fileservice.downloadTimesheetSummaryFile( this.globalTimesheetDate.month, this.globalTimesheetDate.year ).subscribe(response => {
       if(response && !(response.status === 'error')){
         let blob: any = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8' });
         const url = window.URL.createObjectURL(blob);
