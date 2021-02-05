@@ -162,6 +162,9 @@ export class TimesheetEditComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if(history.state.year != undefined && history.state.month != undefined ){
+        this.viewDate.setFullYear(history.state.year , history.state.month ,1)
+    }
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
 
@@ -274,7 +277,7 @@ export class TimesheetEditComponent implements OnInit {
   }
 
   isDisabled() {
-    return new Date().getMonth() === this.viewDate.getMonth() ? true : false;
+    return new Date().getMonth() === this.viewDate.getMonth() && new Date().getFullYear() === this.viewDate.getFullYear() ? true : false;
   }
 
   myNextClick() {
@@ -903,7 +906,7 @@ export class TimesheetEditComponent implements OnInit {
     const userid = this.currentTimesheetUserId;
     console.log(this.currentUserInfo);
     const cognome = this.currentUserInfo[0]["anad"]["surname"]; //TODO togliere lo zero da tutte ste chioamate
-    const nomefile = 'Timesheet' + '_' + cognome + '_' + month + '_' + year + '.Xlsx';
+    const nomefile = 'Timesheet' + '_' + cognome + '_' + this.assignMonth(month) + '_' + year + '.Xlsx';
     this.fileservice
       .downloadSingleTimesheetFile(month, year, userid)
       .subscribe((response) => {
@@ -1180,6 +1183,47 @@ export class TimesheetEditComponent implements OnInit {
       if (event.title === "TRASFRIMB" || event.contractCode === "TRASFRIMB") {
         res = true;
       }
+    }
+    return res;
+  }
+
+  assignMonth(mese){
+    let res = '';
+    if(mese == 0){
+      res = "gen";
+    }
+    if(mese == 1){
+      res = "feb";
+    }
+    if(mese == 2){
+      res = "mar";
+    }
+    if(mese == 3){
+      res = "apr";
+    }
+    if(mese == 4){
+      res = "mag";
+    }
+    if(mese == 5){
+      res = "giu";
+    }
+    if(mese == 6){
+      res = "lug";
+    }
+    if(mese == 7){
+      res = "ago";
+    }
+    if(mese == 8){
+      res = "set";
+    }
+    if(mese == 9){
+      res = "ott";
+    }
+    if(mese == 10){
+      res = "nov";
+    }
+    if(mese == 11){
+      res = "dic";
     }
     return res;
   }

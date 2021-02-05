@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { MatDatepicker } from '@angular/material/datepicker';
@@ -15,10 +16,10 @@ export class UserAdminCalendarComponent implements OnInit {
   public pickerDate;
   @ViewChild('picker') datePicker: MatDatepicker<any>;
 
-
   data: any = {};
+  newData : Date;
 
-  constructor(public datepipe: DatePipe) { }
+  constructor(public datepipe: DatePipe,   private toastrService: ToastrService,) { }
 
   ngOnInit(): void {
   }
@@ -30,12 +31,19 @@ export class UserAdminCalendarComponent implements OnInit {
   }
 
   changeData(date) {
+    this.newData = date
     this.data.year = this.datepipe.transform(date, 'yyyy');
     this.data.month = this.datepipe.transform(date, 'MM');
   }
 
+  //se la data selezionata è post la data odierna la data non viene aggiornata 
   loadDate() {
-    this.dateToLoad.emit(this.data);
+    const today = new Date(); //data
+    if( this.newData < today  ){
+        this.toastrService.success("Data inserita valida");
+        this.dateToLoad.emit(this.data);
+    } else {
+      this.toastrService.error("Data inserita non valida");
+    }
   }
-
 }
