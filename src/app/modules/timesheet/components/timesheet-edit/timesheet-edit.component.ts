@@ -696,7 +696,7 @@ export class TimesheetEditComponent implements OnInit {
    */
   checkIfCanModify() {
     const userRole = this.getRoleFromLocalStorage();
-    if (this.isDisabled() || userRole == '0') {
+    if (this.isDisabled() || userRole == '0' || userRole == '1') {
       this.ismodifiable = true;
       return true;
     } else {
