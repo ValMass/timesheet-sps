@@ -23,6 +23,8 @@ export class UserAdminListComponent implements OnInit, OnChanges {
   //showbutton
   @Output() showButton = new EventEmitter<Boolean>();
 
+  mese : string[];
+
   constructor(
     private fileservice: FileService,
     private router: Router,
@@ -32,6 +34,7 @@ export class UserAdminListComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit(): void {
+    this.mese = ['gen' ,'feb', 'mar', 'apr' , 'mag' , 'giu' , 'lug' , 'ago' , 'set' , 'ott' , 'nov' , 'dic'];
     //console.log( "useradmins: " ,this.useradmins);
   }
   ngOnChanges(changes: SimpleChanges) {
@@ -64,7 +67,7 @@ export class UserAdminListComponent implements OnInit, OnChanges {
     const month = viewDate.getMonth();
     const year = viewDate.getFullYear();*/
 
-    let nomefile = 'TimesheetExport' + '_' + this.assignMonth(this.globalTimesheetDate.month) + '_' +  this.globalTimesheetDate.year;
+    let nomefile = 'TimesheetExport' + '_' + this.mese[this.globalTimesheetDate.month] + '_' +  this.globalTimesheetDate.year;
     this.fileservice.downloadTimesheetSummaryFile( this.globalTimesheetDate.month, this.globalTimesheetDate.year ).subscribe(response => {
       if(response && !(response.status === 'error')){
         let blob: any = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8' });
@@ -121,44 +124,4 @@ export class UserAdminListComponent implements OnInit, OnChanges {
     return user.role >= ruoloUtente;
   }
 
-  assignMonth(mese){
-    let res = '';
-    if(mese == 0){
-      res = "gen";
-    }
-    if(mese == 1){
-      res = "feb";
-    }
-    if(mese == 2){
-      res = "mar";
-    }
-    if(mese == 3){
-      res = "apr";
-    }
-    if(mese == 4){
-      res = "mag";
-    }
-    if(mese == 5){
-      res = "giu";
-    }
-    if(mese == 6){
-      res = "lug";
-    }
-    if(mese == 7){
-      res = "ago";
-    }
-    if(mese == 8){
-      res = "set";
-    }
-    if(mese == 9){
-      res = "ott";
-    }
-    if(mese == 10){
-      res = "nov";
-    }
-    if(mese == 11){
-      res = "dic";
-    }
-    return res;
-  }
 }

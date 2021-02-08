@@ -5,6 +5,7 @@
         </mat-datepicker>
         <input type="text" matInput [matDatepicker]="picker">
         <input readonly [(ngModel)]="pickerDate" placeholder="Choose a date" style="height: 30px; background-color: #eee;">
-        <button class="button-custom" mat-button color="accent"  style="height: 30px;" (click)="loadDate()">Carica data</button>
+        <button class="button-custom" mat-button color="accent"  style="height: 30px; margin-right: 1px;" (click)="loadDate()">Carica data</button>
+        <button class="button-custom" mat-button color="accent"  style="height: 30px;" (click)="setlocal()">Carica Data Odierna</button>
     </div>
 </div>

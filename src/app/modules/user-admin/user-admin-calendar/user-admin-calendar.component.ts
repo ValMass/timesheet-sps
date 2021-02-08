@@ -22,6 +22,8 @@ export class UserAdminCalendarComponent implements OnInit {
   constructor(public datepipe: DatePipe,   private toastrService: ToastrService,) { }
 
   ngOnInit(): void {
+    const today = new Date();
+    this.pickerDate = moment(today).format('MM-YYYY')
   }
 
   closeDatePicker(event) {
@@ -36,12 +38,22 @@ export class UserAdminCalendarComponent implements OnInit {
     this.data.month = this.datepipe.transform(date, 'MM');
   }
 
+  setlocal(){
+    const today = new Date();
+    this.data.year = this.datepipe.transform(today, 'yyyy');
+    this.data.month = this.datepipe.transform(today, 'MM');
+    this.pickerDate = moment(today).format('MM-YYYY')
+    this.dateToLoad.emit(this.data);
+    this.toastrService.success("Data inserita valida");
+
+  }
+
   //se la data selezionata è post la data odierna la data non viene aggiornata 
   loadDate() {
     const today = new Date(); //data
     if( this.newData < today  ){
-        this.toastrService.success("Data inserita valida");
         this.dateToLoad.emit(this.data);
+        this.toastrService.success("Data inserita valida");
     } else {
       this.toastrService.error("Data inserita non valida");
     }

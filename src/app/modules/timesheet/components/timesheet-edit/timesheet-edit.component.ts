@@ -148,6 +148,7 @@ export class TimesheetEditComponent implements OnInit {
   isTimesheetSave: boolean = false;
   timesheetSaved: boolean = false;
   canEditTrasfDrag: boolean = false;
+  mese: string[];
 
   constructor(
     public dialog: MatDialog,
@@ -162,6 +163,8 @@ export class TimesheetEditComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.mese = ['gen' ,'feb', 'mar', 'apr' , 'mag' , 'giu' , 'lug' , 'ago' , 'set' , 'ott' , 'nov' , 'dic'];
+
     if(history.state.year != undefined && history.state.month != undefined ){
         this.viewDate.setFullYear(history.state.year , history.state.month ,1)
     }
@@ -906,7 +909,7 @@ export class TimesheetEditComponent implements OnInit {
     const userid = this.currentTimesheetUserId;
     console.log(this.currentUserInfo);
     const cognome = this.currentUserInfo[0]["anad"]["surname"]; //TODO togliere lo zero da tutte ste chioamate
-    const nomefile = 'Timesheet' + '_' + cognome + '_' + this.assignMonth(month) + '_' + year + '.Xlsx';
+    const nomefile = 'Timesheet' + '_' + cognome + '_' + this.mese[month] + '_' + year + '.Xlsx';
     this.fileservice
       .downloadSingleTimesheetFile(month, year, userid)
       .subscribe((response) => {
@@ -1186,46 +1189,4 @@ export class TimesheetEditComponent implements OnInit {
     }
     return res;
   }
-
-  assignMonth(mese){
-    let res = '';
-    if(mese == 0){
-      res = "gen";
-    }
-    if(mese == 1){
-      res = "feb";
-    }
-    if(mese == 2){
-      res = "mar";
-    }
-    if(mese == 3){
-      res = "apr";
-    }
-    if(mese == 4){
-      res = "mag";
-    }
-    if(mese == 5){
-      res = "giu";
-    }
-    if(mese == 6){
-      res = "lug";
-    }
-    if(mese == 7){
-      res = "ago";
-    }
-    if(mese == 8){
-      res = "set";
-    }
-    if(mese == 9){
-      res = "ott";
-    }
-    if(mese == 10){
-      res = "nov";
-    }
-    if(mese == 11){
-      res = "dic";
-    }
-    return res;
-  }
-
 }
