@@ -556,4 +556,12 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     }
     return(res);
   }
+
+  cleanDistaccoStartTime(){
+    this.anagForm.patchValue({distaccatostarttime: ''});
+  }
+
+  cleanDistaccoEndTime(){
+    this.anagForm.patchValue({distaccatofinishtime: ''});
+  }
 }
