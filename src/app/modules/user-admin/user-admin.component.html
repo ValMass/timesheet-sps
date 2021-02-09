@@ -1,7 +1,8 @@
 <div class="tab-user ">
   <app-user-admin-calendar 
     *ngIf= "showButton" 
-    (dateToLoad)="getUserListLoadData($event)">
+    (dateToLoad)="getUserListLoadData($event)"
+    [currentData] ="dataToLoad">
   </app-user-admin-calendar>
   <list-header title="Aggiungi Utenti" (add)="openDialog()"
    *ngIf= "showButton">

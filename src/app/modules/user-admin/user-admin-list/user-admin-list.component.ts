@@ -56,8 +56,9 @@ export class UserAdminListComponent implements OnInit, OnChanges {
   }
 
   modifyTimesheet(user) {
-    console.log(user);
-    const ciccio = { state: { id: user.id, name: user.username, month : this.globalTimesheetDate.month  , year : this.globalTimesheetDate.year } };
+    //console.log("this.globalTimesheetDate" , this.globalTimesheetDate );
+    //const ciccio = { state: { id: user.id, name: user.username, month : this.globalTimesheetDate.month  , year : this.globalTimesheetDate.year } };
+    const ciccio = { state: { id: user.id, name: user.username} };
     const url = 'timesheet/' + user.id;
     this.router.navigateByUrl(url, ciccio);
   }

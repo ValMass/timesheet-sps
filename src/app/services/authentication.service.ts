@@ -1,3 +1,4 @@
+import { SavedataLocalStorageService } from '@app/services/savedata-local-storage.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -18,7 +19,7 @@ export class AuthenticationService {
   public currentUser: Observable<User>;
   
 
-  constructor(private http: HttpClient, private router: Router,) {
+  constructor(private http: HttpClient, private router: Router, private savedataLocalStorageService : SavedataLocalStorageService) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(this.decryptUserData(localStorage.getItem('currentUser'))));
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -47,6 +48,7 @@ export class AuthenticationService {
   }
 
   logout() {
+    this.savedataLocalStorageService.cleanValueStorage("currentData");
     //this.currentUserSubject.next(null);
     const url = environment.apiUrl + '/logout.php';
     return this.http.post( url, {});

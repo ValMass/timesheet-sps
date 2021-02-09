@@ -14,6 +14,7 @@ import { AuthGuard } from '@app/_helper/auth.guard';
 import { FileService } from '@app/shared/services/file.service';
 import * as fileSaver from 'file-saver';
 import { AuthenticationService } from '@app/services/authentication.service';
+import { SavedataLocalStorageService } from '@app/services/savedata-local-storage.service';
 
 
 @Component({
@@ -30,6 +31,8 @@ export class UserAdminComponent implements OnInit {
   message = '';
   showButton: boolean = true;
   globalTimesheetDate : any = {year : null , month : null};
+  dataToLoad : Date = new Date();
+  mapMonth : any;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,11 +42,18 @@ export class UserAdminComponent implements OnInit {
     private toastrService: ToastrService,
     private fileservice: FileService,
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private savedataLocalStorageService : SavedataLocalStorageService
   ) { }
 
   ngOnInit(): void {
-    this.generateTodayDate();
+    this.mapMonth =  new Map([
+      ["01", 0] , ["02", 1] , ["03", 2] , ["04", 3] , 
+      ["05", 4] , ["06", 5] , ["07", 6] , ["08", 7] , 
+      ["09", 8] , ["10", 9] , ["11", 10] , ["12", 11] 
+    ]);
+
+    this.generateDate();
     const observer = {
       next: x => {
         console.log(x);
@@ -54,9 +64,9 @@ export class UserAdminComponent implements OnInit {
     };
     const loggeduser = this.authenticationService.currentUserValue;
     this.route.data.subscribe(observer);
-    const viewDate = new Date();
-    const month = viewDate.getMonth();
-    const year = viewDate.getFullYear();
+    this.dataToLoad = this.globalTimesheetDate;
+    const month = this.globalTimesheetDate.month;
+    const year = this.globalTimesheetDate.year;
     this.userAdminService.getListForUserList(month, year, loggeduser.role).subscribe(
       res => {
         if (res.status === "done") {
@@ -188,7 +198,7 @@ export class UserAdminComponent implements OnInit {
   }
 
   getUserListLoadData(data : any){
-    const month = data.month - 1;
+    const month = this.mapMonth.get(data.month);
     const year = data.year;
     //aggiorno la data globale del timesheet
     this.globalTimesheetDate.month =  Number(month);
@@ -349,10 +359,22 @@ export class UserAdminComponent implements OnInit {
   /*
    * genero la data di oggi che decidera quali dati vedro sulla lista utenti(Distaccato e stato del timesheet+-),quale mese in excel esportero e in che mese attererò all'Edit
    */
-  generateTodayDate(){
-    let todayDate : Date = new Date;
-    this.globalTimesheetDate.year = todayDate.getFullYear();
-    this.globalTimesheetDate.month = todayDate.getMonth();
+  generateDate(){
+    //prendo la data dal local storage
+    let currentData = this.savedataLocalStorageService.getValueLocalStorage("currentData")
+    
+    //genera la data di oggi
+    let data : Date = new Date();
+    if(currentData != null && currentData != undefined){
+      data.setFullYear(currentData.year , this.mapMonth.get(currentData.month) , 1);
+      let today : Date = new Date();
+      if(data > today){
+        data = new Date();
+        this.savedataLocalStorageService.cleanValueStorage("currentData")
+      }
+    }
+    this.globalTimesheetDate.year = data.getFullYear();
+    this.globalTimesheetDate.month = data.getMonth();
   }
 
 }

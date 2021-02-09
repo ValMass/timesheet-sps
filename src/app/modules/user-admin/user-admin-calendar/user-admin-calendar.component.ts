@@ -1,8 +1,9 @@
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, Input } from '@angular/core';
 import { MatDatepicker } from '@angular/material/datepicker';
 import * as moment from 'moment';
+import { SavedataLocalStorageService } from '@app/services/savedata-local-storage.service';
 
 @Component({
   selector: 'app-user-admin-calendar',
@@ -12,17 +13,29 @@ import * as moment from 'moment';
 })
 export class UserAdminCalendarComponent implements OnInit {
 
+  @Input() currentData : any;
   @Output() dateToLoad = new EventEmitter<any>();
   public pickerDate;
   @ViewChild('picker') datePicker: MatDatepicker<any>;
 
   data: any = {};
-  newData : Date;
+  newData : Date = new Date();
 
-  constructor(public datepipe: DatePipe,   private toastrService: ToastrService,) { }
-
+  constructor(
+    public datepipe: DatePipe,   
+    private toastrService: ToastrService,
+    private savedataLocalStorageService : SavedataLocalStorageService) { }
+  
   ngOnInit(): void {
-    const today = new Date();
+    let today = new Date();
+    
+    if(this.currentData != null){
+      today.setFullYear(this.currentData.year , this.currentData.month , 1)
+    }
+
+    this.data.year = this.datepipe.transform(today, 'yyyy');
+    this.data.month = this.datepipe.transform(today, 'MM');
+
     this.pickerDate = moment(today).format('MM-YYYY')
   }
 
@@ -37,13 +50,14 @@ export class UserAdminCalendarComponent implements OnInit {
     this.data.year = this.datepipe.transform(date, 'yyyy');
     this.data.month = this.datepipe.transform(date, 'MM');
   }
-
+  
   setlocal(){
     const today = new Date();
     this.data.year = this.datepipe.transform(today, 'yyyy');
     this.data.month = this.datepipe.transform(today, 'MM');
     this.pickerDate = moment(today).format('MM-YYYY')
     this.dateToLoad.emit(this.data);
+    this.savedataLocalStorageService.setValueLocalStorage("currentData" , this.data);
     this.toastrService.success("Data inserita valida");
 
   }
@@ -54,6 +68,7 @@ export class UserAdminCalendarComponent implements OnInit {
     if( this.newData < today  ){
         this.dateToLoad.emit(this.data);
         this.toastrService.success("Data inserita valida");
+        this.savedataLocalStorageService.setValueLocalStorage("currentData" , this.data);
     } else {
       this.toastrService.error("Data inserita non valida");
     }

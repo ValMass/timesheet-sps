@@ -1,3 +1,4 @@
+import { SavedataLocalStorageService } from '@app/services/savedata-local-storage.service';
 import { DatePipe } from '@angular/common';
 import { TimesheetaddtrasfService } from './../../services/timesheetaddtrasf.service';
 import { TimesheetAddTrasfComponent } from './../timesheet-add-trasf/timesheet-add-trasf.component';
@@ -160,14 +161,13 @@ export class TimesheetEditComponent implements OnInit {
     private fileservice: FileService,
     private authenticationService: AuthenticationService,
     public datepipe: DatePipe,
+    private savedataLocalStorageService : SavedataLocalStorageService
   ) { }
 
   ngOnInit(): void {
     this.mese = ['gen' ,'feb', 'mar', 'apr' , 'mag' , 'giu' , 'lug' , 'ago' , 'set' , 'ott' , 'nov' , 'dic'];
+    this.dateCalendarToLoad();
 
-    if(history.state.year != undefined && history.state.month != undefined ){
-        this.viewDate.setFullYear(history.state.year , history.state.month ,1)
-    }
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
 
@@ -1188,5 +1188,31 @@ export class TimesheetEditComponent implements OnInit {
       }
     }
     return res;
+  }
+
+  /**
+   * prendo il valore della data dal localStorage se non esiste allora la data odierna non viene  aggiornata 
+   * 
+   */
+  dateCalendarToLoad(){
+    const mapMonth  = new Map([
+      ["01", 0] , ["02", 1] , ["03", 2] , ["04", 3] , 
+      ["05", 4] , ["06", 5] , ["07", 6] , ["08", 7] , 
+      ["09", 8] , ["10", 9] , ["11", 10] , ["12", 11] 
+    ]);
+
+    let currentData = this.savedataLocalStorageService.getValueLocalStorage("currentData");
+
+    if(currentData != null && currentData != undefined){
+      this.viewDate.setFullYear(currentData.year , mapMonth.get(currentData.month) , 1);
+      let today : Date = new Date();
+      //se la data che si trova nel local storage è maggiore della data odierna 
+      //se è maggiore allora resetto la data di default ed elimino la dta dal
+      //local storage
+      if(this.viewDate > today){
+        this.viewDate = new Date();
+        this.savedataLocalStorageService.cleanValueStorage("currentData")
+      }
+    }
   }
 }
