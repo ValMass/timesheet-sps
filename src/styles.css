@@ -106,5 +106,5 @@ body {
 
 .cal-day-selected,
 .cal-day-selected:hover{
-    background-color: yellow !important;
+    background-color: rgb(240, 173, 78) !important;
 }

@@ -1068,6 +1068,7 @@ export class TimesheetEditComponent implements OnInit {
     this.timesheetService.saveTimesheet(this.currentTimesheet, logged).subscribe(
       (result) => {
         if (result.status === 'done') {
+          this.enableMultiPick = false;
           this.isTimesheetSave = true;
           console.log("currentTimesheet", this.currentTimesheet);
           this.loadCurrentMonthTimesheet(result.data);
