@@ -61,6 +61,7 @@
       [refresh]="refresh"
       [activeDayIsOpen]="activeDayIsOpen"
       (dayClicked)="dayClicked($event.day)"
+      (beforeViewRender)="beforeMonthViewRender($event)"
       (dblclick)="createEvent([viewDate],$event)"
       (eventClicked)="handleEvent('Clicked', $event.event)"
       (eventTimesChanged)="eventTimesChanged($event)"
@@ -71,6 +72,10 @@
   <div *ngIf="adminStyle; else elsecondition" class="timesheet-controls">
     <div class="button-container">
       <div class="row">
+        <div class="row">
+          <button class="btn btn-primary mt-5 mr-1" (click)="checkMultiPick()" style="width: 150px;">
+            {{enableMultiPick === false ? 'Abilita multipick' : 'Disabilita multipick' }}</button>
+        </div>
         <div class="col">
           <div class="button-container">
             <button class="btn btn-primary mt-5 mr-1" (click)="openAddEventDialog()" [disabled]="disableAggiungiEvento">Aggiungi evento</button>
