@@ -10,6 +10,7 @@ import {
   CalendarEventTimesChangedEvent,
   CalendarView,
   CalendarEventTitleFormatter,
+  CalendarMonthViewDay,
 } from 'angular-calendar';
 import {
   startOfDay,
@@ -150,6 +151,15 @@ export class TimesheetEditComponent implements OnInit {
   timesheetSaved: boolean = false;
   canEditTrasfDrag: boolean = false;
   mese: string[];
+
+  /** 
+   * variabili che servono per il multi select dei giorni
+  */
+  selectedMonthViewDay: CalendarMonthViewDay;
+  selectedDayViewDate: Date;
+  selectedDays: any = [];
+  //flag per l'attivazione del multi pick
+  enableMultiPick : boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -309,29 +319,87 @@ export class TimesheetEditComponent implements OnInit {
     this.checkIfCanModify();
   }
 
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    //pulisco il current value day dal precedente valore
-    this.currentValueDay = [];
-    //controllo se l'utente ha trasferte
-    //se è vero che ci sono trasferte non aggiungere trasfertes
-    this.canEditTrasfDrag = !(this.checkIfTrasferte(events))
-    
-    if (this.checkIfCurrentValueDay(events) && !((this.getRoleFromLocalStorage() === '1') && (this.currentTimesheet.state === '4'))) {
-      this.currentValueDay = events.filter(event =>(event.title === "LAVORO") ||  (event.title === "SEDE") || (event.title === "PARTIME"));
-      this.disableAddTrasf = false;
-    } else {
+  checkMultiPick(){
+    if(this.enableMultiPick === false){
+      this.enableMultiPick = true;
+      this.activeDayIsOpen = false;
       this.disableAddTrasf = true;
+      this.disableCalcolaTrasferte= true;
+      this.toastrService.warning('MultiPick attivo');
+    } else {
+      this.selectedDays = [];
+      this.enableMultiPick = false;
+      this.disableAddTrasf = false;
+      this.disableCalcolaTrasferte= false;
+      this.toastrService.warning('MultiPick disattivo');
     }
-    if (isSameMonth(date, this.viewDate)) {
+  }
+
+  beforeMonthViewRender({ body }: { body: CalendarMonthViewDay[] }): void {
+    body.forEach(day => {
       if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
+        this.selectedDays.some(
+          selectedDay => selectedDay.date.getTime() === day.date.getTime()
+        )
       ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
+        day.cssClass = "cal-day-selected";
       }
-      this.viewDate = date;
+    });
+  }
+
+  multiPick(day){
+    this.selectedMonthViewDay = day;
+    const selectedDateTime = this.selectedMonthViewDay.date.getTime();
+    const dateIndex = this.selectedDays.findIndex(
+      selectedDay => selectedDay.date.getTime() === selectedDateTime
+    );
+
+    if (dateIndex > -1) {
+      delete this.selectedMonthViewDay.cssClass;
+      this.selectedDays.splice(dateIndex, 1);
+     } else {
+      this.selectedDays.push(this.selectedMonthViewDay);
+      day.cssClass = "cal-day-selected";
+      this.selectedMonthViewDay = day;
+    }
+  }
+
+  dayClicked(day: CalendarMonthViewDay): void {
+    let date = day.date;
+    let events = day.events;
+    
+    if(isSameMonth(date, this.viewDate)){
+
+      //MultiPick
+      if(this.enableMultiPick){
+        this.multiPick(day)
+      }else{
+        if ((isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||events.length === 0) {
+          this.activeDayIsOpen = false;
+        } else {
+          this.activeDayIsOpen = true;
+        }
+        this.viewDate = date;
+      }
+
+      
+      //Aggiunta Trasferta
+      //pulisco il current value day dal precedente valore
+      this.currentValueDay = [];
+      //controllo se l'utente ha trasferte
+      //se è vero che ci sono trasferte non aggiungere trasfertes
+      this.canEditTrasfDrag = !(this.checkIfTrasferte(events))
+      
+      if (this.checkIfCurrentValueDay(events) && !((this.getRoleFromLocalStorage() === '1') && (this.currentTimesheet.state === '4'))) {
+        this.currentValueDay = events.filter(event =>(event.title === "LAVORO") ||  (event.title === "SEDE") || (event.title === "PARTIME"));
+        this.disableAddTrasf = false;
+      } else {
+        this.disableAddTrasf = true;
+      }
+      
+      
+    } else {
+      this.toastrService.warning('giorno non selezionabile');
     }
     // console.log(events);
     // console.log(JSON.stringify(events));
@@ -459,8 +527,20 @@ export class TimesheetEditComponent implements OnInit {
     return timesheet;
   }
 
+  fillArrayMultiPick(){
+    let resArray: any[] = [];
+    this.selectedDays.forEach(element => {
+        resArray.push(element.date)    
+    });
+    return(resArray)
+  }
+  
   openAddEventDialog() {
     this.assignedActivities.map(cus => cus['cus'])
+    console.log("this.selectedDays" , this.selectedDays);
+
+    let multiPickList = this.fillArrayMultiPick()
+
     if (this.checkIfCanModify()) {
       const dialogRef = this.dialog.open(TimesheetAddEventComponent, {
         width: '600px',
@@ -469,38 +549,43 @@ export class TimesheetEditComponent implements OnInit {
           eventsList: this.events,
           activityList: this.assignedActivities,
           internalsActivitiesList: this.assignedInternalsActivities,
+          multiPickList :multiPickList,
         },
       });
       dialogRef.afterClosed().subscribe(
         (res) => {
           if (res) {
-            console.log("resopenAddEventDialog", res)
             if (res.data !== 'close') {
-              const event: NewCalendarEvent = {
-                title: res.data.contractCode,
-                start: new Date(res.data.eventDate),
-                nOre: res.data.numeroOre,
-                actions: this.actions,
-                codiceFatt: res.data.codiceFatturazione,
-                numProtocollo: res.data.numProtocollo,
-                activityId: res.data.activityId,
-                customerId: res.data.customerId,
-                smartWorking: +res.data.smartWorking,
-                contractCode: res.data.contractCode,
-                internalId: res.data.internalId,
-                internalName: res.data.internalName,
-                internalRuolo: res.data.internalRuolo,
-                destinazione: res.data.destinazione,
-                customerName: res.data.contractCode === 'LAVORO' || res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
-                cssClass: this.selectCssIcon(res.data),
-                draggable: this.isDraggable(res.data),
-              };
-              console.log("event", event)
-              this.events = [...this.events, event];
-              this.currentTimesheet.dayjson = [...this.events, event]
-              console.log("this.events", this.events)
-              this.isTimesheetSave = false;
-              this.toastrService.success('Evento aggiunto temporaneamente. Salvare il timesheet per applicare le modifiche');
+              res.listaDate.forEach(element => {
+                const event: NewCalendarEvent = {
+                  title: res.data.contractCode,
+                  start: new Date(element),
+                  nOre: res.data.numeroOre,
+                  actions: this.actions,
+                  codiceFatt: res.data.codiceFatturazione,
+                  numProtocollo: res.data.numProtocollo,
+                  activityId: res.data.activityId,
+                  customerId: res.data.customerId,
+                  smartWorking: +res.data.smartWorking,
+                  contractCode: res.data.contractCode,
+                  internalId: res.data.internalId,
+                  internalName: res.data.internalName,
+                  internalRuolo: res.data.internalRuolo,
+                  destinazione: res.data.destinazione,
+                  customerName: res.data.contractCode === 'LAVORO' || res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
+                  cssClass: this.selectCssIcon(res.data),
+                  draggable: this.isDraggable(res.data),
+                };
+                this.events = [...this.events, event];
+                this.currentTimesheet.dayjson = [...this.events, event]
+                this.isTimesheetSave = false;
+                this.selectedDays = [];
+              });
+              if(res.listaDate.length > 1){
+                this.toastrService.success('Eventi aggiunti temporaneamente. Salvare il timesheet per applicare le modifiche');
+              } else {
+                this.toastrService.success('Evento aggiunto temporaneamente. Salvare il timesheet per applicare le modifiche');
+              }
             } else {
               this.toastrService.error('Nessuna operazione effettuata');
             }
@@ -618,25 +703,27 @@ export class TimesheetEditComponent implements OnInit {
     let eventDayValue: any[] = this.findDays(newStartValue);
     let heDontWork: boolean = true
 
-    if (eventDayValue.length !== 0 && eventDayValue !== undefined) {
-      for (let x = 0; x < eventDayValue.length; x++) {
-        if (eventDayValue[x].title !== 'TRASFRIMB') {
-          if ((eventDayValue[x].title === 'SEDE') ||
-            (eventDayValue[x].title === 'LAVORO') ||
-            (eventDayValue[x].title === 'PARTIME')
-          ) {
-            if(eventDayValue[x].codiceFatt !== "TR"){
-              heDontWork = false;
-              res = true;
-            } else {
-              res = false;
-              break;
+  if(isSameMonth(newStart, this.viewDate)){
+      if (eventDayValue.length !== 0 && eventDayValue !== undefined) {
+        for (let x = 0; x < eventDayValue.length; x++) {
+          if (eventDayValue[x].title !== 'TRASFRIMB') {
+            if ((eventDayValue[x].title === 'SEDE') ||
+              (eventDayValue[x].title === 'LAVORO') ||
+              (eventDayValue[x].title === 'PARTIME')
+            ) {
+              if(eventDayValue[x].codiceFatt !== "TR"){
+                heDontWork = false;
+                res = true;
+              } else {
+                res = false;
+                break;
+              }
             }
+          } else {
+            res = false
+            this.toastrService.warning("Trasferta gia presente nel giorno selezionato")
+            break;
           }
-        } else {
-          res = false
-          this.toastrService.warning("Trasferta gia presente nel giorno selezionato")
-          break;
         }
       }
     }
@@ -660,6 +747,8 @@ export class TimesheetEditComponent implements OnInit {
     });
     return resArray;
   }
+
+  
   /**
    * 
    * @param event l'evento spostato con i suoi dati non modificati
