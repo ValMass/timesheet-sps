@@ -106,10 +106,5 @@ body {
 
 .cal-day-selected,
 .cal-day-selected:hover{
-    background-color: #962d37 !important;
-}
-
-.cal-day-selected-def,
-.cal-day-selected-def:hover{
-    background-color: default !important;
+    background-color: yellow !important;
 }

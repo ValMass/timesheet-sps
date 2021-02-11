@@ -78,7 +78,8 @@
         </div>
         <div class="col">
           <div class="button-container">
-            <button class="btn btn-primary mt-5 mr-1" (click)="openAddEventDialog()" [disabled]="disableAggiungiEvento">Aggiungi evento</button>
+            <button class="btn btn-primary mt-5 mr-1" (click)="openAddEventDialog()" [disabled]="disableAggiungiEvento">
+              Aggiungi evento {{enableMultiPick === false ? '' : ' multiplo' }}</button>
             <button class="btn btn-warning mt-5 mr-1" (click)="askTosaveCurrentTimesheet()" [disabled]="disableSalva">Salva</button>
             <button class="btn btn-primary mt-5 mr-1" *ngIf="!disableAccettaComeUtente" (click)="askToAcceptAsUser()" >Accetta come utente</button>
             <button class="btn btn-primary mt-5 mr-1" *ngIf="!disableAccettaComeAmministratore" (click)="askToAcceptAsAdmin()">Accetta come amministratore</button>

@@ -1,19 +1,19 @@
 <div class="modal-container">
   <div class="">
-    <h1 mat-dialog-title>{{this.data.type == 'edit' ? 'Modifica' : 'Aggiungi' }} evento</h1>
+    <h1 mat-dialog-title>{{this.data.type == 'edit' ? 'Modifica' : 'Aggiungi' }} evento {{multiPickListEnable ? 'multiplo' : ''}}</h1>
     <h6 class="text-danger" *ngIf="aggiungiButtonDisabled" mat-dialog-title>{{errorMessage}}</h6>
   </div>
   <div mat-dialog-content>
     <form id='myform' class="p-1" [formGroup]="profileForm" (ngSubmit)="submit()">
 
-      <div class="input-group">
+      <div class="input-group" *ngIf="multiPickListEnable === false">
         <label>Data</label>
         <!--<label for="dataevento">Data</label>-->
         <div>
-          <input class="form-control input-number text-center mb-4" matInput [matDatepicker]="picker" #ref required
+          <input class="form-control input-number text-center mb-4" matInput [matDatepicker]="picker" #ref required 
             (dateChange)="onDateChange($event)" formControlName="eventDate"
             [ngClass]="{'is-invalid': f.eventDate.errors && submitted}" style="width: 200px;"
-            [readonly]="isPagato">
+            readonly>
 
         </div>
         <mat-datepicker-toggle matSuffix [for]="picker" class="bottone-data" [disabled]="isPagato"></mat-datepicker-toggle>

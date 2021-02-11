@@ -322,9 +322,16 @@ export class TimesheetEditComponent implements OnInit {
   checkMultiPick(){
     if(this.enableMultiPick === false){
       this.enableMultiPick = true;
+      this.activeDayIsOpen = false;
+      this.disableAddTrasf = true;
+      this.disableCalcolaTrasferte= true;
+      this.toastrService.warning('MultiPick attivo');
     } else {
       this.selectedDays = [];
       this.enableMultiPick = false;
+      this.disableAddTrasf = false;
+      this.disableCalcolaTrasferte= false;
+      this.toastrService.warning('MultiPick disattivo');
     }
   }
 
@@ -366,7 +373,15 @@ export class TimesheetEditComponent implements OnInit {
       //MultiPick
       if(this.enableMultiPick){
         this.multiPick(day)
+      }else{
+        if ((isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||events.length === 0) {
+          this.activeDayIsOpen = false;
+        } else {
+          this.activeDayIsOpen = true;
+        }
+        this.viewDate = date;
       }
+
       
       //Aggiunta Trasferta
       //pulisco il current value day dal precedente valore
@@ -382,15 +397,9 @@ export class TimesheetEditComponent implements OnInit {
         this.disableAddTrasf = true;
       }
       
-      if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
-      ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
-      }
-      this.viewDate = date;
+      
+    } else {
+      this.toastrService.warning('giorno non selezionabile');
     }
     // console.log(events);
     // console.log(JSON.stringify(events));
@@ -540,39 +549,43 @@ export class TimesheetEditComponent implements OnInit {
           eventsList: this.events,
           activityList: this.assignedActivities,
           internalsActivitiesList: this.assignedInternalsActivities,
-          multiPickList: multiPickList,
+          multiPickList :multiPickList,
         },
       });
       dialogRef.afterClosed().subscribe(
         (res) => {
           if (res) {
-            console.log("resopenAddEventDialog", res)
             if (res.data !== 'close') {
-              const event: NewCalendarEvent = {
-                title: res.data.contractCode,
-                start: new Date(res.data.eventDate),
-                nOre: res.data.numeroOre,
-                actions: this.actions,
-                codiceFatt: res.data.codiceFatturazione,
-                numProtocollo: res.data.numProtocollo,
-                activityId: res.data.activityId,
-                customerId: res.data.customerId,
-                smartWorking: +res.data.smartWorking,
-                contractCode: res.data.contractCode,
-                internalId: res.data.internalId,
-                internalName: res.data.internalName,
-                internalRuolo: res.data.internalRuolo,
-                destinazione: res.data.destinazione,
-                customerName: res.data.contractCode === 'LAVORO' || res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
-                cssClass: this.selectCssIcon(res.data),
-                draggable: this.isDraggable(res.data),
-              };
-              console.log("event", event)
-              this.events = [...this.events, event];
-              this.currentTimesheet.dayjson = [...this.events, event]
-              console.log("this.events", this.events)
-              this.isTimesheetSave = false;
-              this.toastrService.success('Evento aggiunto temporaneamente. Salvare il timesheet per applicare le modifiche');
+              res.listaDate.forEach(element => {
+                const event: NewCalendarEvent = {
+                  title: res.data.contractCode,
+                  start: new Date(element),
+                  nOre: res.data.numeroOre,
+                  actions: this.actions,
+                  codiceFatt: res.data.codiceFatturazione,
+                  numProtocollo: res.data.numProtocollo,
+                  activityId: res.data.activityId,
+                  customerId: res.data.customerId,
+                  smartWorking: +res.data.smartWorking,
+                  contractCode: res.data.contractCode,
+                  internalId: res.data.internalId,
+                  internalName: res.data.internalName,
+                  internalRuolo: res.data.internalRuolo,
+                  destinazione: res.data.destinazione,
+                  customerName: res.data.contractCode === 'LAVORO' || res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
+                  cssClass: this.selectCssIcon(res.data),
+                  draggable: this.isDraggable(res.data),
+                };
+                this.events = [...this.events, event];
+                this.currentTimesheet.dayjson = [...this.events, event]
+                this.isTimesheetSave = false;
+                this.selectedDays = [];
+              });
+              if(res.listaDate.length > 1){
+                this.toastrService.success('Eventi aggiunti temporaneamente. Salvare il timesheet per applicare le modifiche');
+              } else {
+                this.toastrService.success('Evento aggiunto temporaneamente. Salvare il timesheet per applicare le modifiche');
+              }
             } else {
               this.toastrService.error('Nessuna operazione effettuata');
             }
