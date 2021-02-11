@@ -37,6 +37,8 @@ export class TimesheetAddEventComponent implements OnInit {
   loadOffice: boolean = false;
   flagShowAttDest: boolean = true;
   isPagato : boolean = false;
+  multiPickList : any = [];
+  multiPickListEnable : boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -62,6 +64,13 @@ export class TimesheetAddEventComponent implements OnInit {
       internalRuolo: ['', [Validators.required]],
       smartWorking: [this.isChecked(), [Validators.required]],
     });
+    
+    //se il multipick è abilitato l'utente non può modificare la data
+    this.multiPickList = this.data.multiPickList;
+
+    if(this.multiPickList && this.multiPickList.length > 0){
+      this.multiPickListEnable = true;
+    }
 
     const check = new Set();
     this.customerList = this.data.activityList
@@ -111,6 +120,7 @@ export class TimesheetAddEventComponent implements OnInit {
   get f() { return this.profileForm.controls; }
 
   submit() {
+    let listaDate : any[] = [];
     this.submitted = true;
     /*console.log(  "allComplete B" , this.allComplete);
     if ( this.allComplete === true) {
@@ -129,16 +139,21 @@ export class TimesheetAddEventComponent implements OnInit {
       this.profileForm.value.internalRuolo = this.ruoloInternal;
     }
 
-    //console.log("caso 0", this.profileForm.value);
-    // if (this.profileForm.invalid) {
-
-    //  return;
-    //}
-    if ((this.profileForm.value.contractCode != null && this.profileForm.value.eventDate != null)
+    //se il multi pick è attivo ed è stata passata una lista di date ritornare quella lista
+    //se invece non è cosi ritorna la data scelta dall'utente 
+    if(this.multiPickListEnable){
+      this.multiPickList.forEach(element => {
+        listaDate.push(element)
+      });
+    }else{
+      listaDate.push(this.profileForm.value.eventDate)
+    }
+    
+    if ((this.profileForm.value.contractCode != null)
       && (this.profileForm.value.numeroOre > "0" || this.profileForm.value.numeroOre > 0)) {
       if (this.profileForm.value.contractCode == 'MALATT') {
         if (this.profileForm.value.numProtocollo != '00') {
-          this.dialogRef.close({ data: this.profileForm.value });
+          this.dialogRef.close({ data: this.profileForm.value , listaDate : listaDate});
         }
       }
       else {
@@ -147,7 +162,7 @@ export class TimesheetAddEventComponent implements OnInit {
           && this.profileForm.value.contractCode != 'PARTIME'
           && (this.profileForm.value.numeroOre > 0)
           && (this.profileForm.value.numeroOre != null)) {
-          this.dialogRef.close({ data: this.profileForm.value });
+          this.dialogRef.close({ data: this.profileForm.value  , listaDate : listaDate});
         }
         else {
           if ((this.profileForm.value.contractCode == 'SEDE')
@@ -158,11 +173,11 @@ export class TimesheetAddEventComponent implements OnInit {
               && this.profileForm.value.internalId != "") {
                 if (this.profileForm.value.codiceFatturazione == "TR") {
                   if (this.profileForm.value.destinazione != null && this.profileForm.value.destinazione != "") {
-                    this.dialogRef.close({ data: this.profileForm.value });
+                    this.dialogRef.close({ data: this.profileForm.value  , listaDate : listaDate });
                   }
                 } else {
                   if (this.profileForm.value.codiceFatturazione != "TR") {
-                    this.dialogRef.close({ data: this.profileForm.value });
+                    this.dialogRef.close({ data: this.profileForm.value   , listaDate : listaDate});
                   }
                 }
             }
@@ -176,11 +191,11 @@ export class TimesheetAddEventComponent implements OnInit {
             ) {
               if (this.profileForm.value.codiceFatturazione == "TR") {
                 if (this.profileForm.value.destinazione != null && this.profileForm.value.destinazione != "") {
-                  this.dialogRef.close({ data: this.profileForm.value });
+                  this.dialogRef.close({ data: this.profileForm.value  , listaDate : listaDate});
                 }
               } else {
                 if (this.profileForm.value.codiceFatturazione != "TR") {
-                  this.dialogRef.close({ data: this.profileForm.value });
+                  this.dialogRef.close({ data: this.profileForm.value  , listaDate : listaDate});
                 }
               }
             }

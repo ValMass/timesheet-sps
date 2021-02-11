@@ -103,3 +103,8 @@ body {
 *:focus,*:visited,*:active{
   outline: none !important;
 }
+
+.cal-day-selected,
+.cal-day-selected:hover{
+    background-color: yellow !important;
+}
