@@ -70,7 +70,7 @@ export class TimesheetTrasferteModalComponent implements OnInit {
     this.quotaStraordinari = (Number(this.currentTimesheet.variousexpanse)).toFixed(2);
     this.avanzoRimborso = (Number(this.currentTimesheet.montlyavanzorimborso)).toFixed(2);
     this.rimborsomensile =  (Number(this.currentUserData.ecd.rimborsomensile)).toFixed(2);
-    //this.rimborsoextra = (Number(this.currentTimesheet.montlyextrarimborso)).toFixed(2);
+    this.rimborsoextra = (Number(this.currentTimesheet.montlyextrarimborso)).toFixed(2);
 
     let tmp: any = {};
     try {
