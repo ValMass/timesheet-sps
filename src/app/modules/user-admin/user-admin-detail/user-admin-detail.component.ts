@@ -70,6 +70,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   submittedUser : boolean = false;
   submittedAnag : boolean = false;
   submittedEconomic : boolean = false;
+  enablerimborsoextra : boolean = false;
 
   constructor(
     private anagService: AnagraphicService,
@@ -350,6 +351,8 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       diaria: ['', [Validators.required]],
       acivalue: ['', [Validators.required]],
       avanzorimborso: ['', [Validators.required]],
+      extrarimborsobool: ['', [Validators.required]],
+      extrarimborso: [0, [Validators.required]],
     });
     return economicForm;
   }
@@ -563,5 +566,11 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
 
   cleanDistaccoEndTime(){
     this.anagForm.patchValue({distaccatofinishtime: ''});
+  }
+
+  editrimborsoextra(){
+    
+    this.enablerimborsoextra = !this.enablerimborsoextra;
+    this.econForm.patchValue({rimborsoextra : 0 , extrarimborsobool : this.enablerimborsoextra === false ? 0 : 1})
   }
 }

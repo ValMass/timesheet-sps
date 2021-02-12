@@ -21,6 +21,8 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   diariavalue = 20;
   rimborsoproposto = '0';
   rimborsodovuto = '0';
+  rimborsomensile = '0';
+  rimborsoextra = '0'
   canagedAcivalue = 0;
   canageddiariavalue = 0;
   disableSave = false;
@@ -29,7 +31,7 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   avanzoRimborso = '0';
   quotaAvanzo = '0';
 
-  newTrasFlag : Boolean = false;
+  newTrasFlag : boolean = false;
 
   destinations :any;
   selectDest : any;
@@ -67,6 +69,9 @@ export class TimesheetTrasferteModalComponent implements OnInit {
     this.rimborsodovuto = (Number(this.currentTimesheet.rimborsotarget)).toFixed(2);
     this.quotaStraordinari = (Number(this.currentTimesheet.variousexpanse)).toFixed(2);
     this.avanzoRimborso = (Number(this.currentTimesheet.montlyavanzorimborso)).toFixed(2);
+    this.rimborsomensile =  (Number(this.currentUserData.ecd.rimborsomensile)).toFixed(2);
+    //this.rimborsoextra = (Number(this.currentTimesheet.montlyextrarimborso)).toFixed(2);
+
     let tmp: any = {};
     try {
       tmp = await this.timesheetService.getUserOffice(this.currentUserData.anad.sededilavoro).toPromise();
