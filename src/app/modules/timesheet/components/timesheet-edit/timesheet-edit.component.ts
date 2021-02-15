@@ -161,6 +161,8 @@ export class TimesheetEditComponent implements OnInit {
   //flag per l'attivazione del multi pick
   enableMultiPick : boolean = false;
 
+  isActivityTypeBodyRentalNoMaterial : boolean = false;
+
   constructor(
     public dialog: MatDialog,
     private toastrService: ToastrService,
@@ -389,9 +391,9 @@ export class TimesheetEditComponent implements OnInit {
       //controllo se l'utente ha trasferte
       //se è vero che ci sono trasferte non aggiungere trasfertes
       this.canEditTrasfDrag = !(this.checkIfTrasferte(events))
-      
       if (this.checkIfCurrentValueDay(events) && !((this.getRoleFromLocalStorage() === '1') && (this.currentTimesheet.state === '4'))) {
-        this.currentValueDay = events.filter(event =>(event.title === "LAVORO") ||  (event.title === "SEDE") || (event.title === "PARTIME"));
+        this.isActivityTypeBodyRentalNoMaterial = this.checkIfBRNM(events);
+        this.currentValueDay = events.filter((event: NewCalendarEvent) =>(((event.title === "LAVORO") || (event.title === "PARTIME")) && (event.atyname != "BRNM"))  ||  (event.title === "SEDE"));
         this.disableAddTrasf = false;
       } else {
         this.disableAddTrasf = true;
@@ -408,6 +410,10 @@ export class TimesheetEditComponent implements OnInit {
   //controlla se sono presente negli eventi del giorno "LAVORO" , "SEDE" e "PARTIME"
   checkIfCurrentValueDay(events) {
     return (events.some(event =>(event.title === "LAVORO") ||  (event.title === "SEDE") || (event.title === "PARTIME")));
+  }
+
+  checkIfBRNM(events){
+    return (events.some(event =>(event.atyname === "BRNM")));
   }
 
   //funzione che cerca se è presente una trasferta fra gli eventi del giorno passato 
@@ -606,6 +612,9 @@ export class TimesheetEditComponent implements OnInit {
 
   openAddTrasfDialog() {
     this.assignedActivities.map(cus => cus['cus']);
+    if(this.isActivityTypeBodyRentalNoMaterial === true){
+      this.toastrService.warning("le attivita di tipo tipo body rental no material non sono selezionabili");
+    }
     //console.log(this.assignedActivities);
     if (this.checkIfCanModify()) {
       this.saveCurrentTimesheet();
@@ -640,14 +649,20 @@ export class TimesheetEditComponent implements OnInit {
 
   askToaddTrasfertaInTime() {
     this.showModalAddTrasf = true;
-    if (this.canEditTrasfDrag) {
+    if (this.canEditTrasfDrag && this.currentValueDay.length > 0) {
       this.alertFlagTrasf = true;
       this.confirmationMessage =
         'Per aggiungere una nuova trasferta, devi salvare il timesheet corrente, sei sicuro di voler salvare il timesheet ?';
     } else {
       this.alertFlagTrasf = false;
-      this.confirmationMessage =
+      if(this.isActivityTypeBodyRentalNoMaterial === true){
+        this.confirmationMessage =
+        'Non è possibile aggiungere una trasferta su una attività di tipo body rental no material';
+      }else{
+        this.confirmationMessage =
         'Trasferta gia presente nel giorno selezionato';
+      }
+      
     }
   }
 
@@ -708,21 +723,23 @@ export class TimesheetEditComponent implements OnInit {
     let newStartValue: Number = Number(this.datepipe.transform(newStart, "dd"));
     let eventDayValue: any[] = this.findDays(newStartValue);
     let heDontWork: boolean = true
-
-  if(isSameMonth(newStart, this.viewDate)){
+  
+    if(isSameMonth(newStart, this.viewDate)){
       if (eventDayValue.length !== 0 && eventDayValue !== undefined) {
         for (let x = 0; x < eventDayValue.length; x++) {
           if (eventDayValue[x].title !== 'TRASFRIMB') {
-            if ((eventDayValue[x].title === 'SEDE') ||
-              (eventDayValue[x].title === 'LAVORO') ||
-              (eventDayValue[x].title === 'PARTIME')
-            ) {
-              if(eventDayValue[x].codiceFatt !== "TR"){
-                heDontWork = false;
-                res = true;
-              } else {
-                res = false;
-                break;
+            if(eventDayValue[x].atyname !== "BRNM"){
+              if ((eventDayValue[x].title === 'SEDE') ||
+                (eventDayValue[x].title === 'LAVORO') ||
+                (eventDayValue[x].title === 'PARTIME')
+              ) {
+                if(eventDayValue[x].codiceFatt !== "TR"){
+                  heDontWork = false;
+                  res = true;
+                } else {
+                  res = false;
+                  break;
+                }
               }
             }
           } else {
