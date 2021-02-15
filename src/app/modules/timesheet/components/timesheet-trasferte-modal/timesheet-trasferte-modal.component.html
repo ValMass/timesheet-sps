@@ -37,13 +37,24 @@
   </div>
   <div style="display: flex;">
     <div style="display: flex; flex-direction: column; margin-right: 50px;">
-      <label for="avanzoRimborso">Avanzo Rimborso</label>
-      <input type="text" id="avanzoRimborso" name="avanzoRimborso" [ngModel]="avanzoRimborso" [disabled]="true" />
+      <label for="rimborsomensile">Rimborso mensile</label>
+      <input type="text" id="rimborsomensile" name="rimborsomensile" [ngModel]="rimborsomensile"
+        [disabled]="true" />
     </div>
     <div style="display: flex; flex-direction: column;">
+      <label for="avanzoRimborso">Avanzo rimborso</label>
+      <input type="text" id="avanzoRimborso" name="avanzoRimborso" [ngModel]="avanzoRimborso" [disabled]="true" />
+    </div>
+  </div>
+  <div style="display: flex;">
+    <div style="display: flex; flex-direction: column; margin-right: 50px;">
       <label for="quotaStraordinari">Quota straordinari</label>
       <input type="text" id="quotaStraordinari" name="quotaStraordinari" [ngModel]="quotaStraordinari"
         [disabled]="true" />
+    </div>
+    <div style="display: flex; flex-direction: column;">
+      <label for="rimborsoextra">Rimborso Extra</label>
+      <input type="text" id="rimborsoextra" name="rimborsoextra" [ngModel]="rimborsoextra" [disabled]="true" />
     </div>
   </div>
   <div id="table-wrapper">

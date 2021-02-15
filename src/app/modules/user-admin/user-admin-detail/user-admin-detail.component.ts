@@ -70,6 +70,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   submittedUser : boolean = false;
   submittedAnag : boolean = false;
   submittedEconomic : boolean = false;
+  enablerimborsoextra : boolean = false;
 
   constructor(
     private anagService: AnagraphicService,
@@ -152,6 +153,9 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     
     //arrotondo alla seconda cifra decimale avanzo rimborso 
     economicInfo['data'].avanzorimborso = parseFloat(economicInfo['data'].avanzorimborso).toFixed(2)
+
+    //flag che controlla se l'utente ha abilitato il rimborso extra in precedenza
+    this.enablerimborsoextra = economicInfo['data'].extrarimborsobool === "0" ? false : true;
 
     this.userForm.patchValue(userInfo['data'][0].uset);
     this.password = userInfo['data'][0].uset.password;
@@ -350,6 +354,8 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       diaria: ['', [Validators.required]],
       acivalue: ['', [Validators.required]],
       avanzorimborso: ['', [Validators.required]],
+      extrarimborsobool: ['', [Validators.required]],
+      extrarimborso: [0, [Validators.required]],
     });
     return economicForm;
   }
@@ -563,5 +569,11 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
 
   cleanDistaccoEndTime(){
     this.anagForm.patchValue({distaccatofinishtime: ''});
+  }
+
+  editrimborsoextra(){
+    
+    this.enablerimborsoextra = !this.enablerimborsoextra;
+    this.econForm.patchValue({extrarimborso : "0" , extrarimborsobool : this.enablerimborsoextra === false ? 0 : 1})
   }
 }
