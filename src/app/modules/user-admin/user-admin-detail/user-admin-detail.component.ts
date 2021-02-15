@@ -93,7 +93,6 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.econForm = this.createEconomicForm();
     this.contractForm = this.createContractForm();
     this.activityForm = this.createActivityForm();
-    this.enablerimborsoextra = this.econForm.value.extrarimborsobool === "0" ? false : true;              
 
     this.getInternalActivities();
     this.getActivityList();
@@ -154,6 +153,9 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     
     //arrotondo alla seconda cifra decimale avanzo rimborso 
     economicInfo['data'].avanzorimborso = parseFloat(economicInfo['data'].avanzorimborso).toFixed(2)
+
+    //flag che controlla se l'utente ha abilitato il rimborso extra in precedenza
+    this.enablerimborsoextra = economicInfo['data'].extrarimborsobool === "0" ? false : true;
 
     this.userForm.patchValue(userInfo['data'][0].uset);
     this.password = userInfo['data'][0].uset.password;

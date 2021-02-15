@@ -363,7 +363,7 @@
             {{enablerimborsoextra === false ? 'abilita' : 'disabilita'}}
           </button>
         </div>
-        <div class="col-sm" *ngIf="enablerimborsoextra">
+        <div class="col-sm" *ngIf="enablerimborsoextra === true">
           <input type="text" class="form-control" id="extrarimborso" placeholder="rimborso extra"
               formControlName="extrarimborso"/>
         </div>
