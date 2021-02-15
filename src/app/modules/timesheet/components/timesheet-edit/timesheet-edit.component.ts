@@ -478,6 +478,9 @@ export class TimesheetEditComponent implements OnInit {
               cssClass: this.selectCssIcon(res.data),
               draggable: this.isDraggable(res.data),
               customerName: res.data.contractCode === 'LAVORO' || res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
+              atyid: res.data.atyid,
+              atydescr:  res.data.atydescr,
+              atyname: res.data.atyname,
             };
             //console.log("event" , event)
             const targetEvent = this.events.findIndex(item => item.start === res.data.eventDate);
@@ -575,6 +578,9 @@ export class TimesheetEditComponent implements OnInit {
                   customerName: res.data.contractCode === 'LAVORO' || res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
                   cssClass: this.selectCssIcon(res.data),
                   draggable: this.isDraggable(res.data),
+                  atyid: res.data.atyid,
+                  atydescr:  res.data.atydescr,
+                  atyname: res.data.atyname,
                 };
                 this.events = [...this.events, event];
                 this.currentTimesheet.dayjson = [...this.events, event]
@@ -836,6 +842,9 @@ export class TimesheetEditComponent implements OnInit {
         destinazione: element.destinazione,
         cssClass: this.selectCssIcon(element),
         draggable: this.isDraggable(element),
+        atyid: element.atyid,
+        atydescr: element.atydescr,
+        atyname: element.atyname,
       };
       this.currentTimesheet.dayjson = [
         ...this.currentTimesheet.dayjson,

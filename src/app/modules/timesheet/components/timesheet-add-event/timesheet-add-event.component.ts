@@ -1,3 +1,5 @@
+import { User } from '@app/models/user';
+import { AuthenticationService } from '@app/services/authentication.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -22,8 +24,8 @@ export class TimesheetAddEventComponent implements OnInit {
   profileForm: FormGroup;
   aggiungiButtonDisabled: boolean = false;
   errorMessage = "";
-  assignedact: any[];
-  customerList: any[];
+  assignedact: any[]= [];
+  customerList: any[]= [];
   insertLavoro = true;
   insertMalattia = false;
   insertNumeroOre = false;
@@ -39,6 +41,9 @@ export class TimesheetAddEventComponent implements OnInit {
   isPagato : boolean = false;
   multiPickList : any = [];
   multiPickListEnable : boolean = false;
+  ruolo : any;
+  tipoAttivita : string = "";
+  activityList : any = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -46,6 +51,7 @@ export class TimesheetAddEventComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
     private service: TimesheetaddeventService,
+    private authenticationService: AuthenticationService,
   ) { }
 
   ngOnInit(): void {
@@ -63,10 +69,16 @@ export class TimesheetAddEventComponent implements OnInit {
       internalName: ['', [Validators.required]],
       internalRuolo: ['', [Validators.required]],
       smartWorking: [this.isChecked(), [Validators.required]],
+      atyid: ['0', [Validators.required]],
+      atydescr: ['', [Validators.required]],
+      atyname: ['', [Validators.required]],
     });
     
     //se il multipick è abilitato l'utente non può modificare la data
     this.multiPickList = this.data.multiPickList;
+
+    //ruolo -> 0 superadmin , 1 admin , 2 utente normale
+    this.ruolo =  this.getRoleFromLocalStorage();
 
     if(this.multiPickList && this.multiPickList.length > 0){
       this.multiPickListEnable = true;
@@ -85,6 +97,8 @@ export class TimesheetAddEventComponent implements OnInit {
           .map((el: Object) => el['act'])
           .filter((item: Object) => item['customerid'] === customerId);
       });
+    
+    this.activityList = this.data.activityList;
 
     if (this.data.type === 'edit') {
       this.isPagato = this.data.readonlyEdit;
@@ -109,6 +123,9 @@ export class TimesheetAddEventComponent implements OnInit {
           internalName: this.data.event.internalName,
           internalRuolo: this.data.event.internalRuolo,
           destinazione: this.data.event.destinazione,
+          atyid:  this.data.event.atyid,
+          atydescr:  this.data.event.atydescr,
+          atyname:  this.data.event.atyname,
         },
       );
       //passo il valore del title a onChangeSelect
@@ -260,6 +277,9 @@ export class TimesheetAddEventComponent implements OnInit {
         const patch1 = {
           activityId: '',
           customerId: 1,
+          atyid: "0",
+          atydescr:"",
+          atyname: "",
         };
 
         this.profileForm.patchValue(patch1);
@@ -272,12 +292,17 @@ export class TimesheetAddEventComponent implements OnInit {
         this.insertMalattia = true;
         this.insertSmartWorking = false;
         const patch2 = {
+          activityId: '',
+          customerId: 1,
           codiceFatturazione: '00',
           numeroOre: 8,
           internalName: '',
           internalRuolo: '',
           internalId: '',
           destinazione: '',
+          atyid: "0",
+          atydescr:"",
+          atyname: "",
         };
 
         this.profileForm.patchValue(patch2);
@@ -293,12 +318,17 @@ export class TimesheetAddEventComponent implements OnInit {
         this.insertMalattia = false;
         this.insertSmartWorking = false;
         const patch3 = {
+          activityId: '',
+          customerId: 1,
           codiceFatturazione: '00',
           numProtocollo: '00',
           internalName: '',
           internalRuolo: '',
           internalId: '',
           destinazione: '',
+          atyid: "0",
+          atydescr:"",
+          atyname: "",
         };
 
         this.profileForm.patchValue(patch3);
@@ -311,6 +341,8 @@ export class TimesheetAddEventComponent implements OnInit {
         this.insertMalattia = false;
         this.insertSmartWorking = false;
         const patch4 = {
+          activityId: '',
+          customerId: 1,
           codiceFatturazione: '00',
           numProtocollo: '00',
           numeroOre: 8,
@@ -318,6 +350,9 @@ export class TimesheetAddEventComponent implements OnInit {
           internalRuolo: '',
           internalId: '',
           destinazione: '',
+          atyid: "0",
+          atydescr:"",
+          atyname: "",
         };
         this.profileForm.patchValue(patch4);
 
@@ -412,9 +447,14 @@ export class TimesheetAddEventComponent implements OnInit {
     };
     this.profileForm.patchValue(patch);
     if ((this.loadOffice) && (customer != undefined)) {
-      this.getoffices(customer.id , customer.contractCode)
+      this.getoffices(customer.id , customer.contractCode);
     } else {
       this.officeslist = [];
+      this.profileForm.patchValue({
+        atyid: "0",
+        atydescr:"",
+        atyname: "",
+      });
     }
 
     if (customer != undefined) {
@@ -425,12 +465,29 @@ export class TimesheetAddEventComponent implements OnInit {
 
   }
 
+  changeactivity(activity){
+    if(activity != undefined){
+      let res = this.activityList.find( element => activity === element["act"]);
+      this.profileForm.patchValue({
+        atyid: res["aty"].id,
+        atydescr: res["aty"].descrizione,
+        atyname: res["aty"].name,
+      })
+    } else {
+      this.profileForm.patchValue({
+        atyid: "0",
+        atydescr:"",
+        atyname: "",
+      })
+    }
+  }
+
   onChangeFattSelect($event) {
     if ($event == "TR") {
       this.loadOffice = true;
       //se il customer è valorizzato prendo le destinazioni 
       if(this.profileForm.value.customerId != null){
-        this.getoffices(this.profileForm.value.customerId , this.profileForm.value.contractCode)
+        this.getoffices(this.profileForm.value.customerId , this.profileForm.value.contractCode);
       }
       this.profileForm.patchValue({
         smartWorking: false,
@@ -473,5 +530,10 @@ export class TimesheetAddEventComponent implements OnInit {
       this.flagShowAttDest = true;
       this.profileForm.patchValue({destinazione : ''})
     }
+  }
+
+  getRoleFromLocalStorage() {
+    const user: User = this.authenticationService.currentUserValue;
+    return user.role;
   }
 }
