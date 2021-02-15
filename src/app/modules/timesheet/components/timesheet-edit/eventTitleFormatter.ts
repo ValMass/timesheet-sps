@@ -1,10 +1,12 @@
+import { User } from '@app/models/user';
 import { LOCALE_ID, Inject, Injectable } from '@angular/core';
 import { CalendarEventTitleFormatter, CalendarEvent } from 'angular-calendar';
 import { DatePipe } from '@angular/common';
+import { AuthenticationService } from '@app/services/authentication.service';
 
 @Injectable()
 export class EventTitleFormatter extends CalendarEventTitleFormatter {
-  constructor(@Inject(LOCALE_ID) private locale: string) {
+  constructor(@Inject(LOCALE_ID) private locale: string, private authenticationService : AuthenticationService) {
     super();
   }
   private tradMap: Map<string, string> =
@@ -50,6 +52,9 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
     } else {
       if (this.tradMapFat.get(event.codiceFatt) && (event.title != 'SEDE')) {
         res = `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']} ${this.tradMapFat.get(event.codiceFatt)} per ${event['customerName']}`;
+        if(this.getRoleFromLocalStorage() != "2"){
+          res = res + ' di tipo ' + event["atydescr"] + ' '
+        }
       } else {
         if (event.title != 'SEDE') {
           res = `</b> ${this.tradMap.get(event.title)} numero ore ${event['nOre']}`;
@@ -82,5 +87,10 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
       'h:m a',
       this.locale
     )}</b> ${event.title}`;
+  }
+
+  getRoleFromLocalStorage() {
+    const user: User = this.authenticationService.currentUserValue;
+    return user.role;
   }
 }

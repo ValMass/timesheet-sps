@@ -471,7 +471,7 @@ export class TimesheetAddEventComponent implements OnInit {
       this.profileForm.patchValue({
         atyid: res["aty"].id,
         atydescr: res["aty"].descrizione,
-        atyname: res["aty"].name,
+        atyname: res["aty"].nome,
       })
     } else {
       this.profileForm.patchValue({
