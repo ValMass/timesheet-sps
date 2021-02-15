@@ -93,6 +93,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.econForm = this.createEconomicForm();
     this.contractForm = this.createContractForm();
     this.activityForm = this.createActivityForm();
+    this.enablerimborsoextra = this.econForm.value.extrarimborsobool === "0" ? false : true;              
 
     this.getInternalActivities();
     this.getActivityList();
@@ -571,6 +572,6 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   editrimborsoextra(){
     
     this.enablerimborsoextra = !this.enablerimborsoextra;
-    this.econForm.patchValue({rimborsoextra : 0 , extrarimborsobool : this.enablerimborsoextra === false ? 0 : 1})
+    this.econForm.patchValue({extrarimborso : "0" , extrarimborsobool : this.enablerimborsoextra === false ? 0 : 1})
   }
 }
