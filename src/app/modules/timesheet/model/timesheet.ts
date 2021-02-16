@@ -37,4 +37,5 @@ export interface Timesheet {
   montlyacivalue?: string;
   rimborsotarget?: string;
   montlyavanzorimborso?: string;
+  montlyextrarimborso?: string;
 }

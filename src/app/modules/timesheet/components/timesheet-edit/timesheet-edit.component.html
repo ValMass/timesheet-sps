@@ -100,7 +100,10 @@
   <ng-template #elsecondition>
     <div class="timesheet-controls">
         <div class="button-container">
-        <button class="btn btn-primary mt-5 mr-1 btn-cst" (click)="openAddEventDialog()" [disabled]="disableAggiungiEvento">Aggiungi evento</button>
+          <button class="btn btn-primary mt-5 mr-1 btn-cst" (click)="checkMultiPick()">
+            {{enableMultiPick === false ? 'Abilita multipick' : 'Disabilita multipick' }}</button>
+          <button class="btn btn-primary mt-5 mr-1 btn-cst" (click)="openAddEventDialog()" [disabled]="disableAggiungiEvento">
+            Aggiungi evento {{enableMultiPick === false ? '' : ' multiplo' }}</button>
         <button class="btn btn-warning mt-5 mr-1 btn-cst" (click)="askTosaveCurrentTimesheet()" [disabled]="disableSalva">Salva</button>
         <button class="btn btn-primary mt-5 mr-1 btn-cst" (click)="askToAcceptAsUser()" [disabled]="disableAccettaComeUtente">Accetta come utente</button>
       </div>

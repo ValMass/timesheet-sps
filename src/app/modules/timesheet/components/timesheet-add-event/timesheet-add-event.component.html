@@ -101,13 +101,20 @@
           <label for="activityId" class="col-form-label">Attività</label>
           <div>
             <ng-select [readonly]="flagShowAttDest || isPagato" [items]="assignedact" bindLabel="name" formControlName="activityId"
-              bindValue="id"
+              bindValue="id" (change)="changeactivity($event)"
               [ngClass]="{'error':(f.activityId.value === 1 || f.activityId.value === '0' || f.activityId.value === null || f.activityId.value === '' ) && submitted}">
             </ng-select>
           </div>
           <div
             *ngIf="( f.activityId.value === 1 || f.activityId.value === '0'  || f.activityId.value === null || f.activityId.value === '') && submitted"
             style="color: red;">Campo obbligatorio</div>
+        </div>
+
+        <div class="mb-2" *ngIf="ruolo < 2">
+          <label for="descractivity" class="col-form-label">Tipo attività</label>
+          <div>
+            <input type="text"  class="form-control" formControlName="atydescr" readonly>
+          </div>
         </div>
       </div>
       
