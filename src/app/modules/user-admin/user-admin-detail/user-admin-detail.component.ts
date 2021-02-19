@@ -64,7 +64,11 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   patternCifra = new RegExp("[0-9 ]+$");
   patternDecimale = new RegExp("[0-9]+([,.][0-9]+)?$");
 
-
+  //questa variabile memorizza il valore di default RegnumSps
+  //quando l'utente modifichera questo campo sara portato al padre
+  //che si occupera di aggiornare la lista con tutti i RegnumSps
+  //da escludere nella scelta durante la creazione dell'utente
+  defaultRegnumSps : number = 0;
 
   //submited Boolean
   submittedUser : boolean = false;
@@ -161,6 +165,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.password = userInfo['data'][0].uset.password;
     this.userId = userInfo['data'][0].uset.id;
     this.roleEdited = userInfo['data'][0].uset.role;
+    this.defaultRegnumSps = Number(this.defaultRegnumSps = userInfo['data'][0].uset.regnumsps);
     if((this.activityList.length === 0) && (this.roleEdited === '2')){
       this.toastrService.warning("Nessuna attività esterna associata all\'utente");
     }
@@ -388,7 +393,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       case (this.userFlag && this.anagFlag):
         //log
         //console.log("case1: ", "this.userFlag : ", this.userFlag, "this.anagFlag : ", this.anagFlag);
-
+        this.userFormValue.defaultRegnumSps = this.defaultRegnumSps;
         //unisco
         const merged = Object.assign(this.anagFormValue, this.userFormValue);
 
@@ -399,7 +404,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       case (this.userFlag && !this.anagFlag):
         //log
         //console.log("case2: ", "this.userFlag : ", this.userFlag, "this.anagFlag : ", this.anagFlag);
-
+        this.userFormValue.defaultRegnumSps = this.defaultRegnumSps;
         //emetto
         this.unselect.emit(this.userFormValue);
 
