@@ -44,7 +44,7 @@ export class UserAdminCreationComponent implements OnInit {
   datepickerED : Date = null ;
   enableRegnumSps : boolean = false;
   listRegnumSps : number[] = [];
-  ownListRegnumSps : number[] = []
+  ownListRegnumSps : number[] = [];
 
   //password
   psw: string = "password";

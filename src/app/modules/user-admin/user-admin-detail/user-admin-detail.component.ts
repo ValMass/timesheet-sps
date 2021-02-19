@@ -24,6 +24,7 @@ import { EconomicService } from '../services/economic.service';
 
 export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   @Input() userAdmin: UserAdmin;
+  @Input() ownListRegnumSps : number[] = [];
   @Output() unselect = new EventEmitter<any>();
   @Output() save = new EventEmitter<UserAdmin>();
 
@@ -69,6 +70,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   //che si occupera di aggiornare la lista con tutti i RegnumSps
   //da escludere nella scelta durante la creazione dell'utente
   defaultRegnumSps : number = 0;
+  listRegnumSps : number[] = [];
 
   //submited Boolean
   submittedUser : boolean = false;
@@ -166,12 +168,21 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.userId = userInfo['data'][0].uset.id;
     this.roleEdited = userInfo['data'][0].uset.role;
     this.defaultRegnumSps = Number(this.defaultRegnumSps = userInfo['data'][0].uset.regnumsps);
+    this.ownListRegnumSps = this.ownListRegnumSps.filter((value) =>value !=  this.defaultRegnumSps);
+    
     if((this.activityList.length === 0) && (this.roleEdited === '2')){
       this.toastrService.warning("Nessuna attività esterna associata all\'utente");
     }
     if((this.internalActivitiesAssigned.length === 0) && (this.roleEdited === '2')){
       this.toastrService.warning("Nessuna attività interna associata all\'utente");
     }
+
+    if(this.roleEdited == "2"){
+      this.listRegnumSps = this.fillArray(1 , 999)
+    }else{
+      this.listRegnumSps = this.fillArray(1000 ,11)
+    }
+
     this.anagForm.patchValue(anagInfo['data']);
     this.econForm.patchValue(economicInfo['data']);
     this.contractForm.patchValue({ contractid: anagInfo['data'].contractid });
@@ -326,7 +337,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       username: ['', [Validators.required]],
       //password: ['', [Validators.required]],
       regnuminps: ['', [Validators.required]],
-      regnumsps: ['', [Validators.required]],
+      regnumsps:  [this.defaultRegnumSps, [Validators.required]],
       email: ['', [Validators.required]],
       role: ['', [Validators.required]],
     });
@@ -581,4 +592,17 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.enablerimborsoextra = !this.enablerimborsoextra;
     this.econForm.patchValue({extrarimborso : "0" , extrarimborsobool : this.enablerimborsoextra === false ? 0 : 1})
   }
+
+  fillArray(numstart , dim){
+    let start = numstart;
+    let array = new Array(dim)
+    for(let l = 0; l < array.length; l ++){
+       array[l] = start;
+       start = start + 1;
+    }
+ 
+    array = array.filter( (element) => !this.ownListRegnumSps.includes(element))
+ 
+    return array
+   }
 }
