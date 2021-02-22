@@ -44,6 +44,7 @@ export class TimesheetAddEventComponent implements OnInit {
   ruolo : any;
   tipoAttivita : string = "";
   activityList : any = [];
+  enableaddtrasf : boolean = false ;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -76,6 +77,10 @@ export class TimesheetAddEventComponent implements OnInit {
     
     //se il multipick è abilitato l'utente non può modificare la data
     this.multiPickList = this.data.multiPickList;
+
+    if(this.data.enableaddtrasf ){
+      this.enableaddtrasf = this.data.enableaddtrasf;
+    }
 
     //ruolo -> 0 superadmin , 1 admin , 2 utente normale
     this.ruolo =  this.getRoleFromLocalStorage();

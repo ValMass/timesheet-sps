@@ -66,7 +66,7 @@
             <!--<option value="NF">Non fatturabili</option>-->
             <option [disabled]="isPagato" value="RP">Ore di reperibilità</option>
             <option [disabled]="isPagato" value="IN">Ore di intervento</option>
-            <option [disabled]="isPagato" value="TR">Trasferta</option>
+            <option [disabled]="isPagato || enableaddtrasf" value="TR">Trasferta</option>
           </select>
           <div *ngIf="f.codiceFatturazione.value === '00' && submitted" style="color: red;">Campo obbligatorio</div>
         </div>

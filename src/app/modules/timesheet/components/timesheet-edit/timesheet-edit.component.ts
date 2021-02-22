@@ -142,7 +142,7 @@ export class TimesheetEditComponent implements OnInit {
   alertFlagAdmin: boolean = true;
   alertFlagUser: boolean = true;
   currentValueDay: any = [];
-  currentValueDayAllEvents: any = [];
+  currentValueDayDefault: any = [];
   disableAddTrasf: boolean = true;
   eventAddedTrasf: any = [];
   trasferteStatus: boolean = false;
@@ -388,11 +388,13 @@ export class TimesheetEditComponent implements OnInit {
       //Aggiunta Trasferta
       //pulisco il current value day dal precedente valore
       this.currentValueDay = [];
+      this.currentValueDayDefault = [];
       //controllo se l'utente ha trasferte
       //se è vero che ci sono trasferte non aggiungere trasfertes
       this.canEditTrasfDrag = !(this.checkIfTrasferte(events))
       if (this.checkIfCurrentValueDay(events) && !((this.getRoleFromLocalStorage() === '1') && (this.currentTimesheet.state === '4'))) {
         this.isActivityTypeBodyRentalNoMaterial = this.checkIfBRNM(events);
+        this.currentValueDayDefault = events;
         this.currentValueDay = events.filter((event: NewCalendarEvent) =>(((event.title === "LAVORO") || (event.title === "PARTIME")) && (event.atyname != "BRNM")) && (event.codiceFatt != "TR")  ||  (event.title === "SEDE"));
         this.disableAddTrasf = false;
       } else {
@@ -460,6 +462,7 @@ export class TimesheetEditComponent implements OnInit {
           internalsActivitiesList: this.assignedInternalsActivities,
           type: 'edit',
           readonlyEdit: (this.timeshetStatus === 'Pagato' && this.currentTimesheet.state === '4' && this.getRoleFromLocalStorage() !== '0') ? true : false,
+          enableaddtrasf : this.selectedDays.length > 0 ? this.multiDay() : this.singleDay(),
         },
       });
       dialogRef.afterClosed().subscribe((res) => {
@@ -544,10 +547,19 @@ export class TimesheetEditComponent implements OnInit {
     });
     return(resArray)
   }
+
+  multiDay(){
+   return(
+     this.selectedDays.some(element => element["events"].some(event =>(event.codiceFatt === "TR") || (event.title === "TRASFRIMB")))
+   )
+  }
+
+  singleDay(){
+    return(this.currentValueDayDefault.some(event =>( event.codiceFatt === "TR" || event.title === "TRASFRIMB")))
+  }
   
   openAddEventDialog() {
     this.assignedActivities.map(cus => cus['cus'])
-    console.log("this.selectedDays" , this.selectedDays);
 
     let multiPickList = this.fillArrayMultiPick()
 
@@ -560,6 +572,7 @@ export class TimesheetEditComponent implements OnInit {
           activityList: this.assignedActivities,
           internalsActivitiesList: this.assignedInternalsActivities,
           multiPickList :multiPickList,
+          enableaddtrasf : this.selectedDays.length > 0 ? this.multiDay() : this.singleDay(),
         },
       });
       dialogRef.afterClosed().subscribe(
@@ -1326,7 +1339,7 @@ export class TimesheetEditComponent implements OnInit {
       },
     };
 
-    let res : any;
+    let res : any = null;
     if (this.authenticationService.currentUserValue.isadmin != "2") {
       if (event.contractCode === "MALATT" || event.title === "MALATT") {
         res = colors.red;
