@@ -483,6 +483,7 @@ export class TimesheetEditComponent implements OnInit {
               destinazione: res.data.destinazione,
               cssClass: this.selectCssIcon(res.data),
               draggable: this.isDraggable(res.data),
+              color: this.selectColorIcon(res.data),
               customerName: res.data.contractCode === 'LAVORO' || res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
               atyid: res.data.atyid,
               atydescr:  res.data.atydescr,
@@ -584,6 +585,7 @@ export class TimesheetEditComponent implements OnInit {
                   customerName: res.data.contractCode === 'LAVORO' || res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
                   cssClass: this.selectCssIcon(res.data),
                   draggable: this.isDraggable(res.data),
+                  color: this.selectColorIcon(res.data),
                   atyid: res.data.atyid,
                   atydescr:  res.data.atydescr,
                   atyname: res.data.atyname,
@@ -859,6 +861,7 @@ export class TimesheetEditComponent implements OnInit {
         destinazione: element.destinazione,
         cssClass: this.selectCssIcon(element),
         draggable: this.isDraggable(element),
+        color: this.selectColorIcon(element),
         atyid: element.atyid,
         atydescr: element.atydescr,
         atyname: element.atyname,
@@ -1308,6 +1311,41 @@ export class TimesheetEditComponent implements OnInit {
       }
     }
     return res;
+  }
+
+  selectColorIcon(event){
+    const colors : any = {
+      red: {
+        primary: '#ad2121',
+        secondary: '#FAE3E3',
+      },
+      grey: {
+        primary: '#D0D0D0',
+        secondary: '#D0D0D0',
+      },
+      green: {
+        primary: '#00FF00',
+        secondary: '#00FF00',
+      },
+    };
+
+    let res : any;
+    if (this.authenticationService.currentUserValue.isadmin != "2") {
+      if (event.contractCode === "MALATT" || event.title === "MALATT") {
+        res = colors.red;
+      }
+      if ((event.contractCode === "LAVORO" || event.contractCode === "PARTIME") ||
+        (event.title === "LAVORO" || event.title === "PARTIME") ||
+        (event.contractCode === "SEDE" || event.title === "SEDE")) {
+        if (event.codiceFatturazione === "TR" || event.codiceFatt === "TR") {
+          res = colors.grey;
+        }
+      }
+      if (event.title === "TRASFRIMB" || event.contractCode === "TRASFRIMB") {
+        res = colors.green;
+      }
+    }
+    return (res)
   }
 
   /**
