@@ -1329,7 +1329,7 @@ export class TimesheetEditComponent implements OnInit {
   selectColorIcon(event){
     const colors : any = {
       red: {
-        primary: '#ad2121',
+        primary: '#ff0000',
       },
       grey: {
         primary: '#D0D0D0',
