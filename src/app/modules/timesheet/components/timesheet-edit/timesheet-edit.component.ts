@@ -393,7 +393,7 @@ export class TimesheetEditComponent implements OnInit {
       this.canEditTrasfDrag = !(this.checkIfTrasferte(events))
       if (this.checkIfCurrentValueDay(events) && !((this.getRoleFromLocalStorage() === '1') && (this.currentTimesheet.state === '4'))) {
         this.isActivityTypeBodyRentalNoMaterial = this.checkIfBRNM(events);
-        this.currentValueDay = events.filter((event: NewCalendarEvent) =>(((event.title === "LAVORO") || (event.title === "PARTIME")) && (event.atyname != "BRNM"))  ||  (event.title === "SEDE"));
+        this.currentValueDay = events.filter((event: NewCalendarEvent) =>(((event.title === "LAVORO") || (event.title === "PARTIME")) && (event.atyname != "BRNM")) && (event.codiceFatt != "TR")  ||  (event.title === "SEDE"));
         this.disableAddTrasf = false;
       } else {
         this.disableAddTrasf = true;
@@ -1317,15 +1317,12 @@ export class TimesheetEditComponent implements OnInit {
     const colors : any = {
       red: {
         primary: '#ad2121',
-        secondary: '#FAE3E3',
       },
       grey: {
         primary: '#D0D0D0',
-        secondary: '#D0D0D0',
       },
       green: {
         primary: '#00FF00',
-        secondary: '#00FF00',
       },
     };
 
