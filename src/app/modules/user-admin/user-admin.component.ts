@@ -34,7 +34,7 @@ export class UserAdminComponent implements OnInit {
   dataToLoad : Date = new Date();
   mapMonth : any;
   ownListRegnumSps : number[] = [];
-
+  errorRegnuminps  : string = "SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '15' for key 'regNumInps_UNIQUE";
   constructor(
     private route: ActivatedRoute,
     public dialog: MatDialog,
@@ -147,8 +147,12 @@ export class UserAdminComponent implements OnInit {
                   this.userAdminService.createNewUser(myObj.usertoadd).subscribe(
                     result => {
                       if (result['status'] === 'error') {
-                        this.toastrService.error("Errore nella creazione dell'utente");
-                        console.log(result['message']);
+                        //gestione errore
+                        if(result['message'].includes(this.errorRegnuminps)){
+                          this.toastrService.error("Errore nella creazione dell'utente, questo Regnuminps è presente in un altro utente");
+                        }else{
+                          this.toastrService.error("Errore nella creazione dell'utente");
+                        }
                         return;
                       } else {
                         let user = result['data'];
