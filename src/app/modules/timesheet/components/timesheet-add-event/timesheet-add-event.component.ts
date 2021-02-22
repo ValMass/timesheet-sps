@@ -308,6 +308,7 @@ export class TimesheetAddEventComponent implements OnInit {
         this.profileForm.patchValue(patch2);
         break;
 
+      case 'P104':
       case 'PERMNON':
       case 'PERMESS':
       case 'MATALA':
