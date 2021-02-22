@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Inject, AfterViewInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, NgForm } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
@@ -35,23 +35,28 @@ export const MY_FORMATS = {
   ],
 })
 export class UserAdminCreationComponent implements OnInit {
+  @ViewChild("profileForm") form : NgForm;
   public submitted: boolean = false;
   public officesList: any[];
   //profileForm: FormGroup;
   datepicker: any;
   datepickerSD : Date = null;
   datepickerED : Date = null ;
+  enableRegnumSps : boolean = false;
+  listRegnumSps : number[] = [];
+  ownListRegnumSps : number[] = [];
 
   //password
   psw: string = "password";
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: string,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<UserAdminCreationComponent>,
     private officesService: OfficesService
   ) { }
 
   ngOnInit(): void {
+    this.ownListRegnumSps = this.data.ownListRegnumSps;
     //this.profileForm = this.buildProfileForm();
     this.datepicker = new Date();
     let tmp = new Date();
@@ -139,5 +144,28 @@ export class UserAdminCreationComponent implements OnInit {
     return (commaDotvalue);
   }
 
+  changeRuolo(evento){
+    if(evento == "2"){
+      this.listRegnumSps = this.fillArray(1 , 999)
+    }else{
+      this.listRegnumSps = this.fillArray(1000 ,11)
+    }
+    
+    this.enableRegnumSps = true;
+  }
+
+  fillArray(numstart , dim){
+   let start = numstart;
+   let array = new Array(dim)
+   for(let l = 0; l < array.length; l ++){
+      array[l] = start;
+      start = start + 1;
+   }
+
+   array = array.filter( (element) => !this.ownListRegnumSps.includes(element))
+
+   this.form.control.patchValue({regnumsps : String(array[0])})
+   return array
+  }
 }
 

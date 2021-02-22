@@ -30,6 +30,7 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
       ['PARTIME', 'Tempo parziale'],
       ['PATRONO', 'Patrono'],
       ['UNIVERS', 'Assenza esami universitari'],
+      ['P104', 'Permesso legge 104']
     ]);
 
   private tradMapFat: Map<string, string> =
@@ -44,7 +45,6 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
       ['TR', 'Trasferta'],
     ]);
   // you can override any of the methods defined in the parent class
-  //TODO
   month(event: any): string {
     let res = '';
     if (event.title === 'MALATT') {

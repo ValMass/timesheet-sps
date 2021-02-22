@@ -48,44 +48,45 @@
     </div>
 
     <div class="form-group row">
+      <label for="isadmin" class="col-sm-4 col-form-label">Ruolo</label>
+      <div class="col-sm-8">
+        <select id="isadmin" name="isadmin" class="custom-select sel-text" #isadmin="ngModel" [ngModel] 
+          required [ngClass]="{'is-invalid':profileForm.submitted && isadmin.invalid}"
+          (change)="changeRuolo($event.target.value)">
+          <option value="2" selected="selected">Utente Ordinario</option>
+          <option value="1">Amministratore</option>
+        </select>
+        <div *ngIf="profileForm.submitted && isadmin.invalid" class="invalid-feedback">
+          <div *ngIf="profileForm.submitted && isadmin.invalid">Campo obbligatorio</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-group row">
+      <label for="regnumsps" class="col-sm-4 col-form-label">Regnumsps</label>
+      <div class="col-sm-8">
+        <select id="regnumsps" name="regnumsps" class="custom-select sel-text"  #regnumsps="ngModel" [ngModel] 
+              required [ngClass]="{'is-invalid':profileForm.submitted && isadmin.invalid}"
+              [disabled]="!(enableRegnumSps)">
+          <option *ngFor="let number of listRegnumSps" [value]="number" >{{number}}</option>
+        </select>
+        <div *ngIf="profileForm.submitted && isadmin.invalid" class="invalid-feedback">
+          <div *ngIf="profileForm.submitted && isadmin.invalid">Campo obbligatorio</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
       <label for="regnuminps" class="col-sm-4 col-form-label">Regnuminps</label>
       <div class="col-sm-8">
         <input type="text" class="form-control" id="regnuminps" placeholder="Regnuminps" [ngModel] name="regnuminps"
-          required pattern="[0-9 ]+$" #regnuminps="ngModel"
+          required pattern="[0-9 ]+$" #regnuminps="ngModel" 
           [ngClass]="{'is-invalid':profileForm.submitted && regnuminps.invalid}" />
         <div *ngIf="profileForm.submitted && regnuminps.invalid" class="invalid-feedback">
           <div *ngIf="profileForm.submitted && regnuminps.invalid && !regnuminps.errors.pattern">Campo obbligatorio
           </div>
           <div *ngIf="profileForm.submitted && regnuminps.invalid && regnuminps.errors.pattern">sono accetate solo cifre
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <label for="regnumsps" class="col-sm-4 col-form-label">Regnumsps</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control" id="regnumsps" placeholder="Regnumsps" [ngModel] name="regnumsps"
-          required pattern="[0-9 ]+$" #regnumsps="ngModel"
-          [ngClass]="{'is-invalid':profileForm.submitted && regnumsps.invalid}" />
-        <div *ngIf="profileForm.submitted && regnumsps.invalid" class="invalid-feedback">
-          <div *ngIf="profileForm.submitted && regnumsps.invalid && !regnumsps.errors.pattern">Campo obbligatorio</div>
-          <div *ngIf="profileForm.submitted && regnumsps.invalid && regnumsps.errors.pattern">sono accetate solo cifre
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <label for="isadmin" class="col-sm-4 col-form-label">Ruolo</label>
-      <div class="col-sm-8">
-        <select id="isadmin" name="isadmin" class="custom-select sel-text" #isadmin="ngModel" [ngModel] name="isadmin"
-          required [ngClass]="{'is-invalid':profileForm.submitted && isadmin.invalid}">
-          <option value="2" selected="selected">Utente Ordinario</option>
-          <option value="1">Amministratore</option>
-        </select>
-        <div *ngIf="profileForm.submitted && isadmin.invalid" class="invalid-feedback">
-          <div *ngIf="profileForm.submitted && isadmin.invalid">Campo obbligatorio</div>
         </div>
       </div>
     </div>

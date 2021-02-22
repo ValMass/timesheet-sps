@@ -33,6 +33,7 @@
           <option [disabled]="isPagato" value="SEDE">Attività interna</option>
           <option [disabled]="isPagato" value="PERMNON">Permesso non retribuito</option>
           <option [disabled]="isPagato" value="PERMESS">Permesso generico</option>
+          <option [disabled]="isPagato" value="P104">Permesso legge 104</option>
           <option [disabled]="isPagato" value="MALATT">Malattia</option>
           <option [disabled]="isPagato" value="LUTTO">Lutto parente primo grado</option>
           <option [disabled]="isPagato" value="AVIS">Donazione sangue</option>
@@ -65,7 +66,7 @@
             <!--<option value="NF">Non fatturabili</option>-->
             <option [disabled]="isPagato" value="RP">Ore di reperibilità</option>
             <option [disabled]="isPagato" value="IN">Ore di intervento</option>
-            <option [disabled]="isPagato" value="TR">Trasferta</option>
+            <option [disabled]="isPagato || enableaddtrasf" value="TR">Trasferta</option>
           </select>
           <div *ngIf="f.codiceFatturazione.value === '00' && submitted" style="color: red;">Campo obbligatorio</div>
         </div>

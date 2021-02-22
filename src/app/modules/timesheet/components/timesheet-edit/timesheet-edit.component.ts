@@ -142,7 +142,7 @@ export class TimesheetEditComponent implements OnInit {
   alertFlagAdmin: boolean = true;
   alertFlagUser: boolean = true;
   currentValueDay: any = [];
-  currentValueDayAllEvents: any = [];
+  currentValueDayDefault: any = [];
   disableAddTrasf: boolean = true;
   eventAddedTrasf: any = [];
   trasferteStatus: boolean = false;
@@ -388,12 +388,14 @@ export class TimesheetEditComponent implements OnInit {
       //Aggiunta Trasferta
       //pulisco il current value day dal precedente valore
       this.currentValueDay = [];
+      this.currentValueDayDefault = [];
       //controllo se l'utente ha trasferte
       //se è vero che ci sono trasferte non aggiungere trasfertes
       this.canEditTrasfDrag = !(this.checkIfTrasferte(events))
       if (this.checkIfCurrentValueDay(events) && !((this.getRoleFromLocalStorage() === '1') && (this.currentTimesheet.state === '4'))) {
         this.isActivityTypeBodyRentalNoMaterial = this.checkIfBRNM(events);
-        this.currentValueDay = events.filter((event: NewCalendarEvent) =>(((event.title === "LAVORO") || (event.title === "PARTIME")) && (event.atyname != "BRNM"))  ||  (event.title === "SEDE"));
+        this.currentValueDayDefault = events;
+        this.currentValueDay = events.filter((event: NewCalendarEvent) =>(((event.title === "LAVORO") || (event.title === "PARTIME")) && (event.atyname != "BRNM")) && (event.codiceFatt != "TR")  ||  (event.title === "SEDE"));
         this.disableAddTrasf = false;
       } else {
         this.disableAddTrasf = true;
@@ -460,6 +462,7 @@ export class TimesheetEditComponent implements OnInit {
           internalsActivitiesList: this.assignedInternalsActivities,
           type: 'edit',
           readonlyEdit: (this.timeshetStatus === 'Pagato' && this.currentTimesheet.state === '4' && this.getRoleFromLocalStorage() !== '0') ? true : false,
+          enableaddtrasf : this.selectedDays.length > 0 ? this.multiDay() : this.singleDay(),
         },
       });
       dialogRef.afterClosed().subscribe((res) => {
@@ -483,6 +486,7 @@ export class TimesheetEditComponent implements OnInit {
               destinazione: res.data.destinazione,
               cssClass: this.selectCssIcon(res.data),
               draggable: this.isDraggable(res.data),
+              color: this.selectColorIcon(res.data),
               customerName: res.data.contractCode === 'LAVORO' || res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
               atyid: res.data.atyid,
               atydescr:  res.data.atydescr,
@@ -543,10 +547,19 @@ export class TimesheetEditComponent implements OnInit {
     });
     return(resArray)
   }
+
+  multiDay(){
+   return(
+     this.selectedDays.some(element => element["events"].some(event =>(event.codiceFatt === "TR") || (event.title === "TRASFRIMB")))
+   )
+  }
+
+  singleDay(){
+    return(this.currentValueDayDefault.some(event =>( event.codiceFatt === "TR" || event.title === "TRASFRIMB")))
+  }
   
   openAddEventDialog() {
     this.assignedActivities.map(cus => cus['cus'])
-    console.log("this.selectedDays" , this.selectedDays);
 
     let multiPickList = this.fillArrayMultiPick()
 
@@ -559,6 +572,7 @@ export class TimesheetEditComponent implements OnInit {
           activityList: this.assignedActivities,
           internalsActivitiesList: this.assignedInternalsActivities,
           multiPickList :multiPickList,
+          enableaddtrasf : this.selectedDays.length > 0 ? this.multiDay() : this.singleDay(),
         },
       });
       dialogRef.afterClosed().subscribe(
@@ -584,6 +598,7 @@ export class TimesheetEditComponent implements OnInit {
                   customerName: res.data.contractCode === 'LAVORO' || res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
                   cssClass: this.selectCssIcon(res.data),
                   draggable: this.isDraggable(res.data),
+                  color: this.selectColorIcon(res.data),
                   atyid: res.data.atyid,
                   atydescr:  res.data.atydescr,
                   atyname: res.data.atyname,
@@ -859,6 +874,7 @@ export class TimesheetEditComponent implements OnInit {
         destinazione: element.destinazione,
         cssClass: this.selectCssIcon(element),
         draggable: this.isDraggable(element),
+        color: this.selectColorIcon(element),
         atyid: element.atyid,
         atydescr: element.atydescr,
         atyname: element.atyname,
@@ -1308,6 +1324,38 @@ export class TimesheetEditComponent implements OnInit {
       }
     }
     return res;
+  }
+
+  selectColorIcon(event){
+    const colors : any = {
+      red: {
+        primary: '#ff0000',
+      },
+      grey: {
+        primary: '#D0D0D0',
+      },
+      green: {
+        primary: '#00FF00',
+      },
+    };
+
+    let res : any = null;
+    if (this.authenticationService.currentUserValue.isadmin != "2") {
+      if (event.contractCode === "MALATT" || event.title === "MALATT") {
+        res = colors.red;
+      }
+      if ((event.contractCode === "LAVORO" || event.contractCode === "PARTIME") ||
+        (event.title === "LAVORO" || event.title === "PARTIME") ||
+        (event.contractCode === "SEDE" || event.title === "SEDE")) {
+        if (event.codiceFatturazione === "TR" || event.codiceFatt === "TR") {
+          res = colors.grey;
+        }
+      }
+      if (event.title === "TRASFRIMB" || event.contractCode === "TRASFRIMB") {
+        res = colors.green;
+      }
+    }
+    return (res)
   }
 
   /**

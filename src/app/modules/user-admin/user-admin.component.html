@@ -15,7 +15,14 @@
       (showButton)="changeShowButton($event)"
       [globalTimesheetDate]="globalTimesheetDate">
     </app-user-admin-list>
-    <app-user-admin-detail *ngIf="selected" [userAdmin]="selected" (showButton)="changeShowButton($event)" (unselect)="clearUpdTable($event)" (save)="save($event)">
+    <app-user-admin-detail 
+      *ngIf="selected" 
+      [ownListRegnumSps]="ownListRegnumSps" 
+      [userAdmin]="selected" 
+      (showButton)="changeShowButton($event)" 
+      (unselect)="clearUpdTable($event)" 
+      (save)="save($event)"
+    >
     </app-user-admin-detail>
   </div>
   <app-modal class="modal-customer" [message]="message" [isOpen]="showModal" (handleNo)="closeModal()"

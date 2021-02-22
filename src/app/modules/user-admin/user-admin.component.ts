@@ -33,7 +33,8 @@ export class UserAdminComponent implements OnInit {
   globalTimesheetDate : any = {year : null , month : null};
   dataToLoad : Date = new Date();
   mapMonth : any;
-
+  ownListRegnumSps : number[] = [];
+  errorRegnuminps  : string = "SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '15' for key 'regNumInps_UNIQUE";
   constructor(
     private route: ActivatedRoute,
     public dialog: MatDialog,
@@ -74,6 +75,7 @@ export class UserAdminComponent implements OnInit {
         }
       }
     );
+    this.fillRegnumSps()
   }
 
   parseDialogFormRes(dialogRes) {
@@ -115,7 +117,7 @@ export class UserAdminComponent implements OnInit {
       height: '900px',
       autoFocus: false,
       panelClass: ['custom-dialog-container-creation'],
-      data: {}
+      data: {ownListRegnumSps : this.ownListRegnumSps}
     });
     dialogRef.afterClosed().subscribe(
       res => {
@@ -145,8 +147,12 @@ export class UserAdminComponent implements OnInit {
                   this.userAdminService.createNewUser(myObj.usertoadd).subscribe(
                     result => {
                       if (result['status'] === 'error') {
-                        this.toastrService.error("Errore nella creazione dell'utente");
-                        console.log(result['message']);
+                        //gestione errore
+                        if(result['message'].includes(this.errorRegnuminps)){
+                          this.toastrService.error("Errore nella creazione dell'utente, questo Regnuminps è presente in un altro utente");
+                        }else{
+                          this.toastrService.error("Errore nella creazione dell'utente");
+                        }
                         return;
                       } else {
                         let user = result['data'];
@@ -168,6 +174,7 @@ export class UserAdminComponent implements OnInit {
                         this.users = [...this.users, newUser];
                         //console.log("user: ", user);
                         //console.log( "users: " ,this.users)
+                        this.ownListRegnumSps.push(Number(user.regnumsps))
                       }
                     });
                 }
@@ -287,6 +294,17 @@ export class UserAdminComponent implements OnInit {
         this.selected.role = evento.role
       }
 
+      if (evento.regnuminps != null) {
+        this.selected.regnuminps = evento.regnuminps
+      }
+
+      if (evento.regnumsps != null) {
+        if(Number(evento.regnumsps) != evento.defaultRegnumSps){
+          this.ownListRegnumSps = this.ownListRegnumSps.filter(rsps => rsps !==  evento.defaultRegnumSps); 
+          this.ownListRegnumSps.push(Number(evento.regnumsps));
+        }
+        this.selected.regnumsps = evento.regnumsps
+      }
     }
     //log
     //console.log("evento selected after:" ,this.selected)
@@ -309,6 +327,7 @@ export class UserAdminComponent implements OnInit {
       this.userAdminService.deleteNewUser(this.userToDelete.id)
             .subscribe(
               res => {
+                this.ownListRegnumSps = this.ownListRegnumSps.filter(rsps => rsps !== Number(res["data"].regnumsps)) 
                 this.users = this.users.filter(obj => obj !== this.userToDelete);
                 this.userToDelete = null;
                 this.toastrService.success(' Utente cancellato ');
@@ -375,6 +394,12 @@ export class UserAdminComponent implements OnInit {
     }
     this.globalTimesheetDate.year = data.getFullYear();
     this.globalTimesheetDate.month = data.getMonth();
+  }
+
+  fillRegnumSps(){
+    this.users.forEach(element => {
+      this.ownListRegnumSps.push(Number(element.regnumsps));
+    })
   }
 
 }
