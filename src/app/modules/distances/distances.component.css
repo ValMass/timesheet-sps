@@ -16,3 +16,22 @@
   display: block;
   width: 100px;
 }
+
+.header-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-item {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  min-height: 6rem;
+  height: auto;
+  text-align: center;
+}
+
+.header-item-border{
+  border:1px solid #E0E0E0;
+}
