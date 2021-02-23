@@ -1,3 +1,5 @@
+import { MatDialog } from '@angular/material/dialog';
+import { NewPasswordComponent } from './../../shared/new-password/new-password.component';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -31,7 +33,8 @@ export class UserAnagComponent implements OnInit {
     public fb: FormBuilder,
     private userAnag: UserAnagService,
     private contractAnag: ContractAnagService,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    public dialog: MatDialog,
   ) { }
 
   anagForm = new FormGroup({
@@ -233,5 +236,32 @@ export class UserAnagComponent implements OnInit {
     });
   }
 
+  updatePassword(){
+    const dialogRef = this.dialog.open(NewPasswordComponent, {
+      width: '600px',
+      data:{
+        userid: null,
+        isUser: true,
+      }
+    })
+    dialogRef.afterClosed().subscribe(password =>{
+      if(password && password != 'close'){
+        this.userAnag.changePassword(password["data"].newPassword , password["data"].oldPassword)
+          .subscribe( res =>{
+            if(res){
+              if(res["status"] ="error"){
+                this.toastrService.error(res["message"]);
+              }else{
+                this.toastrService.success('Password salvata con successo');
+              }
+            }else{
+             
+            }
+          });
+      }else{
+        this.toastrService.warning('nessuna modifica effettuata');
+      }
+    })
+  }
 
 }

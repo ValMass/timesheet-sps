@@ -54,6 +54,20 @@ export class UserAnagService {
 
   }
 
+  changePassword(newPassword , oldPassword) {
+    const url = environment.apiUrl + 'user/ordinaryUserChangePassword.php';
+    return this.http.post<any>(url, { newPassword , oldPassword }).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+        return of(something);
+      } else {
+        return EMPTY;
+      }
+    })
+    );
+  }
+
 
 }
 

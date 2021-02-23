@@ -1,5 +1,4 @@
 import { NewGenaratePasswordService } from './../services/new-genarate-password.service';
-import { UserAdminNewPasswordComponent } from './../user-admin-new-password/user-admin-new-password.component';
 import { AddInternalactivityComponent } from './../add-internalactivity/add-internalactivity.component';
 import { InternalactivityService } from './../services/internalactivity.service';
 import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit } from '@angular/core';
@@ -15,6 +14,7 @@ import { ActivityService } from '../services/activity.service';
 import { AddActivityComponent } from '../add-activity/add-activity.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EconomicService } from '../services/economic.service';
+import { NewPasswordComponent } from '@app/shared/new-password/new-password.component';
 
 @Component({
   selector: 'app-user-admin-detail',
@@ -448,9 +448,13 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   }
 
   updatePassword(){
-    const dialogRef = this.dialog.open(UserAdminNewPasswordComponent, {
+    const dialogRef = this.dialog.open(NewPasswordComponent, {
       width: '600px',
-      data:{userid: this.userId}
+      data:
+      {
+        userid: this.userId,
+        isUser: false,
+      }
     })
     dialogRef.afterClosed().subscribe(password =>{
       if(password && password != 'close'){

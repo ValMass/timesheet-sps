@@ -15,7 +15,6 @@ import { AddActivityComponent } from './add-activity/add-activity.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AddInternalactivityComponent } from './add-internalactivity/add-internalactivity.component';
 import { UserAdminCalendarComponent } from './user-admin-calendar/user-admin-calendar.component';
-import { UserAdminNewPasswordComponent } from './user-admin-new-password/user-admin-new-password.component';
 
 
 
@@ -28,7 +27,6 @@ import { UserAdminNewPasswordComponent } from './user-admin-new-password/user-ad
     AddActivityComponent,
     AddInternalactivityComponent,
     UserAdminCalendarComponent,
-    UserAdminNewPasswordComponent
   ],
   imports: [
     CommonModule,
