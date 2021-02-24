@@ -1,13 +1,13 @@
 <div class="tab-user container">
   <!-- <button mat-button class="btn btn-primary w-100 mt-5">Aggiungi Distanza</button> -->
-  <div class="header-content">
-    <div class="header-item header-item-border"
+  <ul class="list-group list-group-horizontal-lg">
+    <li class="header-item header-item-border"
         *ngFor="let office of listAllOffice"
         [class.office-active]="office === officeSelected"
         (click)="officeDistance(office)">
       {{ office.city }} - {{ office.address }}
-  </div>
-  </div>
+    </li>
+  </ul>
   <div class="card margin-card" *ngIf="officeSelected; else selectOffice">
     <table class="table table-striped no-margin">
       <thead>
