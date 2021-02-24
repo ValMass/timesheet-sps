@@ -66,6 +66,11 @@ export class UserAdminCreationComponent implements OnInit {
     this.officesService.listAllOffices().subscribe(res => {
       this.officesList = res.data;
     });
+
+    //TODO
+    this.officesService.getListAllRegnumSps().subscribe(res =>{
+      console.log(" resRspsBE" , res["data"]);
+    })
   }
 
   //get f() { return this.profileForm.controls; }

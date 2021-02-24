@@ -25,4 +25,19 @@ export class OfficesService {
     })
     );
   }
+
+  //TODO dopo fai il file apposta
+  getListAllRegnumSps(){
+    const url = environment.apiUrl + 'user/getPossibleRegNumImps.php';
+    return this.http.post<any>(url, {}).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(something => {
+      if (something) {
+        return of(something);
+      } else {
+        return EMPTY;
+      }
+    })
+    );
+  }
 }
