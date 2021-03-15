@@ -62,7 +62,8 @@
         <div class="col-sm-10">
           <select style="font-size: 14px" id="regnumsps" name="regnumsps" class=" custom-select sel-text"  formControlName="regnumsps"
             [ngClass]="{'is-invalid' : ( (!patternCifra.test(userForm.value.regnumsps) || userForm.value.regnumsps == '' ) && submittedUser)}" >
-            <option *ngFor="let number of listRegnumSps" [value]="number" >{{number}}</option>
+            <option  selected="selected" [value]='defaultRegnumSps'>{{defaultRegnumSps}}</option>
+            <option *ngFor="let number of listRegnumSps" [value]="number">{{number}}</option>
           </select>
           <!--div *ngIf="((userForm.value.regnumsps.length < 1 ) && submittedUser)" style="color: red;">
             Campo obbligatorio</div>

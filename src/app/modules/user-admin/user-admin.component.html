@@ -17,7 +17,6 @@
     </app-user-admin-list>
     <app-user-admin-detail 
       *ngIf="selected" 
-      [ownListRegnumSps]="ownListRegnumSps" 
       [userAdmin]="selected" 
       (showButton)="changeShowButton($event)" 
       (unselect)="clearUpdTable($event)" 

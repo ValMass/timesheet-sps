@@ -1,3 +1,4 @@
+import { RegnumSpsService } from './../services/regnum-sps.service';
 import { NewGenaratePasswordService } from './../services/new-genarate-password.service';
 import { AddInternalactivityComponent } from './../add-internalactivity/add-internalactivity.component';
 import { InternalactivityService } from './../services/internalactivity.service';
@@ -24,7 +25,6 @@ import { NewPasswordComponent } from '@app/shared/new-password/new-password.comp
 
 export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   @Input() userAdmin: UserAdmin;
-  @Input() ownListRegnumSps : number[] = [];
   @Output() unselect = new EventEmitter<any>();
   @Output() save = new EventEmitter<UserAdmin>();
 
@@ -70,7 +70,9 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   //che si occupera di aggiornare la lista con tutti i RegnumSps
   //da escludere nella scelta durante la creazione dell'utente
   defaultRegnumSps : number = 0;
-  listRegnumSps : number[] = [];
+  listRegnumSps : any = [];
+  listRegnumSpsAdmins : any;
+  listRegnumSpsUsers : any;
 
   //submited Boolean
   submittedUser : boolean = false;
@@ -90,7 +92,8 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     public dialog: MatDialog,
     private fb: FormBuilder,
     private internalActivityService : InternalactivityService,
-    private newGenaratePasswordService : NewGenaratePasswordService
+    private newGenaratePasswordService : NewGenaratePasswordService,
+    private regnumSpsService: RegnumSpsService
   ) { }
 
   ngOnInit(): void {
@@ -103,7 +106,8 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.getInternalActivities();
     this.getActivityList();
     this.getInternalActivitiesAssigned();
-    this.getAllActivityType()
+    this.getAllActivityType();
+    this.getListRegnumSps();
     
     this.customerService.listAllCustomer()
       .subscribe(result => {
@@ -167,8 +171,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.password = userInfo['data'][0].uset.password;
     this.userId = userInfo['data'][0].uset.id;
     this.roleEdited = userInfo['data'][0].uset.role;
-    this.defaultRegnumSps = Number(this.defaultRegnumSps = userInfo['data'][0].uset.regnumsps);
-    this.ownListRegnumSps = this.ownListRegnumSps.filter((value) =>value !=  this.defaultRegnumSps);
+    this.defaultRegnumSps = Number(userInfo['data'][0].uset.regnumsps);
     
     if((this.activityList.length === 0) && (this.roleEdited === '2')){
       this.toastrService.warning("Nessuna attività esterna associata all\'utente");
@@ -178,9 +181,9 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     }
 
     if(this.roleEdited == "2"){
-      this.listRegnumSps = this.fillArray(1 , 999)
+      this.listRegnumSps = this.listRegnumSpsUsers;
     }else{
-      this.listRegnumSps = this.fillArray(1000 ,11)
+      this.listRegnumSps = this.listRegnumSpsAdmins;
     }
 
     this.anagForm.patchValue(anagInfo['data']);
@@ -198,9 +201,9 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
 
   submitUser() {
     this.submittedUser = true
-    //console.log("userform :", this.userForm.value)
+    console.log("userform :", this.userForm.value)
     
-    if ((this.patternEmail.test(this.userForm.value.email)) &&
+    /*if ((this.patternEmail.test(this.userForm.value.email)) &&
       //(this.userForm.value.password.length >= 6) &&
       (this.patternCifra.test(this.userForm.value.regnuminps)) &&
       (this.patternCifra.test(this.userForm.value.regnumsps)) &&
@@ -225,8 +228,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
         );
     } else {
       this.toastrService.error('Inserire i dati obbligatori');
-    }
-
+    }*/
 
   }
 
@@ -404,7 +406,6 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       case (this.userFlag && this.anagFlag):
         //log
         //console.log("case1: ", "this.userFlag : ", this.userFlag, "this.anagFlag : ", this.anagFlag);
-        this.userFormValue.defaultRegnumSps = this.defaultRegnumSps;
         //unisco
         const merged = Object.assign(this.anagFormValue, this.userFormValue);
 
@@ -415,7 +416,6 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       case (this.userFlag && !this.anagFlag):
         //log
         //console.log("case2: ", "this.userFlag : ", this.userFlag, "this.anagFlag : ", this.anagFlag);
-        this.userFormValue.defaultRegnumSps = this.defaultRegnumSps;
         //emetto
         this.unselect.emit(this.userFormValue);
 
@@ -597,16 +597,11 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.econForm.patchValue({extrarimborso : "0" , extrarimborsobool : this.enablerimborsoextra === false ? 0 : 1})
   }
 
-  fillArray(numstart , dim){
-    let start = numstart;
-    let array = new Array(dim)
-    for(let l = 0; l < array.length; l ++){
-       array[l] = start;
-       start = start + 1;
-    }
- 
-    array = array.filter( (element) => !this.ownListRegnumSps.includes(element))
- 
-    return array
-   }
+  
+  getListRegnumSps(){
+    this.regnumSpsService.getListAllRegnumSps().subscribe(res =>{
+      this.listRegnumSpsAdmins = [...res["data"]["admin"]];
+      this.listRegnumSpsUsers = [...res["data"]["normal"]];
+    })
+  }
 }
