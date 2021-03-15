@@ -5,6 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { OfficesService } from '../services/offices.service';
+import { RegnumSpsService } from '../services/regnum-sps.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -43,8 +44,9 @@ export class UserAdminCreationComponent implements OnInit {
   datepickerSD : Date = null;
   datepickerED : Date = null ;
   enableRegnumSps : boolean = false;
-  listRegnumSps : number[] = [];
-  ownListRegnumSps : number[] = [];
+  listRegnumSps : any = [];
+  listRegnumSpsAdmins : any;
+  listRegnumSpsUsers : any;
 
   //password
   psw: string = "password";
@@ -52,11 +54,11 @@ export class UserAdminCreationComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<UserAdminCreationComponent>,
-    private officesService: OfficesService
+    private officesService: OfficesService,
+    private regnumSpsService: RegnumSpsService
   ) { }
 
   ngOnInit(): void {
-    this.ownListRegnumSps = this.data.ownListRegnumSps;
     //this.profileForm = this.buildProfileForm();
     this.datepicker = new Date();
     let tmp = new Date();
@@ -67,9 +69,14 @@ export class UserAdminCreationComponent implements OnInit {
       this.officesList = res.data;
     });
 
-    //TODO
-    this.officesService.getListAllRegnumSps().subscribe(res =>{
-      console.log(" resRspsBE" , res["data"]);
+    //prendo la lista dei regnumSps
+    this.getListRegnumSps();
+  }
+
+  getListRegnumSps(){
+    this.regnumSpsService.getListAllRegnumSps().subscribe(res =>{
+      this.listRegnumSpsAdmins = [...res["data"]["admin"]];
+      this.listRegnumSpsUsers = [...res["data"]["normal"]];
     })
   }
 
@@ -151,26 +158,12 @@ export class UserAdminCreationComponent implements OnInit {
 
   changeRuolo(evento){
     if(evento == "2"){
-      this.listRegnumSps = this.fillArray(1 , 999)
+      this.listRegnumSps = [...this.listRegnumSpsUsers];
     }else{
-      this.listRegnumSps = this.fillArray(1000 ,11)
+      this.listRegnumSps = [...this.listRegnumSpsAdmins];
     }
     
     this.enableRegnumSps = true;
-  }
-
-  fillArray(numstart , dim){
-   let start = numstart;
-   let array = new Array(dim)
-   for(let l = 0; l < array.length; l ++){
-      array[l] = start;
-      start = start + 1;
-   }
-
-   array = array.filter( (element) => !this.ownListRegnumSps.includes(element))
-
-   this.form.control.patchValue({regnumsps : String(array[0])})
-   return array
   }
 }
 

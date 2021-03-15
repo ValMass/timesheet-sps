@@ -7,14 +7,14 @@ import { EMPTY, of } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class OfficesService {
+export class RegnumSpsService {
 
   constructor(private http: HttpClient) { }
 
-  listAllOffices() {
+  getListAllRegnumSps(){
     const id = 1;
-    const url = environment.apiUrl + 'offices/listAllOffices.php';
-    return this.http.post<any>(url, { id }).pipe(catchError(error => {
+    const url = environment.apiUrl + 'user/getPosNum.php';
+    return this.http.post<any>(url, {id}).pipe(catchError(error => {
       return EMPTY;
     }), mergeMap(something => {
       if (something) {
@@ -25,5 +25,4 @@ export class OfficesService {
     })
     );
   }
-
 }
