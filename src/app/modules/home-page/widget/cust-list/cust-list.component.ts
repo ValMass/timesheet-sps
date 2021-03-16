@@ -18,7 +18,7 @@ export class CustListComponent implements OnInit {
   ngOnInit(): void {
     this.route.data.subscribe(
       result => {
-        console.log(result.customerlist.data);
+        //console.log(result.customerlist.data);
         this.customerlist = result.customerlist.data;
       },
       error => {

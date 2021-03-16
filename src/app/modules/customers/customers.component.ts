@@ -52,12 +52,12 @@ export class CustomersComponent implements OnInit {
   //used in save()
   addCustomer(customer: Customer) {
     this.customerService.createNewCustomer(customer).subscribe(data => {
-      console.log(data);
+      //console.log(data);
       this.toastrService.success('cliente aggiunto');
       const newCustomer = data['data'];
       this.customers.push(newCustomer)
     }, err => {
-      console.log(err);
+      //console.log(err);
       this.toastrService.error('operazione non riuscita');
 
     });
@@ -93,7 +93,7 @@ export class CustomersComponent implements OnInit {
           (this.customerToDelete = null);
           this.toastrService.warning('utente cancellato');
         }, err => {
-          console.log(err);
+          //console.log(err);
           this.toastrService.error('operazione non riuscita');
         });
     }
@@ -105,11 +105,11 @@ export class CustomersComponent implements OnInit {
     this.clear();
     this.customerService.getAllCustomers().subscribe(data => {
       this.customers = data['data'];
-      console.log(this.customers);
+      //console.log(this.customers);
 
     },
       err => {
-        console.log(err);
+        //console.log(err);
       });
   }
 
@@ -128,7 +128,7 @@ export class CustomersComponent implements OnInit {
   // }
 
   save(customer: Customer) {
-    console.log(customer);
+    //console.log(customer);
 
     if (this.selected && this.selected.id) {
       this.update(customer, this.selected);
@@ -142,16 +142,16 @@ export class CustomersComponent implements OnInit {
   }
 
   update(customer: Customer, oldValue: Customer) {
-    console.log(customer);
+    //console.log(customer);
 
     this.customerService.updateCustomer(customer).subscribe((data) => {
-      console.log(data);
+      //console.log(data);
       const customerUpdated = data['data'];
       const index = this.customers.indexOf(oldValue);
       this.customers.splice(index, 1, customerUpdated);
       this.toastrService.success('modifica effettuata');
     }, err => {
-      console.log(err);
+      //console.log(err);
       this.toastrService.error('operazione non riuscita');
     }
     );

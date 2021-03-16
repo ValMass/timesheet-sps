@@ -38,20 +38,20 @@ export class ContractDetailComponent implements OnChanges {
     if (this.contract && this.contract.id) {
       this.editingContract = { ...this.contract };
       this.addMode = false;
-      console.log(this.editingContract);
+      //console.log(this.editingContract);
 
     } else {
       this.editingContract = { id: undefined, contracttype: '', title: '', level: '', ccnl: '' };
       this.addMode = true;
-      console.log(this.editingContract);
+      //console.log(this.editingContract);
 
     }
   }
 
   onSubmit() {
-    console.log('ok');
+    //console.log('ok');
     this.submitted = true;
-    console.log(this.editingContract);
+    //console.log(this.editingContract);
     this.save.emit(this.editingContract);
     this.clear();
   };

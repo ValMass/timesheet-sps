@@ -24,10 +24,10 @@ export class AcDialogComponent implements OnInit {
 
     ngOnInit() {
         if (this.customer) {
-            console.log(this.customer.id);
+            //console.log(this.customer.id);
 
             this.customerService.listAllCustomerOfficesByCustomerId(this.customer.id).subscribe(
-                data => console.log(data)
+                data =>{ /*console.log(data)*/}
 
             )
         }
@@ -35,7 +35,7 @@ export class AcDialogComponent implements OnInit {
     }
 
     onSubmit() {
-        console.log('si');
+        //console.log('si');
 
     }
     associateOffice() {

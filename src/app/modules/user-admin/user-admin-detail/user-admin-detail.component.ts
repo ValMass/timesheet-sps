@@ -121,7 +121,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       .subscribe(result => {
         this.officesList = result.data;
       }, error => {
-        console.log(error);
+        //console.log(error);
       });
 
     this.contractService.listAllContract()
@@ -144,21 +144,21 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   getAllActivityType(){
     this.activityService.getAllActivityType().subscribe(res =>{
       this.activitiesType = res["data"];
-      console.log("activitiesType" , this.activitiesType);
+      //console.log("activitiesType" , this.activitiesType);
     })
   }
 
   async ngAfterViewInit() {
     const userInfo = await this.userAdminService.getUserInfoById(this.userAdmin.id).toPromise();
     const anagInfo = await this.anagService.getAnagraphic(this.userAdmin.id).toPromise();
-    console.log("anagInfo", anagInfo);
+    //console.log("anagInfo", anagInfo);
     if (anagInfo['data'].buonipastobool != 0) {
       anagInfo['data'].buonipastobool = true;
     } else {
       anagInfo['data'].buonipastobool = false;
     }
     const economicInfo = await this.economicService.getEconomic(anagInfo['data']['economicdataid']).toPromise();
-    console.log("economicInfo", economicInfo);
+    //console.log("economicInfo", economicInfo);
     
     //arrotondo alla seconda cifra decimale avanzo rimborso 
     economicInfo['data'].avanzorimborso = parseFloat(economicInfo['data'].avanzorimborso).toFixed(2)
@@ -196,7 +196,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
 
   submitUser() {
     this.submittedUser = true
-    console.log("userform :", this.userForm.value)
+    //console.log("userform :", this.userForm.value)
     
     if ((this.patternEmail.test(this.userForm.value.email)) &&
       //(this.userForm.value.password.length >= 6) &&
@@ -248,7 +248,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       (this.anagForm.value.surname.length >= 2) /*&&
       (this.anagForm.value.sededilavoro != null)*/) {
 
-      console.log("this.anagForm.value", this.anagForm.value)
+      //console.log("this.anagForm.value", this.anagForm.value)
       this.anagService.updateAnagraphicForUser({ id: this.userAdmin.id, ...this.anagForm.value })
         .subscribe(res => {
           //console.log("Anagrafica", res)
@@ -546,7 +546,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
 
   removeInternalActivity(internalActivity){
     if (confirm(`Sei sicuro di voler eliminare l'attività: ${internalActivity.inat.name}?`)) {
-      console.log( "internalActivity", internalActivity)
+      //console.log( "internalActivity", internalActivity)
       this.internalActivityService.removeInternalActivity(internalActivity.rela.internalactivitiesid , internalActivity.rela.userid ).subscribe( res =>{
         if (res['status'] === 'done') {
           this.toastrService.success('Attività eliminata correttamente');

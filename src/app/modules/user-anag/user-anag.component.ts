@@ -67,8 +67,8 @@ export class UserAnagComponent implements OnInit {
     this.userAnag.getAnagraphic(id).subscribe(
       (anag) => {
         if (anag["status"] === "done") {
-          console.log("anag[data]", anag["data"]);
-          console.log("anag[data]", anag["data"].buonipastobool);
+          //console.log("anag[data]", anag["data"]);
+          //console.log("anag[data]", anag["data"].buonipastobool);
 
           this.dbAnag = anag["data"];
 
@@ -79,7 +79,7 @@ export class UserAnagComponent implements OnInit {
           this.nome = this.dbAnag.name;
           this.cognome = this.dbAnag.surname;
           this.workplaceId = this.dbAnag.sededilavoro;
-          console.log("dbAnag", this.dbAnag);
+          //console.log("dbAnag", this.dbAnag);
           let newanag = {
             name: this.dbAnag.name,
             surname: this.dbAnag.surname,
@@ -104,16 +104,16 @@ export class UserAnagComponent implements OnInit {
           //prendo il contratto
           this.getContract(this.dbAnag.contractid);
 
-          console.log("newanag", newanag);
+          //onsole.log("newanag", newanag);
           this.userAnag.getWorkOffice(this.workplaceId).subscribe((res) => {
-            console.log("res", res.data);
+            //console.log("res", res.data);
             newanag.sededilavoro = res.data.address;
             this.anagForm.patchValue(newanag);
           });
-          console.log(newanag);
+          //console.log(newanag);
           //this.anagForm.patchValue(newanag);
         } else {
-          console.log("error");
+          //console.log("error");
         }
       },
       (error) => {}
@@ -121,7 +121,7 @@ export class UserAnagComponent implements OnInit {
     if (this.dbAnag.contractid) {
       this.contractAnag.getContract(this.dbAnag.contractid).subscribe(
         (res) => {
-          console.log(res["data"]);
+          //console.log(res["data"]);
           this.selectedContract = res["data"];
           this.selectedContract.tolist =
             this.selectedContract.title +
@@ -139,7 +139,7 @@ export class UserAnagComponent implements OnInit {
         (error) => {}
       );
     } else {
-      console.log("no contract found");
+      //console.log("no contract found");
     }
 
     /*

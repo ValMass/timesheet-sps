@@ -18,9 +18,8 @@ export class UserprofileFormComponent implements OnInit {
 
     this.route.data.subscribe(
       data => {
-      console.log('Data umpa :', data);
-      console.log('diobestia :', data.user );
-      console.log('status :', data.user.status);
+      //console.log('Data umpa :', data);
+      //console.log('status :', data.user.status);
 
 
       const birth = new Date(data.user.data.birthdate);

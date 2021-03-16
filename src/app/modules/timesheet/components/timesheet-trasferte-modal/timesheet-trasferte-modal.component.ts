@@ -42,7 +42,7 @@ export class TimesheetTrasferteModalComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    console.log("DATAPADRE" , this.data.timesheet);
+    //console.log("DATAPADRE" , this.data.timesheet);
     this.currentTimesheet = this.data.timesheet;
     const userId = this.currentTimesheet.userid;
     if ( this.currentTimesheet.state === '4' ){
@@ -57,7 +57,7 @@ export class TimesheetTrasferteModalComponent implements OnInit {
     try {
       res = await this.timesheetService.getUserData(userId).toPromise();
     } catch (e) {
-      console.log(e);
+      //console.log(e);
     }
     this.currentUserData = res["data"][0];
     //console.log("this.currentUserData" , this.currentUserData);
@@ -76,11 +76,11 @@ export class TimesheetTrasferteModalComponent implements OnInit {
     try {
       tmp = await this.timesheetService.getUserOffice(this.currentUserData.anad.sededilavoro).toPromise();
     } catch (e) {
-      console.log(e);
+      //console.log(e);
     }
     this.sededipartenza = tmp['data'];
-    console.log(this.sededipartenza);
-    console.log("trasf" ,this.trasferteList);
+    //console.log(this.sededipartenza);
+    //console.log("trasf" ,this.trasferteList);
 
     this.trasferteListTemp = this.trasferteList.map((x) => {
       x["calcoli"] = this.calcolaPesoTrasferte(
@@ -90,15 +90,15 @@ export class TimesheetTrasferteModalComponent implements OnInit {
       );
       return x;
     });
-    console.log("trasf" ,this.trasferteListTemp);
+    //console.log("trasf" ,this.trasferteListTemp);
   }
 
   modelChanged(event) {
     if (parseFloat(event) !== 0) {
-      console.log("false");
+      //console.log("false");
       this.disableSave = false;
     } else {
-      console.log("true");
+      //console.log("true");
       this.disableSave = true;
     }
   }
@@ -116,7 +116,7 @@ export class TimesheetTrasferteModalComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log("entro 3");
+          //console.log("entro 3");
           if (res.status === "done") {
 
             this.trasferteListchanged = JSON.parse(res.data.trasferte);
@@ -132,7 +132,7 @@ export class TimesheetTrasferteModalComponent implements OnInit {
               );
               this.acivalue = paramform.value.acivalue;
               this.diariavalue = paramform.value.diaria;
-              console.log('x["calcoli"]: ', x["calcoli"]);
+              //console.log('x["calcoli"]: ', x["calcoli"]);
               return x;
             });
           } else {
@@ -151,8 +151,8 @@ export class TimesheetTrasferteModalComponent implements OnInit {
 
   saveList() {
     if(!this.changed) {
-      console.log('not changed');
-      console.log(this.trasferteList);
+      //console.log('not changed');
+      //console.log(this.trasferteList);
       this.dialogRef.close({
         data: this.trasferteList,
         acivalue: this.acivalue,
@@ -160,8 +160,8 @@ export class TimesheetTrasferteModalComponent implements OnInit {
         rimborsotrasferte: this.rimborsoproposto,
         rimborsotarget: this.rimborsodovuto });
     } else {
-      console.log('changed');
-      console.log(this.trasferteListchanged);
+      //console.log('changed');
+      //console.log(this.trasferteListchanged);
       this.dialogRef.close({
         data: this.trasferteListchanged,
         acivalue: this.acivalue,

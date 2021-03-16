@@ -81,7 +81,7 @@ export class UserlistListComponent implements OnInit {
 
       }
     }
-    console.log(this.toDelete);
+    //console.log(this.toDelete);
 
   }
 

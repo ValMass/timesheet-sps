@@ -24,7 +24,7 @@ export class UserService {
   delete(user) {
     const id = user.id;
     const url = environment.apiUrl + '/user/deleteUserById.php';
-    console.log(url);
+    //console.log(url);
     return this.http.post(url, { id });
   }
 }

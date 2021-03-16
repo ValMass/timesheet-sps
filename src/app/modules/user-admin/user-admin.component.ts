@@ -56,7 +56,7 @@ export class UserAdminComponent implements OnInit {
     this.generateDate();
     const observer = {
       next: x => {
-        console.log(x);
+        //console.log(x);
         this.users = x.userlist;
       },
       error: err => console.log('Observer got an error: ' + JSON.stringify(err)),
@@ -77,7 +77,7 @@ export class UserAdminComponent implements OnInit {
   }
 
   parseDialogFormRes(dialogRes) {
-    console.log("preparse ", dialogRes);
+    //console.log("preparse ", dialogRes);
     let tmpuser = new UserAdmin();
     tmpuser.username = dialogRes['username'];
     tmpuser.password = dialogRes['password'];
@@ -229,9 +229,9 @@ export class UserAdminComponent implements OnInit {
   }
 
   select(user: UserAdmin) {
-    console.log(user);
+    //console.log(user);
     this.selected = user;
-    this.userAdminService.getUserInfoById(user.id).subscribe(res => console.log(res));
+    this.userAdminService.getUserInfoById(user.id).subscribe(res => {/*console.log(res)*/});
   }
 
   update(user: UserAdmin) {
@@ -246,7 +246,7 @@ export class UserAdminComponent implements OnInit {
     }
   }
   print() {
-    console.log(this.users);
+    //console.log(this.users);
   }
   clear() {
     //this.router.navigateByUrl('/user-admin');
@@ -317,7 +317,7 @@ export class UserAdminComponent implements OnInit {
 
               },
               error => {
-                console.log(error);
+                //console.log(error);
                 this.toastrService.error('Errore nella cancellazione');
               });
 

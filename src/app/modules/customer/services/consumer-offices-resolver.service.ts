@@ -13,7 +13,7 @@ export class ConsumerOfficesResolverService implements Resolve<any> {
   constructor(private http: HttpClient) { }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const id = route.paramMap.get('id');
-    console.log('ConsumerOfficesResolverService: ' + id);
+    //console.log('ConsumerOfficesResolverService: ' + id);
     const url = environment.apiUrl + '/customerOffices/listAllCustomerOfficesByCustomerId.php';
     return this.http.post(url, { id }).pipe(catchError(error => {
       return EMPTY;

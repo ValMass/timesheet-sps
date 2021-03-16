@@ -31,7 +31,7 @@ export class CustomerService implements Resolve<any>  {
 
   //see if type here generate errors
   getAllCustomers() :Observable<Customer[]>{
-    console.log('allcustomers');
+    //console.log('allcustomers');
     
     const url = environment.apiUrl + '/customer/listAllCustomer.php';
     return this.http.get<Customer[]>(url);

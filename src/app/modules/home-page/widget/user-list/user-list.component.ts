@@ -34,7 +34,7 @@ export class UserListComponent implements OnInit {
         if ( res.status === "done"){
           this.listautenti = res.data;
         }
-        console.log(res);
+        //console.log(res);
       }
     );
 /*
@@ -75,7 +75,7 @@ export class UserListComponent implements OnInit {
   }
 
   print() {
-    console.log(this.listautenti);
+    //console.log(this.listautenti);
   }
 
   redirectToUser(user){

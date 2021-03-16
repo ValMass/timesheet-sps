@@ -57,7 +57,7 @@ export class LoginPageComponent implements OnInit {
             //this.router.navigate([this.returnUrl]);
             if (this.authenticationService.currentUserValue) {
               let user = this.authenticationService.currentUserValue;
-              console.log(user.isadmin);
+              //console.log(user.isadmin);
               switch (user.isadmin) {
                 case '0':
                   console.log('Logged as Super User');

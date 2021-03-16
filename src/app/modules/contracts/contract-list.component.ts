@@ -33,7 +33,7 @@ export class ContractListComponent {
     }
 
     deleteContract(contract: Contract) {
-        console.log('emit');
+        //console.log('emit');
         this.deleted.emit(contract);
     }
 
