@@ -107,7 +107,6 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.getActivityList();
     this.getInternalActivitiesAssigned();
     this.getAllActivityType();
-    this.getListRegnumSps();
     
     this.customerService.listAllCustomer()
       .subscribe(result => {
@@ -180,12 +179,8 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       this.toastrService.warning("Nessuna attività interna associata all\'utente");
     }
 
-    if(this.roleEdited == "2"){
-      this.listRegnumSps = this.listRegnumSpsUsers;
-    }else{
-      this.listRegnumSps = this.listRegnumSpsAdmins;
-    }
-
+    //aggiorno la lista regnumSps
+    this.getListRegnumSps(this.roleEdited);
     this.anagForm.patchValue(anagInfo['data']);
     this.econForm.patchValue(economicInfo['data']);
     this.contractForm.patchValue({ contractid: anagInfo['data'].contractid });
@@ -203,7 +198,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.submittedUser = true
     console.log("userform :", this.userForm.value)
     
-    /*if ((this.patternEmail.test(this.userForm.value.email)) &&
+    if ((this.patternEmail.test(this.userForm.value.email)) &&
       //(this.userForm.value.password.length >= 6) &&
       (this.patternCifra.test(this.userForm.value.regnuminps)) &&
       (this.patternCifra.test(this.userForm.value.regnumsps)) &&
@@ -213,10 +208,14 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
         .subscribe(result => {
           if (result['status'] === 'done') {
             this.toastrService.success('Utente aggiornato');
-
+            
             //aggiorno il flag
             this.userFlag = true;
             this.userFormValue = this.userForm.value
+
+            //aggiorno la lista regnumSps
+            this.getListRegnumSps(result["data"].role);
+            this.defaultRegnumSps = result["data"].regnumsps;
 
           } else {
             this.toastrService.error('Errore: utente non salvato');
@@ -228,7 +227,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
         );
     } else {
       this.toastrService.error('Inserire i dati obbligatori');
-    }*/
+    }
 
   }
 
@@ -598,10 +597,16 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   }
 
   
-  getListRegnumSps(){
+  getListRegnumSps(role){
     this.regnumSpsService.getListAllRegnumSps().subscribe(res =>{
       this.listRegnumSpsAdmins = [...res["data"]["admin"]];
       this.listRegnumSpsUsers = [...res["data"]["normal"]];
+
+      if(role === "2"){
+        this.listRegnumSps = this.listRegnumSpsUsers;
+      }else{
+        this.listRegnumSps = this.listRegnumSpsAdmins;
+      }
     })
   }
 }
