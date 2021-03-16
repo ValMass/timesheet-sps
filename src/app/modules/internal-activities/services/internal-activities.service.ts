@@ -14,15 +14,15 @@ export class InternalActivitiesService {
     private http: HttpClient
     ) { }
 
-  createInternalActivities( officesid, name, startdate, enddate, referente){
+  createInternalActivities( officesid, name, startdate, enddate){
     const url = environment.apiUrl + 'internalActivities/createInternalActivities.php';
-    return this.http.post(url, {officesid, name, startdate, enddate, referente});
+    return this.http.post(url, {officesid, name, startdate, enddate});
 
   }
 
-  updateInternalActivities( id, officesid, name, startdate, enddate, referente){
+  updateInternalActivities( id, officesid, name, startdate, enddate){
     const url = environment.apiUrl + 'internalActivities/updateInternalActivitiesById.php';
-    return this.http.post(url, {id , officesid, name, startdate, enddate, referente});
+    return this.http.post(url, {id , officesid, name, startdate, enddate});
 
   }
 
