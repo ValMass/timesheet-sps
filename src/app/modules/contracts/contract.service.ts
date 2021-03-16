@@ -13,7 +13,7 @@ export class ContractService {
     ) { }
 
   getAllContracts(){
-    console.log('allcontracts');
+   //console.log('allcontracts');
     
     const url = environment.apiUrl + 'contract/listAllContract.php';
     return this.http.get<Contract[]>(url);

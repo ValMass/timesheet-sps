@@ -42,9 +42,9 @@ export class TimesheethttpService implements Resolve<any> {
     }), mergeMap(something => {
       if (something) {
         return of(something);
-        console.log("observer pieno");
+        //console.log("observer pieno");
       } else {
-        console.log("observer vuoto");
+        //console.log("observer vuoto");
         return EMPTY;
       }
     })

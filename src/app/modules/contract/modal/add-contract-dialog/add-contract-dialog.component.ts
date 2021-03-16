@@ -29,7 +29,7 @@ export class AddContractDialogComponent implements OnInit {
 
   submit() {
     if ( this.contractForm.invalid ) {
-      console.log(this.submitted && this.f.nome.errors );
+      //console.log(this.submitted && this.f.nome.errors );
       return false;
     }
 

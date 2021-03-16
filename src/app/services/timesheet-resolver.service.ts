@@ -13,7 +13,7 @@ export class TimesheetResolverService implements Resolve<any> {
   constructor(private http: HttpClient) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log(route.paramMap.get('id'));
+    //console.log(route.paramMap.get('id'));
     /*const url = environment.apiUrl + '/timesheets/getTimesheetByUserIdMonthYear.php';
     return this.http.post(url , { url }).pipe(catchError(error   => {
       return EMPTY;

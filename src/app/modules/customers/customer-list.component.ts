@@ -28,14 +28,14 @@ export class CustomerListComponent {
     }
 
     deleteCustomer(customer: Customer) {
-        console.log('emit');
+        //console.log('emit');
 
         this.deleted.emit(customer);
     }
 
     chooseOffice(customer: Customer) {
         //here you should pass office down
-        console.log('associate office');
+        //console.log('associate office');
         this.associate.emit(customer);
 
     }

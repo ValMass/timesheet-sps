@@ -26,7 +26,7 @@ export class TimesheetGuardGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const currentUser = this.authenticationService.currentUserValue;
-    console.log(currentUser);
+    //console.log(currentUser);
     if ( currentUser && currentUser.token ){
 
       const { id } = next.params;
@@ -57,7 +57,7 @@ export class TimesheetGuardGuard implements CanActivate {
 
   goToNotFound() {
     this.router.navigate(['pagenotfound']);
-    console.log('wrong acces to timesheet');
+    //console.log('wrong acces to timesheet');
     return false;
   }
 }

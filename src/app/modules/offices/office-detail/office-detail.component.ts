@@ -43,9 +43,9 @@ export class OfficeDetailComponent implements OnChanges {
   }
 
   onSubmit() {
-    console.log('ok');
+    //console.log('ok');
     this.submitted = true;
-    console.log(this.editingOffice);
+    //console.log(this.editingOffice);
     this.save.emit(this.editingOffice);
     this.clear();
   };
