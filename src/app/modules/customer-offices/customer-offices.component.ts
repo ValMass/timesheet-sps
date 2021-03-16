@@ -13,7 +13,7 @@ export class CustomerOfficesComponent implements OnInit {
     private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
-    console.log(history.state);
+    //console.log(history.state);
   }
 
 }

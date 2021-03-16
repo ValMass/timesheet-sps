@@ -140,9 +140,9 @@ export class CustomerDetailComponent implements OnChanges {
   }
 
   onSubmit() {
-    console.log('ok');
+    //console.log('ok');
     this.submitted = true;
-    console.log(this.editingCustomer);
+    //console.log(this.editingCustomer);
     this.save.emit(this.editingCustomer);
     this.clear();
   };

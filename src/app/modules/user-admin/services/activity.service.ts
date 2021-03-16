@@ -34,7 +34,7 @@ export class ActivityService {
       type : type,
       defaulttype : defaulttype,
     };
-    console.log(topass);
+    //console.log(topass);
     return this.http.post<any>(url,  topass ).pipe(catchError(error => {
       return EMPTY;
     }), mergeMap(something => {

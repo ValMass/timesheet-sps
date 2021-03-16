@@ -33,7 +33,6 @@ export class UserAdminComponent implements OnInit {
   globalTimesheetDate : any = {year : null , month : null};
   dataToLoad : Date = new Date();
   mapMonth : any;
-  ownListRegnumSps : number[] = [];
   errorRegnuminps  : string = "SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '15' for key 'regNumInps_UNIQUE";
   constructor(
     private route: ActivatedRoute,
@@ -57,7 +56,7 @@ export class UserAdminComponent implements OnInit {
     this.generateDate();
     const observer = {
       next: x => {
-        console.log(x);
+        //console.log(x);
         this.users = x.userlist;
       },
       error: err => console.log('Observer got an error: ' + JSON.stringify(err)),
@@ -75,11 +74,10 @@ export class UserAdminComponent implements OnInit {
         }
       }
     );
-    this.fillRegnumSps()
   }
 
   parseDialogFormRes(dialogRes) {
-    console.log("preparse ", dialogRes);
+    //console.log("preparse ", dialogRes);
     let tmpuser = new UserAdmin();
     tmpuser.username = dialogRes['username'];
     tmpuser.password = dialogRes['password'];
@@ -117,7 +115,6 @@ export class UserAdminComponent implements OnInit {
       height: '900px',
       autoFocus: false,
       panelClass: ['custom-dialog-container-creation'],
-      data: {ownListRegnumSps : this.ownListRegnumSps}
     });
     dialogRef.afterClosed().subscribe(
       res => {
@@ -174,7 +171,6 @@ export class UserAdminComponent implements OnInit {
                         this.users = [...this.users, newUser];
                         //console.log("user: ", user);
                         //console.log( "users: " ,this.users)
-                        this.ownListRegnumSps.push(Number(user.regnumsps))
                       }
                     });
                 }
@@ -233,9 +229,9 @@ export class UserAdminComponent implements OnInit {
   }
 
   select(user: UserAdmin) {
-    console.log(user);
+    //console.log(user);
     this.selected = user;
-    this.userAdminService.getUserInfoById(user.id).subscribe(res => console.log(res));
+    this.userAdminService.getUserInfoById(user.id).subscribe(res => {/*console.log(res)*/});
   }
 
   update(user: UserAdmin) {
@@ -250,7 +246,7 @@ export class UserAdminComponent implements OnInit {
     }
   }
   print() {
-    console.log(this.users);
+    //console.log(this.users);
   }
   clear() {
     //this.router.navigateByUrl('/user-admin');
@@ -293,18 +289,6 @@ export class UserAdminComponent implements OnInit {
       if (evento.role != null) {
         this.selected.role = evento.role
       }
-
-      if (evento.regnuminps != null) {
-        this.selected.regnuminps = evento.regnuminps
-      }
-
-      if (evento.regnumsps != null) {
-        if(Number(evento.regnumsps) != evento.defaultRegnumSps){
-          this.ownListRegnumSps = this.ownListRegnumSps.filter(rsps => rsps !==  evento.defaultRegnumSps); 
-          this.ownListRegnumSps.push(Number(evento.regnumsps));
-        }
-        this.selected.regnumsps = evento.regnumsps
-      }
     }
     //log
     //console.log("evento selected after:" ,this.selected)
@@ -327,14 +311,13 @@ export class UserAdminComponent implements OnInit {
       this.userAdminService.deleteNewUser(this.userToDelete.id)
             .subscribe(
               res => {
-                this.ownListRegnumSps = this.ownListRegnumSps.filter(rsps => rsps !== Number(res["data"].regnumsps)) 
                 this.users = this.users.filter(obj => obj !== this.userToDelete);
                 this.userToDelete = null;
                 this.toastrService.success(' Utente cancellato ');
 
               },
               error => {
-                console.log(error);
+                //console.log(error);
                 this.toastrService.error('Errore nella cancellazione');
               });
 
@@ -395,11 +378,4 @@ export class UserAdminComponent implements OnInit {
     this.globalTimesheetDate.year = data.getFullYear();
     this.globalTimesheetDate.month = data.getMonth();
   }
-
-  fillRegnumSps(){
-    this.users.forEach(element => {
-      this.ownListRegnumSps.push(Number(element.regnumsps));
-    })
-  }
-
 }

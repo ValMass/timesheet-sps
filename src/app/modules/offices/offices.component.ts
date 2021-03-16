@@ -92,15 +92,15 @@ export class OfficesComponent implements OnInit {
 
   //used in save()
   addOffice(office: Office) {
-    console.log(office);
+    //console.log(office);
     this.officeService.createNewOffice(office).subscribe(data => {
-      console.log(data);
+      //console.log(data);
       this.toastrService.success('ufficio aggiunto');
       const newOffice = data['data'];
       this.offices.push(newOffice)
 
     }, err => {
-      console.log(err);
+      //console.log(err);
       this.toastrService.error('operazione non riuscita')
 
     });
@@ -136,7 +136,7 @@ export class OfficesComponent implements OnInit {
           (this.officeToDelete = null);
           this.toastrService.warning('utente cancellato');
         }, err => {
-          console.log(err);
+          //console.log(err);
           this.toastrService.error('operazione non riuscita');
         });
     }
@@ -151,14 +151,14 @@ export class OfficesComponent implements OnInit {
       this.offices = data['data'];
     },
       err => {
-        console.log(err);
+        //console.log(err);
 
       });
 
   }
 
   save(office: Office) {
-    console.log(office);
+    //console.log(office);
 
     if (this.selected && this.selected.id) {
       this.update(office, this.selected);
@@ -172,16 +172,16 @@ export class OfficesComponent implements OnInit {
   }
 
   update(office: Office, oldValue: Office) {
-    console.log(office);
+    //console.log(office);
     this.officeService.updateOffice(office).subscribe((data) => {
-      console.log(data);
+      //console.log(data);
       //refresh the list with updated values
       const officeUpdated = data['data'];
       const index = this.offices.indexOf(oldValue);
       this.offices.splice(index, 1, officeUpdated);
       this.toastrService.success('modifica effettuata');
     }, err => {
-      console.log(err);
+      //console.log(err);
       this.toastrService.error('operazione non riuscita');
     }
     );

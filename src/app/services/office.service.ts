@@ -28,19 +28,19 @@ export class OfficeService {
   deleteOffice(office) {
     const id = office.id;
     const url = environment.apiUrl + '/offices/deleteOfficesById.php';
-    console.log(url);
+    //console.log(url);
     return this.http.post(url,  {id:id} );
   }
 
   createNewOffice(office){
     const url = environment.apiUrl + '/offices/createCustomerOffices.php';
-    console.log(url);
+    //console.log(url);
     return this.http.post(url,  office );
   }
 
   updateOffice(office){
     const url = environment.apiUrl + '/offices/updateCustomerOfficesById.php';
-    console.log(url);
+    //console.log(url);
     return this.http.post(url,  office );
   }
 

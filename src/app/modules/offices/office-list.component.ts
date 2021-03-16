@@ -32,14 +32,14 @@ export class OfficeListComponent {
     }
 
     deleteOffice(office: Office) {
-        console.log('emit');
+        //console.log('emit');
 
         this.deleted.emit(office);
     }
 
     chooseOffice(office: Office) {
         //here you should pass office down
-        console.log('associate office');
+        //console.log('associate office');
         this.associate.emit(office);
     }
 

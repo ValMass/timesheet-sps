@@ -56,7 +56,7 @@ export class TimesheetAddEventComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log("data", this.data)
+    //console.log("data", this.data)
     this.profileForm = this.formBuilder.group({
       numeroOre: ['8', [Validators.required]],
       contractCode: ['LAVORO', [Validators.required]],
@@ -134,7 +134,7 @@ export class TimesheetAddEventComponent implements OnInit {
         },
       );
       //passo il valore del title a onChangeSelect
-      console.log(this.data.event.title);
+      //console.log(this.data.event.title);
       this.onChangeSelect(this.data.event.title)
     }
   }
@@ -233,7 +233,7 @@ export class TimesheetAddEventComponent implements OnInit {
 
   onDateChange(event) {
     this.dateObj = new Date(event.value);
-    console.log(this.dateObj);
+    //console.log(this.dateObj);
     this.getEventsForDate(this.dateObj);
     this.checkIfThisDayIsBusy();
   }
@@ -368,15 +368,15 @@ export class TimesheetAddEventComponent implements OnInit {
 
   checkIfThisDayIsBusy() {
     const numberOfEventToday = this.eventsSelected.length;
-    console.log(this.eventsSelected);
+    //console.log(this.eventsSelected);
     switch (numberOfEventToday) {
       case 1:
-        console.log('case 1');
+        //console.log('case 1');
         this.oneEventThisDay();
         break;
 
       default:
-        console.log('case default');
+        //console.log('case default');
         this.aggiungiButtonDisabled = false;
         this.errorMessage = '';
         break;
@@ -384,7 +384,7 @@ export class TimesheetAddEventComponent implements OnInit {
   }
   oneEventThisDay() {
     const event = this.eventsSelected.pop();
-    console.log(event.title);
+    //console.log(event.title);
     if (event.title === 'MALATT') {
       //this.aggiungiButtonDisabled = true;
       this.errorMessage = 'Giorno di malattia';
@@ -397,16 +397,16 @@ export class TimesheetAddEventComponent implements OnInit {
 
   getEventsForDate(selectedDate) {
     this.eventsPassed.forEach(event => {
-      console.log(event.start.getDate());
+      //console.log(event.start.getDate());
       const eventDay = event.start.getDate();
       const selectedDay = selectedDate.getDate();
       if (eventDay === selectedDay) {
-        console.log("event " + eventDay);
-        console.log("selectedDate " + selectedDay);
+        //console.log("event " + eventDay);
+        //console.log("selectedDate " + selectedDay);
         this.eventsSelected.push(event);
       }
     });
-    console.log(this.eventsSelected);
+    //console.log(this.eventsSelected);
   }
 
   getoffices(id , tipoContratto) {
@@ -420,7 +420,7 @@ export class TimesheetAddEventComponent implements OnInit {
   getInternalOffices(){
     this.service.getAllOffices().subscribe(
       result => {
-        console.log("resultInternal" , result)
+        //console.log("resultInternal" , result)
         if (result['status'] === 'error') {
           this.officeslist = [];
         } else {

@@ -94,7 +94,7 @@ export class InternalActivitiesComponent implements OnInit {
   
   addActivity(internalActivity) {
     this.internalActivityService.createInternalActivities(
-      internalActivity.officesid, internalActivity.name, internalActivity.startdate,internalActivity.enddate, 1).subscribe(
+      internalActivity.officesid, internalActivity.name, internalActivity.startdate,internalActivity.enddate).subscribe(
       res => {
         this.internalActivities.push(res["data"]);
       }
@@ -103,7 +103,7 @@ export class InternalActivitiesComponent implements OnInit {
 
   updateActivity(internalActivity){
     this.internalActivityService.updateInternalActivities(
-      internalActivity.id ,  internalActivity.officesid, internalActivity.name, internalActivity.startdate,internalActivity.enddate, 1)
+      internalActivity.id ,  internalActivity.officesid, internalActivity.name, internalActivity.startdate,internalActivity.enddate)
       .subscribe(
         res => {
           let toUpd : any = res["data"];

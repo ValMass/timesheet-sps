@@ -1,5 +1,5 @@
+import { RegnumSpsService } from './../services/regnum-sps.service';
 import { NewGenaratePasswordService } from './../services/new-genarate-password.service';
-import { UserAdminNewPasswordComponent } from './../user-admin-new-password/user-admin-new-password.component';
 import { AddInternalactivityComponent } from './../add-internalactivity/add-internalactivity.component';
 import { InternalactivityService } from './../services/internalactivity.service';
 import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit } from '@angular/core';
@@ -15,6 +15,7 @@ import { ActivityService } from '../services/activity.service';
 import { AddActivityComponent } from '../add-activity/add-activity.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EconomicService } from '../services/economic.service';
+import { NewPasswordComponent } from '@app/shared/new-password/new-password.component';
 
 @Component({
   selector: 'app-user-admin-detail',
@@ -24,7 +25,6 @@ import { EconomicService } from '../services/economic.service';
 
 export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   @Input() userAdmin: UserAdmin;
-  @Input() ownListRegnumSps : number[] = [];
   @Output() unselect = new EventEmitter<any>();
   @Output() save = new EventEmitter<UserAdmin>();
 
@@ -70,7 +70,9 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   //che si occupera di aggiornare la lista con tutti i RegnumSps
   //da escludere nella scelta durante la creazione dell'utente
   defaultRegnumSps : number = 0;
-  listRegnumSps : number[] = [];
+  listRegnumSps : any = [];
+  listRegnumSpsAdmins : any;
+  listRegnumSpsUsers : any;
 
   //submited Boolean
   submittedUser : boolean = false;
@@ -90,7 +92,8 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     public dialog: MatDialog,
     private fb: FormBuilder,
     private internalActivityService : InternalactivityService,
-    private newGenaratePasswordService : NewGenaratePasswordService
+    private newGenaratePasswordService : NewGenaratePasswordService,
+    private regnumSpsService: RegnumSpsService
   ) { }
 
   ngOnInit(): void {
@@ -103,7 +106,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.getInternalActivities();
     this.getActivityList();
     this.getInternalActivitiesAssigned();
-    this.getAllActivityType()
+    this.getAllActivityType();
     
     this.customerService.listAllCustomer()
       .subscribe(result => {
@@ -118,7 +121,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       .subscribe(result => {
         this.officesList = result.data;
       }, error => {
-        console.log(error);
+        //console.log(error);
       });
 
     this.contractService.listAllContract()
@@ -141,21 +144,21 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   getAllActivityType(){
     this.activityService.getAllActivityType().subscribe(res =>{
       this.activitiesType = res["data"];
-      console.log("activitiesType" , this.activitiesType);
+      //console.log("activitiesType" , this.activitiesType);
     })
   }
 
   async ngAfterViewInit() {
     const userInfo = await this.userAdminService.getUserInfoById(this.userAdmin.id).toPromise();
     const anagInfo = await this.anagService.getAnagraphic(this.userAdmin.id).toPromise();
-    console.log("anagInfo", anagInfo);
+    //console.log("anagInfo", anagInfo);
     if (anagInfo['data'].buonipastobool != 0) {
       anagInfo['data'].buonipastobool = true;
     } else {
       anagInfo['data'].buonipastobool = false;
     }
     const economicInfo = await this.economicService.getEconomic(anagInfo['data']['economicdataid']).toPromise();
-    console.log("economicInfo", economicInfo);
+    //console.log("economicInfo", economicInfo);
     
     //arrotondo alla seconda cifra decimale avanzo rimborso 
     economicInfo['data'].avanzorimborso = parseFloat(economicInfo['data'].avanzorimborso).toFixed(2)
@@ -167,8 +170,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.password = userInfo['data'][0].uset.password;
     this.userId = userInfo['data'][0].uset.id;
     this.roleEdited = userInfo['data'][0].uset.role;
-    this.defaultRegnumSps = Number(this.defaultRegnumSps = userInfo['data'][0].uset.regnumsps);
-    this.ownListRegnumSps = this.ownListRegnumSps.filter((value) =>value !=  this.defaultRegnumSps);
+    this.defaultRegnumSps = Number(userInfo['data'][0].uset.regnumsps);
     
     if((this.activityList.length === 0) && (this.roleEdited === '2')){
       this.toastrService.warning("Nessuna attività esterna associata all\'utente");
@@ -177,12 +179,8 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       this.toastrService.warning("Nessuna attività interna associata all\'utente");
     }
 
-    if(this.roleEdited == "2"){
-      this.listRegnumSps = this.fillArray(1 , 999)
-    }else{
-      this.listRegnumSps = this.fillArray(1000 ,11)
-    }
-
+    //aggiorno la lista regnumSps
+    this.getListRegnumSps(this.roleEdited);
     this.anagForm.patchValue(anagInfo['data']);
     this.econForm.patchValue(economicInfo['data']);
     this.contractForm.patchValue({ contractid: anagInfo['data'].contractid });
@@ -210,10 +208,14 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
         .subscribe(result => {
           if (result['status'] === 'done') {
             this.toastrService.success('Utente aggiornato');
-
+            
             //aggiorno il flag
             this.userFlag = true;
             this.userFormValue = this.userForm.value
+
+            //aggiorno la lista regnumSps
+            this.getListRegnumSps(result["data"].role);
+            this.defaultRegnumSps = result["data"].regnumsps;
 
           } else {
             this.toastrService.error('Errore: utente non salvato');
@@ -226,7 +228,6 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     } else {
       this.toastrService.error('Inserire i dati obbligatori');
     }
-
 
   }
 
@@ -247,7 +248,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       (this.anagForm.value.surname.length >= 2) /*&&
       (this.anagForm.value.sededilavoro != null)*/) {
 
-      console.log("this.anagForm.value", this.anagForm.value)
+      //console.log("this.anagForm.value", this.anagForm.value)
       this.anagService.updateAnagraphicForUser({ id: this.userAdmin.id, ...this.anagForm.value })
         .subscribe(res => {
           //console.log("Anagrafica", res)
@@ -404,7 +405,6 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       case (this.userFlag && this.anagFlag):
         //log
         //console.log("case1: ", "this.userFlag : ", this.userFlag, "this.anagFlag : ", this.anagFlag);
-        this.userFormValue.defaultRegnumSps = this.defaultRegnumSps;
         //unisco
         const merged = Object.assign(this.anagFormValue, this.userFormValue);
 
@@ -415,7 +415,6 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       case (this.userFlag && !this.anagFlag):
         //log
         //console.log("case2: ", "this.userFlag : ", this.userFlag, "this.anagFlag : ", this.anagFlag);
-        this.userFormValue.defaultRegnumSps = this.defaultRegnumSps;
         //emetto
         this.unselect.emit(this.userFormValue);
 
@@ -448,9 +447,13 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
   }
 
   updatePassword(){
-    const dialogRef = this.dialog.open(UserAdminNewPasswordComponent, {
+    const dialogRef = this.dialog.open(NewPasswordComponent, {
       width: '600px',
-      data:{userid: this.userId}
+      data:
+      {
+        userid: this.userId,
+        isUser: false,
+      }
     })
     dialogRef.afterClosed().subscribe(password =>{
       if(password && password != 'close'){
@@ -543,7 +546,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
 
   removeInternalActivity(internalActivity){
     if (confirm(`Sei sicuro di voler eliminare l'attività: ${internalActivity.inat.name}?`)) {
-      console.log( "internalActivity", internalActivity)
+      //console.log( "internalActivity", internalActivity)
       this.internalActivityService.removeInternalActivity(internalActivity.rela.internalactivitiesid , internalActivity.rela.userid ).subscribe( res =>{
         if (res['status'] === 'done') {
           this.toastrService.success('Attività eliminata correttamente');
@@ -593,16 +596,17 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.econForm.patchValue({extrarimborso : "0" , extrarimborsobool : this.enablerimborsoextra === false ? 0 : 1})
   }
 
-  fillArray(numstart , dim){
-    let start = numstart;
-    let array = new Array(dim)
-    for(let l = 0; l < array.length; l ++){
-       array[l] = start;
-       start = start + 1;
-    }
- 
-    array = array.filter( (element) => !this.ownListRegnumSps.includes(element))
- 
-    return array
-   }
+  
+  getListRegnumSps(role){
+    this.regnumSpsService.getListAllRegnumSps().subscribe(res =>{
+      this.listRegnumSpsAdmins = [...res["data"]["admin"]];
+      this.listRegnumSpsUsers = [...res["data"]["normal"]];
+
+      if(role === "2"){
+        this.listRegnumSps = this.listRegnumSpsUsers;
+      }else{
+        this.listRegnumSps = this.listRegnumSpsAdmins;
+      }
+    })
+  }
 }

@@ -30,7 +30,7 @@ export class CustomerService implements Resolve<any>  {
 
   //see if type here generate errors
   getAllCustomers() :Observable<Customer[]>{
-    console.log('allcustomers');
+    //console.log('allcustomers');
     
     const url = environment.apiUrl + '/customer/listAllCustomer.php';
     return this.http.get<Customer[]>(url);
@@ -59,7 +59,7 @@ export class CustomerService implements Resolve<any>  {
   }
 
   listAllCustomerOfficesByCustomerId(customerId){
-    console.log(customerId);
+    //console.log(customerId);
     const url = environment.apiUrl + 'customerOffices/listAllCustomerOfficesByCustomerId.php';
     return this.http.post(url,{customerid:customerId});
   }

@@ -39,7 +39,7 @@ export class AddCustomerDialogComponent implements OnInit {
     this.submitted = true;
 
     if ( this.customerForm.invalid ) {
-      console.log(this.submitted && this.f.nome.errors );
+      //console.log(this.submitted && this.f.nome.errors );
       return false;
     }
     this.dialogRef.close({ data: this.customerForm.value });

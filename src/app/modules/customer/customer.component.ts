@@ -46,11 +46,11 @@ export class CustomerComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(
       res => {
-        console.log(res.data);
+        //console.log(res.data);
         this.customerService.createNewCustomer(res).subscribe(
           result => {
             const newCustomer = result['data'];
-            console.log(newCustomer);
+            //console.log(newCustomer);
             let toadd: any = {};
             toadd.id = newCustomer.id;
             toadd.nome = newCustomer.name;
@@ -62,15 +62,15 @@ export class CustomerComponent implements OnInit {
             this.customerList = [...this.customerList, toadd];
           },
           error => {
-            console.log('errore');
-            console.log(error);
+            //console.log('errore');
+            //console.log(error);
 
           }
         );
-        console.log(res);
+        //console.log(res);
       },
       error => {
-        console.log(error);
+        //console.log(error);
       });
   }
 
@@ -80,12 +80,12 @@ export class CustomerComponent implements OnInit {
         if (result.hasOwnProperty("status") && result['status'] === 'done' ){
           this.customerList.splice(this.customerList.indexOf(customer), 1);
         } else {
-          console.log('errore nella cancellazione error from server');
+          //console.log('errore nella cancellazione error from server');
 
         }
       },
       error => {
-        console.log('errore nella cancellazione http error');
+        //console.log('errore nella cancellazione http error');
       }
     );
   }
