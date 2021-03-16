@@ -60,15 +60,15 @@ export class LoginPageComponent implements OnInit {
               //console.log(user.isadmin);
               switch (user.isadmin) {
                 case '0':
-                  console.log('Logged as Super User');
+                  //console.log('Logged as Super User');
                   this.router.navigate(['/home-page']);
                   break;
                 case '1':
-                  console.log('Logged as Administrator');
+                  //console.log('Logged as Administrator');
                   this.router.navigate(['/home-page']);
                   break;
                 case '2':
-                  console.log('Logged as Normal User');
+                  //console.log('Logged as Normal User');
                   this.router.navigate(['/home-page-user']);
                   break;
 
