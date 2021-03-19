@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from './customer.service';
 import { Customer } from '@app/modules/customers/customer';
@@ -25,6 +26,7 @@ export class CustomersComponent implements OnInit {
 
   //showbutton
   showButton : boolean = true;
+  isSuperAdmin : boolean = true;
 
   //flag showbutton
   changeShowButton(flag){
@@ -36,6 +38,7 @@ export class CustomersComponent implements OnInit {
   constructor(
     private customerService: CustomerService,
     private toastrService: ToastrService,
+    private authenticationService: AuthenticationService,
     // private dialog:
   ) {
     // this.customers$ = customerService.getAllCustomers();
@@ -44,6 +47,7 @@ export class CustomersComponent implements OnInit {
 
   ngOnInit() {
     // console.log(this.customers);
+    this.isSuperAdmin = this.getRoleFromLocalStorage() === "0"  ? true : false
     this.getCustomers();
     //this.getOffices();
     this.getAllActivityType();
@@ -169,5 +173,10 @@ export class CustomersComponent implements OnInit {
     this.customerService.getAllActivityType().subscribe(res =>{
       this.activitiesType = res["data"];
     })
+  }
+
+  getRoleFromLocalStorage() {
+    const user: any = this.authenticationService.currentUserValue;
+    return user.isadmin;
   }
 }

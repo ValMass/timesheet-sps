@@ -23,7 +23,7 @@ export class ButtonFooterComponent implements OnInit {
   @Input() iconClasses;
   @Input() item;
   @Input() dataId;
-  @Input() disabledButton;
+  @Input() disabledButton = false;
 
   @Output() clicked = new EventEmitter<any>();
 

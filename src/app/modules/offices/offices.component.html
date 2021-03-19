@@ -1,12 +1,14 @@
 <div class="tab-user container">
   <!-- maybe add refresh here -->
-  <list-header
-  title="Aggiungi Ufficio"
-  (add)="enableAddMode()"
-  [selected]="selected"
-  *ngIf= "showButton">
-  </list-header>
-
+  <div *ngIf="isSuperAdmin === false">
+      <list-header
+        title="Aggiungi Ufficio"
+        (add)="enableAddMode()"
+        [selected]="selected"
+        *ngIf= "showButton">
+      </list-header>
+  </div>
+  
   <div *ngIf="offices" >
       <office-list class="table table-striped"
           *ngIf="!selected "
@@ -14,6 +16,7 @@
           (selected)="select($event)"
           (deleted)="askToDelete($event)"
           (showButton)="changeShowButton($event)"
+          [isSuperAdmin]="isSuperAdmin"
          >
       </office-list>
 

@@ -22,6 +22,7 @@
           (clicked)="deleteOffice($event)"
           label="Elimina"
           [item]="office"
+          [disabledButton]="isSuperAdmin"
         ></app-button-footer>
         </td>
         <td>
@@ -32,6 +33,7 @@
           (clicked)="selectOffice($event)"
           label="Modifica"
           [item]="office"
+          [disabledButton]="isSuperAdmin"
         ></app-button-footer></td>
 
       </tr>

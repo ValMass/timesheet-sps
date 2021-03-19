@@ -19,6 +19,7 @@ import { Office } from './models/office';
 
 export class OfficeListComponent {
     @Input() offices: Office[];
+    @Input() isSuperAdmin = false;
     @Output() deleted = new EventEmitter<Office>();
     @Output() selected = new EventEmitter<Office>();
     @Output() associate = new EventEmitter<Office>();

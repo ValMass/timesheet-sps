@@ -1,12 +1,14 @@
 <div class="tab-user container">
     <!-- maybe add refresh here -->
-    <list-header
-    title="Aggiungi Contratti"
-    (add)="enableAddMode()"
-    [selected]="selected"
-    *ngIf= "showButton"
-    >
+    <div *ngIf="isSuperAdmin === false">
+      <list-header
+          title="Aggiungi Contratti"
+          (add)="enableAddMode()"
+          [selected]="selected"
+          *ngIf= "showButton">
     </list-header>
+    
+    </div>
     <!-- <div *ngIf="customers$ | async as customers"> -->
     <div *ngIf="contracts" >
         <contract-list class="table table-striped"
@@ -14,7 +16,8 @@
             [contracts]="contracts"
             (selected)="select($event)"
             (deleted)="askToDelete($event)"
-            (showButton)="changeShowButton($event)">
+            (showButton)="changeShowButton($event)"
+            [isSuperAdmin]="isSuperAdmin">
 
         </contract-list>
 

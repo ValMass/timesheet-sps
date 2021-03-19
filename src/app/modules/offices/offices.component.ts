@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,6 +25,7 @@ export class OfficesComponent implements OnInit {
   addMode: boolean = false;
   //showbutton
   showButton : boolean = true;
+  isSuperAdmin : boolean = false;
 
   //flag showbutton
   changeShowButton(flag){
@@ -36,11 +38,13 @@ export class OfficesComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     private officeService: OfficeService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private authenticationService: AuthenticationService,
     //private saveCurrentUserInstance: UserService
   ) { }
 
   ngOnInit(): void {
+    this.isSuperAdmin = this.getRoleFromLocalStorage() === "0"  ? true : false
     // const observer = {
     //   next: x => {
     //     this.officeList = x.officelist.data;
@@ -185,6 +189,11 @@ export class OfficesComponent implements OnInit {
       this.toastrService.error('operazione non riuscita');
     }
     );
+  }
+
+  getRoleFromLocalStorage() {
+    const user: any = this.authenticationService.currentUserValue;
+    return user.isadmin;
   }
 
 }

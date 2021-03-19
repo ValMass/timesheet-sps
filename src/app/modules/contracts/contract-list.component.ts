@@ -20,6 +20,7 @@ import { Contract } from '@app/modules/contracts/contract';
 
 export class ContractListComponent {
     @Input() contracts: Contract[];
+    @Input() isSuperAdmin : boolean = false
     @Output() deleted = new EventEmitter<Contract>();
     @Output() selected = new EventEmitter<Contract>();
 
