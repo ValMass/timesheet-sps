@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { LoaderService } from '@app/component/loader/loader.service';
 import { CustomerOfficeMatrix } from '@app/models/customerOfficeMatrix';
@@ -15,13 +16,17 @@ export class DistancesComponent implements OnInit {
   listAllCustomer: Customer[];
   officeSelected: Office;
   listAllCustomerOffice: Array<any>;
-
+  isSuperAdmin : boolean = false;
+  
   constructor(
     private distancesService: DistancesService,
     private readonly loaderService: LoaderService,
+    private authenticationService: AuthenticationService,
   ) {}
 
   ngOnInit() {
+    this.isSuperAdmin = this.getRoleFromLocalStorage() === "0"  ? true : false
+
     this.distancesService.getAllOffices().subscribe((res) => {
       this.listAllOffice = res['data'];
     });
@@ -77,5 +82,10 @@ export class DistancesComponent implements OnInit {
         console.log(res);
         customerOffice.mat['isDisabled'] = true;
       });
+  }
+
+  getRoleFromLocalStorage() {
+    const user: any = this.authenticationService.currentUserValue;
+    return user.isadmin;
   }
 }

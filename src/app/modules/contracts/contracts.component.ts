@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { Contract } from './contract';
 import { ContractService } from './contract.service';
@@ -21,6 +22,7 @@ export class ContractsComponent implements OnInit {
 
     //showbutton
   showButton : boolean = true;
+  isSuperAdmin: boolean = false;
 
   //flag showbutton
   changeShowButton(flag){
@@ -29,11 +31,12 @@ export class ContractsComponent implements OnInit {
 
     constructor(private contractService: ContractService,
         public dialog: MatDialog,
-        private toastrService: ToastrService
+        private toastrService: ToastrService,
+        private authenticationService: AuthenticationService
     ) { }
 
     ngOnInit() {
-
+        this.isSuperAdmin = this.getRoleFromLocalStorage() === "0"  ? true : false
         this.getContracts();
     }
 
@@ -164,5 +167,8 @@ export class ContractsComponent implements OnInit {
 
     }
 
-
+    getRoleFromLocalStorage() {
+        const user: any = this.authenticationService.currentUserValue;
+        return user.isadmin;
+    }
 }

@@ -15,6 +15,7 @@ import { Customer } from '@app/modules/customers/customer';
 
 export class CustomerListComponent {
     @Input() customers: Customer[];
+    @Input() isSuperAdmin : boolean = false;
     @Output() deleted = new EventEmitter<Customer>();
     @Output() selected = new EventEmitter<Customer>();
     @Output() associate = new EventEmitter<Customer>();

@@ -26,6 +26,7 @@
           (clicked)="deleteContract($event)"
           label="Elimina"
           [item]="contract"
+          [disabledButton]="isSuperAdmin"
         ></app-button-footer></td>
         <td>
         <app-button-footer
@@ -35,6 +36,7 @@
           (clicked)="selectContract($event)"
           label="Modifica"
           [item]="contract"
+          [disabledButton]="isSuperAdmin"
         ></app-button-footer></td>
       </tr>
     </tbody>
