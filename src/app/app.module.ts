@@ -1,3 +1,4 @@
+import { AuthenticationService } from '@app/services/authentication.service';
 import { NewPasswordComponent } from './shared/new-password/new-password.component';
 import { TimesheetAddTrasfComponent } from './modules/timesheet/components/timesheet-add-trasf/timesheet-add-trasf.component';
 import { AddInternalactivityComponent } from './modules/user-admin/add-internalactivity/add-internalactivity.component';
@@ -6,7 +7,7 @@ import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/mater
 import {DateAdapter as DateAdapterIT , MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import { SharedModule } from './shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
@@ -47,6 +48,7 @@ import { TimesheetAddEventComponent } from './modules/timesheet/components/times
 import { TimesheetTrasferteModalComponent } from './modules/timesheet/components/timesheet-trasferte-modal/timesheet-trasferte-modal.component';
 import { LoaderComponent } from './component/loader/loader.component';
 import { LoaderInterceptor } from './_helper/loader.interceptor';
+import { appInitializer } from './_helper/app.initializer';
 
 
 
@@ -110,6 +112,7 @@ import { LoaderInterceptor } from './_helper/loader.interceptor';
     NewPasswordComponent,
   ],
   providers: [
+    { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthenticationService] },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {
       provide: HTTP_INTERCEPTORS,
