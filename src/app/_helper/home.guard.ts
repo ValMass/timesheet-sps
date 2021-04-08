@@ -17,6 +17,7 @@ export class HomeGuard implements CanActivate {
   }
 
   goToHome() {
+    //console.log("handled by home");
     this.router.navigate(['home-page-user']);
     return false;
   }

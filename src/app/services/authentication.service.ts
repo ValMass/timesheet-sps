@@ -17,7 +17,7 @@ import * as crypto from 'crypto-js';
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
-  private refreshTokenTimeout : any;  
+  private refreshTokenTimeout : any;
 
   constructor(private http: HttpClient, private router: Router, private savedataLocalStorageService : SavedataLocalStorageService) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(this.decryptUserData(localStorage.getItem('currentUser'))));
@@ -52,25 +52,27 @@ export class AuthenticationService {
 
   logout() {
     this.savedataLocalStorageService.cleanValueStorage("currentData");
-    //this.currentUserSubject.next(null);
+    this.currentUserSubject.next(null); //TODO acthung potrebbe essere una modifica che porta a errori l'abbaimo aggiunta nel caso in cui il refresh token è scaduto
     const url = environment.apiUrl + '/logout.php';
     this.stopRefreshTokenTimer();
     return this.http.post( url, {});
   }
 
   /**
-   *  url = environment.apiUrl + '/refreshToken.php'; 
+   *  url = environment.apiUrl + '/refreshToken.php';
    *  grant_type = "refresh_token";
    *  client_id = "app";
    *  client_secret = "app";
    */
   refreshToken() {
-    const url = environment.apiUrl + '/refreshToken.php'; 
+    const url = environment.apiUrl + '/refreshToken.php';
     const grant_type = "refresh_token";
     const client_id = "app";
     const client_secret = "app";
     let refresh_token = null;
+
     if((localStorage.getItem('currentUser'))){
+
       refresh_token = (JSON.parse(this.decryptUserData(localStorage.getItem('currentUser')))).refresh_token;
     }
 
@@ -80,6 +82,11 @@ export class AuthenticationService {
 
     return this.http.post<any>(url , {grant_type , client_id , client_secret , refresh_token}).pipe(map(res => {
       // store user details and jwt token in local storage to keep user logged in between page refreshes
+      /*const user = res["data"]["response"];
+      localStorage.setItem('currentUser',this.cryptUserData( JSON.stringify(user)));
+      console.log(this.decryptUserData(localStorage.getItem('currentUser')));
+      this.currentUserSubject.next(user);
+      return user;*/
       if(res["data"]["status"] === 200){
         const user = res["data"]["response"];
         localStorage.setItem('currentUser',this.cryptUserData( JSON.stringify(user)));
@@ -87,7 +94,8 @@ export class AuthenticationService {
         this.startRefreshTokenTimer();
         return user;
       }else{
-        this.logout();
+        let tantopertornarequalcosa = this.logout();
+        return tantopertornarequalcosa;
       }
     }));
   }
@@ -95,7 +103,13 @@ export class AuthenticationService {
   startRefreshTokenTimer() {
     const currentUser = (JSON.parse(this.decryptUserData(localStorage.getItem('currentUser'))))
     //è in millesecondi
-    const expires = new Date (Number(currentUser.expire) * 1000);
+    let expire = 0;
+    if (currentUser.expire == null) {
+      expire = 3600;
+    } else {
+      expire = Number(currentUser.expire);
+    }
+    const expires = new Date (expire * 1000); //new Date (100000000 * 1000);new Date (expire * 1000);
     const timeout = expires.getTime();
     this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe() , timeout);
   }
@@ -109,7 +123,7 @@ export class AuthenticationService {
    */
   cryptUserData(user : any){
     const cryptoTest = crypto.AES.encrypt(user, environment.key).toString()
-    
+
     return cryptoTest;
   }
 
@@ -119,7 +133,7 @@ export class AuthenticationService {
   decryptUserData(userCrypted : any){
     if(userCrypted != null){
       const decCryptoTest = crypto.AES.decrypt(userCrypted, environment.key);
-     
+
       return decCryptoTest.toString(crypto.enc.Utf8);
     }
     else{

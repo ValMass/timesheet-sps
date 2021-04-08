@@ -11,6 +11,7 @@ export class AuthInterceptor implements HttpInterceptor {
                 private authServ: AuthenticationService,) { }
 
     private handleAuthError(err: HttpErrorResponse): Observable<any> {
+      //console.log("handled by expire");
         // handle your auth error or rethrow
         if (err.status === 401 || err.status === 403) {
             // navigate /delete cookies or whatever
