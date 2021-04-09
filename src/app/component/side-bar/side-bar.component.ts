@@ -53,15 +53,20 @@ export class SideBarComponent implements OnInit {
   }
 
   logout() {
-    this.logoutService.logout().subscribe(
+    this.logoutService.logout();
+    this.router.navigate(['/login-page']);
+    /*.subscribe(
       result => {
+        console.log("giusto");
         localStorage.removeItem('currentUser');
         this.authServ.removeCurrentSubject();
         this.router.navigate(['/login-page']);
 
       },
-      error => {}
-    );
+      error => {
+        console.log("errato");
+      }
+    );*/
      // remove user from local storage to log user out
      /*localStorage.removeItem('currentUser');
      this.currentUserSubject.next(null);

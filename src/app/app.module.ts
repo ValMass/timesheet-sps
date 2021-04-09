@@ -124,9 +124,9 @@ import { appInitializer } from './_helper/app.initializer';
       useClass: LoaderInterceptor,
       multi: true,
     },
-    
+
     {provide: MAT_DATE_LOCALE, useValue: 'it-IT' },
-    
+
   ],
   bootstrap: [AppComponent]
 })

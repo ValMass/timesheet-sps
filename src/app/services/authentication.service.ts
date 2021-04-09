@@ -51,11 +51,15 @@ export class AuthenticationService {
   }
 
   logout() {
-    this.savedataLocalStorageService.cleanValueStorage("currentData");
-    this.currentUserSubject.next(null); //TODO acthung potrebbe essere una modifica che porta a errori l'abbaimo aggiunta nel caso in cui il refresh token è scaduto
     const url = environment.apiUrl + '/logout.php';
+    let obs = this.http.post( url, {}).subscribe();
+    this.savedataLocalStorageService.cleanValueStorage("currentData");
+    this.savedataLocalStorageService.cleanValueStorage("currentUser");
+    this.currentUserSubject.next(null); //TODO acthung potrebbe essere una modifica che porta a errori l'abbaimo aggiunta nel caso in cui il refresh token è scaduto
+
     this.stopRefreshTokenTimer();
-    return this.http.post( url, {});
+
+    return true;
   }
 
   /**
