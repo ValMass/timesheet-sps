@@ -395,7 +395,11 @@ export class TimesheetEditComponent implements OnInit {
       if (this.checkIfCurrentValueDay(events) && !((this.getRoleFromLocalStorage() === '1') && (this.currentTimesheet.state === '4'))) {
         this.isActivityTypeBodyRentalNoMaterial = this.checkIfBRNM(events);
         this.currentValueDayDefault = events;
-        this.currentValueDay = events.filter((event: NewCalendarEvent) =>(((event.title === "LAVORO") || (event.title === "PARTIME")) && (event.atyname != "BRNM")) && (event.codiceFatt != "TR")  ||  (event.title === "SEDE"));
+        if(this.getRoleFromLocalStorage() === '1'){
+          this.currentValueDay = events.filter((event: NewCalendarEvent) =>(((event.title === "LAVORO") || (event.title === "PARTIME"))) && (event.codiceFatt != "TR")  ||  (event.title === "SEDE"));
+        }else {
+          this.currentValueDay = events.filter((event: NewCalendarEvent) =>(((event.title === "LAVORO") || (event.title === "PARTIME")) && (event.atyname != "BRNM")) && (event.codiceFatt != "TR")  ||  (event.title === "SEDE"));
+        }
         this.disableAddTrasf = false;
       } else {
         this.disableAddTrasf = true;
@@ -414,8 +418,17 @@ export class TimesheetEditComponent implements OnInit {
     return (events.some(event =>(event.title === "LAVORO") ||  (event.title === "SEDE") || (event.title === "PARTIME")));
   }
 
+  //
+  /**
+   * @param events 
+   * @returns se BRNM o meno
+   * se admin(1) può modificare BRNM(body rental no material) se superadmin(0) non può farlo 
+   */
   checkIfBRNM(events){
-    return (events.some(event =>(event.atyname === "BRNM")));
+    const role = this.getRoleFromLocalStorage();
+    const checkBRNM = (events.some(event =>(event.atyname === "BRNM")));
+    const res = role === '0' && checkBRNM == true ? true : false
+    return res
   }
 
   //funzione che cerca se è presente una trasferta fra gli eventi del giorno passato 
