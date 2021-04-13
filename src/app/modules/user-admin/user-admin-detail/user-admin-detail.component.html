@@ -1,5 +1,5 @@
 <mat-accordion>
-  <mat-expansion-panel hideToggle>
+  <mat-expansion-panel hideToggle *ngIf="roleEdited === '2' || roleEdited === '1' || roleEdited === '0'">
     <mat-expansion-panel-header>
       <mat-panel-title>
         Modifica dati account
@@ -98,7 +98,7 @@
     </form>
   </mat-expansion-panel>
 
-  <mat-expansion-panel hideToggle>
+  <mat-expansion-panel hideToggle *ngIf="roleEdited === '2' || roleEdited === '1' || roleEdited === '0'">
     <mat-expansion-panel-header>
       <mat-panel-title>
         Modifica anagrafica

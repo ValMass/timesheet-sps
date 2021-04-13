@@ -1057,6 +1057,7 @@ export class TimesheetEditComponent implements OnInit {
     this.fileservice
       .downloadSingleTimesheetFile(month, year, userid)
       .subscribe((response) => {
+        console.log(response)
         let blob: any = new Blob([response], {
           type:
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8',
