@@ -1051,15 +1051,15 @@ export class TimesheetEditComponent implements OnInit {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
     const userid = this.currentTimesheetUserId;
-    console.log(this.currentUserInfo);
+    //console.log(this.currentUserInfo);
     const cognome = this.currentUserInfo[0]["anad"]["surname"]; //TODO togliere lo zero da tutte ste chioamate
     const nomefile = 'Timesheet' + '_' + cognome + '_' + this.mese[month] + '_' + year + '.Xlsx';
     this.fileservice
       .downloadSingleTimesheetFile(month, year, userid)
       .subscribe((response) => {
         if(response["type"] == "text/html") {
-          this.toastrService.error();
-          console.log(response);
+          this.toastrService.error("Non è possibile scaricare il timesheet");
+          //console.log(response);
           return;
         }
         let blob: any = new Blob([response], {
