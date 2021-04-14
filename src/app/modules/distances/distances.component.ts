@@ -17,7 +17,8 @@ export class DistancesComponent implements OnInit {
   officeSelected: Office;
   listAllCustomerOffice: Array<any>;
   isSuperAdmin : boolean = false;
-  
+  isDistanceDiff : boolean = false;
+
   constructor(
     private distancesService: DistancesService,
     private readonly loaderService: LoaderService,
@@ -37,6 +38,7 @@ export class DistancesComponent implements OnInit {
   }
 
   officeDistance(office: Office) {
+    this.isDistanceDiff = false;
     this.loaderService.show();
     this.officeSelected = office;
     this.distancesService.getListMatrixPointsByOfficeID(office.id).subscribe(
@@ -49,8 +51,12 @@ export class DistancesComponent implements OnInit {
                 distanceOffice['features'][0].properties.summary.distance /
                   1000,
               );
+              /*if (Number(customerOffice.mat.distance) === 584) {
+                customerOffice.mat.distance = customerOffice.mat.distance + 1
+              }*/
               if (Number(customerOffice.mat.distance) !== distance) {
                 customerOffice.mat.distance = distance;
+                this.isDistanceDiff = true;
                 customerOffice.mat['isDisabled'] = false;
               } else {
                 customerOffice.mat['isDisabled'] = true;

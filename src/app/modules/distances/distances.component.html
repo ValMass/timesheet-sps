@@ -29,8 +29,11 @@
           <td>
             <button class="btn btn-primary" [disabled]="(isSuperAdmin === true) || customerOffice?.mat.isDisabled" (click)="updateDistanceFromOffice(distanceInput.value, customerOffice)">UPDATE</button>
           </td>
-          <td>
+          <td *ngIf="isDistanceDiff">
             <span class="distance-alert" *ngIf="(isSuperAdmin === false) && !customerOffice?.mat.isDisabled"><small>* attenzione, la distanza è differente da quella presente sul db, aggiornala cliccando update!</small></span>
+          </td>
+          <td *ngIf="!isDistanceDiff">
+            <span></span>
           </td>
         </tr>
       </tbody>
