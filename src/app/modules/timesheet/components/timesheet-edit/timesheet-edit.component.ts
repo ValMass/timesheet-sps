@@ -867,7 +867,7 @@ export class TimesheetEditComponent implements OnInit {
     this.currentTimesheet = recivedTimesheet;
     const tmpEvents = JSON.parse(recivedTimesheet.dayjson);
     this.currentTimesheet.dayjson = []; // non e' sbagliato serve per eliminare le schifezze che potrebbero essere rimaste
-    console.log("loadCurrentMonthTimesheet", this.currentTimesheet);
+    //console.log("loadCurrentMonthTimesheet", this.currentTimesheet);
     tmpEvents.forEach((element) => {
       const newEvent = {
         title: element.title,
@@ -1072,14 +1072,14 @@ export class TimesheetEditComponent implements OnInit {
         fileSaver.saveAs(blob, nomefile);
       }),
       (error) => {
-        console.log('Error downloading the file', error);
+        //console.log('Error downloading the file', error);
       },
       () => {
-        console.info('File downloaded successfully');
+        //console.info('File downloaded successfully');
       };
   }
   calcTrasferte() {
-    console.log(this.currentTimesheet.trasferte);
+    //console.log(this.currentTimesheet.trasferte);
     const dialogRef = this.dialog.open(TimesheetTrasferteModalComponent, {
       width: '600px',
 
@@ -1134,7 +1134,7 @@ export class TimesheetEditComponent implements OnInit {
             this.toastrService.warning('MultiPick disattivo');
           }
           this.isTimesheetSave = true;
-          console.log("saveCurrentTimesheet", this.currentTimesheet);
+          //console.log("saveCurrentTimesheet", this.currentTimesheet);
           this.loadCurrentMonthTimesheet(result.data);
           this.toastrService.success('Timesheet salvato');
           this.updateStateLabel();
