@@ -146,13 +146,13 @@ export class TimesheetEditComponent implements OnInit {
   disableAddTrasf: boolean = true;
   eventAddedTrasf: any = [];
   trasferteStatus: boolean = false;
-  //flag che controllano se il timesheet è salvato 
+  //flag che controllano se il timesheet è salvato
   isTimesheetSave: boolean = false;
   timesheetSaved: boolean = false;
   canEditTrasfDrag: boolean = false;
   mese: string[];
 
-  /** 
+  /**
    * variabili che servono per il multi select dei giorni
   */
   selectedMonthViewDay: CalendarMonthViewDay;
@@ -369,7 +369,7 @@ export class TimesheetEditComponent implements OnInit {
   dayClicked(day: CalendarMonthViewDay): void {
     let date = day.date;
     let events = day.events;
-    
+
     if(isSameMonth(date, this.viewDate)){
 
       //MultiPick
@@ -384,7 +384,7 @@ export class TimesheetEditComponent implements OnInit {
         this.viewDate = date;
       }
 
-      
+
       //Aggiunta Trasferta
       //pulisco il current value day dal precedente valore
       this.currentValueDay = [];
@@ -404,8 +404,8 @@ export class TimesheetEditComponent implements OnInit {
       } else {
         this.disableAddTrasf = true;
       }
-      
-      
+
+
     } else {
       this.toastrService.warning('giorno non selezionabile');
     }
@@ -420,9 +420,9 @@ export class TimesheetEditComponent implements OnInit {
 
   //
   /**
-   * @param events 
+   * @param events
    * @returns se BRNM o meno
-   * se admin(1) può modificare BRNM(body rental no material) se superadmin(0) non può farlo 
+   * se admin(1) può modificare BRNM(body rental no material) se superadmin(0) non può farlo
    */
   checkIfBRNM(events){
     const role = this.getRoleFromLocalStorage();
@@ -431,8 +431,8 @@ export class TimesheetEditComponent implements OnInit {
     return res
   }
 
-  //funzione che cerca se è presente una trasferta fra gli eventi del giorno passato 
-  // se è vero la ha trovata 
+  //funzione che cerca se è presente una trasferta fra gli eventi del giorno passato
+  // se è vero la ha trovata
   //se è falso non l'ha trovata
   checkIfTrasferte(events){
     return (events.some(event =>(event.title === "TRASFRIMB")))
@@ -556,7 +556,7 @@ export class TimesheetEditComponent implements OnInit {
   fillArrayMultiPick(){
     let resArray: any[] = [];
     this.selectedDays.forEach(element => {
-        resArray.push(element.date)    
+        resArray.push(element.date)
     });
     return(resArray)
   }
@@ -570,7 +570,7 @@ export class TimesheetEditComponent implements OnInit {
   singleDay(){
     return(this.currentValueDayDefault.some(event =>( event.codiceFatt === "TR" || event.title === "TRASFRIMB")))
   }
-  
+
   openAddEventDialog() {
     this.assignedActivities.map(cus => cus['cus'])
 
@@ -690,7 +690,7 @@ export class TimesheetEditComponent implements OnInit {
         this.confirmationMessage =
         'Trasferta gia presente nel giorno selezionato';
       }
-      
+
     }
   }
 
@@ -751,7 +751,7 @@ export class TimesheetEditComponent implements OnInit {
     let newStartValue: Number = Number(this.datepipe.transform(newStart, "dd"));
     let eventDayValue: any[] = this.findDays(newStartValue);
     let heDontWork: boolean = true
-  
+
     if(isSameMonth(newStart, this.viewDate)){
       if (eventDayValue.length !== 0 && eventDayValue !== undefined) {
         for (let x = 0; x < eventDayValue.length; x++) {
@@ -799,11 +799,11 @@ export class TimesheetEditComponent implements OnInit {
     return resArray;
   }
 
-  
+
   /**
-   * 
+   *
    * @param event l'evento spostato con i suoi dati non modificati
-   * @param newStart la nuova data a seguito del drag 
+   * @param newStart la nuova data a seguito del drag
    * questa funzione cerca la trasferta da aggornare con la nuova data
    */
   updateTrasfDrag(event , newStart){
@@ -867,7 +867,7 @@ export class TimesheetEditComponent implements OnInit {
     this.currentTimesheet = recivedTimesheet;
     const tmpEvents = JSON.parse(recivedTimesheet.dayjson);
     this.currentTimesheet.dayjson = []; // non e' sbagliato serve per eliminare le schifezze che potrebbero essere rimaste
-    console.log("loadCurrentMonthTimesheet", this.currentTimesheet);
+    //console.log("loadCurrentMonthTimesheet", this.currentTimesheet);
     tmpEvents.forEach((element) => {
       const newEvent = {
         title: element.title,
@@ -1051,12 +1051,17 @@ export class TimesheetEditComponent implements OnInit {
     const month = this.viewDate.getMonth();
     const year = this.viewDate.getFullYear();
     const userid = this.currentTimesheetUserId;
-    console.log(this.currentUserInfo);
+    //console.log(this.currentUserInfo);
     const cognome = this.currentUserInfo[0]["anad"]["surname"]; //TODO togliere lo zero da tutte ste chioamate
     const nomefile = 'Timesheet' + '_' + cognome + '_' + this.mese[month] + '_' + year + '.Xlsx';
     this.fileservice
       .downloadSingleTimesheetFile(month, year, userid)
       .subscribe((response) => {
+        if(response["type"] == "text/html") {
+          this.toastrService.error("Non è possibile scaricare il timesheet");
+          //console.log(response);
+          return;
+        }
         let blob: any = new Blob([response], {
           type:
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8',
@@ -1067,14 +1072,14 @@ export class TimesheetEditComponent implements OnInit {
         fileSaver.saveAs(blob, nomefile);
       }),
       (error) => {
-        console.log('Error downloading the file', error);
+        //console.log('Error downloading the file', error);
       },
       () => {
-        console.info('File downloaded successfully');
+        //console.info('File downloaded successfully');
       };
   }
   calcTrasferte() {
-    console.log(this.currentTimesheet.trasferte);
+    //console.log(this.currentTimesheet.trasferte);
     const dialogRef = this.dialog.open(TimesheetTrasferteModalComponent, {
       width: '600px',
 
@@ -1129,7 +1134,7 @@ export class TimesheetEditComponent implements OnInit {
             this.toastrService.warning('MultiPick disattivo');
           }
           this.isTimesheetSave = true;
-          console.log("saveCurrentTimesheet", this.currentTimesheet);
+          //console.log("saveCurrentTimesheet", this.currentTimesheet);
           this.loadCurrentMonthTimesheet(result.data);
           this.toastrService.success('Timesheet salvato');
           this.updateStateLabel();
@@ -1372,14 +1377,14 @@ export class TimesheetEditComponent implements OnInit {
   }
 
   /**
-   * prendo il valore della data dal localStorage se non esiste allora la data odierna non viene  aggiornata 
-   * 
+   * prendo il valore della data dal localStorage se non esiste allora la data odierna non viene  aggiornata
+   *
    */
   dateCalendarToLoad(){
     const mapMonth  = new Map([
-      ["01", 0] , ["02", 1] , ["03", 2] , ["04", 3] , 
-      ["05", 4] , ["06", 5] , ["07", 6] , ["08", 7] , 
-      ["09", 8] , ["10", 9] , ["11", 10] , ["12", 11] 
+      ["01", 0] , ["02", 1] , ["03", 2] , ["04", 3] ,
+      ["05", 4] , ["06", 5] , ["07", 6] , ["08", 7] ,
+      ["09", 8] , ["10", 9] , ["11", 10] , ["12", 11]
     ]);
 
     let currentData = this.savedataLocalStorageService.getValueLocalStorage("currentData");
@@ -1387,7 +1392,7 @@ export class TimesheetEditComponent implements OnInit {
     if(currentData != null && currentData != undefined){
       this.viewDate.setFullYear(currentData.year , mapMonth.get(currentData.month) , 1);
       let today : Date = new Date();
-      //se la data che si trova nel local storage è maggiore della data odierna 
+      //se la data che si trova nel local storage è maggiore della data odierna
       //se è maggiore allora resetto la data di default ed elimino la dta dal
       //local storage
       if(this.viewDate > today){

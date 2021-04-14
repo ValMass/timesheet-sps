@@ -1,442 +1,447 @@
-<mat-accordion>
-  <mat-expansion-panel hideToggle>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Modifica dati account
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <form class="p-5" id="user" [formGroup]="userForm" (ngSubmit)="submitUser()">
-      <div class="form-group row">
-        <label for="username" class="col-sm-2 col-form-label">Nome utente</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="username" placeholder="Nome utente" formControlName="username"
-            required [ngClass]="{'is-invalid' : (
-              ((userForm.value.username == '') || userForm.value.username.length < 3 ) && submittedUser)}" />
-          <div *ngIf="(userForm.value.username == '') && submittedUser" style="color: red;">
-            Campo obbligatorio</div>
-          <div *ngIf="(userForm.value.username.length > 0 && userForm.value.username.length < 3) && submittedUser"
-            style="color: red;">
-            Lunghezza minima 4</div>
-        </div>
-      </div>
-      <div class="form-group row"> 
-        <label for="password" class="col-sm-2 col-form-label">Password</label>
-        <div class="col-sm">
-          <input type="password" class="form-control" id="password" placeholder="Password" [value]="password" readonly />
-          <!--<input type="{{psw}}" class="form-control" id="password" placeholder="Password" formControlName="password"
+<div *ngIf="roleEdited != '';else loading">
+  <mat-accordion>
+    <mat-expansion-panel hideToggle >
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Modifica dati account
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <form class="p-5" id="user" [formGroup]="userForm" (ngSubmit)="submitUser()">
+        <div class="form-group row">
+          <label for="username" class="col-sm-2 col-form-label">Nome utente</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="username" placeholder="Nome utente" formControlName="username"
               required [ngClass]="{'is-invalid' : (
-              ((userForm.value.password == '' || userForm.value.password.length < 6)) && submittedUser )}"
-              readonly />
-          <div *ngIf="(userForm.value.password == '') && submittedUser" style="color: red;">
-            Campo obbligatorio
+                ((userForm.value.username == '') || userForm.value.username.length < 3 ) && submittedUser)}" />
+            <div *ngIf="(userForm.value.username == '') && submittedUser" style="color: red;">
+              Campo obbligatorio</div>
+            <div *ngIf="(userForm.value.username.length > 0 && userForm.value.username.length < 3) && submittedUser"
+              style="color: red;">
+              Lunghezza minima 4</div>
           </div>
-          <div *ngIf="((userForm.value.password.length > 0 && userForm.value.password.length < 6) && submittedUser)"
-            style="color: red;">
-            Lunghezza minima 6
+        </div>
+        <div class="form-group row"> 
+          <label for="password" class="col-sm-2 col-form-label">Password</label>
+          <div class="col-sm">
+            <input type="password" class="form-control" id="password" placeholder="Password" [value]="password" readonly />
+            <!--<input type="{{psw}}" class="form-control" id="password" placeholder="Password" formControlName="password"
+                required [ngClass]="{'is-invalid' : (
+                ((userForm.value.password == '' || userForm.value.password.length < 6)) && submittedUser )}"
+                readonly />
+            <div *ngIf="(userForm.value.password == '') && submittedUser" style="color: red;">
+              Campo obbligatorio
+            </div>
+            <div *ngIf="((userForm.value.password.length > 0 && userForm.value.password.length < 6) && submittedUser)"
+              style="color: red;">
+              Lunghezza minima 6
+            </div>
+            <p style="display:inline; color: grey; cursor: pointer;" (click)="pswHideShow()">
+              {{psw == "password" ? 'Show' : 'Hide'}} Password </p>-->
           </div>
-          <p style="display:inline; color: grey; cursor: pointer;" (click)="pswHideShow()">
-            {{psw == "password" ? 'Show' : 'Hide'}} Password </p>-->
-        </div>
-        <div class="col-sm-1">
-        <button  type="button"  class="btn btn-primary btn-block" style="height : 100%" (click)="updatePassword()">
-          <i class="fa fa-pen"  style="font-size:16px; cursor: pointer;"></i>
-        </button>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="regnuminps" class="col-sm-2 col-form-label">Numero inps</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="regnuminps" placeholder="Numero inps" formControlName="regnuminps"
-            required
-            [ngClass]="{'is-invalid' : 
-            ( (!patternCifra.test(userForm.value.regnuminps) || userForm.value.regnuminps == '' ) && submittedUser)}" />
-          <div *ngIf="((userForm.value.regnuminps.length < 1 ) && submittedUser)" style="color: red;">
-            Campo obbligatorio</div>
-          <div *ngIf="(!patternCifra.test(userForm.value.regnuminps) && userForm.value.regnuminps.length > 0)"
-            style="color: red;">
-            Sono accetate solo cifre</div>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="regnumsps" class="col-sm-2 col-form-label">Numero S.P.S.</label>
-        <div class="col-sm-10">
-          <select style="font-size: 14px" id="regnumsps" name="regnumsps" class=" custom-select sel-text"  formControlName="regnumsps"
-            [ngClass]="{'is-invalid' : ( (!patternCifra.test(userForm.value.regnumsps) || userForm.value.regnumsps == '' ) && submittedUser)}" >
-            <option  selected="selected" [value]='defaultRegnumSps'>{{defaultRegnumSps}}</option>
-            <option *ngFor="let number of listRegnumSps" [value]="number">{{number}}</option>
-          </select>
-          <!--div *ngIf="((userForm.value.regnumsps.length < 1 ) && submittedUser)" style="color: red;">
-            Campo obbligatorio</div>
-          <div *ngIf="(!patternCifra.test(userForm.value.regnumsps) && userForm.value.regnumsps.length > 0)"
-            style="color: red;">
-            Sono accetate solo cifre</div>-->
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="email" class="col-sm-2 col-form-label">E-mail</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="email" placeholder="E-mail" formControlName="email" required
-            [ngClass]="{'is-invalid' :((!patternEmail.test(userForm.value.email) || userForm.value.email == '' ) && submittedUser)}" />
-          <div *ngIf="((userForm.value.email < 1 ) && submittedUser)" style="color: red;">
-            Campo obbligatorio</div>
-          <div *ngIf="(!patternEmail.test(userForm.value.email) && userForm.value.email.length > 0)"
-            style="color: red;">
-            Non rappresenta il formato email</div>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="role" class="col-sm-2 col-form-label">Ruolo</label>
-        <div class="col-sm-10">
-          <select disabled selected id="role" name="role" class="custom-select sel-text" formControlName="role" required>
-            <option value="2" selected="selected">Utente Ordinario</option>
-            <option value="1">Amministratore</option>
-            <option value="0">Super Amministratore</option>
-          </select>
-        </div>
-      </div>
-      <button type="submit" class="btn btn-primary btn-block mt-5">Salva</button>
-    </form>
-  </mat-expansion-panel>
-
-  <mat-expansion-panel hideToggle>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Modifica anagrafica
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <form class="p-5" id="anag" [formGroup]="anagForm" (ngSubmit)="submitAnag()">
-      <div class="form-group row">
-
-        <label for="name" class="col-sm-2 col-form-label">Nome</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="name" placeholder="Nome" formControlName="name" required
-            [ngClass]="{'is-invalid' : (
-            ((anagForm.value.name == '') || anagForm.value.name.length < 2 ) && submittedAnag)}" />
-          <div *ngIf="(anagForm.value.name == '') && submittedAnag" style="color: red;">
-            Campo obbligatorio</div>
-          <div *ngIf="(anagForm.value.name.length > 0 && anagForm.value.name.length < 2) && submittedAnag"
-            style="color: red;">
-            Lunghezza minima 2</div>
-        </div>
-
-      </div>
-      <div class="form-group row">
-        <label for="surname" class="col-sm-2 col-form-label">Cognome</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="surname" placeholder="Cognome" formControlName="surname" required
-            [ngClass]="{'is-invalid' : (
-              ((anagForm.value.surname == '') || anagForm.value.surname.length < 2 ) && submittedAnag)}" />
-          <div *ngIf="(anagForm.value.surname == '') && submittedAnag" style="color: red;">
-            Campo obbligatorio</div>
-          <div *ngIf="(anagForm.value.surname.length > 0 && anagForm.value.surname.length < 2) && submittedAnag"
-            style="color: red;">
-            Lunghezza minima 2</div>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="phonenumber1" class="col-sm-2 col-form-label">Numero di telefono</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="phonenumber1" placeholder="Numero di telefono"
-            formControlName="phonenumber1" [ngClass]="{'is-invalid':(
-              (anagForm.value.phonenumber1.length > 0) &&(!patternCifra.test(anagForm.value.phonenumber1)) || 
-              (anagForm.value.phonenumber1.length < 2)) && submittedAnag}">
-          <div *ngIf="(anagForm.value.phonenumber1.length == '') && submittedAnag" style="color: red;">
-            Campo obbligatorio</div>
-          <div
-            *ngIf="((anagForm.value.phonenumber1.length > 0) &&(!patternCifra.test(anagForm.value.phonenumber1))) && submittedAnag"
-            style="color: red;">
-            Sono accetate solo cifre</div>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="phonenumber2" class="col-sm-2 col-form-label">Numero di telefono alternativo</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="phonenumber2" placeholder="Numero di telefono"
-            formControlName="phonenumber2"
-            [ngClass]="{'is-invalid':
-              ((anagForm.value.phonenumber2 != null && anagForm.value.phonenumber2.length > 0) &&(!patternCifra.test(anagForm.value.phonenumber2)) && submittedAnag)}">
-          <div
-            *ngIf="(( anagForm.value.phonenumber2 != null && anagForm.value.phonenumber2.length > 0) &&(!patternCifra.test(anagForm.value.phonenumber2))) && submittedAnag"
-            style="color: red;">
-            Sono accetate solo cifre</div>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="address" class="col-sm-2 col-form-label">Residenza</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="address" placeholder="Luogo di Residenza"
-            formControlName="address" [ngClass]="{'is-invalid':(anagForm.value.address.length < 2) && submittedAnag}">
-          <div *ngIf="(anagForm.value.address.length == '') && submittedAnag" style="color: red;">
-            Campo obbligatorio</div>
-          <div *ngIf="(anagForm.value.address.length < 2 && anagForm.value.address.length != '') && submittedAnag"
-            style="color: red;">
-            lunghezza minima 2</div>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="birthdate" class="col-sm-2 col-form-label">Data di nascita</label>
-        <div class="col-sm-8">
-          <input matInput [matDatepicker]="picker" required formControlName="birthdate" disabled>
-          <mat-datepicker-toggle matSuffix [for]="picker" class="bottone-data"></mat-datepicker-toggle>
-          <mat-datepicker #picker disabled="false"></mat-datepicker>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="birthplace" class="col-sm-2 col-form-label">Luogo di nascita</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="birthplace" placeholder="Luogo di nascita"
-            formControlName="birthplace" required
-            [ngClass]="{'is-invalid':(anagForm.value.birthplace.length < 2) && submittedAnag}">
-          <div *ngIf="(anagForm.value.birthplace.length == '') && submittedAnag" style="color: red;">
-            Campo obbligatorio</div>
-          <div *ngIf="(anagForm.value.birthplace.length < 2 && anagForm.value.birthplace.length != '') && submittedAnag"
-            style="color: red;">
-            lunghezza minima 2</div>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="sededilavoro" class="col-sm-2 col-form-label">Sede di assunzione</label>
-        <div class="col-sm-10">
-          <ng-select [items]="officesList" bindLabel="address" bindValue="id" formControlName="sededilavoro">
-          </ng-select>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="buonipastobool" class="col-sm-2 col-form-label">Buoni Pasto</label>
-        <div class="col-sm-10">
-          <mat-checkbox class="example-margin" name="buonipastobool" formControlName="buonipastobool"
-            labelPosition="before">
-          </mat-checkbox>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="distaccatopresso" class="col-sm-2 col-form-label">Distaccato presso</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="distaccatopresso" placeholder="Distaccato presso"
-            formControlName="distaccatopresso">
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="distaccatostarttime" class="col-sm-2 col-form-label">Inizio distaccato</label>
-        <div class="col-sm-10">
-          <input matInput [matDatepicker]="picker1" formControlName="distaccatostarttime" disabled>
-          <mat-datepicker-toggle matSuffix [for]="picker1" class="bottone-data"></mat-datepicker-toggle>
-          <mat-datepicker #picker1 disabled="false"></mat-datepicker>
-          <span style="width: 50px; height: 50px; display: inline; cursor: pointer;"
-              class="card-footer-item fas fa-trash mr-2" (click)="cleanDistaccoStartTime()"></span>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="sededilavoro" class="col-sm-2 col-form-label">Fine distaccato</label>
-        <div class="col-sm-10">
-          <input matInput [matDatepicker]="picker2" formControlName="distaccatofinishtime" disabled>
-          <mat-datepicker-toggle matSuffix [for]="picker2" class="bottone-data"></mat-datepicker-toggle>
-          <mat-datepicker #picker2 disabled="false"></mat-datepicker>
-          <span style="width: 50px; height: 50px; display: inline; cursor: pointer;"
-          class="card-footer-item fas fa-trash mr-2" (click)="cleanDistaccoEndTime()"></span>
-        </div>
-      </div>
-
-      <button type="submit" class="btn btn-primary btn-block mt-5">Salva</button>
-    </form>
-  </mat-expansion-panel>
-
-  <mat-expansion-panel hideToggle *ngIf="roleEdited === '2'">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Modifica contratto
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <form class="p-5" name="contract" id="contract" [formGroup]="contractForm" (ngSubmit)="submitContract()">
-      <div class="form-group row">
-        <label for="contractid" class="col-sm-2 col-form-label">Tipo di contratto</label>
-        <div class="col-sm-10">
-          <ng-select [items]="contractList" bindLabel="value" bindValue="id" formControlName="contractid">
-          </ng-select>
-        </div>
-      </div>
-      <button type="submit" class="btn btn-primary btn-block mt-5">Salva</button>
-    </form>
-  </mat-expansion-panel>
-  <mat-expansion-panel hideToggle *ngIf="roleEdited === '2'">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Modifica dati economici
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <form class="p-5" name="contract" id="contract" [formGroup]="econForm" (ngSubmit)="submitEconomic()">
-      <div class="form-group row">
-        <label for="ral" class="col-sm-2 col-form-label">Ral</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="ral" placeholder="Rendimento annuo lordo" formControlName="ral"
-            required [ngClass]="{'is-invalid':(
-              (econForm.value.ral.length > 0) &&(!patternCifra.test(econForm.value.ral)) || 
-              (econForm.value.ral.length < 2)) && submittedEconomic}">
-          <div *ngIf="(econForm.value.ral.length == '') && submittedEconomic" style="color: red;">
-            Campo obbligatorio</div>
-          <div
-            *ngIf="((econForm.value.ral.length > 0) &&(!patternCifra.test(econForm.value.ral))) && submittedEconomic"
-            style="color: red;">
-            Sono accetate solo cifre</div>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="diaria" class="col-sm-2 col-form-label">Diaria</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="diaria" placeholder="Diaria in caso di trasferta"
-            formControlName="diaria" required 
-            [ngClass]="{'is-invalid':(
-              (econForm.value.diaria.length > 0) &&(!patternCifra.test(econForm.value.diaria)) || 
-              (econForm.value.diaria.length < 2)) && submittedEconomic}">
-          <div *ngIf="(econForm.value.diaria.length == '') && submittedEconomic" style="color: red;">
-            Campo obbligatorio</div>
-          <div
-            *ngIf="((econForm.value.diaria.length > 0) &&(!patternCifra.test(econForm.value.diaria))) && submittedEconomic"
-            style="color: red;">
-            Sono accetate solo cifre</div>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="acivalue" class="col-sm-2 col-form-label">Valore tabella Aci</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="acivalue" placeholder="Valore tabella Aci"
-            formControlName="acivalue" required  [ngClass]="{'is-invalid':(
-              (econForm.value.acivalue.length > 0) &&(!patternDecimale.test(econForm.value.acivalue)) || 
-              (econForm.value.acivalue.length < 2)) && submittedEconomic}">
-          <div *ngIf="(econForm.value.acivalue.length == '') && submittedEconomic" style="color: red;">
-            Campo obbligatorio</div>
-          <div
-            *ngIf="((econForm.value.acivalue.length > 0) &&(!patternDecimale.test(econForm.value.acivalue))) && submittedEconomic"
-            style="color: red;">
-            Sono accetate solo cifre e cifre decimali</div>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="pagamensile" class="col-sm-2 col-form-label">Paga mensile</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="pagamensile" placeholder="Paga Mensile"
-            formControlName="pagamensile" required  [ngClass]="{'is-invalid':(
-              (econForm.value.pagamensile.length > 0) &&(!patternDecimale.test(econForm.value.pagamensile)) || 
-              (econForm.value.pagamensile.length < 2)) && submittedEconomic}">
-          <div *ngIf="(econForm.value.pagamensile.length == '') && submittedEconomic" style="color: red;">
-            Campo obbligatorio</div>
-          <div
-            *ngIf="((econForm.value.pagamensile.length > 0) &&(!patternDecimale.test(econForm.value.pagamensile))) && submittedEconomic"
-            style="color: red;">
-            Sono accetate solo cifre e cifre decimali</div>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="rimborsomensile" class="col-sm-2 col-form-label">Rimborso mensile</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="rimborsomensile" placeholder="Rimborso mensile"
-            formControlName="rimborsomensile" required 
-            [ngClass]="{'is-invalid':(
-              (econForm.value.rimborsomensile.length > 0) &&(!patternCifra.test(econForm.value.rimborsomensile)) || 
-              (econForm.value.rimborsomensile.length < 2)) && submittedEconomic}">
-          <div *ngIf="(econForm.value.rimborsomensile.length == '') && submittedEconomic" style="color: red;">
-            Campo obbligatorio</div>
-          <div
-            *ngIf="((econForm.value.rimborsomensile.length > 0) &&(!patternCifra.test(econForm.value.rimborsomensile))) && submittedEconomic"
-            style="color: red;">
-            Sono accetate solo cifre</div>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="avanzorimborso" class="col-sm-2 col-form-label">Avanzo rimborso mese precedente</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="avanzorimborso" placeholder="Avanzo Rimborso" readonly
-            formControlName="avanzorimborso" required />
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="extrarimborso" class="col-sm-2 col-form-label">Rimborso extra</label>
-        <div class="col-sm-1">
-          <button  type="button"  class="btn btn-primary btn-block" (click)="editrimborsoextra()" style="width: 100px;">
-            {{enablerimborsoextra === false ? 'abilita' : 'disabilita'}}
+          <div class="col-sm-1">
+          <button  type="button"  class="btn btn-primary btn-block" style="height : 100%" (click)="updatePassword()">
+            <i class="fa fa-pen"  style="font-size:16px; cursor: pointer;"></i>
           </button>
+          </div>
         </div>
-        <div class="col-sm" *ngIf="enablerimborsoextra === true">
-          <input type="text" class="form-control" id="extrarimborso" placeholder="rimborso extra"
-              formControlName="extrarimborso"/>
+        <div class="form-group row">
+          <label for="regnuminps" class="col-sm-2 col-form-label">Numero inps</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="regnuminps" placeholder="Numero inps" formControlName="regnuminps"
+              required
+              [ngClass]="{'is-invalid' : 
+              ( (!patternCifra.test(userForm.value.regnuminps) || userForm.value.regnuminps == '' ) && submittedUser)}" />
+            <div *ngIf="((userForm.value.regnuminps.length < 1 ) && submittedUser)" style="color: red;">
+              Campo obbligatorio</div>
+            <div *ngIf="(!patternCifra.test(userForm.value.regnuminps) && userForm.value.regnuminps.length > 0)"
+              style="color: red;">
+              Sono accetate solo cifre</div>
+          </div>
         </div>
-      </div>
-      <button type="submit" class="btn btn-primary btn-block mt-5">Salva</button>
-    </form>
-  </mat-expansion-panel>
-  <mat-expansion-panel hideToggle *ngIf="roleEdited === '2'">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Assegna attività
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <table class="table table-striped no-margin" *ngIf="activityList.length > 0; else noActivity">
-      <thead>
-        <tr>
-          <th scope="col">Nome attività esterna</th>
-          <th scope="col">Cliente</th>
-          <th scope="col">Tipo attività</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let activityCus of activityList; let i = index" role="presentation">
-          <td>{{ activityCus.act.name }} </td>
-          <td>{{ activityCus.cus.name }} </td>
-          <td>{{tipoAttivita(activityCus)}}</td>
-          <td>
-            <span style="width: 20px; height: 20px; display: block; cursor: pointer;"
-              class="card-footer-item fas fa-trash mr-2" (click)="deleteActivity(activityCus)"></span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <ng-template #noActivity>
-      <p>Non ci sono attività esterne inserite per questo utente</p>
-    </ng-template>
-    <button class="btn btn-primary btn-block mt-3" (click)="openAddActivityDialog()">Aggiungi attività esterna</button>
-    <hr>
+        <div class="form-group row">
+          <label for="regnumsps" class="col-sm-2 col-form-label">Numero S.P.S.</label>
+          <div class="col-sm-10">
+            <select style="font-size: 14px" id="regnumsps" name="regnumsps" class=" custom-select sel-text"  formControlName="regnumsps"
+              [ngClass]="{'is-invalid' : ( (!patternCifra.test(userForm.value.regnumsps) || userForm.value.regnumsps == '' ) && submittedUser)}" >
+              <option  selected="selected" [value]='defaultRegnumSps'>{{defaultRegnumSps}}</option>
+              <option *ngFor="let number of listRegnumSps" [value]="number">{{number}}</option>
+            </select>
+            <!--div *ngIf="((userForm.value.regnumsps.length < 1 ) && submittedUser)" style="color: red;">
+              Campo obbligatorio</div>
+            <div *ngIf="(!patternCifra.test(userForm.value.regnumsps) && userForm.value.regnumsps.length > 0)"
+              style="color: red;">
+              Sono accetate solo cifre</div>-->
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="email" class="col-sm-2 col-form-label">E-mail</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="email" placeholder="E-mail" formControlName="email" required
+              [ngClass]="{'is-invalid' :((!patternEmail.test(userForm.value.email) || userForm.value.email == '' ) && submittedUser)}" />
+            <div *ngIf="((userForm.value.email < 1 ) && submittedUser)" style="color: red;">
+              Campo obbligatorio</div>
+            <div *ngIf="(!patternEmail.test(userForm.value.email) && userForm.value.email.length > 0)"
+              style="color: red;">
+              Non rappresenta il formato email</div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="role" class="col-sm-2 col-form-label">Ruolo</label>
+          <div class="col-sm-10">
+            <select disabled selected id="role" name="role" class="custom-select sel-text" formControlName="role" required>
+              <option value="2" selected="selected">Utente Ordinario</option>
+              <option value="1">Amministratore</option>
+              <option value="0">Super Amministratore</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block mt-5">Salva</button>
+      </form>
+    </mat-expansion-panel>
 
-    <table class="table table-striped no-margin" *ngIf="internalActivitiesAssigned.length > 0">
-      <thead>
-        <tr>
-          <th scope="col">Nome attivita interna</th>
-          <th scope="col">Ruolo</th>
-          <th scope="col">Sede</th>
-          <th scope="col">Data inizio</th>
-          <th scope="col">Data fine</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let internalActivityAssigned of internalActivitiesAssigned; let i = index"  role="presentation">
-          <td>{{internalActivityAssigned.inat.name}}</td>
-          <td>{{internalActivityAssigned.rela.ruolo}}</td>
-          <td>{{internalActivityAssigned.offi.address}}, {{internalActivityAssigned.offi.city}}</td>
-          <td>{{internalActivityAssigned.inat.startdate | date:'d/M/yy' }}</td>
-          <td>{{internalActivityAssigned.inat.enddate | date:'d/M/yy'}}</td>
-          <td>
-            <span style="width: 20px; height: 20px; display: block; cursor: pointer;"
-              class="card-footer-item fas fa-trash mr-2" (click)="removeInternalActivity(internalActivityAssigned)" ></span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div *ngIf="internalActivitiesAssigned.length == 0">
-      <p>Non ci sono attività interne inserite per questo utente</p>
-    </div>
-    <button class="btn btn-primary btn-block mt-3" (click)="assignInternalActivity()" >Aggiungi attività interna</button>
-  </mat-expansion-panel>
-</mat-accordion>
-<footer class="card-footer">
-  <button class="btn btn-primary btn-block mt-5" (click)="clear()"><span class="fas fa-undo"></span> return</button>
-</footer>
+    <mat-expansion-panel hideToggle >
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Modifica anagrafica
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <form class="p-5" id="anag" [formGroup]="anagForm" (ngSubmit)="submitAnag()">
+        <div class="form-group row">
+
+          <label for="name" class="col-sm-2 col-form-label">Nome</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="name" placeholder="Nome" formControlName="name" required
+              [ngClass]="{'is-invalid' : (
+              ((anagForm.value.name == '') || anagForm.value.name.length < 2 ) && submittedAnag)}" />
+            <div *ngIf="(anagForm.value.name == '') && submittedAnag" style="color: red;">
+              Campo obbligatorio</div>
+            <div *ngIf="(anagForm.value.name.length > 0 && anagForm.value.name.length < 2) && submittedAnag"
+              style="color: red;">
+              Lunghezza minima 2</div>
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <label for="surname" class="col-sm-2 col-form-label">Cognome</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="surname" placeholder="Cognome" formControlName="surname" required
+              [ngClass]="{'is-invalid' : (
+                ((anagForm.value.surname == '') || anagForm.value.surname.length < 2 ) && submittedAnag)}" />
+            <div *ngIf="(anagForm.value.surname == '') && submittedAnag" style="color: red;">
+              Campo obbligatorio</div>
+            <div *ngIf="(anagForm.value.surname.length > 0 && anagForm.value.surname.length < 2) && submittedAnag"
+              style="color: red;">
+              Lunghezza minima 2</div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="phonenumber1" class="col-sm-2 col-form-label">Numero di telefono</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="phonenumber1" placeholder="Numero di telefono"
+              formControlName="phonenumber1" [ngClass]="{'is-invalid':(
+                (anagForm.value.phonenumber1.length > 0) &&(!patternCifra.test(anagForm.value.phonenumber1)) || 
+                (anagForm.value.phonenumber1.length < 2)) && submittedAnag}">
+            <div *ngIf="(anagForm.value.phonenumber1.length == '') && submittedAnag" style="color: red;">
+              Campo obbligatorio</div>
+            <div
+              *ngIf="((anagForm.value.phonenumber1.length > 0) &&(!patternCifra.test(anagForm.value.phonenumber1))) && submittedAnag"
+              style="color: red;">
+              Sono accetate solo cifre</div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="phonenumber2" class="col-sm-2 col-form-label">Numero di telefono alternativo</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="phonenumber2" placeholder="Numero di telefono"
+              formControlName="phonenumber2"
+              [ngClass]="{'is-invalid':
+                ((anagForm.value.phonenumber2 != null && anagForm.value.phonenumber2.length > 0) &&(!patternCifra.test(anagForm.value.phonenumber2)) && submittedAnag)}">
+            <div
+              *ngIf="(( anagForm.value.phonenumber2 != null && anagForm.value.phonenumber2.length > 0) &&(!patternCifra.test(anagForm.value.phonenumber2))) && submittedAnag"
+              style="color: red;">
+              Sono accetate solo cifre</div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="address" class="col-sm-2 col-form-label">Residenza</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="address" placeholder="Luogo di Residenza"
+              formControlName="address" [ngClass]="{'is-invalid':(anagForm.value.address.length < 2) && submittedAnag}">
+            <div *ngIf="(anagForm.value.address.length == '') && submittedAnag" style="color: red;">
+              Campo obbligatorio</div>
+            <div *ngIf="(anagForm.value.address.length < 2 && anagForm.value.address.length != '') && submittedAnag"
+              style="color: red;">
+              lunghezza minima 2</div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="birthdate" class="col-sm-2 col-form-label">Data di nascita</label>
+          <div class="col-sm-8">
+            <input matInput [matDatepicker]="picker" required formControlName="birthdate" disabled>
+            <mat-datepicker-toggle matSuffix [for]="picker" class="bottone-data"></mat-datepicker-toggle>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="birthplace" class="col-sm-2 col-form-label">Luogo di nascita</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="birthplace" placeholder="Luogo di nascita"
+              formControlName="birthplace" required
+              [ngClass]="{'is-invalid':(anagForm.value.birthplace.length < 2) && submittedAnag}">
+            <div *ngIf="(anagForm.value.birthplace.length == '') && submittedAnag" style="color: red;">
+              Campo obbligatorio</div>
+            <div *ngIf="(anagForm.value.birthplace.length < 2 && anagForm.value.birthplace.length != '') && submittedAnag"
+              style="color: red;">
+              lunghezza minima 2</div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="sededilavoro" class="col-sm-2 col-form-label">Sede di assunzione</label>
+          <div class="col-sm-10">
+            <ng-select [items]="officesList" bindLabel="address" bindValue="id" formControlName="sededilavoro">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="buonipastobool" class="col-sm-2 col-form-label">Buoni Pasto</label>
+          <div class="col-sm-10">
+            <mat-checkbox class="example-margin" name="buonipastobool" formControlName="buonipastobool"
+              labelPosition="before">
+            </mat-checkbox>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="distaccatopresso" class="col-sm-2 col-form-label">Distaccato presso</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="distaccatopresso" placeholder="Distaccato presso"
+              formControlName="distaccatopresso">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="distaccatostarttime" class="col-sm-2 col-form-label">Inizio distaccato</label>
+          <div class="col-sm-10">
+            <input matInput [matDatepicker]="picker1" formControlName="distaccatostarttime" disabled>
+            <mat-datepicker-toggle matSuffix [for]="picker1" class="bottone-data"></mat-datepicker-toggle>
+            <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+            <span style="width: 50px; height: 50px; display: inline; cursor: pointer;"
+                class="card-footer-item fas fa-trash mr-2" (click)="cleanDistaccoStartTime()"></span>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="sededilavoro" class="col-sm-2 col-form-label">Fine distaccato</label>
+          <div class="col-sm-10">
+            <input matInput [matDatepicker]="picker2" formControlName="distaccatofinishtime" disabled>
+            <mat-datepicker-toggle matSuffix [for]="picker2" class="bottone-data"></mat-datepicker-toggle>
+            <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+            <span style="width: 50px; height: 50px; display: inline; cursor: pointer;"
+            class="card-footer-item fas fa-trash mr-2" (click)="cleanDistaccoEndTime()"></span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block mt-5">Salva</button>
+      </form>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel hideToggle *ngIf="roleEdited === '2'">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Modifica contratto
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <form class="p-5" name="contract" id="contract" [formGroup]="contractForm" (ngSubmit)="submitContract()">
+        <div class="form-group row">
+          <label for="contractid" class="col-sm-2 col-form-label">Tipo di contratto</label>
+          <div class="col-sm-10">
+            <ng-select [items]="contractList" bindLabel="value" bindValue="id" formControlName="contractid">
+            </ng-select>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block mt-5">Salva</button>
+      </form>
+    </mat-expansion-panel>
+    <mat-expansion-panel hideToggle *ngIf="roleEdited === '2'">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Modifica dati economici
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <form class="p-5" name="contract" id="contract" [formGroup]="econForm" (ngSubmit)="submitEconomic()">
+        <div class="form-group row">
+          <label for="ral" class="col-sm-2 col-form-label">Ral</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="ral" placeholder="Rendimento annuo lordo" formControlName="ral"
+              required [ngClass]="{'is-invalid':(
+                (econForm.value.ral.length > 0) &&(!patternCifra.test(econForm.value.ral)) || 
+                (econForm.value.ral.length < 2)) && submittedEconomic}">
+            <div *ngIf="(econForm.value.ral.length == '') && submittedEconomic" style="color: red;">
+              Campo obbligatorio</div>
+            <div
+              *ngIf="((econForm.value.ral.length > 0) &&(!patternCifra.test(econForm.value.ral))) && submittedEconomic"
+              style="color: red;">
+              Sono accetate solo cifre</div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="diaria" class="col-sm-2 col-form-label">Diaria</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="diaria" placeholder="Diaria in caso di trasferta"
+              formControlName="diaria" required 
+              [ngClass]="{'is-invalid':(
+                (econForm.value.diaria.length > 0) &&(!patternCifra.test(econForm.value.diaria)) || 
+                (econForm.value.diaria.length < 2)) && submittedEconomic}">
+            <div *ngIf="(econForm.value.diaria.length == '') && submittedEconomic" style="color: red;">
+              Campo obbligatorio</div>
+            <div
+              *ngIf="((econForm.value.diaria.length > 0) &&(!patternCifra.test(econForm.value.diaria))) && submittedEconomic"
+              style="color: red;">
+              Sono accetate solo cifre</div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="acivalue" class="col-sm-2 col-form-label">Valore tabella Aci</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="acivalue" placeholder="Valore tabella Aci"
+              formControlName="acivalue" required  [ngClass]="{'is-invalid':(
+                (econForm.value.acivalue.length > 0) &&(!patternDecimale.test(econForm.value.acivalue)) || 
+                (econForm.value.acivalue.length < 2)) && submittedEconomic}">
+            <div *ngIf="(econForm.value.acivalue.length == '') && submittedEconomic" style="color: red;">
+              Campo obbligatorio</div>
+            <div
+              *ngIf="((econForm.value.acivalue.length > 0) &&(!patternDecimale.test(econForm.value.acivalue))) && submittedEconomic"
+              style="color: red;">
+              Sono accetate solo cifre e cifre decimali</div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="pagamensile" class="col-sm-2 col-form-label">Paga mensile</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="pagamensile" placeholder="Paga Mensile"
+              formControlName="pagamensile" required  [ngClass]="{'is-invalid':(
+                (econForm.value.pagamensile.length > 0) &&(!patternDecimale.test(econForm.value.pagamensile)) || 
+                (econForm.value.pagamensile.length < 2)) && submittedEconomic}">
+            <div *ngIf="(econForm.value.pagamensile.length == '') && submittedEconomic" style="color: red;">
+              Campo obbligatorio</div>
+            <div
+              *ngIf="((econForm.value.pagamensile.length > 0) &&(!patternDecimale.test(econForm.value.pagamensile))) && submittedEconomic"
+              style="color: red;">
+              Sono accetate solo cifre e cifre decimali</div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="rimborsomensile" class="col-sm-2 col-form-label">Rimborso mensile</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="rimborsomensile" placeholder="Rimborso mensile"
+              formControlName="rimborsomensile" required 
+              [ngClass]="{'is-invalid':(
+                (econForm.value.rimborsomensile.length > 0) &&(!patternCifra.test(econForm.value.rimborsomensile)) || 
+                (econForm.value.rimborsomensile.length < 2)) && submittedEconomic}">
+            <div *ngIf="(econForm.value.rimborsomensile.length == '') && submittedEconomic" style="color: red;">
+              Campo obbligatorio</div>
+            <div
+              *ngIf="((econForm.value.rimborsomensile.length > 0) &&(!patternCifra.test(econForm.value.rimborsomensile))) && submittedEconomic"
+              style="color: red;">
+              Sono accetate solo cifre</div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="avanzorimborso" class="col-sm-2 col-form-label">Avanzo rimborso mese precedente</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="avanzorimborso" placeholder="Avanzo Rimborso" readonly
+              formControlName="avanzorimborso" required />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="extrarimborso" class="col-sm-2 col-form-label">Rimborso extra</label>
+          <div class="col-sm-1">
+            <button  type="button"  class="btn btn-primary btn-block" (click)="editrimborsoextra()" style="width: 100px;">
+              {{enablerimborsoextra === false ? 'abilita' : 'disabilita'}}
+            </button>
+          </div>
+          <div class="col-sm" *ngIf="enablerimborsoextra === true">
+            <input type="text" class="form-control" id="extrarimborso" placeholder="rimborso extra"
+                formControlName="extrarimborso"/>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block mt-5">Salva</button>
+      </form>
+    </mat-expansion-panel>
+    <mat-expansion-panel hideToggle *ngIf="roleEdited === '2'">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Assegna attività
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <table class="table table-striped no-margin" *ngIf="activityList.length > 0; else noActivity">
+        <thead>
+          <tr>
+            <th scope="col">Nome attività esterna</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Tipo attività</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let activityCus of activityList; let i = index" role="presentation">
+            <td>{{ activityCus.act.name }} </td>
+            <td>{{ activityCus.cus.name }} </td>
+            <td>{{tipoAttivita(activityCus)}}</td>
+            <td>
+              <span style="width: 20px; height: 20px; display: block; cursor: pointer;"
+                class="card-footer-item fas fa-trash mr-2" (click)="deleteActivity(activityCus)"></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #noActivity>
+        <p>Non ci sono attività esterne inserite per questo utente</p>
+      </ng-template>
+      <button class="btn btn-primary btn-block mt-3" (click)="openAddActivityDialog()">Aggiungi attività esterna</button>
+      <hr>
+
+      <table class="table table-striped no-margin" *ngIf="internalActivitiesAssigned.length > 0">
+        <thead>
+          <tr>
+            <th scope="col">Nome attivita interna</th>
+            <th scope="col">Ruolo</th>
+            <th scope="col">Sede</th>
+            <th scope="col">Data inizio</th>
+            <th scope="col">Data fine</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let internalActivityAssigned of internalActivitiesAssigned; let i = index"  role="presentation">
+            <td>{{internalActivityAssigned.inat.name}}</td>
+            <td>{{internalActivityAssigned.rela.ruolo}}</td>
+            <td>{{internalActivityAssigned.offi.address}}, {{internalActivityAssigned.offi.city}}</td>
+            <td>{{internalActivityAssigned.inat.startdate | date:'d/M/yy' }}</td>
+            <td>{{internalActivityAssigned.inat.enddate | date:'d/M/yy'}}</td>
+            <td>
+              <span style="width: 20px; height: 20px; display: block; cursor: pointer;"
+                class="card-footer-item fas fa-trash mr-2" (click)="removeInternalActivity(internalActivityAssigned)" ></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="internalActivitiesAssigned.length == 0">
+        <p>Non ci sono attività interne inserite per questo utente</p>
+      </div>
+      <button class="btn btn-primary btn-block mt-3" (click)="assignInternalActivity()" >Aggiungi attività interna</button>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <footer class="card-footer">
+    <button class="btn btn-primary btn-block mt-5" (click)="clear()"><span class="fas fa-undo"></span> return</button>
+  </footer>
+</div>
+<ng-template #loading>
+  <span>Loading...</span>
+</ng-template>

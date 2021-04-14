@@ -23,7 +23,7 @@ import { NewPasswordComponent } from '@app/shared/new-password/new-password.comp
   styleUrls: ['./user-admin-detail.component.css'],
 })
 
-export class UserAdminDetailComponent implements OnInit, AfterViewInit {
+export class UserAdminDetailComponent implements OnInit/*, AfterViewInit*/ {
   @Input() userAdmin: UserAdmin;
   @Output() unselect = new EventEmitter<any>();
   @Output() save = new EventEmitter<UserAdmin>();
@@ -96,7 +96,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     private regnumSpsService: RegnumSpsService
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.userForm = this.createUserForm();
     this.anagForm = this.createAnagForm();
     this.econForm = this.createEconomicForm();
@@ -128,6 +128,42 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
       .subscribe(data => {
         this.contractList = this.createListForcontract(data.data);
       });
+    
+      const userInfo = await this.userAdminService.getUserInfoById(this.userAdmin.id).toPromise();
+      const anagInfo = await this.anagService.getAnagraphic(this.userAdmin.id).toPromise();
+      //console.log("anagInfo", anagInfo);
+      if (anagInfo['data'].buonipastobool != 0) {
+        anagInfo['data'].buonipastobool = true;
+      } else {
+        anagInfo['data'].buonipastobool = false;
+      }
+      const economicInfo = await this.economicService.getEconomic(anagInfo['data']['economicdataid']).toPromise();
+      //console.log("economicInfo", economicInfo);
+      
+      //arrotondo alla seconda cifra decimale avanzo rimborso 
+      economicInfo['data'].avanzorimborso = parseFloat(economicInfo['data'].avanzorimborso).toFixed(2)
+  
+      //flag che controlla se l'utente ha abilitato il rimborso extra in precedenza
+      this.enablerimborsoextra = economicInfo['data'].extrarimborsobool === "0" ? false : true;
+  
+      this.userForm.patchValue(userInfo['data'][0].uset);
+      this.password = userInfo['data'][0].uset.password;
+      this.userId = userInfo['data'][0].uset.id;
+      this.roleEdited = userInfo['data'][0].uset.role;
+      this.defaultRegnumSps = Number(userInfo['data'][0].uset.regnumsps);
+      
+      if((this.activityList.length === 0) && (this.roleEdited === '2')){
+        this.toastrService.warning("Nessuna attività esterna associata all\'utente");
+      }
+      if((this.internalActivitiesAssigned.length === 0) && (this.roleEdited === '2')){
+        this.toastrService.warning("Nessuna attività interna associata all\'utente");
+      }
+  
+      //aggiorno la lista regnumSps
+      this.getListRegnumSps(this.roleEdited);
+      this.anagForm.patchValue(anagInfo['data']);
+      this.econForm.patchValue(economicInfo['data']);
+      this.contractForm.patchValue({ contractid: anagInfo['data'].contractid });
   }
 
   getActivityList() {
@@ -148,7 +184,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     })
   }
 
-  async ngAfterViewInit() {
+  /*async ngAfterViewInit() {
     const userInfo = await this.userAdminService.getUserInfoById(this.userAdmin.id).toPromise();
     const anagInfo = await this.anagService.getAnagraphic(this.userAdmin.id).toPromise();
     //console.log("anagInfo", anagInfo);
@@ -184,7 +220,7 @@ export class UserAdminDetailComponent implements OnInit, AfterViewInit {
     this.anagForm.patchValue(anagInfo['data']);
     this.econForm.patchValue(economicInfo['data']);
     this.contractForm.patchValue({ contractid: anagInfo['data'].contractid });
-  }
+  }*/
 
   createListForcontract(contracts) {
     for (const contr of contracts) {
