@@ -5,6 +5,6 @@ export const environment = {
   apiUrl: 'https://timesheet.spsistemi.net/api/',
   openRouteServiceDirectionEndpoint: 'https://api.openrouteservice.org/v2/directions/driving-car?',
   openRouteServiceGeoEndpoint: 'https://api.openrouteservice.org/geocode/search?',
-  openRouteServiceKey: '5b3ce3597851110001cf6248c11857e9ef5d4f8a87a17e23ec030e1a',
+  openRouteServiceKey: '5b3ce3597851110001cf6248fc0457b77f114a7a98fe449c43489b38',
   key: 'TUc0emRqRXpkdw==',
 };
