@@ -595,7 +595,7 @@ export class TimesheetEditComponent implements OnInit {
               res.listaDate.forEach(element => {
                 const event: NewCalendarEvent = {
                   title: res.data.contractCode,
-                  start: new Date(element),
+                  start: element, 
                   nOre: res.data.numeroOre,
                   actions: this.actions,
                   codiceFatt: res.data.codiceFatturazione,
@@ -660,7 +660,11 @@ export class TimesheetEditComponent implements OnInit {
         if (res) {
           if (res.data !== 'close') {
             this.toastrService.success('Trasferta aggiunta. Salvare il timesheet per applicare le modifiche');
-            this.addTrasfertaInTime(res.timesheetId, res.trasferta, res.data)
+            
+            const start = new Date(res.data);
+            const utcDate = new Date(Date.UTC(start.getFullYear(), start.getMonth(), start.getDate(), 12, 0, 0));
+      
+            this.addTrasfertaInTime(res.timesheetId, res.trasferta, utcDate)
             this.canEditTrasfDrag = false;
           } else {
             this.toastrService.warning('Nessuna operazione effettuata');
@@ -1123,6 +1127,23 @@ export class TimesheetEditComponent implements OnInit {
     const year = this.viewDate.getFullYear();
     this.currentTimesheet.dayjson = this.events;
     const logged = this.authenticationService.currentUserValue.id;
+    
+    //imposto a mezzogiorno le ore dei dayjson
+    this.currentTimesheet.dayjson = this.currentTimesheet.dayjson.map(element => {
+      const start = new Date(element.start);
+      const utcDate = new Date(Date.UTC(start.getFullYear(), start.getMonth(), start.getDate(), 12, 0, 0));
+      element.start = utcDate
+      return element
+    });
+
+    //imposto a mezzogiorno le ore delle trasferte
+    this.currentTimesheet.trasferte = this.currentTimesheet.trasferte.map(element =>{
+      const start = new Date(element.date);
+      const utcDate = new Date(Date.UTC(start.getFullYear(), start.getMonth(), start.getDate(), 12, 0, 0));
+      element.date = utcDate
+      return element
+    })
+
     //this.currentTimesheet.trasferte = JSON.parse(this.currentTimesheet.trasferte);
     //console.log("trasferteSAVE", this.currentTimesheet.trasferte);
     this.timesheetService.saveTimesheet(this.currentTimesheet, logged).subscribe(
