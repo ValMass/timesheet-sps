@@ -13,12 +13,13 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TimesheetTrasferteModalComponent } from './components/timesheet-trasferte-modal/timesheet-trasferte-modal.component';
 import { TimesheetAddTrasfComponent } from './components/timesheet-add-trasf/timesheet-add-trasf.component';
+import { TimesheetAddTrasfV2Component } from './components/timesheet-add-trasf-v2/timesheet-add-trasf-v2.component';
 
 
 
 
 @NgModule({
-  declarations: [TimesheetEditComponent, TimesheetAddEventComponent, TimesheetTrasferteModalComponent, TimesheetAddTrasfComponent,],
+  declarations: [TimesheetEditComponent, TimesheetAddEventComponent, TimesheetTrasferteModalComponent, TimesheetAddTrasfComponent, TimesheetAddTrasfV2Component,],
   imports: [
     CommonModule,
     TimesheetRoutingModule,

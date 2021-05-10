@@ -1,3 +1,4 @@
+import { TimesheetAddTrasfV2Component } from './modules/timesheet/components/timesheet-add-trasf-v2/timesheet-add-trasf-v2.component';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { NewPasswordComponent } from './shared/new-password/new-password.component';
 import { TimesheetAddTrasfComponent } from './modules/timesheet/components/timesheet-add-trasf/timesheet-add-trasf.component';
@@ -110,6 +111,7 @@ import { appInitializer } from './_helper/app.initializer';
     TimesheetTrasferteModalComponent,
     TimesheetAddTrasfComponent,
     NewPasswordComponent,
+    TimesheetAddTrasfV2Component
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthenticationService] },

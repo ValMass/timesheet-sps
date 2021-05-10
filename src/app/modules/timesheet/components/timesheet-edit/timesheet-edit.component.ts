@@ -1,3 +1,4 @@
+import { TimesheetAddTrasfV2Component } from './../timesheet-add-trasf-v2/timesheet-add-trasf-v2.component';
 import { SavedataLocalStorageService } from '@app/services/savedata-local-storage.service';
 import { DatePipe } from '@angular/common';
 import { TimesheetaddtrasfService } from './../../services/timesheetaddtrasf.service';
@@ -638,6 +639,12 @@ export class TimesheetEditComponent implements OnInit {
     }
   }
 
+  /**
+  * @deprecated 
+  * sostituito da openAddTrasfDialogV2,
+  * perchè la modale dell'aggiunta 
+  * trasferta richiede l'insirimento delle solo destinazioni
+  */
   openAddTrasfDialog() {
     this.assignedActivities.map(cus => cus['cus']);
     if(this.isActivityTypeBodyRentalNoMaterial === true){
@@ -674,6 +681,46 @@ export class TimesheetEditComponent implements OnInit {
         }
       })
 
+    } else {
+      this.checkIfCanModifyErrorMsg();
+    }
+  }
+
+  openAddTrasfDialogV2(){
+    this.assignedActivities.map(cus => cus['cus']);
+    if(this.isActivityTypeBodyRentalNoMaterial === true){
+      this.toastrService.warning("le attivita di tipo tipo body rental no material non sono selezionabili");
+    }
+    //console.log(this.assignedActivities);
+    if (this.checkIfCanModify()) {
+      this.saveCurrentTimesheet();
+      const dialogRef = this.dialog.open(TimesheetAddTrasfV2Component, {
+        width: '600px',
+        data: {
+          currentValueDay: this.currentValueDay,
+          date: this.viewDate,
+          activityList: this.assignedActivities,
+          timesheet: this.currentTimesheet,
+          loggeduserid: this.authenticationService.currentUserValue.id,
+        },
+      })
+      dialogRef.afterClosed().subscribe(res => {
+        if (res) {
+          if (res.data !== 'close') {
+            this.toastrService.success('Trasferta aggiunta. Salvare il timesheet per applicare le modifiche');
+            
+            const start = new Date(res.data);
+            const utcDate = new Date(Date.UTC(start.getFullYear(), start.getMonth(), start.getDate(), 12, 0, 0));
+      
+            this.addTrasfertaInTime(res.timesheetId, res.trasferta, utcDate)
+            this.canEditTrasfDrag = false;
+          } else {
+            this.toastrService.warning('Nessuna operazione effettuata');
+          }
+        } else {
+          this.toastrService.error('Nessuna operazione effettuata');
+        }
+      });
     } else {
       this.checkIfCanModifyErrorMsg();
     }
