@@ -1136,13 +1136,15 @@ export class TimesheetEditComponent implements OnInit {
       return element
     });
 
-    //imposto a mezzogiorno le ore delle trasferte
-    this.currentTimesheet.trasferte = this.currentTimesheet.trasferte.map(element =>{
-      const start = new Date(element.date);
-      const utcDate = new Date(Date.UTC(start.getFullYear(), start.getMonth(), start.getDate(), 12, 0, 0));
-      element.date = utcDate
-      return element
-    })
+    if(this.currentTimesheet.trasferte){
+      //imposto a mezzogiorno le ore delle trasferte
+      this.currentTimesheet.trasferte = this.currentTimesheet.trasferte.map(element =>{
+        const start = new Date(element.date);
+        const utcDate = new Date(Date.UTC(start.getFullYear(), start.getMonth(), start.getDate(), 12, 0, 0));
+        element.date = utcDate
+        return element
+      })
+    }
 
     //this.currentTimesheet.trasferte = JSON.parse(this.currentTimesheet.trasferte);
     //console.log("trasferteSAVE", this.currentTimesheet.trasferte);
