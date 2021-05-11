@@ -67,7 +67,8 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
       }
     }
     if(event.title === 'TRASFRIMB'){
-      res=`</b> Trasferta ${event.customerName} a ${event.destinazione}`;
+      //res=`</b> Trasferta ${event.customerName} a ${event.destinazione}`;
+      res=`</b> Trasferta a ${event.destinazione}`;
     }
 
     return res;
