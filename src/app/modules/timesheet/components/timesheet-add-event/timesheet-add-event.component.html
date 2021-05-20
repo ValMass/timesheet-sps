@@ -10,7 +10,7 @@
         <label>Data</label>
         <!--<label for="dataevento">Data</label>-->
         <div>
-          <input class="form-control input-number text-center mb-4" matInput [matDatepicker]="picker" #ref required 
+          <input class="form-control input-number text-center mb-4" matInput [matDatepicker]="picker" #ref required
             (dateChange)="onDateChange($event)" formControlName="eventDate"
             [ngClass]="{'is-invalid': f.eventDate.errors && submitted}" style="width: 200px;"
             readonly>
@@ -26,8 +26,8 @@
       <div class="mb-2">
         <label for="cars" class="cod-contratto">Codice contratto</label>
         <select id="cars" name="cars" class="custom-select sel-text" formControlName="contractCode"
-          [ngClass]="{'is-invalid':f.contractCode.errors && submitted, 'is-readonly': isPagato}" 
-          (change)="onChangeSelectIfEvent($event)" 
+          [ngClass]="{'is-invalid':f.contractCode.errors && submitted, 'is-readonly': isPagato}"
+          (change)="onChangeSelectIfEvent($event)"
           required>
           <option [disabled]="isPagato" value="LAVORO" selected="selected">Lavoro ordinario</option>
           <option [disabled]="isPagato" value="SEDE">Attività interna</option>
@@ -63,6 +63,9 @@
             <option [disabled]="isPagato" value="02">Ore straordinarie fatturabili</option>
             <option [disabled]="isPagato" value="03">Ore straordinarie festive fatturabili</option>
             <option [disabled]="isPagato" value="04">Ore straordinarie notturne fatturabili</option>
+            <option [disabled]="isPagato" value="05">Ore notturne turnista</option>
+            <option [disabled]="isPagato" value="06">Ore diurne festivo </option>
+            <option [disabled]="isPagato" value="07">Ore notturne festivo</option>
             <!--<option value="NF">Non fatturabili</option>-->
             <option [disabled]="isPagato" value="RP">Ore di reperibilità</option>
             <option [disabled]="isPagato" value="IN">Ore di intervento</option>
@@ -118,7 +121,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="mb-2" *ngIf="insertSede">
         <label for="internal" class="col-form-label">Attività interna</label>
         <div>
@@ -146,7 +149,7 @@
       </div>
 
       <div class="mb-2" *ngIf="insertSmartWorking && f.codiceFatturazione.value != 'TR'">
-        <mat-checkbox class="example-margin" formControlName="smartWorking" labelPosition="before" 
+        <mat-checkbox class="example-margin" formControlName="smartWorking" labelPosition="before"
             [disabled]="isPagato">
           Smart Working
         </mat-checkbox>
@@ -156,7 +159,7 @@
         <div class="mb-2">
           <label for="numeroprotocollo" class="col-form-label">Numero protocollo</label>
           <input type="text" class="form-control input-number" id="numProtocollo" placeholder="Numero protocollo"
-            [ngClass]="{'is-invalid':f.numProtocollo.value === '00' && submitted}" formControlName="numProtocollo" 
+            [ngClass]="{'is-invalid':f.numProtocollo.value === '00' && submitted}" formControlName="numProtocollo"
             [readonly]="isPagato"/>
           <div *ngIf="f.numProtocollo.value === '00' && submitted" style="color: red;">Campo obbligatorio</div>
         </div>
