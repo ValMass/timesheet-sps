@@ -30,7 +30,8 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
       ['PARTIME', 'Tempo parziale'],
       ['PATRONO', 'Patrono'],
       ['UNIVERS', 'Assenza esami universitari'],
-      ['P104', 'Permesso legge 104']
+      ['P104', 'Permesso legge 104'],
+      ['TURNISTA', 'Turnista']
     ]);
 
   private tradMapFat: Map<string, string> =
@@ -40,8 +41,8 @@ export class EventTitleFormatter extends CalendarEventTitleFormatter {
       ['03', 'Straordinarie festive '],
       ['04', 'Straordinarie notturne'],
       ['05', 'Notturne turnista'],
-      ['06', 'Diurne festivo '],
-      ['07', 'Notturne festivo'],
+      ['06', 'Diurne turnista festivo'],
+      ['07', 'Notturne turnista festivo'],
       ['NF', 'Non fatturabili'],
       ['RP', 'Reperibilità'],
       ['IN', 'Intervento'],

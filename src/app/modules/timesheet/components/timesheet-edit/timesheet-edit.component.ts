@@ -397,9 +397,9 @@ export class TimesheetEditComponent implements OnInit {
         this.isActivityTypeBodyRentalNoMaterial = this.checkIfBRNM(events);
         this.currentValueDayDefault = events;
         if(this.getRoleFromLocalStorage() === '1'){
-          this.currentValueDay = events.filter((event: NewCalendarEvent) =>(((event.title === "LAVORO") || (event.title === "PARTIME"))) && (event.codiceFatt != "TR")  ||  (event.title === "SEDE"));
+          this.currentValueDay = events.filter((event: NewCalendarEvent) =>(((event.title === "TURNISTA") || (event.title === "LAVORO") || (event.title === "PARTIME"))) && (event.codiceFatt != "TR")  ||  (event.title === "SEDE"));
         }else {
-          this.currentValueDay = events.filter((event: NewCalendarEvent) =>(((event.title === "LAVORO") || (event.title === "PARTIME")) && (event.atyname != "BRNM")) && (event.codiceFatt != "TR")  ||  (event.title === "SEDE"));
+          this.currentValueDay = events.filter((event: NewCalendarEvent) =>(((event.title === "TURNISTA") || (event.title === "LAVORO") || (event.title === "PARTIME")) && (event.atyname != "BRNM")) && (event.codiceFatt != "TR")  ||  (event.title === "SEDE"));
         }
         this.disableAddTrasf = false;
       } else {
@@ -414,9 +414,9 @@ export class TimesheetEditComponent implements OnInit {
     // console.log(JSON.stringify(events));
   }
 
-  //controlla se sono presente negli eventi del giorno "LAVORO" , "SEDE" e "PARTIME"
+  //controlla se sono presente negli eventi del giorno "LAVORO" , "SEDE" , "TURNISTA" e "PARTIME" 
   checkIfCurrentValueDay(events) {
-    return (events.some(event =>(event.title === "LAVORO") ||  (event.title === "SEDE") || (event.title === "PARTIME")));
+    return (events.some(event =>(event.title === "TURNISTA") || (event.title === "LAVORO") ||  (event.title === "SEDE") || (event.title === "PARTIME")));
   }
 
   //
@@ -501,7 +501,7 @@ export class TimesheetEditComponent implements OnInit {
               cssClass: this.selectCssIcon(res.data),
               draggable: this.isDraggable(res.data),
               color: this.selectColorIcon(res.data),
-              customerName: res.data.contractCode === 'LAVORO' || res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
+              customerName:  res.data.contractCode === 'LAVORO' || res.data.contractCode === 'PARTIME' || res.data.contractCode === 'TURNISTA' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
               atyid: res.data.atyid,
               atydescr:  res.data.atydescr,
               atyname: res.data.atyname,
@@ -609,7 +609,7 @@ export class TimesheetEditComponent implements OnInit {
                   internalName: res.data.internalName,
                   internalRuolo: res.data.internalRuolo,
                   destinazione: res.data.destinazione,
-                  customerName: res.data.contractCode === 'LAVORO' || res.data.contractCode === 'PARTIME' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
+                  customerName: res.data.contractCode === 'LAVORO' || res.data.contractCode === 'PARTIME' || res.data.contractCode === 'TURNISTA' ? this.assignedActivities.map(cus => cus['cus']).filter(cusName => res.data.customerId === cusName['id'])[0]['name'] : '',
                   cssClass: this.selectCssIcon(res.data),
                   draggable: this.isDraggable(res.data),
                   color: this.selectColorIcon(res.data),
@@ -810,7 +810,8 @@ export class TimesheetEditComponent implements OnInit {
             if(eventDayValue[x].atyname !== "BRNM"){
               if ((eventDayValue[x].title === 'SEDE') ||
                 (eventDayValue[x].title === 'LAVORO') ||
-                (eventDayValue[x].title === 'PARTIME')
+                (eventDayValue[x].title === 'PARTIME')||
+                (eventDayValue[x].title === "TURNISTA") 
               ) {
                 if(eventDayValue[x].codiceFatt !== "TR"){
                   heDontWork = false;
@@ -1390,8 +1391,8 @@ export class TimesheetEditComponent implements OnInit {
       if (event.contractCode === "MALATT" || event.title === "MALATT") {
         res = "malattia";
       }
-      if ((event.contractCode === "LAVORO" || event.contractCode === "PARTIME") ||
-        (event.title === "LAVORO" || event.title === "PARTIME") ||
+      if ((event.contractCode === "LAVORO" || event.contractCode === "PARTIME" || event.contractCode === "TURNISTA") ||
+        (event.title === "LAVORO" || event.title === "PARTIME" || event.title === "TURNISTA") ||
         (event.contractCode === "SEDE" || event.title === "SEDE")) {
         if (event.codiceFatturazione === "TR" || event.codiceFatt === "TR") {
           res = "macchinina";
@@ -1432,8 +1433,8 @@ export class TimesheetEditComponent implements OnInit {
       if (event.contractCode === "MALATT" || event.title === "MALATT") {
         res = colors.red;
       }
-      if ((event.contractCode === "LAVORO" || event.contractCode === "PARTIME") ||
-        (event.title === "LAVORO" || event.title === "PARTIME") ||
+      if ((event.contractCode === "LAVORO" || event.contractCode === "PARTIME" || event.contractCode === "TURNISTA") ||
+        (event.title === "LAVORO" || event.title === "PARTIME" || event.title === "TURNISTA") ||
         (event.contractCode === "SEDE" || event.title === "SEDE")) {
         if (event.codiceFatturazione === "TR" || event.codiceFatt === "TR") {
           res = colors.grey;

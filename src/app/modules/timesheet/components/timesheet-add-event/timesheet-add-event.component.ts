@@ -27,6 +27,7 @@ export class TimesheetAddEventComponent implements OnInit {
   assignedact: any[]= [];
   customerList: any[]= [];
   insertLavoro = true;
+  insertTurnista = true;
   insertMalattia = false;
   insertNumeroOre = false;
   insertSmartWorking = true;
@@ -242,11 +243,11 @@ export class TimesheetAddEventComponent implements OnInit {
   //Ho diviso "onChangeSelect" con questa funzione prende il value dell'Evento che poi passera a onChangeSelect
   onChangeSelectIfEvent($event) {
     const value = $event.target.value;
-    
+    //se è TURNISTA di default il valore deve essere 05
     //pulisco la destinazione e codice fatturazione nel caso si passa da SEDE a LAVORO 
     this.profileForm.patchValue({
       destinazione : '' ,  
-      codiceFatturazione: '01', 
+      codiceFatturazione: $event.target.value === 'TURNISTA' ? '05' : '01', 
       smartWorking: false,
     });
 
@@ -261,8 +262,10 @@ export class TimesheetAddEventComponent implements OnInit {
     switch (value) {
       case 'LAVORO':
       case 'PARTIME':
+      case 'TURNISTA':
         this.insertSede = false;
         this.insertLavoro = true;
+        this.insertTurnista = true;
         this.insertNumeroOre = false;
         this.insertMalattia = false;
         this.insertSmartWorking = true;
@@ -277,6 +280,7 @@ export class TimesheetAddEventComponent implements OnInit {
       case 'SEDE':
         this.insertSede = true;
         this.insertLavoro = false;
+        this.insertTurnista = false;
         this.insertNumeroOre = true;
         this.insertMalattia = false;
         this.insertSmartWorking = true;
@@ -294,6 +298,7 @@ export class TimesheetAddEventComponent implements OnInit {
       case 'MALATT':
         this.insertSede = false;
         this.insertLavoro = false;
+        this.insertTurnista = false;
         this.insertNumeroOre = false;
         this.insertMalattia = true;
         this.insertSmartWorking = false;
@@ -321,6 +326,7 @@ export class TimesheetAddEventComponent implements OnInit {
       case 'FERIE':
         this.insertSede = false;
         this.insertLavoro = false;
+        this.insertTurnista = false;
         this.insertNumeroOre = true;
         this.insertMalattia = false;
         this.insertSmartWorking = false;
@@ -344,6 +350,7 @@ export class TimesheetAddEventComponent implements OnInit {
       default:
         this.insertSede = false;
         this.insertLavoro = false;
+        this.insertTurnista = false;
         this.insertNumeroOre = false;
         this.insertMalattia = false;
         this.insertSmartWorking = false;
