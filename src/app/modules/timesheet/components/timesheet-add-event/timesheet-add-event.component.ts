@@ -45,6 +45,7 @@ export class TimesheetAddEventComponent implements OnInit {
   tipoAttivita : string = "";
   activityList : any = [];
   enableaddtrasf : boolean = false ;
+  lengthNumProtocol : number = 9;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -62,7 +63,7 @@ export class TimesheetAddEventComponent implements OnInit {
       contractCode: ['LAVORO', [Validators.required]],
       eventDate: [this.data.date, [Validators.required]],
       codiceFatturazione: ['01', [Validators.required]],
-      numProtocollo: ['00', [Validators.required]],
+      numProtocollo: ['000000000', [Validators.required , Validators.minLength(9), Validators.maxLength(9),]],
       destinazione: ['', [Validators.required]],
       activityId: ['0', [Validators.required]],
       customerId: ['', [Validators.required]],
@@ -174,7 +175,7 @@ export class TimesheetAddEventComponent implements OnInit {
     if ((this.profileForm.value.contractCode != null)
       && (this.profileForm.value.numeroOre > "0" || this.profileForm.value.numeroOre > 0)) {
       if (this.profileForm.value.contractCode == 'MALATT') {
-        if (this.profileForm.value.numProtocollo != '00') {
+        if (this.profileForm.value.numProtocollo.length === 9) {
           this.dialogRef.close({ data: this.profileForm.value , listaDate : listaDate});
         }
       }
@@ -327,7 +328,7 @@ export class TimesheetAddEventComponent implements OnInit {
           activityId: '',
           customerId: 1,
           codiceFatturazione: '00',
-          numProtocollo: '00',
+          numProtocollo: '000000000',
           internalName: '',
           internalRuolo: '',
           internalId: '',
@@ -350,7 +351,7 @@ export class TimesheetAddEventComponent implements OnInit {
           activityId: '',
           customerId: 1,
           codiceFatturazione: '00',
-          numProtocollo: '00',
+          numProtocollo: '000000000',
           numeroOre: 8,
           internalName: '',
           internalRuolo: '',
@@ -541,5 +542,9 @@ export class TimesheetAddEventComponent implements OnInit {
   getRoleFromLocalStorage() {
     const user: User = this.authenticationService.currentUserValue;
     return user.role;
+  }
+
+  handleNumProtocol(event){
+    this.lengthNumProtocol =event.length;
   }
 }

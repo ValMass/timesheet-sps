@@ -6,7 +6,7 @@
   <div mat-dialog-content>
     <form id='myform' class="p-1" [formGroup]="profileForm" (ngSubmit)="submit()">
 
-      <div class="input-group" *ngIf="multiPickListEnable === false">
+      <div class="input-group" *ngIf="multiPickListEnable === false && data.type !== 'edit'">
         <label>Data</label>
         <!--<label for="dataevento">Data</label>-->
         <div>
@@ -158,10 +158,12 @@
       <div *ngIf="insertMalattia">
         <div class="mb-2">
           <label for="numeroprotocollo" class="col-form-label">Numero protocollo</label>
-          <input type="text" class="form-control input-number" id="numProtocollo" placeholder="Numero protocollo"
-            [ngClass]="{'is-invalid':f.numProtocollo.value === '00' && submitted}" formControlName="numProtocollo"
+          <input maxlength="9" minlength="9" type="text" class="form-control input-number" id="numProtocollo" placeholder="Numero protocollo"
+            (change)="handleNumProtocol($event.target.value)"
+            [ngClass]="{'is-invalid':lengthNumProtocol !== 9  && submitted}" formControlName="numProtocollo"
             [readonly]="isPagato"/>
-          <div *ngIf="f.numProtocollo.value === '00' && submitted" style="color: red;">Campo obbligatorio</div>
+          <div *ngIf="lengthNumProtocol !== 9 && submitted" style="color: red;">
+            La lunghezza minima è di 9</div>
         </div>
       </div>
     </form>
