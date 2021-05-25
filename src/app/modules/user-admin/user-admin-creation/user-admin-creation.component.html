@@ -223,8 +223,19 @@
     <div class="form-group row">
       <label for="sededilavoro" class="col-sm-4 col-form-label">Sede di assunzione</label>
       <div class="col-sm-8">
-        <ng-select [items]="officesList" bindLabel="address" bindValue="id" [ngModel] name="sededilavoro">
-        </ng-select>
+        <select 
+          id="sededilavoro" 
+          name="sededilavoro" 
+          class="custom-select sel-text" 
+          #sededilavoro="ngModel" [ngModel] 
+          required 
+          [ngClass]="{'is-invalid':profileForm.submitted && sededilavoro.invalid} "
+        >
+          <option *ngFor="let office of officesList" [value]="office.id">{{office.address}}</option>
+        </select>
+        <div *ngIf="profileForm.submitted && sededilavoro.invalid" class="invalid-feedback">
+          <div *ngIf="profileForm.submitted && sededilavoro.invalid">Campo obbligatorio</div>
+        </div>
       </div>
     </div>
 
