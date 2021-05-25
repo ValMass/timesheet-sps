@@ -130,7 +130,7 @@ export class UserAdminDetailComponent implements OnInit/*, AfterViewInit*/ {
       });
     
       const userInfo = await this.userAdminService.getUserInfoById(this.userAdmin.id).toPromise();
-      const anagInfo = await this.anagService.getAnagraphic(this.userAdmin.id).toPromise();
+      const anagInfo = await this.anagService.getAnagraphic(userInfo["data"]["0"]["uset"]["anagraphicid"]).toPromise();
       //console.log("anagInfo", anagInfo);
       if (anagInfo['data'].buonipastobool != 0) {
         anagInfo['data'].buonipastobool = true;
