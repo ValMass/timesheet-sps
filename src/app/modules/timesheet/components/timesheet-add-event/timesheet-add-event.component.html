@@ -6,7 +6,7 @@
   <div mat-dialog-content>
     <form id='myform' class="p-1" [formGroup]="profileForm" (ngSubmit)="submit()">
 
-      <div class="input-group" *ngIf="multiPickListEnable === false">
+      <div class="input-group" *ngIf="multiPickListEnable === false && data.type !== 'edit'">
         <label>Data</label>
         <!--<label for="dataevento">Data</label>-->
         <div>
@@ -31,6 +31,7 @@
           required>
           <option [disabled]="isPagato" value="LAVORO" selected="selected">Lavoro ordinario</option>
           <option [disabled]="isPagato" value="SEDE">Attività interna</option>
+          <!--<option [disabled]="isPagato" value="TURNISTA">Turnista</option>-->
           <option [disabled]="isPagato" value="PERMNON">Permesso non retribuito</option>
           <option [disabled]="isPagato" value="PERMESS">Permesso generico</option>
           <option [disabled]="isPagato" value="P104">Permesso legge 104</option>
@@ -53,29 +54,32 @@
         <div *ngIf="f.contractCode.errors && submitted" style="color: red;">Campo obbligatorio</div>
       </div>
 
-      <div *ngIf="insertSede || insertLavoro">
+      <div *ngIf="insertSede || insertLavoro || insertTurnista">
         <div class="mb-2">
           <label for="cod-fatturazione" class="cod-fatturazione">Codice Fatturazione</label>
           <select id="cod-fatturazione" name="cod-fatturazione" class="custom-select sel-text"
             [ngClass]="{'is-invalid':f.codiceFatturazione.value === '00' && submitted , 'is-readonly': isPagato}"
             formControlName="codiceFatturazione" (change)="onChangeFattSelect($event.target.value)" required>
-            <option [disabled]="isPagato" value="01">Ore ordinarie fatturabili</option>
-            <option [disabled]="isPagato" value="02">Ore straordinarie fatturabili</option>
-            <option [disabled]="isPagato" value="03">Ore straordinarie festive fatturabili</option>
-            <option [disabled]="isPagato" value="04">Ore straordinarie notturne fatturabili</option>
-            <option [disabled]="isPagato" value="05">Ore notturne turnista</option>
-            <option [disabled]="isPagato" value="06">Ore diurne festivo </option>
-            <option [disabled]="isPagato" value="07">Ore notturne festivo</option>
+            
+            <option [disabled]="isPagato" value="01" *ngIf="f.contractCode.value !== 'TURNISTA'">Ore ordinarie fatturabili</option>
+            <option [disabled]="isPagato" value="02" *ngIf="f.contractCode.value !== 'TURNISTA'">Ore straordinarie fatturabili</option>
+            <option [disabled]="isPagato" value="03" *ngIf="f.contractCode.value !== 'TURNISTA'">Ore straordinarie festive fatturabili</option>
+            <option [disabled]="isPagato" value="04" *ngIf="f.contractCode.value !== 'TURNISTA'">Ore straordinarie notturne fatturabili</option>
             <!--<option value="NF">Non fatturabili</option>-->
-            <option [disabled]="isPagato" value="RP">Ore di reperibilità</option>
-            <option [disabled]="isPagato" value="IN">Ore di intervento</option>
-            <option [disabled]="isPagato || enableaddtrasf" value="TR">Trasferta</option>
+            <option [disabled]="isPagato" value="RP" *ngIf="f.contractCode.value !== 'TURNISTA'">Ore di reperibilità</option>
+            <option [disabled]="isPagato" value="IN" *ngIf="f.contractCode.value !== 'TURNISTA'">Ore di intervento</option>
+            <option [disabled]="isPagato || enableaddtrasf" value="TR" *ngIf="f.contractCode.value !== 'TURNISTA'">Trasferta</option>
+            
+            <option [disabled]="isPagato" value="05" *ngIf="f.contractCode.value === 'TURNISTA'">Ore notturne turnista</option>
+            <option [disabled]="isPagato" value="06" *ngIf="f.contractCode.value === 'TURNISTA'">Ore diurne turnista festivo </option>
+            <option [disabled]="isPagato" value="07" *ngIf="f.contractCode.value === 'TURNISTA'">Ore notturne turnista festivo</option>
+
           </select>
           <div *ngIf="f.codiceFatturazione.value === '00' && submitted" style="color: red;">Campo obbligatorio</div>
         </div>
       </div>
 
-      <div *ngIf="insertSede || insertLavoro || insertNumeroOre">
+      <div *ngIf="insertSede || insertLavoro || insertNumeroOre ">
         <div class="mb-2">
           <label for="customRange3" class="col-form-label">Numero ore</label> {{ value }}
           <input type="number" class="form-control input-number" value="8" min="0" max="24" step="1" id="customRange3"
@@ -158,10 +162,12 @@
       <div *ngIf="insertMalattia">
         <div class="mb-2">
           <label for="numeroprotocollo" class="col-form-label">Numero protocollo</label>
-          <input type="text" class="form-control input-number" id="numProtocollo" placeholder="Numero protocollo"
-            [ngClass]="{'is-invalid':f.numProtocollo.value === '00' && submitted}" formControlName="numProtocollo"
+          <input maxlength="9" minlength="9" type="text" class="form-control input-number" id="numProtocollo" placeholder="Numero protocollo"
+            (change)="handleNumProtocol($event.target.value)"
+            [ngClass]="{'is-invalid':lengthNumProtocol !== 9  && submitted}" formControlName="numProtocollo"
             [readonly]="isPagato"/>
-          <div *ngIf="f.numProtocollo.value === '00' && submitted" style="color: red;">Campo obbligatorio</div>
+          <div *ngIf="lengthNumProtocol !== 9 && submitted" style="color: red;">
+            La lunghezza minima è di 9</div>
         </div>
       </div>
     </form>

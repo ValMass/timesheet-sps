@@ -16,7 +16,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let useradmin of useradmins; trackBy: trackById; let i = index" role="presentation">
-        <td>{{ useradmin.name }} {{ useradmin.surname }} </td>
+        <td>{{ useradmin.surname }} {{ useradmin.name }}</td>
         <td>{{ useradmin.username }} </td>
         <td>{{ useradmin.email }}</td>
         <td>{{ useradmin.phonenumber1 }}</td>

@@ -27,6 +27,7 @@ export class TimesheetAddEventComponent implements OnInit {
   assignedact: any[]= [];
   customerList: any[]= [];
   insertLavoro = true;
+  insertTurnista = true;
   insertMalattia = false;
   insertNumeroOre = false;
   insertSmartWorking = true;
@@ -45,6 +46,7 @@ export class TimesheetAddEventComponent implements OnInit {
   tipoAttivita : string = "";
   activityList : any = [];
   enableaddtrasf : boolean = false ;
+  lengthNumProtocol : number = 9;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -62,7 +64,7 @@ export class TimesheetAddEventComponent implements OnInit {
       contractCode: ['LAVORO', [Validators.required]],
       eventDate: [this.data.date, [Validators.required]],
       codiceFatturazione: ['01', [Validators.required]],
-      numProtocollo: ['00', [Validators.required]],
+      numProtocollo: ['000000000', [Validators.required , Validators.minLength(9), Validators.maxLength(9),]],
       destinazione: ['', [Validators.required]],
       activityId: ['0', [Validators.required]],
       customerId: ['', [Validators.required]],
@@ -174,7 +176,7 @@ export class TimesheetAddEventComponent implements OnInit {
     if ((this.profileForm.value.contractCode != null)
       && (this.profileForm.value.numeroOre > "0" || this.profileForm.value.numeroOre > 0)) {
       if (this.profileForm.value.contractCode == 'MALATT') {
-        if (this.profileForm.value.numProtocollo != '00') {
+        if (this.profileForm.value.numProtocollo.length === 9) {
           this.dialogRef.close({ data: this.profileForm.value , listaDate : listaDate});
         }
       }
@@ -241,11 +243,11 @@ export class TimesheetAddEventComponent implements OnInit {
   //Ho diviso "onChangeSelect" con questa funzione prende il value dell'Evento che poi passera a onChangeSelect
   onChangeSelectIfEvent($event) {
     const value = $event.target.value;
-    
+    //se è TURNISTA di default il valore deve essere 05
     //pulisco la destinazione e codice fatturazione nel caso si passa da SEDE a LAVORO 
     this.profileForm.patchValue({
       destinazione : '' ,  
-      codiceFatturazione: '01', 
+      codiceFatturazione: $event.target.value === 'TURNISTA' ? '05' : '01', 
       smartWorking: false,
     });
 
@@ -260,8 +262,10 @@ export class TimesheetAddEventComponent implements OnInit {
     switch (value) {
       case 'LAVORO':
       case 'PARTIME':
+      case 'TURNISTA':
         this.insertSede = false;
         this.insertLavoro = true;
+        this.insertTurnista = true;
         this.insertNumeroOre = false;
         this.insertMalattia = false;
         this.insertSmartWorking = true;
@@ -276,6 +280,7 @@ export class TimesheetAddEventComponent implements OnInit {
       case 'SEDE':
         this.insertSede = true;
         this.insertLavoro = false;
+        this.insertTurnista = false;
         this.insertNumeroOre = true;
         this.insertMalattia = false;
         this.insertSmartWorking = true;
@@ -293,6 +298,7 @@ export class TimesheetAddEventComponent implements OnInit {
       case 'MALATT':
         this.insertSede = false;
         this.insertLavoro = false;
+        this.insertTurnista = false;
         this.insertNumeroOre = false;
         this.insertMalattia = true;
         this.insertSmartWorking = false;
@@ -320,6 +326,7 @@ export class TimesheetAddEventComponent implements OnInit {
       case 'FERIE':
         this.insertSede = false;
         this.insertLavoro = false;
+        this.insertTurnista = false;
         this.insertNumeroOre = true;
         this.insertMalattia = false;
         this.insertSmartWorking = false;
@@ -327,7 +334,7 @@ export class TimesheetAddEventComponent implements OnInit {
           activityId: '',
           customerId: 1,
           codiceFatturazione: '00',
-          numProtocollo: '00',
+          numProtocollo: '000000000',
           internalName: '',
           internalRuolo: '',
           internalId: '',
@@ -343,6 +350,7 @@ export class TimesheetAddEventComponent implements OnInit {
       default:
         this.insertSede = false;
         this.insertLavoro = false;
+        this.insertTurnista = false;
         this.insertNumeroOre = false;
         this.insertMalattia = false;
         this.insertSmartWorking = false;
@@ -350,7 +358,7 @@ export class TimesheetAddEventComponent implements OnInit {
           activityId: '',
           customerId: 1,
           codiceFatturazione: '00',
-          numProtocollo: '00',
+          numProtocollo: '000000000',
           numeroOre: 8,
           internalName: '',
           internalRuolo: '',
@@ -541,5 +549,9 @@ export class TimesheetAddEventComponent implements OnInit {
   getRoleFromLocalStorage() {
     const user: User = this.authenticationService.currentUserValue;
     return user.role;
+  }
+
+  handleNumProtocol(event){
+    this.lengthNumProtocol =event.length;
   }
 }
